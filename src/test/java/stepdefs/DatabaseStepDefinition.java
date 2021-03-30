@@ -40,6 +40,6 @@ public class DatabaseStepDefinition {
     }
     @Given("^User executes the  '(.*)' to get ContractDetails Row_KEY$")
     public void userExecutesTheToGetContractdetailsRowkey(String query) throws SQLException {
-        dbUtil.executeGetMFRBYIDQuery(query);
+        dbUtil.executeGetContractBYIDQuery(query);
     }
 }

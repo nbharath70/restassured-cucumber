@@ -1,15 +1,15 @@
 package stepdefs;
-import baseSteps.GetContractDetailsByID;
+import baseSteps.GetContractDetailsByID
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 import cucumber.api.java.en.Then;
-
-
 public class GetContractDetailsByIDDefinition {
-    GetContractDetailsByID ContractDetailsByID =new GetContractDetailsByID();
+
+    GetContractDetailsByID contractDetails=new GetContractDetailsByIDDefinition();
+
     @Given("^User hits the MFRDetailsByIDEndpoint with get request$")
-    public void UserHitsGetMFRdetails()  {
-        ContractDetailsByID.hitGetContractDetailsByIDEndpoint();
+    public void UserHitscontractDetailsByID()  {
+        contractDetails.hitGetContractDetailsByIDEndpoint();
     }
 
 

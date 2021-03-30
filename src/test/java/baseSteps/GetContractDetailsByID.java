@@ -1,5 +1,4 @@
 package baseSteps;
-
 import io.restassured.http.ContentType;
 import com.jayway.jsonpath.JsonPath;
 import io.restassured.response.Response;
@@ -20,10 +19,10 @@ public class GetContractDetailsByID {
     private String baseURI;
     private String token;
     private String getAllContractDetailsByID;
+    private int rowKeyVal;
     JsonPath jsonPath;
     static Logger logger = Logger.getLogger(GetAllMFR.class.getName());
     DatabaseUtils dbUtil = new DatabaseUtils();
-
     public String getEnvProperties() {
         try {
             prop = new Properties();
@@ -43,7 +42,8 @@ public class GetContractDetailsByID {
     }
     public void hitGetContractDetailsByIDEndpoint() {
         getEnvProperties();
-        url = baseURI + "/" +getAllContractDetailsByID+"/"+dbUtil.getRow_Key();
+        rowKeyVal=dbUtil.getRowKey();
+        url = baseURI + "/" +getAllContractDetailsByID+"/"+rowKeyVal;
         logger.info("=======URL is++++++++++++++++++++++++++ " + url);
     }
     public void processGetRequest() {

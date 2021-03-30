@@ -18,18 +18,18 @@ public class DatabaseUtils {
     public DatabaseMetaData dm;
     public  Statement stmt;
     public  ResultSet result;
-    private Properties prop;
+    private  Properties prop;
     private String dbURL;
     private String user;
     private String password;
     private String sqlQuery;
-    private String sqlQuery1;
+    //private String sqlGetContractBYID;
     //protected String manufacturer_ID;
     //protected String MFRid;
     private static List<String> ExpectedAllManufacturerID;
     private static List<String> ExpectedAllManufacturerName;
     public static  int activeMFRCount;
-    public static  int Row_key;
+    public static  int rowKey;
     static Logger logger = Logger.getLogger(DatabaseUtils.class.getName());
     /**
      * This is the  method which loads  the database connection details from database.properties file .
@@ -161,15 +161,15 @@ public class DatabaseUtils {
     /**
      * This method retrieves the ContractDetails Row_key from DB
      */
-    public void executeGetMFRBYIDQuery(String query1)  {
+    public void executeGetContractBYIDQuery(String query)  {
         try {
-            sqlQuery1=prop.getProperty(query1);
-            logger.info(" SQL is : "+sqlQuery1);
+            sqlQuery=prop.getProperty(query);
+            logger.info(" SQL is : "+sqlQuery);
             stmt = conn.createStatement();
-            result = stmt.executeQuery(sqlQuery1);
+            result = stmt.executeQuery(sqlQuery);
             result.next();
-            Row_key= result.getInt("Row_key");
-            logger.info("No of Active  MFR in DB are: " + Row_key);
+            rowKey= result.getInt("Row_key");
+            logger.info("RowKey From DB is: " + rowKey);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -177,8 +177,8 @@ public class DatabaseUtils {
     /**
      * This method returns the ContractDetails Row_Key from DB
      */
-    public int getRow_Key() {
-        return Row_key;
+    public int getRowKey() {
+        return rowKey;
     }
 
 }
