@@ -1,0 +1,11 @@
+/target/
+.idea/
+.settings/
+output/
+target/
+example.log
+example.log.1
+.project
+cucumber_report.html
+restassured-cucumber.iml
+.classpath
