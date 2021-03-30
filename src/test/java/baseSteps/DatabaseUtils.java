@@ -159,7 +159,10 @@ public class DatabaseUtils {
         return ExpectedAllManufacturerName;
     }
     /**
-     * This method retrieves the ContractDetails Row_key from DB
+     * This method retrieves the ContractDetails Row_Key from DB and store in rowkey variable
+     * @author Bharath
+     * @exception  Exception
+     *@param query The sql query which is loaded from database.properties file and executed to get Row_Key from DB
      */
     public void executeGetContractBYIDQuery(String query)  {
         try {
@@ -176,6 +179,7 @@ public class DatabaseUtils {
     }
     /**
      * This method returns the ContractDetails Row_Key from DB
+     * @author Bharath
      */
     public int getRowKey() {
         return rowKey;

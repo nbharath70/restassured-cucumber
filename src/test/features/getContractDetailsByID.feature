@@ -3,8 +3,8 @@ Feature:Retrieve and validate the Manufacturer Details by ID
     Given User connects to DB
     And DB details are obtained and printed
     And User executes the  '<query>' to get ContractDetails Row_KEY
-  And User hits the MFRDetailsByIDEndpoint with get request
-    When  API  processes the request
+    And User hits the ContractDetailsByIDEndpoint with get request
+    When API  processes the get request for manufaturer contract details
     Then User gets the correct statusCode from API ContractDetails by ID
     Examples:
       |query|

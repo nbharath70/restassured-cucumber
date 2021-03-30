@@ -1,3 +1,11 @@
+/**
+ * GetContractDetailsByID class contains the methods to hit the GetContractDetailsByID end point and retrieve the details from
+ * JSON response and compare the details with expected result retrieved from database
+ *
+ * @author  Bharath.N
+ * @version 1.0
+ * @since   30/03/2021
+ */
 package baseSteps;
 import io.restassured.http.ContentType;
 import com.jayway.jsonpath.JsonPath;
@@ -23,6 +31,12 @@ public class GetContractDetailsByID {
     JsonPath jsonPath;
     static Logger logger = Logger.getLogger(GetAllMFR.class.getName());
     DatabaseUtils dbUtil = new DatabaseUtils();
+    /**
+     * This method retrieves the environment details for GetContractDetailsByID API
+     * @author Bharath
+     * @exception  Exception
+     *
+     */
     public String getEnvProperties() {
         try {
             prop = new Properties();
@@ -40,23 +54,39 @@ public class GetContractDetailsByID {
         }
         return baseURI;
     }
+    /**
+     * This method gets the URL from Environment.Property file GetContractDetailsByID API and RowKey from DB and merge together and give complete endpoint
+     * @author Bharath
+     */
     public void hitGetContractDetailsByIDEndpoint() {
         getEnvProperties();
         rowKeyVal=dbUtil.getRowKey();
         url = baseURI + "/" +getAllContractDetailsByID+"/"+rowKeyVal;
         logger.info("=======URL is++++++++++++++++++++++++++ " + url);
     }
+    /**
+     * This method proccesses the request and stores the response
+     * @author Bharath
+     */
     public void processGetRequest() {
 
         response =
                 given().log().all().header("Authorization", "Bearer " + token).when().get(url);
         logger.info("Response is:" + response.asString());
     }
+    /**
+     * This method Verifies the request status is 200 or not
+     * @author Bharath
+     */
+
     public void verifyGetRequestStatusCode200() {
         response.then().assertThat().statusCode(200);
         logger.info("API returns 200 http response code");
     }
-
+    /**
+     * This method Verifies Response is JSON or NOT
+     * @author Bharath
+     */
     public void verifyRsponseIsInJSONformat() {
         response.then().assertThat().contentType(ContentType.JSON);
         logger.info("The response is in proper JSON format");

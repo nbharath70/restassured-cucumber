@@ -38,6 +38,12 @@ public class DatabaseStepDefinition {
     public void UserExecutesTheQueryToGetAllActiveMFRName(String query) throws SQLException {
         dbUtil.executeAllMFRNameQuery(query);
     }
+    /**
+     * This method defines the glue code for @Given User executes the query to get ContractdetailsRowkey from DB
+     * step in the getAllMFRContract.feature
+     * @author Bharath
+     * @exception SQLException
+     */
     @Given("^User executes the  '(.*)' to get ContractDetails Row_KEY$")
     public void userExecutesTheToGetContractdetailsRowkey(String query) throws SQLException {
         dbUtil.executeGetContractBYIDQuery(query);
