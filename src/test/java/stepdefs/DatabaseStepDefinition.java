@@ -7,6 +7,7 @@
  */
 package stepdefs;
 import baseSteps.DatabaseUtils;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -36,5 +37,9 @@ public class DatabaseStepDefinition {
     @Then("^User executes the  '(.*)' to get allActiveMFR name$")
     public void UserExecutesTheQueryToGetAllActiveMFRName(String query) throws SQLException {
         dbUtil.executeAllMFRNameQuery(query);
+    }
+    @Given("^User executes the  '(.*)' to get ContractDetails Row_KEY$")
+    public void userExecutesTheToGetContractdetailsRowkey(String query) throws SQLException {
+        dbUtil.executeGetMFRBYIDQuery(query);
     }
 }

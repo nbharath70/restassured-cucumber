@@ -23,11 +23,13 @@ public class DatabaseUtils {
     private String user;
     private String password;
     private String sqlQuery;
+    private String sqlQuery1;
     //protected String manufacturer_ID;
     //protected String MFRid;
     private static List<String> ExpectedAllManufacturerID;
     private static List<String> ExpectedAllManufacturerName;
     public static  int activeMFRCount;
+    public static  int Row_key;
     static Logger logger = Logger.getLogger(DatabaseUtils.class.getName());
     /**
      * This is the  method which loads  the database connection details from database.properties file .
@@ -156,5 +158,28 @@ public class DatabaseUtils {
     public List<String> getAllMFRName(){
         return ExpectedAllManufacturerName;
     }
+    /**
+     * This method retrieves the ContractDetails Row_key from DB
+     */
+    public void executeGetMFRBYIDQuery(String query1)  {
+        try {
+            sqlQuery1=prop.getProperty(query1);
+            logger.info(" SQL is : "+sqlQuery1);
+            stmt = conn.createStatement();
+            result = stmt.executeQuery(sqlQuery1);
+            result.next();
+            Row_key= result.getInt("Row_key");
+            logger.info("No of Active  MFR in DB are: " + Row_key);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+    /**
+     * This method returns the ContractDetails Row_Key from DB
+     */
+    public int getRow_Key() {
+        return Row_key;
+    }
+
 }
 
