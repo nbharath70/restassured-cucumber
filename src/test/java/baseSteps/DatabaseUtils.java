@@ -35,6 +35,7 @@ public class DatabaseUtils {
     public static String manufacturerID;
     public static List<String> manufactureName;
     static Logger logger = Logger.getLogger(DatabaseUtils.class.getName());
+
     /**
      * This is the  method which loads  the database connection details from database.properties file .
      */
@@ -56,6 +57,7 @@ public class DatabaseUtils {
         }
 
     }
+
     /**
      * This is the  method establishes the connection to database
      */
@@ -72,6 +74,7 @@ public class DatabaseUtils {
 
         }
     }
+
     /**
      * This is the  method retrieves the database details after connection is successful
      */
@@ -90,6 +93,7 @@ public class DatabaseUtils {
 
         }
     }
+
     /**
      * This method retrieves the count of MFR records present in DB
      */
@@ -106,12 +110,14 @@ public class DatabaseUtils {
             ex.printStackTrace();
         }
     }
+
     /**
      * This method returns the no of active MFR details retrieved
      */
     public int getNoOfActiveMFR() {
         return activeMFRCount;
     }
+
     /**
      * This method executes the SQL to get the no of active MFR IDs
      */
@@ -131,12 +137,14 @@ public class DatabaseUtils {
                 ex.printStackTrace();
         }
     }
+
     /**
      * This method returns the no of active MFR details retrieved
      */
     public List<String> getAllMFRID() {
         return ExpectedAllManufacturerID;
     }
+
     /**
      * This method executes the SQL query to get all active MFR names
      */
@@ -156,12 +164,14 @@ public class DatabaseUtils {
             ex.printStackTrace();
         }
     }
+
     /**
      * This method returns the no of active MFR Names retrieved
      */
     public List<String> getAllMFRName(){
         return ExpectedAllManufacturerName;
     }
+
     /**
      * This method retrieves the ContractDetails Row_Key from DB and store in rowkey variable
      * @author Bharath
@@ -181,6 +191,7 @@ public class DatabaseUtils {
             ex.printStackTrace();
         }
     }
+
     /**
      * This method returns the ContractDetails Row_Key from DB
      * @author Bharath
@@ -205,6 +216,12 @@ public class DatabaseUtils {
         }
     }
 
+    /**
+     * This method retrieves the ContractID from ContractDetails Table DB
+     * @author Bharath
+     * @exception  Exception
+     *@param query The sql query which is loaded from database.properties file and executed to get ContactID from DB
+     */
     public String getContractID(){
         return contractID;
     }
@@ -223,10 +240,20 @@ public class DatabaseUtils {
             ex.printStackTrace();
         }
     }
+
+    /**
+     * This method returns the manufacturerID from DB
+     * @author Bharath
+     */
     public String getManufacturerID(){
         return manufacturerID;
     }
 
+    /**
+     * This method retrieves the ManufacturerName from table master manufactuere
+     * @author Bharath
+     * @param query The sql query which is loaded from database.properties file and executed to get Manufacturer name and Manufacturer ID
+     */
     public void executeManufactuerNameQuery(String query){
         try {
             sqlQuery=prop.getProperty(query);
@@ -245,6 +272,11 @@ public class DatabaseUtils {
             ex.printStackTrace();
         }
     }
+
+    /**
+     * This method returns the Manufactuername and manufactuerer ID
+     * @author Bharath
+     */
     public List<String> getManufacturerName(){
         return manufactureName;
     }

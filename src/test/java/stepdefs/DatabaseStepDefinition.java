@@ -49,14 +49,34 @@ public class DatabaseStepDefinition {
         dbUtil.executeGetContractBYIDQuery(query);
     }
 
+    /**
+     * This method defines the glue code for @Given User executes the query to get ManufacturerName and ManufacturerID from DB
+     * step in the getAllMFRContract.feature
+     * @author Bharath
+     * @exception SQLException
+     */
     @Given("^User executes the  '(.*)' to get ManufacturerName and ManufacturerID from DB$")
     public void userExecutesTheToGetManufacturernameAndManufactureridFromDb(String query4) {
     dbUtil.executeManufactuerNameQuery(query4);
     }
+
+    /**
+     * This method defines the glue code for @Given User executes the query to get ContractID from DB
+     * step in the getAllMFRContract.feature
+     * @author Bharath
+     * @exception SQLException
+     */
     @Given("^User executes the  '(.*)' to get ContractID from DB$")
     public void UserExecutesTheToGetContractidFromDb(String query2){
         dbUtil.executeContractDetailQuery(query2);
     }
+
+    /**
+     * This method defines the glue code for @Given User executes the query to get ManufacuterID from DB
+     * step in the getAllMFRContract.feature
+     * @author Bharath
+     * @exception SQLException
+     */
     @Given("^User executes the  '(.*)' to get ManufacuterID from contractHeader table$")
     public void userExecutesTheToGetManufacuteridFromContractheaderTable(String query3) {
         dbUtil.executeContractHeaderQuery(query3);

@@ -33,6 +33,7 @@ public class GetContractDetailsByID {
     JsonPath jsonPath;
     static Logger logger = Logger.getLogger(GetAllMFR.class.getName());
     DatabaseUtils dbUtil = new DatabaseUtils();
+
     /**
      * This method retrieves the environment details for GetContractDetailsByID API
      * @author Bharath
@@ -56,6 +57,7 @@ public class GetContractDetailsByID {
         }
         return baseURI;
     }
+
     /**
      * This method gets the URL from Environment.Property file GetContractDetailsByID API and RowKey from DB and merge together and give complete endpoint
      * @author Bharath
@@ -66,6 +68,7 @@ public class GetContractDetailsByID {
         url = baseURI + "/" +getAllContractDetailsByID+"/"+rowKeyVal;
         logger.info("=======URL is++++++++++++++++++++++++++ " + url);
     }
+
     /**
      * This method proccesses the request and stores the response
      * @author Bharath
@@ -76,6 +79,7 @@ public class GetContractDetailsByID {
                 given().log().all().header("Authorization", "Bearer " + token).when().get(url);
         logger.info("Response is:" + response.asString());
     }
+
     /**
      * This method Verifies the request status is 200 or not
      * @author Bharath
@@ -85,6 +89,7 @@ public class GetContractDetailsByID {
         response.then().assertThat().statusCode(200);
         logger.info("API returns 200 http response code");
     }
+
     /**
      * This method Verifies Response is JSON or NOT
      * @author Bharath
@@ -94,6 +99,10 @@ public class GetContractDetailsByID {
         logger.info("The response is in proper JSON format");
     }
 
+    /**
+     * This method match the Manufacturer_ID and Name from json and DB
+     * @author Bharath
+     */
     public void matchmanufacturerDetails() {
         actualMFRNameAndID =new ArrayList<String>();
         ExpectedMFRNameAndID=new ArrayList<String>();

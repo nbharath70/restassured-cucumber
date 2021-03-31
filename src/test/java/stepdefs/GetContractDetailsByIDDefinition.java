@@ -19,7 +19,6 @@ public class GetContractDetailsByIDDefinition {
      * step in the getAllMFRContract.feature
      * @author Bharath
      */
-
     @Given("^User hits the ContractDetailsByIDEndpoint with get request$")
     public void UserHitscontractDetailsByID()  {
         contractDetails.hitGetContractDetailsByIDEndpoint();
@@ -30,27 +29,35 @@ public class GetContractDetailsByIDDefinition {
      * step in the getAllMFRContract.feature
      * @author Bharath
      */
-
     @When("^API  processes the get request for manufaturer contract details$")
     public void apiProcessesTheRequest()  {
         contractDetails.processGetRequest();
     }
+
     /**
      * This method defines the glue code for @Then which verifies the status code
      * step in the getAllMFRContract.feature
      * @author Bharath
      */
-
-
     @Then("^User gets the correct statusCode from API ContractDetails by ID$")
     public void userGetsTheCorrectStatuscode()  {
         contractDetails.verifyGetRequestStatusCode200();
     }
 
+    /**
+     * This method defines the glue code for @Then which verifies the response in JSON
+     * step in the getAllMFRContract.feature
+     * @author Bharath
+     */
     @Then("^Then User verifies the response is in JSON format$")
     public void userVerifiesTheResponseIsInJsonFormat() {contractDetails.verifyResponseIsInJSONformat();
     }
 
+    /**
+     * This method defines the glue code for @Then which compare the manufacturerID and Name in response with DB
+     * step in the getAllMFRContract.feature
+     * @author Bharath
+     */
     @Then("^User verifies the response details with DB details$")
     public void userVerifiesTheResponseDetailsWithDbDetails() {
         contractDetails.matchmanufacturerDetails();
