@@ -28,6 +28,8 @@ public class GetContractDetailsByID {
     private String token;
     private String getAllContractDetailsByID;
     private int rowKeyVal;
+    private List<String> actualMFRNameAndID;
+    private List<String> ExpectedMFRNameAndID;
     JsonPath jsonPath;
     static Logger logger = Logger.getLogger(GetAllMFR.class.getName());
     DatabaseUtils dbUtil = new DatabaseUtils();
@@ -87,9 +89,29 @@ public class GetContractDetailsByID {
      * This method Verifies Response is JSON or NOT
      * @author Bharath
      */
-    public void verifyRsponseIsInJSONformat() {
+    public void verifyResponseIsInJSONformat() {
         response.then().assertThat().contentType(ContentType.JSON);
         logger.info("The response is in proper JSON format");
+    }
+
+    public void matchmanufacturerDetails() {
+        actualMFRNameAndID =new ArrayList<String>();
+        ExpectedMFRNameAndID=new ArrayList<String>();
+        actualMFRNameAndID=JsonPath.read(response.asString(), "$.manufacturer[*]");
+        ExpectedMFRNameAndID=dbUtil.getManufacturerName();
+        Collections.sort(ExpectedMFRNameAndID);
+        Collections.sort(actualMFRNameAndID);
+        logger.info("Expected ManufactuerName and ID is:");
+        for(String em:ExpectedMFRNameAndID){
+            logger.info(em);
+        }
+        logger.info("Actual ManufactuerName and ID from API are:");
+        for(String ac:actualMFRNameAndID){
+            logger.info(ac);
+        }
+        logger.info("Matching All Manufactuer Name and ID from DB and API ");
+        Assert.assertTrue("The lists do not match!", ExpectedMFRNameAndID.equals(actualMFRNameAndID));
+        logger.info("Successfully matched  All MFR IDS from DB and API ");
     }
 
 }

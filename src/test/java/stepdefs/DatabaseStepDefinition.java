@@ -48,4 +48,19 @@ public class DatabaseStepDefinition {
     public void userExecutesTheToGetContractdetailsRowkey(String query) throws SQLException {
         dbUtil.executeGetContractBYIDQuery(query);
     }
+
+    @Given("^User executes the  '(.*)' to get ManufacturerName and ManufacturerID from DB$")
+    public void userExecutesTheToGetManufacturernameAndManufactureridFromDb(String query4) {
+    dbUtil.executeManufactuerNameQuery(query4);
+    }
+    @Given("^User executes the  '(.*)' to get ContractID from DB$")
+    public void UserExecutesTheToGetContractidFromDb(String query2){
+        dbUtil.executeContractDetailQuery(query2);
+    }
+    @Given("^User executes the  '(.*)' to get ManufacuterID from contractHeader table$")
+    public void userExecutesTheToGetManufacuteridFromContractheaderTable(String query3) {
+        dbUtil.executeContractHeaderQuery(query3);
+    }
+
+
 }

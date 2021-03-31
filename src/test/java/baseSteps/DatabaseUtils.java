@@ -23,6 +23,7 @@ public class DatabaseUtils {
     private String user;
     private String password;
     private String sqlQuery;
+    public  PreparedStatement pstmt;
     //private String sqlGetContractBYID;
     //protected String manufacturer_ID;
     //protected String MFRid;
@@ -30,6 +31,9 @@ public class DatabaseUtils {
     private static List<String> ExpectedAllManufacturerName;
     public static  int activeMFRCount;
     public static  int rowKey;
+    public static String contractID;
+    public static String manufacturerID;
+    public static List<String> manufactureName;
     static Logger logger = Logger.getLogger(DatabaseUtils.class.getName());
     /**
      * This is the  method which loads  the database connection details from database.properties file .
@@ -184,6 +188,67 @@ public class DatabaseUtils {
     public int getRowKey() {
         return rowKey;
     }
+
+    public void executeContractDetailQuery(String query){
+        try {
+            sqlQuery=prop.getProperty(query);
+            logger.info(" SQL is : "+sqlQuery);
+            pstmt = conn.prepareStatement(sqlQuery);
+            pstmt.setInt(1,rowKey);
+            logger.info(" SQL is : "+pstmt);
+            result = pstmt.executeQuery();
+            result.next();
+            contractID= result.getString("Contract_ID");
+            logger.info("ContractID is : " + contractID );
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public String getContractID(){
+        return contractID;
+    }
+    public void executeContractHeaderQuery(String query){
+        try {
+            sqlQuery=prop.getProperty(query);
+            logger.info(" SQL is : "+sqlQuery);
+            pstmt = conn.prepareStatement(sqlQuery);
+            pstmt.setString(1,contractID);
+            logger.info(" SQL is : "+pstmt);
+            result = pstmt.executeQuery();
+            result.next();
+            manufacturerID= result.getString("Manufacturer_ID");
+            logger.info("Manufacturer ID is  : " + manufacturerID );
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+    public String getManufacturerID(){
+        return manufacturerID;
+    }
+
+    public void executeManufactuerNameQuery(String query){
+        try {
+            sqlQuery=prop.getProperty(query);
+            logger.info(" SQL is : "+sqlQuery);
+            pstmt = conn.prepareStatement(sqlQuery);
+            pstmt.setString(1,manufacturerID);
+            logger.info(" SQL is : "+pstmt);
+            result = pstmt.executeQuery();
+            manufactureName=new ArrayList<String>();
+            while(result.next()){
+            manufactureName.add(result.getString("Manufacturer_ID"));
+            manufactureName.add(result.getString("Name"));
+            };
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+    public List<String> getManufacturerName(){
+        return manufactureName;
+    }
+
 
 }
 

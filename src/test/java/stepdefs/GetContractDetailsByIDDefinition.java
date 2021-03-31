@@ -41,10 +41,23 @@ public class GetContractDetailsByIDDefinition {
      * @author Bharath
      */
 
+
     @Then("^User gets the correct statusCode from API ContractDetails by ID$")
     public void userGetsTheCorrectStatuscode()  {
         contractDetails.verifyGetRequestStatusCode200();
     }
+
+    @Then("^Then User verifies the response is in JSON format$")
+    public void userVerifiesTheResponseIsInJsonFormat() {contractDetails.verifyResponseIsInJSONformat();
+    }
+
+    @Then("^User verifies the response details with DB details$")
+    public void userVerifiesTheResponseDetailsWithDbDetails() {
+        contractDetails.matchmanufacturerDetails();
+    }
+
+
+
 
 
 
