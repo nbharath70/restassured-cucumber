@@ -7,12 +7,13 @@
  * @since   03/01/2021
  */
 package baseSteps;
-import com.microsoft.sqlserver.jdbc.SQLServerDriver;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
+
 public class DatabaseUtils {
     public  Connection conn;
     public DatabaseMetaData dm;

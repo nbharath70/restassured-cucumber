@@ -11,6 +11,7 @@ import io.restassured.http.ContentType;
 import com.jayway.jsonpath.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import java.util.ArrayList;
@@ -123,4 +124,11 @@ public class GetContractDetailsByID {
         logger.info("Successfully matched  All MFR IDS from DB and API ");
     }
 
-}
+    public void matchContractDetailJSON() {
+        actualContractDetailsJSON=JsonPath.read(response.asString(), "$.manufacturer[*]");
+        expectedContractDetailsJSON=dbUtil.getContractDetailJson();
+        logger.info("Expected ContractDetailJSON is:"+expectedContractDetailsJSON);
+        logger.info("Actual ContractDetailJSON is:"+actualContractDetailsJSON);
+        Assert.assertTrue("JSON Do Not match",expectedContractDetailsJSON.equals(actualContractDetailsJSON));
+        logger.info("Successfully matched  ContractHeaderDetailJSon from DB and API ");
+}}
