@@ -29,12 +29,17 @@ public class GetContractDetailsByID {
     private String token;
     private String getAllContractDetailsByID;
     private int rowKeyVal;
+    private String rowKeyValTypeMissMatch;
     private List<String> actualMFRNameAndID;
     private List<String> ExpectedMFRNameAndID;
     private List actualContracHeadertdetails;
     private List<String> expectedContractHeaderdetails;
     private List<String> actualContractDetailsJSON;
     private List<String> expectedContractDetailsJSON;
+    private String expectedInvalidRowKeyContractDetailsResponse;
+    private String actualInvalidRowKeyContractDetailsResponse;
+    private String actualBlankRowKeyContractDetailsResponse;
+    private String expectedBlankRowKeyContractDetailsResponse;
     JsonPath jsonPath;
     static Logger logger = Logger.getLogger(GetAllMFR.class.getName());
     DatabaseUtils dbUtil = new DatabaseUtils();
@@ -75,6 +80,31 @@ public class GetContractDetailsByID {
     }
 
     /**
+     * This method gets the URL from Environment.Property file GetContractDetailsByID API and RowKey from DB and make it Invalid merge together and give complete endpoint
+     * @author Bharath
+     */
+    public void hitGetContractDetailsByIDEndpointWithInvalidRowKey(){
+        getEnvProperties();
+        rowKeyVal=dbUtil.getCountOfContractsDetails();
+        url = baseURI + "/" +getAllContractDetailsByID+"/"+(rowKeyVal+3);
+        logger.info("=======URL is++++++++++++++++++++++++++ " + url);
+    }
+
+    public void hitBlankContractDetailsByIDEndpoint() {
+        getEnvProperties();
+        rowKeyVal=dbUtil.getRowKey();
+        url = baseURI + "/" +getAllContractDetailsByID+"/";
+        logger.info("=======URL is++++++++++++++++++++++++++ " + url);
+    }
+
+    public void hitTypeMissMAtchContractDetailsByIDEndpoint() {
+        getEnvProperties();
+        rowKeyValTypeMissMatch=dbUtil.getContractID();
+        url = baseURI + "/" +getAllContractDetailsByID+"/"+rowKeyValTypeMissMatch;
+        logger.info("=======URL is++++++++++++++++++++++++++ " + url);
+    }
+
+    /**
      * This method proccesses the request and stores the response
      * @author Bharath
      */
@@ -105,7 +135,7 @@ public class GetContractDetailsByID {
     }
 
     /**
-     * This method match the Manufacturer_ID and Name from json and DB
+     * This method match the Manufacturer_ID and Name from API response and DB
      * @author Bharath
      */
     public void matchmanufacturerDetails() {
@@ -127,6 +157,10 @@ public class GetContractDetailsByID {
         Assert.assertTrue("The lists do not match!", ExpectedMFRNameAndID.equals(actualMFRNameAndID));
         logger.info("Successfully matched  All MFR IDS from DB and API ");
     }
+    /**
+     * This method match the ContracHeadertDetails from API response and DB
+     * @author Bharath
+     */
     public void matchContracHeadertDetails() {
         actualContracHeadertdetails =new ArrayList();
         expectedContractHeaderdetails=new ArrayList<String>();
@@ -148,16 +182,58 @@ public class GetContractDetailsByID {
         }
         Collections.sort(expectedContractHeaderdetails);
         Collections.sort(actualContracHeadertdetails);
-        logger.info("Matching All ContractetailsHeader from DB and API ");
+        logger.info("Matching All ContractDetailsHeader from DB and API ");
         Assert.assertTrue("The lists do not match!", expectedContractHeaderdetails.equals(actualContracHeadertdetails));
         logger.info("Successfully matched  All MFR IDS from DB and API ");
     }
-
+    /**
+     * This method match the ContractDetailJSON from API response and DB
+     * @author Bharath
+     */
     public void matchContractDetailJSON() {
-        actualContractDetailsJSON=JsonPath.read(response.asString(), "$.contractDetail.contractDetailJson");
+        try{actualContractDetailsJSON=JsonPath.read(response.asString(), "$.contractDetail.contractDetailJson");
         expectedContractDetailsJSON=dbUtil.getContractDetailsJSON();
         logger.info("Expected ContractDetailJSON is:"+expectedContractDetailsJSON);
         logger.info("Actual ContractDetailJSON is:"+actualContractDetailsJSON);
         Assert.assertTrue("JSON Do Not match",expectedContractDetailsJSON.equals(actualContractDetailsJSON));
-        logger.info("Successfully matched  ContractHeaderDetailJSon from DB and API ");
-}}
+        logger.info("Successfully matched  ContractHeaderDetailJSon from DB and API ");}
+        catch (Exception e){
+        e.printStackTrace();
+        }
+}
+    public void matchInvalidRowKeyResponse() {
+        try{actualInvalidRowKeyContractDetailsResponse=JsonPath.read(response.asString(), "$.message");
+            expectedInvalidRowKeyContractDetailsResponse="404 NOT_FOUND";
+            logger.info("Expected response is:"+actualInvalidRowKeyContractDetailsResponse);
+            logger.info("Actual Conresponse is:"+expectedInvalidRowKeyContractDetailsResponse);
+            Assert.assertTrue("JSON Do Not match",actualInvalidRowKeyContractDetailsResponse.equals(expectedInvalidRowKeyContractDetailsResponse));
+            logger.info("Successfully matched Invalid API response ");}
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void matchBlankRowKeyResponse() {
+        try{actualBlankRowKeyContractDetailsResponse=JsonPath.read(response.asString(), "$.message");
+            expectedBlankRowKeyContractDetailsResponse="404 NOT_FOUND";
+            logger.info("Expected response is:"+actualBlankRowKeyContractDetailsResponse);
+            logger.info("Actual Conresponse is:"+expectedBlankRowKeyContractDetailsResponse);
+            Assert.assertTrue("JSON Do Not match",actualBlankRowKeyContractDetailsResponse.equals(expectedBlankRowKeyContractDetailsResponse));
+            logger.info("Successfully matched Invalid API response ");}
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void matchTypeMissmatchRowKeyResponse() {
+        try{actualBlankRowKeyContractDetailsResponse=JsonPath.read(response.asString(), "$.message");
+            expectedBlankRowKeyContractDetailsResponse="400 BAD_REQUEST \\\"Type mismatch.\\\"; nested exception is org.springframework.beans.TypeMismatchException: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Integer'; nested exception is java.lang.NumberFormatException: For input string: \\\""+dbUtil.getContractID()+"\\\"";
+            logger.info("Expected response is:"+expectedBlankRowKeyContractDetailsResponse);
+            logger.info("Actual Conresponse is:"+actualBlankRowKeyContractDetailsResponse);
+            Assert.assertTrue("JSON Do Not match",actualBlankRowKeyContractDetailsResponse.equals(expectedBlankRowKeyContractDetailsResponse));
+            logger.info("Successfully matched Invalid API response ");}
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+}

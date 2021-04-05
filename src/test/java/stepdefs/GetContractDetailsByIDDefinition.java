@@ -25,6 +25,26 @@ public class GetContractDetailsByIDDefinition {
     }
 
     /**
+     * This method defines the glue code for @Given User hit the endpoint with WrongRowKey
+     * step in the getAllMFRContract.feature
+     * @author Bharath
+     */
+    @Given("^User hits the ContractDetailsByIDEndpoint with wrong Rowkey with get request$")
+    public void userHitsTheContractdetailsbyidendpointWithWrongRowkeyWithGetRequest() {
+        contractDetails.hitGetContractDetailsByIDEndpointWithInvalidRowKey();
+    }
+
+    /**
+     * This method defines the glue code for @Given User hit the endpoint with Blank RowKey
+     * step in the getAllMFRContract.feature
+     * @author Bharath
+     */
+    @Given("^User hits the BlankContractDetailsByIDEndpoint with  get request$")
+    public void user_hits_the_blankcontractdetailsbyidendpoint_with_get_request(){
+        contractDetails.hitBlankContractDetailsByIDEndpoint();
+    }
+
+    /**
      * This method defines the glue code for @When which proccesses the request
      * step in the getAllMFRContract.feature
      * @author Bharath
@@ -81,6 +101,34 @@ public class GetContractDetailsByIDDefinition {
     @Then("^User verifies the ContractHeaderDetailsJSON details with DB details$")
     public void UserVerifiesTheContractHeaderdetailsjsonDetailsWithDbDetails(){
         contractDetails.matchContractDetailJSON();
+    }
+
+    /**
+     * This method defines the glue code for @Then User Verifies the Error Message from API
+     * step in the getAllMFRContract.feature
+     * @author Bharath
+     */
+    @Then("^User verifies Error message from API$")
+    public void userVerifiesErrorMessageFromApi(){
+        contractDetails.matchInvalidRowKeyResponse();
+    }
+
+    /**
+     * This method defines the glue code for @Then User Verifies the Error Message from API
+     * step in the getAllMFRContract.feature
+     * @author Bharath
+     */
+    @Then("^User verifies BlankID Error message from API$")
+    public void user_verifiesBlankidErrorMessageFromApi(){
+        contractDetails.matchBlankRowKeyResponse();
+    }
+    @Given("^User hits the ContractDetailsByIDEndpoint with TypeMissMatch RowKey$")
+    public void userHitsTheContractdetailsbyidendpointWithTypemissmatchRowkey(){
+        contractDetails.hitTypeMissMAtchContractDetailsByIDEndpoint();
+    }
+    @Then("^User verifies the Response of API for TypeMissMatch request$")
+    public void userVerifiesTheResponseOfApiForTypemissmatchRequest() {
+        contractDetails.matchTypeMissmatchRowKeyResponse();
     }
 
 

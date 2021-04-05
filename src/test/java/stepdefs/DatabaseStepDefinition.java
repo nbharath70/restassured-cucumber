@@ -83,11 +83,16 @@ public class DatabaseStepDefinition {
     }
     @Given("^User executes the  '(.*)' to get ContractHeaderDetails from contractDetails table$")
     public void userExecutesTheToGetGontractdetailsFromContractdetailsTable(String query3){
-    dbUtil.executeContractDetailsQuery(query3);
+    dbUtil.executeContractHeaderDetailsQuery(query3);
     }
     @Given("^User executes the  '(.*)' to get ContractHeaderDetailJSON from contractDetails table$")
     public void userExecutesTheToGetContractheaderdetailjsonFromContractdetailsTable(String query3){
     dbUtil.executeContractDetailsJSONQuery(query3);
+    }
+
+    @Given("^User executes the  '(.+)' to get Count of ContractDetails$")
+    public void user_executes_the_to_get_count_of_contractdetails(String query) {
+    dbUtil.executeGetContractDetailsCountQuery(query);
     }
 
 
