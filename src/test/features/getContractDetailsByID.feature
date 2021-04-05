@@ -37,3 +37,30 @@ Feature:Retrieve and validate the Manufacturer Details by ID
       |query|query2|query3|query4|
       |getMFRRowKey|getContractID|getManufacturerID|getManufacturerName|
 
+  Scenario Outline: get ContractHeaderDetails from response and Validate with DB
+    Given User connects to DB
+    And DB details are obtained and printed
+    And User executes the  '<query>' to get ContractDetails Row_KEY
+    And User executes the  '<query2>' to get ContractID from DB
+    And User executes the  '<query3>' to get ContractHeaderDetails from contractDetails table
+    And User hits the ContractDetailsByIDEndpoint with get request
+    When API  processes the get request for manufaturer contract details
+    Then User gets the correct statusCode from API ContractDetails by ID
+    Then User verifies the ContractHeaderDetails details with DB details
+    Examples:
+      |query|query2|query3|
+      |getMFRRowKey|getContractID|getContractDetails|
+
+  Scenario Outline: get ContractHeaderDetails from response and Validate with DB
+    Given User connects to DB
+    And DB details are obtained and printed
+    And User executes the  '<query>' to get ContractDetails Row_KEY
+    And User executes the  '<query2>' to get ContractID from DB
+    And User executes the  '<query3>' to get ContractHeaderDetailJSON from contractDetails table
+    And User hits the ContractDetailsByIDEndpoint with get request
+    When API  processes the get request for manufaturer contract details
+    Then User gets the correct statusCode from API ContractDetails by ID
+    Then User verifies the ContractHeaderDetailsJSON details with DB details
+    Examples:
+      |query|query2|query3|
+      |getMFRRowKey|getContractID|getContractDetailsJSON|

@@ -31,6 +31,10 @@ public class GetContractDetailsByID {
     private int rowKeyVal;
     private List<String> actualMFRNameAndID;
     private List<String> ExpectedMFRNameAndID;
+    private List actualContracHeadertdetails;
+    private List<String> expectedContractHeaderdetails;
+    private List<String> actualContractDetailsJSON;
+    private List<String> expectedContractDetailsJSON;
     JsonPath jsonPath;
     static Logger logger = Logger.getLogger(GetAllMFR.class.getName());
     DatabaseUtils dbUtil = new DatabaseUtils();
@@ -123,10 +127,35 @@ public class GetContractDetailsByID {
         Assert.assertTrue("The lists do not match!", ExpectedMFRNameAndID.equals(actualMFRNameAndID));
         logger.info("Successfully matched  All MFR IDS from DB and API ");
     }
+    public void matchContracHeadertDetails() {
+        actualContracHeadertdetails =new ArrayList();
+        expectedContractHeaderdetails=new ArrayList<String>();
+        actualContracHeadertdetails=JsonPath.read(response.asString(), "$.contractHeader[*]");
+        expectedContractHeaderdetails=dbUtil.getContractHeaderDetails();
+        for(int i=0;i<expectedContractHeaderdetails.size();i++){
+            if(i==4||i==6){
+                expectedContractHeaderdetails.set(i,expectedContractHeaderdetails.get(i).replaceAll("\\s+","T"));
+            }
+        }
+        logger.info("Expected ContractetailsHeader is:");
+        for(String em:expectedContractHeaderdetails){
+            logger.info(em);
+        }
+
+        logger.info("Actual ContractetailsHeader from API are:");
+        for(Object ac:actualContracHeadertdetails){
+            logger.info(ac);
+        }
+        Collections.sort(expectedContractHeaderdetails);
+        Collections.sort(actualContracHeadertdetails);
+        logger.info("Matching All ContractetailsHeader from DB and API ");
+        Assert.assertTrue("The lists do not match!", expectedContractHeaderdetails.equals(actualContracHeadertdetails));
+        logger.info("Successfully matched  All MFR IDS from DB and API ");
+    }
 
     public void matchContractDetailJSON() {
-        actualContractDetailsJSON=JsonPath.read(response.asString(), "$.manufacturer[*]");
-        expectedContractDetailsJSON=dbUtil.getContractDetailJson();
+        actualContractDetailsJSON=JsonPath.read(response.asString(), "$.contractDetail.contractDetailJson");
+        expectedContractDetailsJSON=dbUtil.getContractDetailsJSON();
         logger.info("Expected ContractDetailJSON is:"+expectedContractDetailsJSON);
         logger.info("Actual ContractDetailJSON is:"+actualContractDetailsJSON);
         Assert.assertTrue("JSON Do Not match",expectedContractDetailsJSON.equals(actualContractDetailsJSON));

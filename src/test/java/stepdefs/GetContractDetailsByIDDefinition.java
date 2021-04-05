@@ -63,6 +63,25 @@ public class GetContractDetailsByIDDefinition {
         contractDetails.matchmanufacturerDetails();
     }
 
+    /**
+     * This method defines the glue code for @Then which compare the ContractHeaderDetails in response with DB
+     * step in the getAllMFRContract.feature
+     * @author Bharath
+     */
+    @Then("^User verifies the ContractHeaderDetails details with DB details$")
+    public void userVerifiesTheContractHeaderdetailsDetailsWithDbDetails()  {
+       contractDetails.matchContracHeadertDetails();
+    }
+
+    /**
+     * This method defines the glue code for @Then which compare the ContractHeaderDetailsJSON in response with DB
+     * step in the getAllMFRContract.feature
+     * @author Bharath
+     */
+    @Then("^User verifies the ContractHeaderDetailsJSON details with DB details$")
+    public void UserVerifiesTheContractHeaderdetailsjsonDetailsWithDbDetails(){
+        contractDetails.matchContractDetailJSON();
+    }
 
 
 

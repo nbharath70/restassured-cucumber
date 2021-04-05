@@ -81,6 +81,16 @@ public class DatabaseStepDefinition {
     public void userExecutesTheToGetManufacuteridFromContractheaderTable(String query3) {
         dbUtil.executeContractHeaderQuery(query3);
     }
+    @Given("^User executes the  '(.*)' to get ContractHeaderDetails from contractDetails table$")
+    public void userExecutesTheToGetGontractdetailsFromContractdetailsTable(String query3){
+    dbUtil.executeContractDetailsQuery(query3);
+    }
+    @Given("^User executes the  '(.*)' to get ContractHeaderDetailJSON from contractDetails table$")
+    public void userExecutesTheToGetContractheaderdetailjsonFromContractdetailsTable(String query3){
+    dbUtil.executeContractDetailsJSONQuery(query3);
+    }
+
+
 
 
 }
