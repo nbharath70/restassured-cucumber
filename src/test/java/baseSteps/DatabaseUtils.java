@@ -39,7 +39,7 @@ public class DatabaseUtils {
     public static String contractID;
     public static String manufacturerID;
     public static List<String> manufactureName;
-    public static List<String> contractHeaderDetails;
+    public static List <String>contractHeaderDetails;
     public static List<String> ContractDetailsJSON;
     static Logger logger = Logger.getLogger(DatabaseUtils.class.getName());
 
@@ -328,7 +328,7 @@ public class DatabaseUtils {
      * This method returns the ContractHeaderDetails
      * @author Bharath
      */
-    public List<String> getContractHeaderDetails() {
+    public List getContractHeaderDetails() {
         return contractHeaderDetails;
     }
 
