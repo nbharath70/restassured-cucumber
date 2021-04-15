@@ -92,6 +92,7 @@ public class DataBaseHelper extends TestBase {
         }
         return null;
     }
+
     public void cleanUp(){
         try {
             log.info("Cleaning up connection, statement and Result Set");
