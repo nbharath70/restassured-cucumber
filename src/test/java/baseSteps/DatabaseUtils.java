@@ -7,47 +7,31 @@
  * @since   03/01/2021
  */
 package baseSteps;
+import com.microsoft.sqlserver.jdbc.SQLServerDriver;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Properties;
-
-import com.jayway.jsonpath.JsonPath;
 import org.apache.log4j.Logger;
-import org.json.simple.JSONObject;
-import org.junit.Assert;
-
 public class DatabaseUtils {
-    public  Connection conn;
+    /*public  Connection conn;
     public DatabaseMetaData dm;
     public  Statement stmt;
     public  ResultSet result;
-    private  Properties prop;
+    private Properties prop;
     private String dbURL;
     private String user;
     private String password;
     private String sqlQuery;
-    public  PreparedStatement pstmt;
-    //private String sqlGetContractBYID;
     //protected String manufacturer_ID;
     //protected String MFRid;
     private static List<String> ExpectedAllManufacturerID;
     private static List<String> ExpectedAllManufacturerName;
     public static  int activeMFRCount;
-    public static  int rowKey;
-    public static int countOfContractsDetails;
-    public static String contractID;
-    public static String manufacturerID;
-    public static String contractDetailJSON;
-    public static List<String> manufactureName;
-    public static List <String>contractHeaderDetails;
-    public static List<String> ContractDetailsJSON;
     static Logger logger = Logger.getLogger(DatabaseUtils.class.getName());
-
-    /**
+    *//**
      * This is the  method which loads  the database connection details from database.properties file .
-     */
+     *//*
     public void getDatabaseProperties() {
         try {
             prop = new Properties();
@@ -66,10 +50,9 @@ public class DatabaseUtils {
         }
 
     }
-
-    /**
+    *//**
      * This is the  method establishes the connection to database
-     */
+     *//*
     public void connectToRebateDB() {
         getDatabaseProperties();
         logger.info("Trying to connect to rebate db");
@@ -83,10 +66,9 @@ public class DatabaseUtils {
 
         }
     }
-
-    /**
+    *//**
      * This is the  method retrieves the database details after connection is successful
-     */
+     *//*
     public void getDBDetails()  {
         logger.info("Printing the db details");
         try {
@@ -102,10 +84,9 @@ public class DatabaseUtils {
 
         }
     }
-
-    /**
+    *//**
      * This method retrieves the count of MFR records present in DB
-     */
+     *//*
     public void executeGetMFRCountQuery(String query)  {
         try {
             sqlQuery=prop.getProperty(query);
@@ -119,17 +100,15 @@ public class DatabaseUtils {
             ex.printStackTrace();
         }
     }
-
-    /**
+    *//**
      * This method returns the no of active MFR details retrieved
-     */
+     *//*
     public int getNoOfActiveMFR() {
         return activeMFRCount;
     }
-
-    /**
+    *//**
      * This method executes the SQL to get the no of active MFR IDs
-     */
+     *//*
         public void executeAllMFRIDQuery(String query)  {
             try {
                 sqlQuery=prop.getProperty(query);
@@ -146,17 +125,15 @@ public class DatabaseUtils {
                 ex.printStackTrace();
         }
     }
-
-    /**
+    *//**
      * This method returns the no of active MFR details retrieved
-     */
+     *//*
     public List<String> getAllMFRID() {
         return ExpectedAllManufacturerID;
     }
-
-    /**
+    *//**
      * This method executes the SQL query to get all active MFR names
-     */
+     *//*
     public void executeAllMFRNameQuery(String query)  {
         try {
             sqlQuery=prop.getProperty(query);
@@ -173,211 +150,11 @@ public class DatabaseUtils {
             ex.printStackTrace();
         }
     }
-
-    /**
+    *//**
      * This method returns the no of active MFR Names retrieved
-     */
+     *//*
     public List<String> getAllMFRName(){
         return ExpectedAllManufacturerName;
-    }
-
-    /**
-     * This method retrieves the ContractDetails Row_Key from DB and store in rowkey variable
-     * @author Bharath
-     * @exception  Exception
-     *@param query The sql query which is loaded from database.properties file and executed to get Row_Key from DB
-     */
-    public void executeGetContractBYIDQuery(String query)  {
-        try {
-            sqlQuery=prop.getProperty(query);
-            logger.info(" SQL is : "+sqlQuery);
-            stmt = conn.createStatement();
-            result = stmt.executeQuery(sqlQuery);
-            result.next();
-            rowKey= result.getInt("Row_key");
-            logger.info("RowKey From DB is: " + rowKey);
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    /**
-     * This method returns the ContractDetails Row_Key from [cfg].[MFR_Contract_Detail] DB table
-     * @author Bharath
-     */
-    public int getRowKey() {
-        return rowKey;
-    }
-
-    public void executeContractDetailQuery(String query){
-        try {
-            sqlQuery=prop.getProperty(query);
-            logger.info(" SQL is : "+sqlQuery);
-            pstmt = conn.prepareStatement(sqlQuery);
-            pstmt.setInt(1,rowKey);
-            logger.info(" SQL is : "+pstmt);
-            result = pstmt.executeQuery();
-            result.next();
-            contractID= result.getString("Contract_ID");
-            logger.info("ContractID is : " + contractID );
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    /**
-     * This method retrieves the ContractID from [cfg].[MFR_Contract_Detail] Table DB
-     * @author Bharath
-     * @exception  Exception
-     *@param query The sql query which is loaded from database.properties file and executed to get ContactID from DB
-     */
-    public String getContractID(){
-        return contractID;
-    }
-    public void executeContractHeaderQuery(String query){
-        try {
-            sqlQuery=prop.getProperty(query);
-            logger.info(" SQL is : "+sqlQuery);
-            pstmt = conn.prepareStatement(sqlQuery);
-            pstmt.setString(1,contractID);
-            logger.info(" SQL is : "+pstmt);
-            result = pstmt.executeQuery();
-            result.next();
-            manufacturerID= result.getString("Manufacturer_ID");
-            logger.info("Manufacturer ID is  : " + manufacturerID );
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    /**
-     * This method returns the manufacturerID from DB
-     * @author Bharath
-     */
-    public String getManufacturerID(){
-        return manufacturerID;
-    }
-
-    /**
-     * This method retrieves the ManufacturerName from table [mstr].[Manufacturer]
-     * @author Bharath
-     * @param query The sql query which is loaded from database.properties file and executed to get Manufacturer name and Manufacturer ID
-     */
-    public void executeManufactuerNameQuery(String query){
-        try {
-            sqlQuery=prop.getProperty(query);
-            logger.info(" SQL is : "+sqlQuery);
-            pstmt = conn.prepareStatement(sqlQuery);
-            pstmt.setString(1,manufacturerID);
-            logger.info(" SQL is : "+pstmt);
-            result = pstmt.executeQuery();
-            manufactureName=new ArrayList<String>();
-            while(result.next()){
-            manufactureName.add(result.getString("Manufacturer_ID"));
-            manufactureName.add(result.getString("Name"));
-            };
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    /**
-     * This method returns the Manufactuername and manufactuerer ID
-     * @author Bharath
-     */
-    public List<String> getManufacturerName(){
-        return manufactureName;
-    }
-
-    /**
-     * This method retrieves the ContractHeaderDetails from [cfg].[MFR_Contract_Header] table
-     * @author Bharath
-     * @param query The sql query which is loaded from database.properties file and executed to get ContractHeaderDetails from DB
-     */
-    public void executeContractHeaderDetailsQuery(String query){
-        try {
-            sqlQuery=prop.getProperty(query);
-            logger.info(" SQL is : "+sqlQuery);
-            pstmt = conn.prepareStatement(sqlQuery);
-            pstmt.setString(1,contractID);
-            logger.info(" SQL is : "+pstmt);
-            result = pstmt.executeQuery();
-            contractHeaderDetails =new ArrayList<String>();
-            while(result.next()){
-                contractHeaderDetails.add(result.getString("Row_Key"));
-                contractHeaderDetails.add(result.getString("Lifecycle_Status"));
-                contractHeaderDetails.add(result.getString("Start_Date"));
-                contractHeaderDetails.add(result.getString("End_date"));
-                contractHeaderDetails.add(result.getString("Rec_Created_Date"));
-                contractHeaderDetails.add(result.getString("Rec_Created_BY"));
-                contractHeaderDetails.add(result.getString("Rec_Updated_Date"));
-                contractHeaderDetails.add(result.getString("Rec_Updated_BY"));
-                contractHeaderDetails.add(result.getString("Contract_ID"));
-                contractHeaderDetails.add(result.getString("Manufacturer_ID"));
-                contractHeaderDetails.add(result.getString("Contract_Type"));
-                contractHeaderDetails.add(result.getString("Contract_Name"));
-                contractHeaderDetails.add(result.getString("Contract_Doc_Reference"));
-                contractHeaderDetails.add(result.getString("Notes"));
-            };
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    /**
-     * This method returns the ContractHeaderDetails
-     * @author Bharath
-     */
-    public List getContractHeaderDetails() {
-        return contractHeaderDetails;
-    }
-
-    /**
-     * This method retrieves the ManufacturerName from table master manufactuere
-     * @author Bharath
-     * @param query The sql query which is loaded from database.properties file and executed to get ContractDetails from DB
-     */
-    public void executeContractDetailsJSONQuery(String query){
-        try {
-            sqlQuery=prop.getProperty(query);
-            logger.info(" SQL is : "+sqlQuery);
-            pstmt = conn.prepareStatement(sqlQuery);
-            pstmt.setString(1,contractID);
-            logger.info(" SQL is : "+pstmt);
-            result = pstmt.executeQuery();
-           // ContractDetailsJSON=new ArrayList<String>();
-
-            while(result.next()){
-                contractDetailJSON =result.getString("Contract_Detail_Json");
-            }
-            System.out.println(contractDetailJSON);
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    public static String  getContractDetailsJSON(){
-        return contractDetailJSON;
-    }
-
-    public void executeGetContractDetailsCountQuery(String query)  {
-        try {
-            sqlQuery=prop.getProperty(query);
-            logger.info(" SQL is : "+sqlQuery);
-            stmt = conn.createStatement();
-            result = stmt.executeQuery(sqlQuery);
-            result.next();
-            countOfContractsDetails= result.getInt("Count_Of_ContractDetails");
-            logger.info("RowKey From DB is: " + countOfContractsDetails);
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
-    public static int getCountOfContractsDetails(){
-        return countOfContractsDetails;
-    }
-
+    }*/
 }
 
