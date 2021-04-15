@@ -21,23 +21,19 @@ public class GetAllMFRStepDefinition {
     public void matchesTheCountOfMFRReturnedByAPIAndDB(String query) {
         mfr.verifyRecordCount(query);
     }
-    @When("^User executes the query \"([^\"]*)\" And matches the MFRIDs returned by API and DB$")
-    public void matchesMFRIDsReturnedByAPIAndDB(String query) {
-        mfr.verifyRecordCount(query);
-    }
-    /*
-    @Then("^matches the MFRID returned by API and  DB$")
-    public void matchesTheMFRIDReturnedByAPIAndDB() {
-        mfr.matchMFRIDS();
-    }
-    @Then("^matches the MFR Name returned by API and  DB$")
-    public void matchesTheMFRNameReturnedByAPIAndDB() {
-        mfr.matchMFRName();
-    }*/
+
     @Then("^response is in JSON format$")
     public void verifyTheResponseInJSON() {
         mfr.verifyResponseFormatJSON();
     }
 
+    @Then("^User executes the query \"([^\"]*)\" And matches the MFR ID returned by API and DB$")
+    public void matchesMFRIDsReturnedByAPIAndDB(String query) {
+        mfr.verifyMFRDetails(query);
+    }
+    @Then("^User executes the query \"([^\"]*)\" And matches the MFR Name returned by API and DB$")
+    public void matchesMFRNameReturnedByAPIAndDB(String query){
+        mfr.verifyMFRNameDetails(query);
+    }
 }
 
