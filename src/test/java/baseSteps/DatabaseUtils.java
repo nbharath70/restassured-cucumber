@@ -9,6 +9,7 @@
 package baseSteps;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Properties;
 
@@ -38,6 +39,7 @@ public class DatabaseUtils {
     public static int countOfContractsDetails;
     public static String contractID;
     public static String manufacturerID;
+    public static String contractDetailJSON;
     public static List<String> manufactureName;
     public static List <String>contractHeaderDetails;
     public static List<String> ContractDetailsJSON;
@@ -345,17 +347,19 @@ public class DatabaseUtils {
             pstmt.setString(1,contractID);
             logger.info(" SQL is : "+pstmt);
             result = pstmt.executeQuery();
-            ContractDetailsJSON=new ArrayList<String>();
+           // ContractDetailsJSON=new ArrayList<String>();
+
             while(result.next()){
-                ContractDetailsJSON.add(result.getString("Contract_Detail_Json"));
-            };
+                contractDetailJSON =result.getString("Contract_Detail_Json");
+            }
+            System.out.println(contractDetailJSON);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
 
-    public static List<String> getContractDetailsJSON(){
-        return ContractDetailsJSON;
+    public static String  getContractDetailsJSON(){
+        return contractDetailJSON;
     }
 
     public void executeGetContractDetailsCountQuery(String query)  {

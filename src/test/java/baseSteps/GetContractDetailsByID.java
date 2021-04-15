@@ -13,14 +13,15 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
 import org.junit.Assert;
 
 import java.sql.SQLOutput;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
+
 import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.objectMapper;
+
 public class GetContractDetailsByID {
     private Response response;
     private RequestSpecification request;
@@ -36,8 +37,9 @@ public class GetContractDetailsByID {
     private List<String> ExpectedMFRNameAndID;
     private List actualContracHeadertdetails;
     private List<String> expectedContractHeaderdetails;
-    private List<String> actualContractDetailsJSON;
-    private List<String> expectedContractDetailsJSON;
+    private String actualContractDetailsJSON;
+    private String expectedContractDetailsJSON;
+    private String actualContractDetailsJSON1;
     private String expectedInvalidRowKeyContractDetailsResponse;
     private String actualInvalidRowKeyContractDetailsResponse;
     private String actualBlankRowKeyContractDetailsResponse;
@@ -195,7 +197,8 @@ public class GetContractDetailsByID {
      * @author Bharath
      */
     public void matchContractDetailJSON() {
-        try{actualContractDetailsJSON=JsonPath.read(response.asString(), "$.contractDetail.contractDetailJson");
+
+        try{actualContractDetailsJSON= JsonPath.read(response.asString(), "$.contractDetail.contractDetailJson");
         expectedContractDetailsJSON=dbUtil.getContractDetailsJSON();
         logger.info("Expected ContractDetailJSON is:"+expectedContractDetailsJSON);
         logger.info("Actual ContractDetailJSON is:"+actualContractDetailsJSON);
@@ -207,9 +210,9 @@ public class GetContractDetailsByID {
 }
     public void matchInvalidRowKeyResponse() {
         try{actualInvalidRowKeyContractDetailsResponse=JsonPath.read(response.asString(), "$.message");
-            expectedInvalidRowKeyContractDetailsResponse="404 NOT_FOUND";
-            logger.info("Expected response is:"+actualInvalidRowKeyContractDetailsResponse);
-            logger.info("Actual Conresponse is:"+expectedInvalidRowKeyContractDetailsResponse);
+            expectedInvalidRowKeyContractDetailsResponse="Incorrect result size: expected 1, actual 0";
+            logger.info("Expected response is:"+expectedInvalidRowKeyContractDetailsResponse);
+            logger.info("Actual Conresponse is:"+actualInvalidRowKeyContractDetailsResponse);
             Assert.assertTrue("JSON Do Not match",actualInvalidRowKeyContractDetailsResponse.equals(expectedInvalidRowKeyContractDetailsResponse));
             logger.info("Successfully matched Invalid API response ");}
         catch (Exception e){
@@ -231,7 +234,7 @@ public class GetContractDetailsByID {
 
     public void matchTypeMissmatchRowKeyResponse() {
         try{actualBlankRowKeyContractDetailsResponse=JsonPath.read(response.asString(), "$.message");
-            expectedBlankRowKeyContractDetailsResponse="400 BAD_REQUEST \\\"Type mismatch.\\\"; nested exception is org.springframework.beans.TypeMismatchException: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Integer'; nested exception is java.lang.NumberFormatException: For input string: \\\""+dbUtil.getContractID()+"\\\"";
+            expectedBlankRowKeyContractDetailsResponse="400 BAD_REQUEST \\\"Type mismatch.\\\"; nested exception is org.springframework.beans.TypeMismatchException: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Integer'; nested exception is java.lang.NumberFormatException: For input string: \\\"ABV0011144\\\"";
             logger.info("Expected response is:"+actualBlankRowKeyContractDetailsResponse);
             logger.info("Actual Conresponse is:"+expectedBlankRowKeyContractDetailsResponse);
             Assert.assertTrue("JSON Do Not match",actualBlankRowKeyContractDetailsResponse.equals(expectedBlankRowKeyContractDetailsResponse));
