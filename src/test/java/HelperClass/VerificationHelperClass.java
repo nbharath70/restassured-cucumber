@@ -41,7 +41,7 @@ public class VerificationHelperClass extends TestBase {
             List<String> actual = JsonPath.read(response.asString(), actualJsonPath);
             int actualValue = actual.size();
             int expectedValue = dataBaseHelper.getDataColumnCountDB(Query, ColumnName);
-            Assert.assertEquals("Verification pass expectedValue equal value to actual value", expectedValue, actualValue);
+            Assert.assertEquals("Verification failed, expectedValue is not same as  actual value", expectedValue, actualValue);
             log.info("Verification pass where expectedValue=" + expectedValue + " equals to actualValue=" + actualValue);
         } catch (Exception e) {
             e.printStackTrace();

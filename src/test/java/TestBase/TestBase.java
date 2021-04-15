@@ -12,6 +12,7 @@ import static io.restassured.RestAssured.given;
 
 public class TestBase {
     public static Logger log=getMyLogger(TestBase.class);
+    Response response;
     /**
      * @uthour :Arun Kumar
      * @param cls
@@ -96,7 +97,7 @@ public class TestBase {
     public Response getCall(String endPoint)
     {
         try {
-            Response response = given().log().all().header("Authorization", "Bearer "+getPropertiesFileValue(ResourcePath.Environment_Properties, "bearerToken")).when().get(getEndPointUrl(endPoint));
+            response = given().log().all().header("Authorization", "Bearer "+getPropertiesFileValue(ResourcePath.Environment_Properties, "bearerToken")).when().get(getEndPointUrl(endPoint));
             log.info("Response is=" + response);
             response.then().assertThat().contentType(ContentType.JSON);
             log.info("The response is in proper JSON format");
@@ -106,6 +107,22 @@ public class TestBase {
             e.printStackTrace();
         }
         return null;
+    }
+    /**
+     * @uthor: Smruti
+     * @return response
+     * getCall method hits the end point and logs the response and also verify response body type as ContentType.JSON
+     */
+    public void verifyResponseFormatIsJSON()
+    {
+        try {
+            log.info("Verify the  response format is JSON");
+            response.then().assertThat().contentType(ContentType.JSON);
+            log.info("The response is in proper JSON format");
+            log.info("The response Body="+response.getBody().asString());
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -8,26 +8,24 @@ import cucumber.api.java.en.When;
 public class GetAllMFRStepDefinition {
     GetAllMFR mfr = new GetAllMFR();
 
-    @Given("^User hits the MFRContractEndpoint with get request$")
-    public void userHitsGetAllMFRContracts() {
-        mfr.hitGetMFREndpoint();
+    @Given("^User hits the \"([^\"]*)\" with get API request$")
+    public void userHitsGetRequest(String endpoint) throws Throwable {
+        mfr.getAllMFRResource(endpoint);
+    }
+    @Then("^User verifies the valid status code \"([^\"]*)\" in the response$")
+    public void userGetsCorrectResponseCode(int statusCode) {
+        mfr.getAllMFRResponseStatusCode(statusCode);
     }
 
-    @Given("^API  processes the request$")
-    public void processGetRequest() {
-
-        mfr.processGetRequest();
+    @When("^User executes the query \"([^\"]*)\" And matches the count of MFR returned by API and DB$")
+    public void matchesTheCountOfMFRReturnedByAPIAndDB(String query) {
+        mfr.verifyRecordCount(query);
     }
-
-    @Then("^User gets the correct statusCode$")
-    public void userGetsCorrectResponseCode() {
-        mfr.verifyGetRequestStatusCode200();
+    @When("^User executes the query \"([^\"]*)\" And matches the MFRIDs returned by API and DB$")
+    public void matchesMFRIDsReturnedByAPIAndDB(String query) {
+        mfr.verifyRecordCount(query);
     }
-
-    @Then("^matches the count of MFR returned by API and  DB$")
-    public void matchesTheCountOfMFRReturnedByAPIAndDB() {
-        mfr.matchCountOfMFRRecords();
-    }
+    /*
     @Then("^matches the MFRID returned by API and  DB$")
     public void matchesTheMFRIDReturnedByAPIAndDB() {
         mfr.matchMFRIDS();
@@ -35,10 +33,11 @@ public class GetAllMFRStepDefinition {
     @Then("^matches the MFR Name returned by API and  DB$")
     public void matchesTheMFRNameReturnedByAPIAndDB() {
         mfr.matchMFRName();
-    }
-    @Then("^User gets the response  in JSON format$")
+    }*/
+    @Then("^response is in JSON format$")
     public void verifyTheResponseInJSON() {
-        mfr.verifyRsponseIsInJSONformat();
+        mfr.verifyResponseFormatJSON();
     }
+
 }
 

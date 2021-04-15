@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Properties;
 import org.apache.log4j.Logger;
 public class DatabaseUtils {
-    public  Connection conn;
+    /*public  Connection conn;
     public DatabaseMetaData dm;
     public  Statement stmt;
     public  ResultSet result;
@@ -29,9 +29,9 @@ public class DatabaseUtils {
     private static List<String> ExpectedAllManufacturerName;
     public static  int activeMFRCount;
     static Logger logger = Logger.getLogger(DatabaseUtils.class.getName());
-    /**
+    *//**
      * This is the  method which loads  the database connection details from database.properties file .
-     */
+     *//*
     public void getDatabaseProperties() {
         try {
             prop = new Properties();
@@ -50,9 +50,9 @@ public class DatabaseUtils {
         }
 
     }
-    /**
+    *//**
      * This is the  method establishes the connection to database
-     */
+     *//*
     public void connectToRebateDB() {
         getDatabaseProperties();
         logger.info("Trying to connect to rebate db");
@@ -66,9 +66,9 @@ public class DatabaseUtils {
 
         }
     }
-    /**
+    *//**
      * This is the  method retrieves the database details after connection is successful
-     */
+     *//*
     public void getDBDetails()  {
         logger.info("Printing the db details");
         try {
@@ -84,9 +84,9 @@ public class DatabaseUtils {
 
         }
     }
-    /**
+    *//**
      * This method retrieves the count of MFR records present in DB
-     */
+     *//*
     public void executeGetMFRCountQuery(String query)  {
         try {
             sqlQuery=prop.getProperty(query);
@@ -100,15 +100,15 @@ public class DatabaseUtils {
             ex.printStackTrace();
         }
     }
-    /**
+    *//**
      * This method returns the no of active MFR details retrieved
-     */
+     *//*
     public int getNoOfActiveMFR() {
         return activeMFRCount;
     }
-    /**
+    *//**
      * This method executes the SQL to get the no of active MFR IDs
-     */
+     *//*
         public void executeAllMFRIDQuery(String query)  {
             try {
                 sqlQuery=prop.getProperty(query);
@@ -125,15 +125,15 @@ public class DatabaseUtils {
                 ex.printStackTrace();
         }
     }
-    /**
+    *//**
      * This method returns the no of active MFR details retrieved
-     */
+     *//*
     public List<String> getAllMFRID() {
         return ExpectedAllManufacturerID;
     }
-    /**
+    *//**
      * This method executes the SQL query to get all active MFR names
-     */
+     *//*
     public void executeAllMFRNameQuery(String query)  {
         try {
             sqlQuery=prop.getProperty(query);
@@ -150,11 +150,11 @@ public class DatabaseUtils {
             ex.printStackTrace();
         }
     }
-    /**
+    *//**
      * This method returns the no of active MFR Names retrieved
-     */
+     *//*
     public List<String> getAllMFRName(){
         return ExpectedAllManufacturerName;
-    }
+    }*/
 }
 

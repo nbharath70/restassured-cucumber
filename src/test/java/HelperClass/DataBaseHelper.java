@@ -32,7 +32,6 @@ public class DataBaseHelper extends TestBase {
         }
         return stmt;
     }
-
     /**
      * @uthor: Arun Kumar
      * getData Method used to retrieves the data of given query
@@ -40,14 +39,14 @@ public class DataBaseHelper extends TestBase {
      * @return data
      */
     public ResultSet getData(String query){
-        ResultSet data = null;
+        ResultSet rs = null;
         try {
-            data = getStatement().executeQuery(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, query));
-            log.info("DataBase="+data);
+            rs = getStatement().executeQuery(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, query));
+            log.info("Result Set:"+rs);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return data;
+        return rs;
     }
 
     /**
@@ -60,6 +59,7 @@ public class DataBaseHelper extends TestBase {
     public int getDataColumnCountDB(String query, String columnName)
     {
         try{
+
             ResultSet result = getData(query);
             result.next();
             int value = result.getInt(columnName);
@@ -80,6 +80,7 @@ public class DataBaseHelper extends TestBase {
     public ArrayList<String> getDataColumnArrayListValueDB(String query, String columnName)
     {
         try{
+
             ResultSet result = getData(query);
             ArrayList<String> arrayList = new ArrayList<String>();
             while (result.next()) {
@@ -91,4 +92,24 @@ public class DataBaseHelper extends TestBase {
         }
         return null;
     }
+    public void cleanUp(){
+        try {
+            log.info("Cleaning up connection, statement and Result Set");
+            log.info("trying to check and close  the connection");
+            if (conn != null && !conn.isClosed()) {
+                conn.close();
+                log.info("Closed the connection");
+            }
+            log.info("trying to check and close  the statement");
+            if (stmt != null ) {
+                stmt.close();
+                log.info("Closed the statement");
+            }
+            log.info("trying to check and close  the result Set");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
 }
+
+
