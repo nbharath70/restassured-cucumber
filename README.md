@@ -1,20 +1,27 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+Demonstration of Rest-Assured and Cucumber for web services automation. 
+=====================
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+##Objective##
+Intent of this project is to illustrate REST services testing using REST-assured and BDD development process  (https://code.google.com/p/rest-assured/)
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+###This project illustrate different  types of service tests which corresponds to different feature files ###
+* get.feature - Corresponds to test which performs a get request and verifies the response 
+* Post.feature - Corresponds to test which performs a post request and verifies the response
+* putAndDelete.feature - Corresponds to test which performs a put and delete requests and verifies the response
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+
+
+##Stack##
+This java project has been created using Eclipse Neon. REST-assured and cucumber have been included in project via maven. Tests have been written in Junit.
+
+##Different test styles##
+Using REST-assured and cucumber there are many ways to write tests. 
+The glue codes are in stepdefs package and cucumberRunner is starting point for Junit to start executing the tests.
+Base Steps class contains the methods to perform the actual http method requests and verifies the response.
+apiClasses package contains the classes which defines the attributes present in response given by api.
+pom.xml is the maven build file which manages the dependencies required to execute the project.  
+For downloading  and setting up a rest api use URL:https://github.com/typicode/json-server and follow the steps to configure it.
+Change the test data value for every api call in feature files.
+
+## Run your pom.xml with command clean test
