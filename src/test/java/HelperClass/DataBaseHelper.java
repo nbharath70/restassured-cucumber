@@ -70,6 +70,7 @@ public class DataBaseHelper extends TestBase {
         return 0;
     }
 
+
     /**
      * @uthor Arun Kumar
      * getDataColumnArrayListValueDB method is used to get list values from database
