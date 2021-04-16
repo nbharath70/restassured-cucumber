@@ -4,6 +4,7 @@ import baseSteps.GetSelectOpt;
 import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
 public class GetSelectOptStepDefinition {
     public GetSelectOpt getSelectOpt=new GetSelectOpt();
@@ -20,5 +21,15 @@ public class GetSelectOptStepDefinition {
     @Then("^User validate the getSelectOptions Json response body with data base where Jsonpath=\"([^\"]*)\" Query=\"([^\"]*)\" and ColumnName\"([^\"]*)\"$")
     public void userValidateTheJsonResponseBodyWithDataBaseWhereJsonpathQueryAndColumnName(String jsonPath,String query,String columnName) throws Throwable {
         getSelectOpt.validatingGetSelectOptionsResponseBody(jsonPath,query,columnName);
+    }
+
+    @Then("^The response is in JSON format$")
+    public void theResponseIsInJSONFormate() {
+        getSelectOpt.getSelectOptionsResponseBody();
+    }
+
+    @When("^User executes the query \"([^\"]*)\" And matches the CodeValue and CodeDescription returned by API and DB$")
+    public void userExecutesTheQueryAndMatchesTheCodeValueAndCodeDescriptionReturnedByAPIAndDB(String query) throws Throwable {
+        getSelectOpt.validatingCodeValueAndCodeDescription(query);
     }
 }

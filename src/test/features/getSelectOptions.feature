@@ -1,44 +1,58 @@
-#Feature:Retrieve and validate the list of valid getSelect Options of Code Dictionary Details
-#  Scenario: get All valid Code_Dictionary details and verify correct statusCode CodeValue and CodeDescription is returned
-#    Given User hits the "getSelectOptionsResource" with get request
-#    Then User verify status code "200" for the response
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..DisputeDays..codeValue" Query="getCodeTypeOfDisputeDays" and ColumnName"Code_Value"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..DisputeDays..codeDescription" Query="getCodeDictionaryOfDisputeDays" and ColumnName"code_Description"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..BillingCycle..codeValue" Query="getCodeTypeOfBillingCycle" and ColumnName"Code_Value"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..BillingCycle..codeDescription" Query="getCodeDictionaryOfBillingCycle" and ColumnName"code_Description"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..ReSubmissionWindow..codeValue" Query="getCodeTypeOfReSubmissionWindow" and ColumnName"Code_Value"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..ReSubmissionWindow..codeDescription" Query="getCodeDictionaryOfReSubmissionWindow" and ColumnName"code_Description"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..UmRule..codeValue" Query="getCodeTypeOfUmRule" and ColumnName"Code_Value"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..UmRule..codeDescription" Query="getCodeDictionaryOfUmRule" and ColumnName"code_Description"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..PricingMethod..codeValue" Query="getCodeTypeOfPricingMethod" and ColumnName"Code_Value"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..PricingMethod..codeDescription" Query="getCodeDictionaryOfPricingMethod" and ColumnName"code_Description"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..PaymentTerms..codeValue" Query="getCodeTypeOfPaymentTerms" and ColumnName"Code_Value"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..PaymentTerms..codeDescription" Query="getCodeDictionaryOfPaymentTerms" and ColumnName"code_Description"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..RebateableDrugTier..codeValue" Query="getCodeTypeOfRebateableDrugTier" and ColumnName"Code_Value"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..RebateableDrugTier..codeDescription" Query="getCodeDictionaryOfRebateableDrugTier" and ColumnName"code_Description"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..CompFrmlPosition..codeValue" Query="getCodeTypeOfCompFrmlPosition" and ColumnName"Code_Value"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..CompFrmlPosition..codeDescription" Query="getCodeDictionaryOfCompFrmlPosition" and ColumnName"code_Description"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..FrmlPosition..codeValue" Query="getCodeTypeOfFrmlPosition" and ColumnName"Code_Value"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..FrmlPosition..codeDescription" Query="getCodeDictionaryOfFrmlPosition" and ColumnName"code_Description"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..SubmissionWindow..codeValue" Query="getCodeTypeOfSubmissionWindow" and ColumnName"Code_Value"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..SubmissionWindow..codeDescription" Query="getCodeDictionaryOfSubmissionWindow" and ColumnName"code_Description"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..ProdOrMfr..codeValue" Query="getCodeTypeOfProdOrMfr" and ColumnName"Code_Value"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..ProdOrMfr..codeDescription" Query="getCodeDictionaryOfProdOrMfr" and ColumnName"code_Description"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..DrugGroupType..codeValue" Query="getCodeTypeOfDrugGroupType" and ColumnName"Code_Value"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..DrugGroupType..codeDescription" Query="getCodeDictionaryOfDrugGroupType" and ColumnName"code_Description"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..RebateOptionBillingCycle..codeValue" Query="getCodeTypeOfRebateOptionBillingCycle" and ColumnName"Code_Value"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..RebateOptionBillingCycle..codeDescription" Query="getCodeDictionaryOfRebateOptionBillingCycle" and ColumnName"code_Description"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..LateFee..codeValue" Query="getCodeTypeOfLateFee" and ColumnName"Code_Value"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..LateFee..codeDescription" Query="getCodeDictionaryOfLateFee" and ColumnName"code_Description"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..AuditFrequency..codeValue" Query="getCodeTypeOfAuditFrequency" and ColumnName"Code_Value"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..AuditFrequency..codeDescription" Query="getCodeDictionaryOfAuditFrequency" and ColumnName"code_Description"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..AuditLookback..codeValue" Query="getCodeTypeOfAuditLookback" and ColumnName"Code_Value"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..AuditLookback..codeDescription" Query="getCodeDictionaryOfAuditLookback" and ColumnName"code_Description"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..PricingBasis..codeValue" Query="getCodeTypeOfPricingBasis" and ColumnName"Code_Value"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..PricingBasis..codeDescription" Query="getCodeDictionaryOfPricingBasis" and ColumnName"code_Description"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..PricingRefDate..codeValue" Query="getCodeTypeOfPricingRefDate" and ColumnName"Code_Value"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..PricingRefDate..codeDescription" Query="getCodeDictionaryOfPricingRefDate" and ColumnName"code_Description"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..CompRestrictions..codeValue" Query="getCodeTypeOfCompRestrictions" and ColumnName"Code_Value"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..CompRestrictions..codeDescription" Query="getCodeDictionaryOfCompRestrictions" and ColumnName"code_Description"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..CompDrugTier..codeValue" Query="getCodeTypeOfCompDrugTier" and ColumnName"Code_Value"
-#    Then User validate the getSelectOptions Json response body with data base where Jsonpath="$..CompDrugTier..codeDescription" Query="getCodeDictionaryOfCompDrugTier" and ColumnName"code_Description"
+Feature:Retrieve and validate the list of valid getSelect Options of Code Dictionary Details
+  Scenario: get All valid Code_Dictionary details and verify correct statusCode
+    Given User hits the "getSelectOptionsResource" with get request
+    Then User verify status code "200" for the response
+
+  Scenario: get All valid Code_Dictionary details and verify Response JSON body and JSON formate
+    Given User hits the "getSelectOptionsResource" with get request
+    Then The response is in JSON format
+
+  Scenario Outline: Validate CodeValue and CodeDescription of given CodeType is returned from API and DB
+    Given User hits the "getSelectOptionsResource" with get request
+    When User executes the query "<Query>" And matches the CodeValue and CodeDescription returned by API and DB
+    Examples:
+      | Query                                       |
+      | getCodeTypeOfDisputeDays                    |
+      | getCodeDictionaryOfDisputeDays              |
+      | getCodeTypeOfBillingCycle                   |
+      | getCodeDictionaryOfBillingCycle             |
+      | getCodeTypeOfReSubmissionWindow             |
+      | getCodeDictionaryOfReSubmissionWindow       |
+      | getCodeTypeOfUmRule                         |
+      | getCodeDictionaryOfUmRule                   |
+      | getCodeTypeOfPricingMethod                  |
+      | getCodeDictionaryOfPricingMethod            |
+      | getCodeTypeOfPaymentTerms                   |
+      | getCodeDictionaryOfPaymentTerms             |
+      | getCodeTypeOfRebateableDrugTier             |
+      | getCodeDictionaryOfRebateableDrugTier       |
+      | getCodeTypeOfCompFrmlPosition               |
+      | getCodeDictionaryOfCompFrmlPosition         |
+      | getCodeTypeOfFrmlPosition                   |
+      | getCodeDictionaryOfFrmlPosition             |
+      | getCodeTypeOfSubmissionWindow               |
+      | getCodeDictionaryOfSubmissionWindow         |
+      | getCodeTypeOfProdOrMfr                      |
+      | getCodeDictionaryOfProdOrMfr                |
+      | getCodeTypeOfDrugGroupType                  |
+      | getCodeDictionaryOfDrugGroupType            |
+      | getCodeTypeOfRebateOptionBillingCycle       |
+      | getCodeDictionaryOfRebateOptionBillingCycle |
+      | getCodeTypeOfLateFee                        |
+      | getCodeDictionaryOfLateFee                  |
+      | getCodeTypeOfLateFee                        |
+      | getCodeDictionaryOfLateFee                  |
+      | getCodeTypeOfAuditFrequency                 |
+      | getCodeDictionaryOfAuditFrequency           |
+      | getCodeTypeOfAuditLookback                  |
+      | getCodeDictionaryOfAuditLookback            |
+      | getCodeTypeOfPricingBasis                   |
+      | getCodeDictionaryOfPricingBasis             |
+      | getCodeTypeOfPricingRefDate                 |
+      | getCodeDictionaryOfPricingRefDate           |
+      | getCodeTypeOfCompRestrictions               |
+      | getCodeDictionaryOfCompRestrictions         |
+      | getCodeTypeOfCompDrugTier                   |
+      | getCodeDictionaryOfCompDrugTier             |
+
+
