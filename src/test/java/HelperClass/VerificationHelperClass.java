@@ -2,9 +2,13 @@ package HelperClass;
 
 import TestBase.TestBase;
 import com.jayway.jsonpath.JsonPath;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import io.restassured.response.Response;
 import org.junit.Assert;
+
+import java.lang.reflect.Type;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -69,4 +73,153 @@ public class VerificationHelperClass extends TestBase {
             e.printStackTrace();
         }
     }
+
+    /** * @Author Rabbani * @param APIresp... by Rabbani Shaik
+     /**
+     * @Author Rabbani
+     * @param APIresponse
+     * @param dbResponseJsonAsString
+     * @param jsonPath
+     * VerifyResponseJsonAndDbArrayByColumnName method is used verify the given jsonPath and DB query column value ArrayList value
+     */
+    public void verifyAPIResponseJsonWithDBJson(Response APIresponse, String dbResponseJsonAsString, String jsonPath) {
+        try {
+            ArrayList<String> actualValue = JsonPath.read(APIresponse.asString(), jsonPath);
+            ArrayList<String> expectedValue = JsonPath.read(dbResponseJsonAsString, jsonPath);
+            Collections.sort(actualValue);
+            Collections.sort(expectedValue);
+            log.info("expectedValue from DB" + expectedValue + " And actualValue from APIJson response=" + actualValue);
+            Assert.assertTrue("The lists do not match!", expectedValue.equals(actualValue));
+            log.info("Verification pass where expectedValue=" + expectedValue + " equals to actualValue=" + actualValue);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+     /**
+     * @Author Bharath
+     * @param APIresponse
+     * @param dbResponseJsonAsString
+     * @param jsonPath
+     * verifyAPIResponseJsonWithDBJsonWithDifferentDataTypeValues method is used verify the given jsonPath and DB having different values with different datatypes using List
+     */
+    public void verifyAPIResponseJsonWithDBJsonWithDifferentDataTypeValues(Response APIresponse, String dbResponseJsonAsString, String jsonPath) {
+        try {
+           List actualValue = JsonPath.read(APIresponse.asString(), jsonPath);
+           List expectedValue = JsonPath.read(dbResponseJsonAsString, jsonPath);
+            log.info("expectedValue from DB" + expectedValue + " And actualValue from APIJson response=" + actualValue);
+            Assert.assertTrue("The lists do not match!", expectedValue.equals(actualValue));
+            log.info("Verification pass where expectedValue=" + expectedValue + " equals to actualValue=" + actualValue);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    /**
+     * @Author Bharath
+     * @param APIresponse
+     * @param dbResponseJsonAsString
+     * @param APIjsonPath
+     * @param DBJSON
+     * verifyAPIResponseJsonWithDBJsonWithStringDataTypeValues method is used verify the given jsonPath and DB having String Type values in result
+     */
+
+    public void verifyAPIResponseJsonWithDBJsonWithStringDataTypeValues(Response APIresponse, String dbResponseJsonAsString, String APIjsonPath,String DBJSON) {
+
+            try {
+                String actualValue = JsonPath.read(APIresponse.asString(), APIjsonPath);
+                String expectedValue = JsonPath.read(dbResponseJsonAsString, DBJSON);
+                log.info("expectedValue from DB" + expectedValue + " And actualValue from APIJson response=" + actualValue);
+                Assert.assertTrue("The lists do not match!", expectedValue.equals(actualValue));
+                log.info("Verification pass where expectedValue=" + expectedValue + " equals to actualValue=" + actualValue);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+    }
+    /**
+     * @Author Bharath
+     * @param APIresponse
+     * @param dbResponseJsonAsString
+     * @param APIjsonPath
+     * @param DBJSON
+     * verifyAPIResponseJsonWithDBJsonWithIntDataTypeValues method is used verify the given jsonPath and DB having Int type values in result
+     */
+    public void verifyAPIResponseJsonWithDBJsonWithIntDataTypeValues(Response APIresponse, String dbResponseJsonAsString, String APIjsonPath,String DBJSON) {
+
+        try {
+            int actualValue = JsonPath.read(APIresponse.asString(), APIjsonPath);
+         int expectedValue = JsonPath.read(dbResponseJsonAsString, DBJSON);
+            log.info("expectedValue from DB" + expectedValue + " And actualValue from APIJson response=" + actualValue);
+            Assert.assertTrue("The lists do not match!", expectedValue==(actualValue));
+            log.info("Verification pass where expectedValue=" + expectedValue + " equals to actualValue=" + actualValue);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    /**
+     * @Author Bharath
+     * @param APIresponse
+     * @param dbResponseJsonAsString
+     * @param APIjsonPath
+     * @param DBJSON
+     * verifyAPIResponseJsonWithDBJsonWithObjectDataTypeValues method is used verify the given jsonPath and DB having Object type values in result
+     */
+    public void verifyAPIResponseJsonWithDBJsonWithObjectDataTypeValues(Response APIresponse, String dbResponseJsonAsString, String APIjsonPath,String DBJSON) {
+
+        try {
+            List<Object>actualValue = JsonPath.read(APIresponse.asString(), APIjsonPath);
+            List<Object>expectedValue = JsonPath.read(dbResponseJsonAsString, DBJSON);
+            log.info("expectedValue from DB" + expectedValue + " And actualValue from APIJson response=" + actualValue);
+            Assert.assertTrue("The lists do not match!", expectedValue.equals(actualValue));
+            log.info("Verification pass where expectedValue=" + expectedValue + " equals to actualValue=" + actualValue);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    /**
+     * @Author Bharath
+     * @param APIresponse
+     * @param dbResponseJsonAsString
+     * @param APIjsonPath
+     * @param DBJSON
+     * verifyAPIResponseJsonWithDBJsonNullValues method is used verify the given jsonPath and DB having null values in result
+     */
+    public void verifyAPIResponseJsonWithDBJsonNullValues(Response APIresponse, String dbResponseJsonAsString, String APIjsonPath,String DBJSON) {
+
+        try {
+          String actualValue = JsonPath.read(APIresponse.asString(), APIjsonPath);
+           String expectedValue = JsonPath.read(dbResponseJsonAsString, DBJSON);
+            log.info("expectedValue from DB" + expectedValue + " And actualValue from APIJson response=" + actualValue);
+            Assert.assertTrue("The lists do not match!", StringUtils.equals(actualValue,expectedValue));
+            log.info("Verification pass where expectedValue=" + expectedValue + " equals to actualValue=" + actualValue);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    /**
+     * @Author Bharath
+     * @param APIresponse
+     * @param dbResponseJsonAsString
+     * @param APIjsonPath
+     * @param DBJSON
+     * verifyAPIResponseJsonWithDBJsonWithBooleanDataTypeValues method is used verify the given jsonPath and DB having Boolean values in result
+     */
+    public void verifyAPIResponseJsonWithDBJsonWithBooleanDataTypeValues(Response APIresponse, String dbResponseJsonAsString, String APIjsonPath,String DBJSON) {
+
+        try {
+            boolean actualValue = JsonPath.read(APIresponse.asString(), APIjsonPath);
+            boolean expectedValue = JsonPath.read(dbResponseJsonAsString, DBJSON);
+            log.info("expectedValue from DB" + expectedValue + " And actualValue from APIJson response=" + actualValue);
+            Assert.assertTrue("The lists do not match!", areEqual(actualValue,expectedValue) );
+            log.info("Verification pass where expectedValue=" + expectedValue + " equals to actualValue=" + actualValue);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
+
+
 }

@@ -1,138 +1,80 @@
-///**
-// * GetContractDetailsByIDDefinition class contains the glue code for getContractDetailsByID feature file
-// * @author  Bharath.N
-// * @version 1.0
-// * @since   30/03/2021
-// */
-//package stepdefs;
-//import baseSteps.GetContractDetailsByID;
-//import cucumber.api.java.en.Given;
-//import cucumber.api.java.en.When;
-//import cucumber.api.java.en.Then;
-//
-//
-//public class GetContractDetailsByIDDefinition {
-//
-//    GetContractDetailsByID contractDetails=new GetContractDetailsByID();
-//    /**
-//     * This method defines the glue code for @given User hit the endpoint with get request
-//     * step in the getAllMFRContract.feature
-//     * @author Bharath
-//     */
-//    @Given("^User hits the ContractDetailsByIDEndpoint with get request$")
-//    public void UserHitscontractDetailsByID()  {
-//        contractDetails.hitGetContractDetailsByIDEndpoint();
-//    }
-//
-//    /**
-//     * This method defines the glue code for @Given User hit the endpoint with WrongRowKey
-//     * step in the getAllMFRContract.feature
-//     * @author Bharath
-//     */
-//    @Given("^User hits the ContractDetailsByIDEndpoint with wrong Rowkey with get request$")
-//    public void userHitsTheContractdetailsbyidendpointWithWrongRowkeyWithGetRequest() {
-//        contractDetails.hitGetContractDetailsByIDEndpointWithInvalidRowKey();
-//    }
-//
-//    /**
-//     * This method defines the glue code for @Given User hit the endpoint with Blank RowKey
-//     * step in the getAllMFRContract.feature
-//     * @author Bharath
-//     */
-//    @Given("^User hits the BlankContractDetailsByIDEndpoint with  get request$")
-//    public void user_hits_the_blankcontractdetailsbyidendpoint_with_get_request(){
-//        contractDetails.hitBlankContractDetailsByIDEndpoint();
-//    }
-//
-//    /**
-//     * This method defines the glue code for @When which proccesses the request
-//     * step in the getAllMFRContract.feature
-//     * @author Bharath
-//     */
-//    @When("^API  processes the get request for manufaturer contract details$")
-//    public void apiProcessesTheRequest()  {
-//        contractDetails.processGetRequest();
-//    }
-//
-//    /**
-//     * This method defines the glue code for @Then which verifies the status code
-//     * step in the getAllMFRContract.feature
-//     * @author Bharath
-//     */
-//    @Then("^User gets the correct statusCode from API ContractDetails by ID$")
-//    public void userGetsTheCorrectStatuscode()  {
-//        contractDetails.verifyGetRequestStatusCode200();
-//    }
-//
-//    /**
-//     * This method defines the glue code for @Then which verifies the response in JSON
-//     * step in the getAllMFRContract.feature
-//     * @author Bharath
-//     */
-//    @Then("^Then User verifies the response is in JSON format$")
-//    public void userVerifiesTheResponseIsInJsonFormat() {contractDetails.verifyResponseIsInJSONformat();
-//    }
-//
-//    /**
-//     * This method defines the glue code for @Then which compare the manufacturerID and Name in response with DB
-//     * step in the getAllMFRContract.feature
-//     * @author Bharath
-//     */
-//    @Then("^User verifies the response details with DB details$")
-//    public void userVerifiesTheResponseDetailsWithDbDetails() {
-//        contractDetails.matchmanufacturerDetails();
-//    }
-//
-//    /**
-//     * This method defines the glue code for @Then which compare the ContractHeaderDetails in response with DB
-//     * step in the getAllMFRContract.feature
-//     * @author Bharath
-//     */
-//    @Then("^User verifies the ContractHeaderDetails details with DB details$")
-//    public void userVerifiesTheContractHeaderdetailsDetailsWithDbDetails()  {
-//       contractDetails.matchContracHeadertDetails();
-//    }
-//
-//    /**
-//     * This method defines the glue code for @Then which compare the ContractHeaderDetailsJSON in response with DB
-//     * step in the getAllMFRContract.feature
-//     * @author Bharath
-//     */
-//    @Then("^User verifies the ContractHeaderDetailsJSON details with DB details$")
-//    public void UserVerifiesTheContractHeaderdetailsjsonDetailsWithDbDetails(){
-//        contractDetails.matchContractDetailJSON();
-//    }
-//
-//    /**
-//     * This method defines the glue code for @Then User Verifies the Error Message from API
-//     * step in the getAllMFRContract.feature
-//     * @author Bharath
-//     */
-//    @Then("^User verifies Error message from API$")
-//    public void userVerifiesErrorMessageFromApi(){
-//        contractDetails.matchInvalidRowKeyResponse();
-//    }
-//
-//    /**
-//     * This method defines the glue code for @Then User Verifies the Error Message from API
-//     * step in the getAllMFRContract.feature
-//     * @author Bharath
-//     */
-//    @Then("^User verifies BlankID Error message from API$")
-//    public void user_verifiesBlankidErrorMessageFromApi(){
-//        contractDetails.matchBlankRowKeyResponse();
-//    }
-//    @Given("^User hits the ContractDetailsByIDEndpoint with TypeMissMatch RowKey$")
-//    public void userHitsTheContractdetailsbyidendpointWithTypemissmatchRowkey(){
-//        contractDetails.hitTypeMissMAtchContractDetailsByIDEndpoint();
-//    }
-//    @Then("^User verifies the Response of API for TypeMissMatch request$")
-//    public void userVerifiesTheResponseOfApiForTypemissmatchRequest() {
-//        contractDetails.matchTypeMissmatchRowKeyResponse();
-//    }
-//
-//
-//
-//
-//
-//}
+
+package stepdefs;
+import baseSteps.GetContractDetailsByID;
+import cucumber.api.java.en.And;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.When;
+import cucumber.api.java.en.Then;
+public class GetContractDetailsByIDDefinition {
+
+    GetContractDetailsByID contractDetails=new GetContractDetailsByID();
+
+    @Given("^User Runs the Query \"([^\"]*)\" and Get the Rowkey from DB$")
+    public void getTheRowkeyFromDb(String Query){
+        contractDetails.getRowKey(Query);
+    }
+
+    @Given("^User hits the \"([^\"]*)\" Endpoint with get API request$")
+    public void HitEndpointwithGetRequest(String Endpoint){
+        contractDetails.hitGetContractDetilsByIdEndpoint(Endpoint);
+    }
+
+    @Then("^User Verifies the API response Status code is \"([^\"]*)\"$")
+    public void VerifyStatusCodeOfAPI(int StatusCode){
+        contractDetails.verifyContractDetailsByIDResponse(StatusCode);
+    }
+
+    @Then("^verify the Response in JSON format$")
+    public void verifyTheResponseInJSONFormat() {
+        contractDetails.verifygetContractDetailsByIDJSONFormat();
+    }
+
+    @Given("^User Runs the Fetching ContractDetailsID Query \"([^\"]*)\" and Get the ContractDetailsId from DB$")
+    public void userRunsTheFetchingContractDetailsIDQueryAndGetTheContractDetailsIdFromDB(String query) {
+        contractDetails.getContractID(query);
+    }
+
+
+    @Given("^User Runs the Fetching ManufactuereID Query \"([^\"]*)\" and Get the ManufactuereID from DB$")
+    public void userRunsTheFetchingManufactuereIDQueryAndGetTheManufactuereIDFromDB(String query) {
+        contractDetails.getManufacturerID(query);
+    }
+
+    @Given("^user Runs the Fetching ManufacturerDetails Query \"([^\"]*)\" and get All Manufacturer details from DB$")
+    public void userRunsTheFetchingManufacturerDetailsQueryAndGetAllManufacturerDetailsFromDB(String query){
+        contractDetails.getManufacturerDetails(query);
+    }
+    
+    @Then("^Verify both the ManufacturerDetails response from DB and API$")
+    public void verifyBothTheManufacturerDetailsResponseFromDBAndAPI() {
+        contractDetails.matchManufacturerDetails();
+    }
+
+    @Given("^User Runs the Fetching ContractHeaderDetail Query \"([^\"]*)\" and Get the ContractHeaderDetails from DB$")
+    public void userRunsTheFetchingContractHeaderDetailQueryAndGetTheContractHeaderDetailsFromDB(String query) throws Throwable {
+        contractDetails.getContractHeaderDetails(query);
+
+    }
+
+    @Then("^verify both the ContractHeaderDetails response from DB and API$")
+    public void verifyBothTheContractHeaderDetailsResponseFromDBAndAPI() {
+        contractDetails.matchContractHeaderDetails();
+    }
+
+    @Given("^User Runs the Fetching ContractDetailsJSON Query \"([^\"]*)\" and Get the ContractDetailsJSON from DB$")
+    public void userRunsTheFetchingContractDetailsJSONQueryAndGetTheContractDetailsJSONFromDB(String query) throws Throwable {
+        contractDetails.getContractDetailJSON(query);
+    }
+
+    @Then("^verify Both API ContractDetailJSON with JSONpath \"([^\"]*)\" with DB JSON with DB JSON \"([^\"]*)\"$")
+    public void verifyBothAPIContractDetailJSONWithJSONpathWithDBJSONWithDBJSON(String apiJsonPath, String dbJsonPath) throws Throwable {
+        contractDetails.matchContractDetailsJSONwithTwoJSONPAths(apiJsonPath,dbJsonPath);
+    }
+
+
+
+
+
+
+
+}

@@ -1,14 +1,21 @@
 package HelperClass;
 
 import TestBase.TestBase;
+import com.jayway.jsonpath.JsonPath;
+import io.restassured.response.Response;
 import org.apache.log4j.Logger;
+import org.junit.Assert;
+
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class DataBaseHelper extends TestBase {
     public static Logger log=getMyLogger(DataBaseHelper.class);
     public Connection conn;
     public Statement stmt;
+    public PreparedStatement psmt;
+    public ResultSet PrepareQueryResult;
 
     /**
      * @uthor Arun Kumar
@@ -93,6 +100,57 @@ public class DataBaseHelper extends TestBase {
         }
         return null;
     }
+    /**
+     * @uthor Rabbani
+     * getSingleCellValueAsStringFromDB this method reads
+    the single cell value from DB query result and returns it as a String
+     * @param query
+     * @param columnName
+     * @return String
+     */
+    public String getSingleCellValueAsStringFromDB(String query, String columnName)
+    {
+        try{
+
+            ResultSet result = getData(query);
+            result.next();
+            String cellValue = result.getString(columnName);
+            return cellValue;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    public ResultSet executePreparedQuery(String query,int queryParam) {
+        try {
+            psmt= conn.prepareStatement(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, query));
+            log.info("query parameter is"+queryParam);
+            psmt.setInt(1,queryParam);
+            PrepareQueryResult =psmt.executeQuery();
+            log.info("Contract_ID is  " + PrepareQueryResult + " From DB");
+            return PrepareQueryResult;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public ResultSet executePreparedQuery(String query,String queryParam) {
+        try {
+            psmt= conn.prepareStatement(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, query));
+            psmt.setString(1,queryParam);
+            PrepareQueryResult =psmt.executeQuery();
+            log.info("Prepared query execution result is" + PrepareQueryResult + " From DB");
+            return PrepareQueryResult;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 
     public void cleanUp(){
         try {
@@ -112,6 +170,8 @@ public class DataBaseHelper extends TestBase {
             ex.printStackTrace();
         }
     }
+
+
 }
 
 
