@@ -70,11 +70,4 @@ public class GetContractDetailsByIDDefinition {
     public void verifyBothAPIContractDetailJSONWithJSONpathWithDBJSONWithDBJSON(String apiJsonPath, String dbJsonPath) throws Throwable {
         contractDetails.matchContractDetailsJSONwithTwoJSONPAths(apiJsonPath,dbJsonPath);
     }
-
-
-
-
-
-
-
 }

@@ -13,6 +13,8 @@ import static io.restassured.RestAssured.given;
 public class TestBase {
     public static Logger log=getMyLogger(TestBase.class);
     Response response;
+    private String contractID;
+    private int rowKey;
     /**
      * @uthour :Arun Kumar
      * @param cls
@@ -99,6 +101,30 @@ public class TestBase {
         try {
             response = given().log().all().header("Authorization", "Bearer "+getPropertiesFileValue(ResourcePath.Environment_Properties, "bearerToken")).when().get(getEndPointUrl(endPoint));
 //            log.info("Response is=" + response);
+//            response.then().assertThat().contentType(ContentType.JSON);
+//            log.info("The response is in proper JSON format");
+//            log.info("The response Body="+response.getBody().asString());
+            return response;
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    /**
+     * @uthor: Smruti
+     * @param endPoint, rowKey and contract id
+     * @return response
+     * deleteOperation method hits the end point and logs the response
+     */
+    public Response deleteOperation(String endPoint,int rowKey,String contractID)
+    {
+        try {
+            response = given().pathParam("contractID",contractID)
+                    .pathParam("rowKey",rowKey)
+                    .log().all().header("Authorization", "Bearer "+getPropertiesFileValue(ResourcePath.Environment_Properties, "bearerToken"))
+                    .when().delete(getEndPointUrl(endPoint)+"/{contractID}"+"/{rowKey}");
+
+            //            log.info("Response is=" + response);
 //            response.then().assertThat().contentType(ContentType.JSON);
 //            log.info("The response is in proper JSON format");
 //            log.info("The response Body="+response.getBody().asString());
