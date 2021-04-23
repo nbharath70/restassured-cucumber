@@ -124,5 +124,69 @@ public class TestBase {
             e.printStackTrace();
         }
     }
+    /**
+     * @uthor Rabbani
+     * getEndPointUrl Method used to concatenates Base URI + endpointUrl + Id and returns the URL
+     * @param endpointUrl
+     * @param id
+     * @return url
+     */
+    public String getEndPointUrl(String endpointUrl,String id)
+    {
+        try {
+            String BaseURl = getBaseURI();
+            String Endpoint = getPropertiesFileValue(ResourcePath.Environment_Properties, endpointUrl);
+            String url = BaseURl + "/" + Endpoint+"/"+ id;
+            log.info("****************The request url="+url+"*****************");
+            return url;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * @uthor: Rabbani
+     * @param endPoint
+     * @param id
+     * @return response
+     * getCall (overloaded) method hits the end point and logs the response and also verify response body type as ContentType.JSON
+     */
+    public Response getCall(String endPoint,String id)
+    {
+        try {
+            response = given().log().all().header("Authorization", "Bearer "+getPropertiesFileValue(ResourcePath.Environment_Properties, "bearerToken")).when().get(getEndPointUrl(endPoint,id));
+            log.info("Response is=" + response);
+            response.then().assertThat().contentType(ContentType.JSON);
+            log.info("The response is in proper JSON format");
+            log.info("The response Body="+response.getBody().asString());
+            return response;
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * @uthor: Bharath
+     * @param a
+     * @param b
+     * @return true or false
+     * areEqual method is used to compare the values in boolean form and returning either true or false
+     */
+    public boolean areEqual(Boolean a,Boolean b) {
+        if (a == b) {
+            return true;
+        }
+
+        if (a != null && b != null) {
+            return a.booleanValue() == b.booleanValue();
+        }
+
+        return false;
+    }
+
+
+
 
 }

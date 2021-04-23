@@ -1,59 +1,280 @@
-///**
-// * GetContractDetailsByID class contains the methods to hit the GetContractDetailsByID end point and retrieve the details from
-// * JSON response and compare the details with expected result retrieved from database
-// *
-// * @author  Bharath.N
-// * @version 1.0
-// * @since   30/03/2021
-// */
-//package baseSteps;
-//import io.restassured.http.ContentType;
-//import com.jayway.jsonpath.JsonPath;
-//import io.restassured.response.Response;
-//import io.restassured.specification.RequestSpecification;
-//import org.apache.commons.lang3.StringUtils;
-//import org.apache.log4j.Logger;
-//import org.json.simple.JSONObject;
-//import org.junit.Assert;
+/**
+ * GetContractDetailsByID class contains the methods to hit the GetContractDetailsByID end point and retrieve the details from
+ * JSON response and compare the details with expected result retrieved from database
+ *
+ * @author  Bharath.N
+ * @version 1.0
+ * @since   30/03/2021
+ */
+package baseSteps;
+
+import HelperClass.ResourcePath;
+import HelperClass.DataBaseHelper;
+import HelperClass.VerificationHelperClass;
+import TestBase.TestBase;
+import io.restassured.response.Response;
+import org.apache.log4j.Logger;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class GetContractDetailsByID extends TestBase {
+    public ResultSet result;
+    private int rowKeyVal;
+    private String contractID;
+    private String manufactuerID;
+    private String manufactuerDetails;
+    private String ContractHeaderDetails;
+    private String ContractDetailsJSON;
+    public static Logger log = getMyLogger(GetContractDetailsByID.class);
+    public static Response GetContractDetailsByIDResponse;
+    public VerificationHelperClass verificationHelperClass = new VerificationHelperClass();
+    public DataBaseHelper DbHepler = new DataBaseHelper();
+
+    /**
+     * This method retrieves the Rowkey Details from  DB
+     * @author Bharath
+     * @param query
+     * @exception SQLException
+     */
+    public  void getRowKey(String query) {
+        try {
+            log.info("query is "+query);
+            result = DbHepler.getData(query);
+            result.next();
+            rowKeyVal = result.getInt("Row_key");
+            log.info("RowKey of ActiveContract is  " + rowKeyVal + " From DB");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * This method retrieves the ContractID Details from  DB
+     * @author Bharath
+     * @exception SQLException
+     * @param query
+     */
+    public void getContractID(String query){
+        try {
+            result=DbHepler.executePreparedQuery(query,rowKeyVal);
+            result.next();
+            contractID=result.getString("Contract_ID");
+            log.info("contractID of Respective rowkey is  " + contractID + " From DB");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * This method retrieves the getManufacturerID Details from  DB
+     * @author Bharath
+     * @exception SQLException
+     * @param query
+     */
+    public void getManufacturerID(String query){
+        try {result=DbHepler.executePreparedQuery(query,contractID);
+            result.next();
+            manufactuerID=result.getString("Manufacturer_ID");
+            log.info("ManufactuereID of Respective ContractID is  " + manufactuerID + " From DB");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * This method used to hit the ContractDetailsByIdEndpoint
+     * @author Bharath
+     * @param endpoint
+     */
+    public void hitGetContractDetilsByIdEndpoint(String endpoint) {
+        String URL=getEndPointUrl(endpoint,String.valueOf(rowKeyVal));
+        log.info("GetContractDetails By ID API Endpoint is " + URL);
+        GetContractDetailsByIDResponse = getCall(endpoint,String.valueOf(rowKeyVal));
+    }
+
+    /**
+     * This method used to verify contractDetailsByIDResponse
+     * @author Bharath
+     * @param statusCode
+     */
+    public void verifyContractDetailsByIDResponse(int statusCode) {
+        verificationHelperClass.verifyStatusCode(GetContractDetailsByIDResponse, statusCode);
+        log.info("getSelectOptionsResponse StatusCode is " + statusCode + " and its Pass");
+    }
+
+    /**
+     * This method used verify the resopnse is in JSON format or not
+     * @author Bharath
+     */
+    public void verifygetContractDetailsByIDJSONFormat(){
+        verifyResponseFormatIsJSON();
+    }
+
+    /**
+     * This method used get Manufacturer details from DB
+     * @author Bharath
+     * @exception Exception
+     */
+    public void getManufacturerDetails(String query){
+        try {result=DbHepler.executePreparedQuery(query,manufactuerID);
+            result.next();
+            manufactuerDetails=result.getString("ManufacturerDetails");
+            log.info("manufacturerDetails of Respective ManufacturerID is  " + manufactuerDetails + " From DB");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    /**
+     * This method used to Match Manufacturerdetails with API response
+     * @author Bharath
+     */
+    public void matchManufacturerDetails(){
+        String jsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "manufactuerDetailsJSON");
+        log.info("contractDetailsJson response is");
+        verificationHelperClass.verifyAPIResponseJsonWithDBJson(GetContractDetailsByIDResponse,manufactuerDetails,jsonPath);
+    }
+    /**
+     * This method used get ContractDtailsHeader from Db
+     * @author Bharath
+     * @exception SQLException
+     * @param query
+     */
+    public void getContractHeaderDetails(String query){
+        try {result=DbHepler.executePreparedQuery(query,contractID);
+            result.next();
+            ContractHeaderDetails=result.getString("Contract_Header_Details");
+            log.info("manufacturerDetails of Respective ManufacturerID is  " + ContractHeaderDetails + " From DB");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * This method used to match ContractHeaderDetails from Db
+     * @author Bharath
+     */
+    public void matchContractHeaderDetails(){
+        String jsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "contractHeaderDetailsJSON");
+        log.info("contractDetailsJson response is");
+        verificationHelperClass.verifyAPIResponseJsonWithDBJsonWithDifferentDataTypeValues(GetContractDetailsByIDResponse,ContractHeaderDetails,jsonPath);
+    }
+
+    /**
+     * This method used get ContractDetailJSON from Db
+     * @author Bharath
+     * @param query
+     */
+    public void getContractDetailJSON(String query){
+        try {result=DbHepler.executePreparedQuery(query,contractID);
+            result.next();
+            ContractDetailsJSON=result.getString("Contract_Detail_Json");
+            log.info("manufacturerDetails of Respective ManufacturerID is  " + ContractDetailsJSON + " From DB");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+    /**
+     * This method used to match ContractDetailJSON with Api response JSON
+     * @author Bharath
+     * @param JSON
+     */
+    public void matchContractDetailsJSON(String JSON){
+        String jsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "contractHeaderDetailsJSON");
+        log.info("contractDetailsJson response is");
+        verificationHelperClass.verifyAPIResponseJsonWithDBJsonWithDifferentDataTypeValues(GetContractDetailsByIDResponse,ContractHeaderDetails,jsonPath);
+    }
+
+    /**
+     * This method used to match ContractDetailJSON with Api response JSON
+     * @author Bharath
+     * @param apiJSON
+     * @param dbJSON
+     */
+    public void matchContractDetailsJSONwithTwoJSONPAths(String apiJSON,String dbJSON){
+        if(apiJSON.equalsIgnoreCase("APIcontractDetailsJSONSchemaversion")||
+                apiJSON.equalsIgnoreCase("APIcontractDetailsJSONSubmissionWindow")||
+                                apiJSON.equalsIgnoreCase("APIcontractDetailsJSONResubmissionWindow")||
+                                apiJSON.equalsIgnoreCase("APIcontractDetailsJSONPaymentTerms"))
+        {
+        String APIjsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, apiJSON);
+        String DBjsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, dbJSON);
+        log.info("contractDetailsJson response is");
+        verificationHelperClass.verifyAPIResponseJsonWithDBJsonWithIntDataTypeValues(GetContractDetailsByIDResponse,ContractDetailsJSON,APIjsonPath,DBjsonPath);
+        }
+        else if (apiJSON.equalsIgnoreCase("APIcontractDetailsJSONLocations") ||
+                apiJSON.equalsIgnoreCase("APIcontractDetailsJSONBillingCycle")
+
+        ) {
+            {
+                String APIjsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, apiJSON);
+                String DBjsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, dbJSON);
+                log.info("contractDetailsJson response is");
+                verificationHelperClass.verifyAPIResponseJsonWithDBJsonWithStringDataTypeValues(GetContractDetailsByIDResponse,ContractDetailsJSON,APIjsonPath,DBjsonPath);
+            }
+        }
+        else if(apiJSON.equalsIgnoreCase("APIcontractDetailsJSONOpsAssignee")||
+                apiJSON.equalsIgnoreCase("APIcontractDetailsJSONOpsQCer")){
+            {
+                String APIjsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, apiJSON);
+                String DBjsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, dbJSON);
+                log.info("contractDetailsJson response is");
+                verificationHelperClass.verifyAPIResponseJsonWithDBJsonNullValues(GetContractDetailsByIDResponse,ContractDetailsJSON,APIjsonPath,DBjsonPath);
+            }
+
+        }
+        else if(apiJSON.equalsIgnoreCase("APIcontractDetailsJSONThirdPartyAuth")){
+            {
+                String APIjsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, apiJSON);
+                String DBjsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, dbJSON);
+                log.info("contractDetailsJson response is");
+                verificationHelperClass.verifyAPIResponseJsonWithDBJsonWithBooleanDataTypeValues(GetContractDetailsByIDResponse,ContractDetailsJSON,APIjsonPath,DBjsonPath);
+            }
+
+        }
+        else {
+            {
+                String APIjsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, apiJSON);
+                String DBjsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, dbJSON);
+                log.info("contractDetailsJson response is");
+                verificationHelperClass.verifyAPIResponseJsonWithDBJsonWithObjectDataTypeValues(GetContractDetailsByIDResponse,ContractDetailsJSON,APIjsonPath,DBjsonPath);
+            }
+
+        }
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //
-//import java.sql.SQLOutput;
-//import java.util.*;
-//
-//import static io.restassured.RestAssured.given;
-//import static io.restassured.RestAssured.objectMapper;
-//
-//public class GetContractDetailsByID {
-//    private Response response;
-//    private RequestSpecification request;
-//    private int statusCode;
-//    private String url;
-//    private Properties prop;
-//    private String baseURI;
-//    private String token;
-//    private String getAllContractDetailsByID;
-//    private int rowKeyVal;
-//    private String rowKeyValTypeMissMatch;
-//    private List<String> actualMFRNameAndID;
-//    private List<String> ExpectedMFRNameAndID;
-//    private List actualContracHeadertdetails;
-//    private List<String> expectedContractHeaderdetails;
-//    private String actualContractDetailsJSON;
-//    private String expectedContractDetailsJSON;
-//    private String actualContractDetailsJSON1;
-//    private String expectedInvalidRowKeyContractDetailsResponse;
-//    private String actualInvalidRowKeyContractDetailsResponse;
-//    private String actualBlankRowKeyContractDetailsResponse;
-//    private String expectedBlankRowKeyContractDetailsResponse;
-//    JsonPath jsonPath;
-//    static Logger logger = Logger.getLogger(GetAllMFR.class.getName());
-//    DatabaseUtils dbUtil = new DatabaseUtils();
-//
-//    /**
-//     * This method retrieves the environment details for GetContractDetailsByID API
-//     * @author Bharath
-//     * @exception  Exception
-//     *
-//     */
 //    public String getEnvProperties() {
 //        try {
 //            prop = new Properties();
