@@ -9,7 +9,7 @@ public class GetAllMFRStepDefinition {
     GetAllMFR mfr = new GetAllMFR();
 
     @Given("^User hits the \"([^\"]*)\" with get API request$")
-    public void userHitsGetRequest(String endpoint) throws Throwable {
+    public void userHitsGetRequest(String endpoint) {
         mfr.getAllMFRResource(endpoint);
     }
     @Then("^User verifies the valid status code \"([^\"]*)\" in the response$")

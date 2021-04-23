@@ -137,6 +137,18 @@ public class DataBaseHelper extends TestBase {
 
         return null;
     }
+    public void executeUpdatePreparedQuery(String query,int queryParam) {
+        try {
+            psmt= conn.prepareStatement(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, query));
+            log.info("query parameter is"+queryParam);
+            psmt.setInt(1,queryParam);
+            psmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 
     public ResultSet executePreparedQuery(String query,String queryParam) {
         try {

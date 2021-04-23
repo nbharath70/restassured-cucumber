@@ -38,7 +38,8 @@ public class DiscardContract extends TestBase {
             log.info("query is "+query);
             result = dbHepler.getData(query);
             result.next();
-            rowKeyVal = result.getInt("Row_key");
+            String Rk=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "Rowkey");
+            rowKeyVal = result.getInt(Rk);
             log.info("RowKey of ActiveContract is  " + rowKeyVal + " From DB");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -51,16 +52,18 @@ public class DiscardContract extends TestBase {
      * @exception SQLException
      * @param query
      */
-    public void getContractID(String query){
+
+    public  void getContractID(String query) {
         try {
-            result=dbHepler.executePreparedQuery(query,rowKeyVal);
+            log.info("query is "+query);
+            result = dbHepler.getData(query);
             result.next();
-            contractID=result.getString("Contract_ID");
-            log.info("contractID of Respective rowkey is  " + contractID + " From DB");
+            String CID=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "ContractID");
+            contractID = result.getString(CID);
+            log.info("RowKey of ActiveContract is  " + rowKeyVal + " From DB");
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
     /**
      * @uthour Smruti
@@ -70,6 +73,15 @@ public class DiscardContract extends TestBase {
     public void discardContract(String endpoint)
     {
         discardContractResponse=deleteOperation(endpoint,rowKeyVal,contractID);
+        log.info("Response is "+discardContractResponse.asString());
+    }
+
+    public void verifyStatusCodeofDiscardContractAPI(int StatusCode){
+        verificationHelperClass.verifyStatusCode(discardContractResponse,StatusCode);
+    }
+    public void reactivateContracts(String contractHeader, String contractDetails){
+        dbHepler.executeUpdatePreparedQuery(contractHeader,rowKeyVal);
+        dbHepler.executeUpdatePreparedQuery(contractDetails,rowKeyVal);
     }
 
 

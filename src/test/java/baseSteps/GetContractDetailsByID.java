@@ -41,7 +41,8 @@ public class GetContractDetailsByID extends TestBase {
             log.info("query is "+query);
             result = DbHepler.getData(query);
             result.next();
-            rowKeyVal = result.getInt("Row_key");
+            String Rk=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "Rowkey");
+            rowKeyVal = result.getInt(Rk);
             log.info("RowKey of ActiveContract is  " + rowKeyVal + " From DB");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -58,7 +59,8 @@ public class GetContractDetailsByID extends TestBase {
         try {
             result=DbHepler.executePreparedQuery(query,rowKeyVal);
             result.next();
-            contractID=result.getString("Contract_ID");
+            String CID=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "ContractID");
+            contractID=result.getString(CID);
             log.info("contractID of Respective rowkey is  " + contractID + " From DB");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -75,7 +77,8 @@ public class GetContractDetailsByID extends TestBase {
     public void getManufacturerID(String query){
         try {result=DbHepler.executePreparedQuery(query,contractID);
             result.next();
-            manufactuerID=result.getString("Manufacturer_ID");
+            String MID=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "ManufacturerID");
+            manufactuerID=result.getString(MID);
             log.info("ManufactuereID of Respective ContractID is  " + manufactuerID + " From DB");
         } catch (SQLException e) {
             e.printStackTrace();
