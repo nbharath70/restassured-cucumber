@@ -60,7 +60,7 @@ public class VerificationHelperClass extends TestBase {
      * @uthor Arun Kumar
      * VerifyResponseJsonAndDbArrayByColumnName method is used verify the given jsonPath and DB query column value ArrayList value
      */
-    public void VerifyResponseJsonAndDbArrayByColumnName(Response response, String actualJsonPath, String Query, String ColumnName) {
+    public void verifyResponseJsonAndDbArrayByColumnName(Response response, String actualJsonPath, String Query, String ColumnName) {
         try {
             ArrayList<String> actualValue = JsonPath.read(response.asString(), actualJsonPath);
             ArrayList<String> expectedValue = dataBaseHelper.getDataColumnArrayListValueDB(Query, ColumnName);

@@ -71,7 +71,7 @@ public class GetAllMFR extends TestBase {
         log.info("Validating getAll MFR details Response with query as:"+query);
         String jsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "MFRID");
         String dbColumn = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "ManufacturerID");
-        verificationHelperClass.VerifyResponseJsonAndDbArrayByColumnName(getAllMFRResponse,jsonPath,query,dbColumn);
+        verificationHelperClass.verifyResponseJsonAndDbArrayByColumnName(getAllMFRResponse,jsonPath,query,dbColumn);
     }
 
     /**
@@ -84,7 +84,7 @@ public class GetAllMFR extends TestBase {
         log.info("Validating getAll MFR details Response with query as:"+query);
         String jsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "MFRName");
         String dbColumn = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "ManufacturerName");
-        verificationHelperClass.VerifyResponseJsonAndDbArrayByColumnName(getAllMFRResponse,jsonPath,query,dbColumn);
+        verificationHelperClass.verifyResponseJsonAndDbArrayByColumnName(getAllMFRResponse,jsonPath,query,dbColumn);
     }
 
 

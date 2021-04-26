@@ -51,7 +51,7 @@ public class GetContractDetailsByIDDefinition {
     }
 
     @Given("^User Runs the Fetching ContractHeaderDetail Query \"([^\"]*)\" and Get the ContractHeaderDetails from DB$")
-    public void userRunsTheFetchingContractHeaderDetailQueryAndGetTheContractHeaderDetailsFromDB(String query) throws Throwable {
+    public void userRunsTheFetchingContractHeaderDetailQueryAndGetTheContractHeaderDetailsFromDB(String query){
         contractDetails.getContractHeaderDetails(query);
 
     }
@@ -62,12 +62,12 @@ public class GetContractDetailsByIDDefinition {
     }
 
     @Given("^User Runs the Fetching ContractDetailsJSON Query \"([^\"]*)\" and Get the ContractDetailsJSON from DB$")
-    public void userRunsTheFetchingContractDetailsJSONQueryAndGetTheContractDetailsJSONFromDB(String query) throws Throwable {
+    public void userRunsTheFetchingContractDetailsJSONQueryAndGetTheContractDetailsJSONFromDB(String query){
         contractDetails.getContractDetailJSON(query);
     }
 
     @Then("^verify Both API ContractDetailJSON with JSONpath \"([^\"]*)\" with DB JSON with DB JSON \"([^\"]*)\"$")
-    public void verifyBothAPIContractDetailJSONWithJSONpathWithDBJSONWithDBJSON(String apiJsonPath, String dbJsonPath) throws Throwable {
+    public void verifyBothAPIContractDetailJSONWithJSONpathWithDBJSONWithDBJSON(String apiJsonPath, String dbJsonPath){
         contractDetails.matchContractDetailsJSONwithTwoJSONPAths(apiJsonPath,dbJsonPath);
     }
 }

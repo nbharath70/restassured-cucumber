@@ -79,9 +79,9 @@ public class TestBase {
     public String getEndPointUrl(String endpointUrl)
     {
         try {
-            String BaseURl = getBaseURI();
-            String Endpoint = getPropertiesFileValue(ResourcePath.Environment_Properties, endpointUrl);
-            String url = BaseURl + "/" + Endpoint;
+            String baseURl = getBaseURI();
+            String endpoint = getPropertiesFileValue(ResourcePath.Environment_Properties, endpointUrl);
+            String url = baseURl + "/" + endpoint;
             log.info("****************The request url="+url+"*****************");
             return url;
         }catch (Exception e){
@@ -160,9 +160,9 @@ public class TestBase {
     public String getEndPointUrl(String endpointUrl,String id)
     {
         try {
-            String BaseURl = getBaseURI();
-            String Endpoint = getPropertiesFileValue(ResourcePath.Environment_Properties, endpointUrl);
-            String url = BaseURl + "/" + Endpoint+"/"+ id;
+            String baseURl = getBaseURI();
+            String endpoint = getPropertiesFileValue(ResourcePath.Environment_Properties, endpointUrl);
+            String url = baseURl + "/" + endpoint+"/"+ id;
             log.info("****************The request url="+url+"*****************");
             return url;
         }catch (Exception e){
