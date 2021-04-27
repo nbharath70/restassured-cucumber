@@ -9,6 +9,7 @@ public class DataBaseHelper extends TestBase {
     public static Logger log=getMyLogger(DataBaseHelper.class);
     public Connection conn;
     public Statement stmt;
+    public PreparedStatement psmt;
 
     /**
      * @uthor Arun Kumar
@@ -110,6 +111,24 @@ public class DataBaseHelper extends TestBase {
             log.info("trying to check and close  the result Set");
         } catch (SQLException ex) {
             ex.printStackTrace();
+        }
+    }
+
+    /**
+     * executeUpdatePreparedQueryAsString method is used to execute the Query as parameter which is type os String
+     * @uthor Arun Kumar
+     * @param query
+     * @param queryParam
+     */
+    public void executeUpdatePreparedQueryAsString(String query,String queryParam) {
+        try {
+            getStatement();
+            psmt = conn.prepareStatement(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, query));
+            log.info("query parameter is "+queryParam);
+            psmt.setString(1,queryParam);
+            psmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

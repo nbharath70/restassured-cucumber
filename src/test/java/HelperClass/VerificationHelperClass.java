@@ -69,4 +69,43 @@ public class VerificationHelperClass extends TestBase {
             e.printStackTrace();
         }
     }
+
+    /**
+     * verifyResponseJsonBoolean method is used to validate the jsonResponse Body which is type of boolean
+     * @uthor Arun Kumar
+     * @param response
+     * @param jsonResponseBodyKey
+     * @param expectedValue
+     */
+    public void verifyResponseJsonBoolean(Response response,String jsonResponseBodyKey,String expectedValue)
+    {
+        try {
+            String val = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, jsonResponseBodyKey);
+            Object actualValue = JsonPath.read(response.asString(), val);
+            Boolean expValue = Boolean.valueOf(expectedValue);
+            Assert.assertTrue("The lists do not match!", expValue.equals(actualValue));
+            log.info("Verification pass where expectedValue=" + expectedValue + " equals to actualValue=" + actualValue);
+        }catch  (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    /**
+     * verifyResponseJsonBoolean method is used to validate the jsonResponse Body which is type of String
+     * @uthor Arun Kumar
+     * @param response
+     * @param jsonResponseBodyKey
+     * @param expectedValue
+     */
+    public void verifyResponseJsonString(Response response,String jsonResponseBodyKey,String expectedValue)
+    {
+        try {
+            String val = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, jsonResponseBodyKey);
+            Object actualValue = JsonPath.read(response.asString(), val);
+            Object expValue = expectedValue;
+            Assert.assertTrue("The lists do not match!", expValue.equals(actualValue));
+            log.info("Verification pass where expectedValue=" + expectedValue + " equals to actualValue=" + actualValue);
+        }catch  (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
