@@ -29,6 +29,7 @@ public class GetBenefitRulesByContractID extends TestBase {
     }
 
     public void userHitsAPI(String endPointKey) {
+
         jsonResponse=getCall(endPointKey,contractID);
     }
 
