@@ -1,7 +1,9 @@
 package TestBase;
 import HelperClass.ResourcePath;
+import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import java.io.FileInputStream;
@@ -13,6 +15,8 @@ import static io.restassured.RestAssured.given;
 public class TestBase {
     public static Logger log=getMyLogger(TestBase.class);
     Response response;
+    private String contractID;
+    private int rowKey;
     /**
      * @uthour :Arun Kumar
      * @param cls
@@ -37,7 +41,7 @@ public class TestBase {
      * @return
      * getPropertiesFileValue method used to get the value of the properties file by giving input parameter as Resource path constant name and Key
      */
-    public String getPropertiesFileValue(String ProFileName,String key)
+    public static  String getPropertiesFileValue(String ProFileName,String key)
     {
         try {
             Properties p= new Properties();
@@ -77,9 +81,9 @@ public class TestBase {
     public String getEndPointUrl(String endpointUrl)
     {
         try {
-            String BaseURl = getBaseURI();
-            String Endpoint = getPropertiesFileValue(ResourcePath.Environment_Properties, endpointUrl);
-            String url = BaseURl + "/" + Endpoint;
+            String baseURl = getBaseURI();
+            String endpoint = getPropertiesFileValue(ResourcePath.Environment_Properties, endpointUrl);
+            String url = baseURl + "/" + endpoint;
             log.info("****************The request url="+url+"*****************");
             return url;
         }catch (Exception e){
@@ -99,6 +103,30 @@ public class TestBase {
         try {
             response = given().log().all().header("Authorization", "Bearer "+getPropertiesFileValue(ResourcePath.Environment_Properties, "bearerToken")).when().get(getEndPointUrl(endPoint));
 //            log.info("Response is=" + response);
+//            response.then().assertThat().contentType(ContentType.JSON);
+//            log.info("The response is in proper JSON format");
+//            log.info("The response Body="+response.getBody().asString());
+            return response;
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    /**
+     * @uthor: Smruti
+     * @param endPoint, rowKey and contract id
+     * @return response
+     * deleteOperation method hits the end point and logs the response
+     */
+    public Response deleteOperation(String endPoint,int rowKey,String contractID)
+    {
+        try {
+            response = given().pathParam("contractID",contractID)
+                    .pathParam("rowKey",rowKey)
+                    .log().all().header("Authorization", "Bearer "+getPropertiesFileValue(ResourcePath.Environment_Properties, "bearerToken"))
+                    .when().delete(getEndPointUrl(endPoint)+"/{contractID}"+"/{rowKey}");
+
+            //            log.info("Response is=" + response);
 //            response.then().assertThat().contentType(ContentType.JSON);
 //            log.info("The response is in proper JSON format");
 //            log.info("The response Body="+response.getBody().asString());
@@ -134,9 +162,9 @@ public class TestBase {
     public String getEndPointUrl(String endpointUrl,String id)
     {
         try {
-            String BaseURl = getBaseURI();
-            String Endpoint = getPropertiesFileValue(ResourcePath.Environment_Properties, endpointUrl);
-            String url = BaseURl + "/" + Endpoint+"/"+ id;
+            String baseURl = getBaseURI();
+            String endpoint = getPropertiesFileValue(ResourcePath.Environment_Properties, endpointUrl);
+            String url = baseURl + "/" + endpoint+"/"+ id;
             log.info("****************The request url="+url+"*****************");
             return url;
         }catch (Exception e){
@@ -189,4 +217,30 @@ public class TestBase {
 
 
 
+    /**
+     * postOperation method is used to hits the end point with request Json body and logs the response and also verify response body type as ContentType.JSON
+     * @uthor Arun Kumar
+     * @param endPoint
+     * @param requestJsonBody
+     * @return
+     */
+    public Response postOperation(String endPoint, Object requestJsonBody)
+    {
+        try {
+            RequestSpecification requestSpecification = RestAssured.given();
+            requestSpecification.header("Authorization", "Bearer " + getPropertiesFileValue(ResourcePath.Environment_Properties, "bearerToken"));
+            requestSpecification.header("Content-Type", "application/json").contentType(ContentType.JSON);
+            requestSpecification.when();
+            response=requestSpecification.body(requestJsonBody).log().all().post(getEndPointUrl(endPoint));
+            log.info("****************** The Response JSON Body**************");
+            log.info(response.getBody().jsonPath().prettify());
+            response.then().assertThat().contentType(ContentType.JSON);
+            log.info("The response is in proper JSON format");
+            return response;
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return  null;
+    }
 }

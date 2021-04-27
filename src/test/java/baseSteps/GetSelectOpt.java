@@ -41,7 +41,7 @@ public class GetSelectOpt extends TestBase {
      */
     public void validatingGetSelectOptionsResponseBody(String jsonPath, String query, String columnName) {
         log.info("Validating GetSelectOptions Response Body JsonPath=" + jsonPath + " and query=" + query);
-        verificationHelperClass.VerifyResponseJsonAndDbArrayByColumnName(getSelectOptionsResponse, jsonPath, query, columnName);
+        verificationHelperClass.verifyResponseJsonAndDbArrayByColumnName(getSelectOptionsResponse, jsonPath, query, columnName);
     }
 
 
@@ -220,6 +220,6 @@ public class GetSelectOpt extends TestBase {
             columnName = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "codeDescription");
         }
         log.info("Validating GetSelectOptions Response Body JsonPath=" + jsonPath + " and query=" + query);
-        verificationHelperClass.VerifyResponseJsonAndDbArrayByColumnName(getSelectOptionsResponse, jsonPath, query, columnName);
+        verificationHelperClass.verifyResponseJsonAndDbArrayByColumnName(getSelectOptionsResponse, jsonPath, query, columnName);
     }
 }

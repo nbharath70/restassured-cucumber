@@ -13,4 +13,3 @@ Feature:Retrieve and validate the LOBs for a  Contract
     And User Hits "getLOBofaContractRowkeyResource" with Get API request
     Then User verifies API response with DB response
 
-

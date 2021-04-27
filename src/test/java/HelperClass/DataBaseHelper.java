@@ -15,7 +15,7 @@ public class DataBaseHelper extends TestBase {
     public Connection conn;
     public Statement stmt;
     public PreparedStatement psmt;
-    public ResultSet PrepareQueryResult;
+    public ResultSet prepareQueryResult;
 
     /**
      * @uthor Arun Kumar
@@ -128,23 +128,35 @@ public class DataBaseHelper extends TestBase {
             psmt= conn.prepareStatement(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, query));
             log.info("query parameter is"+queryParam);
             psmt.setInt(1,queryParam);
-            PrepareQueryResult =psmt.executeQuery();
-            log.info("Contract_ID is  " + PrepareQueryResult + " From DB");
-            return PrepareQueryResult;
+            prepareQueryResult =psmt.executeQuery();
+            log.info("Contract_ID is  " + prepareQueryResult + " From DB");
+            return prepareQueryResult;
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return null;
     }
+    public void executeUpdatePreparedQuery(String query,int queryParam) {
+        try {
+            psmt= conn.prepareStatement(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, query));
+            log.info("query parameter is"+queryParam);
+            psmt.setInt(1,queryParam);
+            psmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 
     public ResultSet executePreparedQuery(String query,String queryParam) {
         try {
             psmt= conn.prepareStatement(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, query));
             psmt.setString(1,queryParam);
-            PrepareQueryResult =psmt.executeQuery();
-            log.info("Prepared query execution result is" + PrepareQueryResult + " From DB");
-            return PrepareQueryResult;
+            prepareQueryResult =psmt.executeQuery();
+            log.info("Prepared query execution result is" + prepareQueryResult + " From DB");
+            return prepareQueryResult;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -171,7 +183,23 @@ public class DataBaseHelper extends TestBase {
         }
     }
 
-
+    /**
+     * executeUpdatePreparedQueryAsString method is used to execute the Query as parameter which is type os String
+     * @uthor Arun Kumar
+     * @param query
+     * @param queryParam
+     */
+    public void executeUpdatePreparedQueryAsString(String query,String queryParam) {
+        try {
+            getStatement();
+            psmt = conn.prepareStatement(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, query));
+            log.info("query parameter is "+queryParam);
+            psmt.setString(1,queryParam);
+            psmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
 
 
