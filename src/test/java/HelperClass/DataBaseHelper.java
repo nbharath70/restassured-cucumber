@@ -200,6 +200,21 @@ public class DataBaseHelper extends TestBase {
             e.printStackTrace();
         }
     }
+
+    public ResultSet executePreparedQuery(String query,String queryParam) {
+        try {
+            getStatement();
+            psmt= conn.prepareStatement(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, query));
+            psmt.setString(1,queryParam);
+            prepareQueryResult = psmt.executeQuery();
+            log.info("Prepared query execution result is" + prepareQueryResult + " From DB");
+            return prepareQueryResult;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }
 
 
