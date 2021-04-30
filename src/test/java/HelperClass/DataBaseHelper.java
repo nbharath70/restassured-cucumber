@@ -172,7 +172,7 @@ public class DataBaseHelper extends TestBase {
     }
 
     public ResultSet executePreparedQuery(String query,String queryParam) {
-        try {
+        try {getStatement();
             psmt= conn.prepareStatement(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, query));
             psmt.setString(1,queryParam);
             prepareQueryResult =psmt.executeQuery();

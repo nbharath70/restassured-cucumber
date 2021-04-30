@@ -16,8 +16,8 @@ public class Hooks extends DataBaseHelper {
 
     @Before
     public void setUp() {
-        RestAssured.useRelaxedHTTPSValidation();
         log.info("+++++++++++++Setting up DB connection and API End Point+++++++++++++++++++++++++");
+        RestAssured.useRelaxedHTTPSValidation();
     }
 
     @After
