@@ -21,12 +21,33 @@ public class DataBaseHelper extends TestBase {
      * @uthor Arun Kumar
      * This is the  method establishes the connection to database
      * @return stmt
+     * @updated by: Rabbani
+     * This method will read the environment passed through command line and connects to that environment
      */
     public Statement getStatement(){
+        String dbUrl=null;
+        String dbUserName=null;
+        String dbPassword=null;
         try {
-            String dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "dbURL");
-            String dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "user");
-            String dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "password");
+
+            if(System.getProperty("environment").equalsIgnoreCase("UAT") || System.getProperty("dbEnvironment").equals(""))
+            {
+                dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatDBURL");
+                dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatUser");
+                dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatPassword");
+
+            }
+            else if(System.getProperty("environment").equalsIgnoreCase("Dev"))
+            {
+                dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "devDBURL");
+                dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "devUser");
+                dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "devPassword");
+
+            }
+            else{
+                log.info("Invalid environment");
+            }
+
             conn = DriverManager.getConnection(dbUrl, dbUserName, dbPassword);
             if (conn != null) {
                 log.info("Connected to DB");
