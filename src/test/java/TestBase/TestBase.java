@@ -69,7 +69,7 @@ public class TestBase {
             if(System.getProperty("environment").equalsIgnoreCase("Dev")){
                 return getPropertiesFileValue(ResourcePath.Environment_Properties,"devBaseUri");
             }
-            else if(System.getProperty("environment").equalsIgnoreCase("UAT") || System.getProperty("env").equals(""))
+            else if(System.getProperty("environment").equalsIgnoreCase("UAT") || System.getProperty("environment").equals(""))
             {
                 return getPropertiesFileValue(ResourcePath.Environment_Properties,"uatBaseUri");
             }
@@ -232,17 +232,17 @@ public class TestBase {
      * postOperation method is used to hits the end point with request Json body and logs the response and also verify response body type as ContentType.JSON
      * @uthor Arun Kumar
      * @param endPoint
-     * @param requestJsonBody
+     * @param requestPayload
      * @return
      */
-    public Response postOperation(String endPoint, Object requestJsonBody)
+    public Response postOperation(String endPoint, Object requestPayload)
     {
         try {
             RequestSpecification requestSpecification = RestAssured.given();
             requestSpecification.header("Authorization", "Bearer " + getPropertiesFileValue(ResourcePath.Environment_Properties, "bearerToken"));
             requestSpecification.header("Content-Type", "application/json").contentType(ContentType.JSON);
             requestSpecification.when();
-            response=requestSpecification.body(requestJsonBody).log().all().post(getEndPointUrl(endPoint));
+            response=requestSpecification.body(requestPayload).log().all().post(getEndPointUrl(endPoint));
             log.info("****************** The Response JSON Body**************");
             log.info(response.getBody().jsonPath().prettify());
             response.then().assertThat().contentType(ContentType.JSON);
@@ -259,17 +259,17 @@ public class TestBase {
      * putOperation method is used to hits the end point with request Json body and logs the response and also verify response body type as ContentType.JSON
      * @uthor Arun Kumar
      * @param endPoint
-     * @param requestJsonBody
+     * @param requestPayload
      * @return
      */
-    public Response putOperation(String endPoint, Object requestJsonBody)
+    public Response putOperation(String endPoint, Object requestPayload)
     {
         try {
             RequestSpecification requestSpecification = RestAssured.given();
             requestSpecification.header("Authorization", "Bearer " + getPropertiesFileValue(ResourcePath.Environment_Properties, "bearerToken"));
             requestSpecification.header("Content-Type", "application/json").contentType(ContentType.JSON);
             requestSpecification.when();
-            response=requestSpecification.body(requestJsonBody).log().all().put(getEndPointUrl(endPoint));
+            response=requestSpecification.body(requestPayload).log().all().put(getEndPointUrl(endPoint));
             log.info("****************** The Response JSON Body**************");
             log.info(response.getBody().jsonPath().prettify());
             response.then().assertThat().contentType(ContentType.JSON);

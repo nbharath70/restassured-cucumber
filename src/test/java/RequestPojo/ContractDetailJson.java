@@ -3,13 +3,13 @@ package RequestPojo;
 import java.util.ArrayList;
 
 public class ContractDetailJson {
-    private float schemaVersion;
+    private int schemaVersion;
     private ArrayList lineOfBusiness;
     private String locations;
     private String billingCycle;
-    private float submissionWindow;
-    private float resubmissionWindow;
-    private float paymentTerms;
+    private int submissionWindow;
+    private int resubmissionWindow;
+    private int paymentTerms;
     private boolean thirdPartyAuth;
     private String opsAssignee = null;
     private String opsQCer = null;
@@ -21,7 +21,7 @@ public class ContractDetailJson {
 
     }
 
-    public ContractDetailJson(float schemaVersion,ArrayList lineOfBusiness, String locations, String billingCycle, float submissionWindow, float resubmissionWindow, float paymentTerms, boolean thirdPartyAuth, String opsAssignee, String opsQCer, Payment paymentObject, Audit auditObject) {
+    public ContractDetailJson(int schemaVersion,ArrayList lineOfBusiness, String locations, String billingCycle, int submissionWindow, int resubmissionWindow, int paymentTerms, boolean thirdPartyAuth, String opsAssignee, String opsQCer, Payment paymentObject, Audit auditObject) {
         this.schemaVersion = schemaVersion;
         this.lineOfBusiness=lineOfBusiness;
         this.locations = locations;
@@ -39,7 +39,7 @@ public class ContractDetailJson {
 
     // Getter Methods
 
-    public float getSchemaVersion() {
+    public int getSchemaVersion() {
         return schemaVersion;
     }
 
@@ -51,15 +51,15 @@ public class ContractDetailJson {
         return billingCycle;
     }
 
-    public float getSubmissionWindow() {
+    public int getSubmissionWindow() {
         return submissionWindow;
     }
 
-    public float getResubmissionWindow() {
+    public int getResubmissionWindow() {
         return resubmissionWindow;
     }
 
-    public float getPaymentTerms() {
+    public int getPaymentTerms() {
         return paymentTerms;
     }
 
@@ -85,7 +85,7 @@ public class ContractDetailJson {
 
     // Setter Methods
 
-    public void setSchemaVersion(float schemaVersion) {
+    public void setSchemaVersion(int schemaVersion) {
         this.schemaVersion = schemaVersion;
     }
 
@@ -97,15 +97,15 @@ public class ContractDetailJson {
         this.billingCycle = billingCycle;
     }
 
-    public void setSubmissionWindow(float submissionWindow) {
+    public void setSubmissionWindow(int submissionWindow) {
         this.submissionWindow = submissionWindow;
     }
 
-    public void setResubmissionWindow(float resubmissionWindow) {
+    public void setResubmissionWindow(int resubmissionWindow) {
         this.resubmissionWindow = resubmissionWindow;
     }
 
-    public void setPaymentTerms(float paymentTerms) {
+    public void setPaymentTerms(int paymentTerms) {
         this.paymentTerms = paymentTerms;
     }
 

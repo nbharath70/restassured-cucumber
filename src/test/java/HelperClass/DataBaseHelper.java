@@ -30,7 +30,7 @@ public class DataBaseHelper extends TestBase {
         String dbPassword=null;
         try {
 
-            if(System.getProperty("environment").equalsIgnoreCase("UAT") || System.getProperty("dbEnvironment").equals(""))
+            if(System.getProperty("environment").equalsIgnoreCase("UAT") || System.getProperty("environment").equals(""))
             {
                 dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatDBURL");
                 dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatUser");
@@ -160,6 +160,7 @@ public class DataBaseHelper extends TestBase {
     }
     public void executeUpdatePreparedQuery(String query,int queryParam) {
         try {
+            getStatement();
             psmt= conn.prepareStatement(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, query));
             log.info("query parameter is"+queryParam);
             psmt.setInt(1,queryParam);
@@ -222,6 +223,28 @@ public class DataBaseHelper extends TestBase {
         }
     }
 
+    /**
+     * executeUpdatePreparedQueryAsString method is used to execute the Query as parameter which is type os String
+     * @uthor Arun Kumar
+     * @param query
+     * @param queryParam2
+     */
+    public ResultSet executeUpdatePreparedQueryByTwoParamValue(String query,String queryParam1,int queryParam2) {
+        try {
+            getStatement();
+            psmt = conn.prepareStatement(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, query));
+            log.info("query parameter is "+queryParam1);
+            psmt.setString(1,queryParam1);
+            log.info("query parameter is "+queryParam2);
+            psmt.setInt(2,queryParam2);
+            prepareQueryResult =psmt.executeQuery();
+            log.info("Prepared query execution result is" + prepareQueryResult + " From DB");
+            return prepareQueryResult;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
 
 
