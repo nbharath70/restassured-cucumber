@@ -66,10 +66,14 @@ public class TestBase {
     public String getBaseURI()
     {
         try {
-            if(System.getProperty("environment").equalsIgnoreCase("Dev")){
+            if(System.getProperty("environment")==null)
+            {
+                return getPropertiesFileValue(ResourcePath.Environment_Properties,"uatBaseUri");
+            }
+            else if(System.getProperty("environment").equalsIgnoreCase("Dev")){
                 return getPropertiesFileValue(ResourcePath.Environment_Properties,"devBaseUri");
             }
-            else if(System.getProperty("environment").equalsIgnoreCase("UAT") || System.getProperty("env").equals(""))
+            else if(System.getProperty("environment").equalsIgnoreCase("UAT"))
             {
                 return getPropertiesFileValue(ResourcePath.Environment_Properties,"uatBaseUri");
             }

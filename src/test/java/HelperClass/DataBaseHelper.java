@@ -29,8 +29,14 @@ public class DataBaseHelper extends TestBase {
         String dbUserName=null;
         String dbPassword=null;
         try {
+            if(System.getProperty("environment")==null)
+            {
+                dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatDBURL");
+                dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatUser");
+                dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatPassword");
+            }
 
-            if(System.getProperty("environment").equalsIgnoreCase("UAT") || System.getProperty("dbEnvironment").equals(""))
+            else if(System.getProperty("environment").equalsIgnoreCase("UAT"))
             {
                 dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatDBURL");
                 dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatUser");
