@@ -9,6 +9,7 @@ import org.apache.log4j.PropertyConfigurator;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Properties;
 import static io.restassured.RestAssured.given;
 
@@ -280,5 +281,19 @@ public class TestBase {
             e.printStackTrace();
         }
         return  null;
+    }
+    /**
+     * This removeDuplicates method will eliminate the Duplicate Values in the ArrayList
+     * @uthor Bharath
+     * @param list
+     */
+    public  <T> ArrayList<T> removeDuplicates(ArrayList<T> list)
+    { ArrayList<T> newList = new ArrayList<T>();
+        for (T element : list) {
+            if (!newList.contains(element)) {
+                newList.add(element);
+            }
+        }
+        return newList;
     }
 }

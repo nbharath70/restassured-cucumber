@@ -38,7 +38,7 @@ public class DiscardContract extends TestBase {
             log.info("query is "+query);
             result = dbHepler.getData(query);
             result.next();
-            String Rk=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "Rowkey");
+            String Rk=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "rowkey");
             rowKeyVal = result.getInt(Rk);
             log.info("RowKey of ActiveContract is  " + rowKeyVal + " From DB");
         } catch (SQLException e) {
@@ -58,7 +58,7 @@ public class DiscardContract extends TestBase {
             log.info("query is "+query);
             result = dbHepler.getData(query);
             result.next();
-            String CID=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "ContractID");
+            String CID=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "contractID");
             contractID = result.getString(CID);
             log.info("RowKey of ActiveContract is  " + rowKeyVal + " From DB");
         } catch (SQLException e) {

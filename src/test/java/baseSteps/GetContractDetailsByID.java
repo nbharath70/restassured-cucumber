@@ -41,7 +41,7 @@ public class GetContractDetailsByID extends TestBase {
             log.info("query is "+query);
             result = dbHepler.getData(query);
             result.next();
-            String rk=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "Rowkey");
+            String rk=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "rowkey");
             rowKeyVal = result.getInt(rk);
             log.info("RowKey of ActiveContract is  " + rowKeyVal + " From DB");
         } catch (SQLException e) {
@@ -59,7 +59,7 @@ public class GetContractDetailsByID extends TestBase {
         try {
             result=dbHepler.executePreparedQuery(query,rowKeyVal);
             result.next();
-            String cid=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "ContractID");
+            String cid=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "contractID");
             contractID=result.getString(cid);
             log.info("contractID of Respective rowkey is  " + contractID + " From DB");
         } catch (SQLException e) {
@@ -104,7 +104,7 @@ public class GetContractDetailsByID extends TestBase {
      */
     public void verifyContractDetailsByIDResponse(int statusCode) {
         verificationHelperClass.verifyStatusCode(getContractDetailsByIDResponse, statusCode);
-        log.info("getSelectOptionsResponse StatusCode is " + statusCode + " and its Pass");
+        log.info("getContractDetailsByIDResponse StatusCode is " + statusCode + " and its Pass");
     }
 
     /**
