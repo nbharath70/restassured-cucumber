@@ -78,6 +78,23 @@ public class DataBaseHelper extends TestBase {
     }
 
     /**
+     * @uthor: Arun Kumar
+     * getDataWithoutPropertiesKey Method used to retrieves the data of given query without PropertiesKey
+     * @param query
+     * @return data
+     */
+    public ResultSet getDataWithoutPropertiesKey(String query){
+        ResultSet rs = null;
+        try {
+            rs = getStatement().executeQuery(query);
+            log.info("Result Set:"+rs);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    /**
      * @uthor Arun Kumar
      * getDataColumnCount this method used get the total count of value for given query and column value
      * @param query
@@ -121,10 +138,33 @@ public class DataBaseHelper extends TestBase {
         }
         return null;
     }
+
+    /**
+     * @uthor Arun Kumar
+     * getDataColumnArrayListValueDBWithoutKey method is used to get list values from database
+     * @param query
+     * @param columnName
+     * @return
+     */
+    public ArrayList<String> getDataColumnArrayListValueDBWithoutKey(String query, String columnName)
+    {
+        try{
+
+            ResultSet result = getDataWithoutPropertiesKey(query);
+            ArrayList<String> arrayList = new ArrayList<String>();
+            while (result.next()) {
+                arrayList.add(result.getString(columnName));
+            }
+            return arrayList;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     /**
      * @uthor Rabbani
-     * getSingleCellValueAsStringFromDB this method reads
-    the single cell value from DB query result and returns it as a String
+     * getSingleCellValueAsStringFromDB this method reads the single cell value from DB query result and returns it as a String
      * @param query
      * @param columnName
      * @return String
@@ -155,9 +195,9 @@ public class DataBaseHelper extends TestBase {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return null;
     }
+
     public void executeUpdatePreparedQuery(String query,int queryParam) {
         try {
             getStatement();

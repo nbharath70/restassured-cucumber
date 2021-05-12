@@ -16,6 +16,15 @@ public class ContractHeader {
     private String contractDocReference = null;
     private String notes;
 
+    public ContractHeader(String contractName,String contractType,  String startDate, String endDate,String notes,String lifecycleStatus) {
+        this.contractName = contractName;
+        this.contractType = contractType;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.notes = notes;
+        this.lifecycleStatus = lifecycleStatus;
+    }
+
     public ContractHeader(int rowKey, String contractId, String manufacturerId, String contractType, String contractName, String startDate, String endDate, String recCreatedDate, String recCreatedBy, String recUpdatedDate, String recUpdatedBy, String lifecycleStatus, String contractDocReference, String notes) {
         this.rowKey = rowKey;
         this.contractId = contractId;
@@ -32,8 +41,6 @@ public class ContractHeader {
         this.contractDocReference = contractDocReference;
         this.notes = notes;
     }
-
-
 
 
     // Getter Methods

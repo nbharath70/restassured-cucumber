@@ -1,9 +1,10 @@
 Feature:Retrieve and validate the Initiate New Manufacture Contract
+
   Scenario: validate InitiateNewManufactureContract creation and verify correct status code with response body is returned
     Then User executes the query "deleteContractHeaderByContractName" and "deleteContractDetailByAmendmentName" for contract & Amendment name "QAAutomation%" to delete the record from the database
     Given User create the Initiate New Manufacture Contract date
-      | ManufacturerId | name         | currentFlag | rowKey | contractId | contractType | contractName     | startDate  | endDate    | recCreatedDate          | recCreatedBy | recUpdatedDate          | recUpdatedBy | lifecycleStatus | contractDocReference | notes           | disputeDays | lateFee | lateFeeFixed | lateFeePct | paymentBackup | NCPDPReconFile | frequency | lookback | numScreenshots | allowThirdPartyAuditor | auditScreenshots | schemaVersion | lineOfBusiness | locations | billingCycle | submissionWindow | resubmissionWindow | paymentTerms | thirdPartyAuth | opsAssignee | opsQCer | amendmentNumber | amendmentName    | versionNumber |
-      | ASTRA001       | Astra Zeneca | false       | 75     | ABV0011037 | Non-Part D   | QAAutomation_007 | 2021-01-01 | 2021-04-20 | 2021-02-05T11:17:18.337 | SYSTEM       | 2021-02-05T11:17:18.337 | SYSTEM       | NEW             | null                 | This is test 01 | 30          | AMT     | null         | null       | false         | null           | ANNUAL    | 12       | null           | true                   | false            | 1             | CPOS           | usStates1 | MON          | 90               | 60                 | 30           | true           | null        | null    | 0               | QAAutomation_007 | 1             |
+      | name         | ManufacturerId | contractName     | contractType | startDate  | endDate    | notes           | lifecycleStatus | lineOfBusiness |
+      | Astra Zeneca | ASTRA001       | QAAutomation_007 | Non-Part D   | 2021-01-01 | 2021-04-20 | This is test 01 | NEW             | CPOS           |
     Then User hits the "postInitiateNewManufacturerContract" with post request
     Then User verify InitiateNewManufacturerContract status code "200" for the response
     Then User verify the valid Response body key "recordInserted" and expected value "true"

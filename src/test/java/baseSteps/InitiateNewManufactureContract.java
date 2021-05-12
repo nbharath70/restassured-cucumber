@@ -32,13 +32,11 @@ public class InitiateNewManufactureContract extends TestBase {
                 ContractDetailJson contractDetailJson1 = new ContractDetailJson();
                 contractDetailJson1.setLineOfBusiness(map.get("lineOfBusiness"));
                 ArrayList lineOfBusiness = contractDetailJson1.getLineOfBusiness();
-                Manufacturer manufacturerObject = new Manufacturer(map.get("ManufacturerId"), map.get("name"), Boolean.valueOf(map.get("currentFlag")));
-                ContractHeader contractHeaderObject = new ContractHeader(Integer.valueOf(map.get("rowKey")), map.get("contractId"), map.get("ManufacturerId"), map.get("contractType"), map.get("contractName"), map.get("startDate"), map.get("endDate"), map.get("recCreatedDate"), map.get("recCreatedBy"), map.get("recUpdatedDate"), map.get("recUpdatedBy"), map.get("lifecycleStatus"), map.get("contractDocReference"), map.get("notes"));
-                Payment paymentObj = new Payment(Integer.valueOf(map.get("disputeDays")), map.get("lateFee"), map.get("lateFeeFixed"), map.get("lateFeePct"), Boolean.valueOf(map.get("paymentBackup")), map.get("NCPDPReconFile"));
-                Audit auditObj = new Audit(map.get("frequency"), Integer.valueOf(map.get("lookback")), map.get("numScreenshots"), Boolean.valueOf(map.get("allowThirdPartyAuditor")), Boolean.valueOf(map.get("auditScreenshots")));
-                ContractDetailJson contractDetailJsonObject = new ContractDetailJson(Integer.valueOf(map.get("schemaVersion")), lineOfBusiness, map.get("locations"), map.get("billingCycle"), Integer.valueOf(map.get("submissionWindow")), Integer.valueOf(map.get("resubmissionWindow")), Integer.valueOf(map.get("paymentTerms")), Boolean.valueOf(map.get("thirdPartyAuth")), map.get("opsAssignee"), map.get("opsQCer"), paymentObj, auditObj);
-                ContractDetail ContractDetailObject = new ContractDetail(Integer.valueOf(map.get("rowKey")), map.get("contractId"), Integer.valueOf(map.get("submissionWindow")), map.get("amendmentName"), map.get("lifecycleStatus"), map.get("startDate"), map.get("endDate"), Integer.valueOf(map.get("versionNumber")), map.get("recCreatedBy"), map.get("recCreatedDate"), map.get("recUpdatedBy"), map.get("recUpdatedDate"), contractDetailJsonObject);
-                initManufactureContractObject = new InitManufactureContract(manufacturerObject, contractHeaderObject, ContractDetailObject);
+                Manufacturer manufacturer = new Manufacturer(map.get("ManufacturerId"), map.get("name"));
+                ContractHeader contractHeader = new ContractHeader(map.get("contractName"),map.get("contractType"), map.get("startDate"), map.get("endDate"),map.get("notes"),map.get("lifecycleStatus"));
+                ContractDetailJson contractDetailJson = new ContractDetailJson( lineOfBusiness);
+                ContractDetail contractDetail = new ContractDetail(contractDetailJson);
+                initManufactureContractObject = new InitManufactureContract(manufacturer, contractHeader, contractDetail);
             }
         }catch (Exception e){
             e.printStackTrace();

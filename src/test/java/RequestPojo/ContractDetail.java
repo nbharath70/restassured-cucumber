@@ -15,6 +15,10 @@ public class ContractDetail {
     private String recUpdatedDate;
     ContractDetailJson ContractDetailJsonObject;
 
+    public ContractDetail( ContractDetailJson contractDetailJsonObject) {
+        ContractDetailJsonObject = contractDetailJsonObject;
+    }
+
     public ContractDetail(int rowKey, String contractId, int amendmentNumber, String amendmentName, String lifecycleStatus, String startDate, String endDate, int versionNumber, String recCreatedBy, String recCreatedDate, String recUpdatedBy, String recUpdatedDate, ContractDetailJson contractDetailJsonObject) {
         this.rowKey = rowKey;
         this.contractId = contractId;

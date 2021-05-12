@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class ContractDetailJson {
     private int schemaVersion;
     private ArrayList lineOfBusiness;
-    private String locations;
+    private ArrayList locations;
     private String billingCycle;
     private int submissionWindow;
     private int resubmissionWindow;
@@ -21,7 +21,11 @@ public class ContractDetailJson {
 
     }
 
-    public ContractDetailJson(int schemaVersion,ArrayList lineOfBusiness, String locations, String billingCycle, int submissionWindow, int resubmissionWindow, int paymentTerms, boolean thirdPartyAuth, String opsAssignee, String opsQCer, Payment paymentObject, Audit auditObject) {
+    public ContractDetailJson(ArrayList lineOfBusiness) {
+        this.lineOfBusiness=lineOfBusiness;
+    }
+
+    public ContractDetailJson(int schemaVersion,ArrayList lineOfBusiness, ArrayList locations, String billingCycle, int submissionWindow, int resubmissionWindow, int paymentTerms, boolean thirdPartyAuth, String opsAssignee, String opsQCer, Payment paymentObject, Audit auditObject) {
         this.schemaVersion = schemaVersion;
         this.lineOfBusiness=lineOfBusiness;
         this.locations = locations;
@@ -41,10 +45,6 @@ public class ContractDetailJson {
 
     public int getSchemaVersion() {
         return schemaVersion;
-    }
-
-    public String getLocations() {
-        return locations;
     }
 
     public String getBillingCycle() {
@@ -89,9 +89,6 @@ public class ContractDetailJson {
         this.schemaVersion = schemaVersion;
     }
 
-    public void setLocations(String locations) {
-        this.locations = locations;
-    }
 
     public void setBillingCycle(String billingCycle) {
         this.billingCycle = billingCycle;
@@ -141,5 +138,19 @@ public class ContractDetailJson {
             arr.add(newLob);
         }
         this.lineOfBusiness = arr;
+    }
+
+    public ArrayList getLocations() {
+        return locations;
+    }
+
+    public void setLocations(String locations) {
+        String[] loc = locations.split(",");
+        ArrayList<String> arr=new ArrayList<String>();
+        for(String newLoc:loc)
+        {
+            arr.add(newLoc);
+        }
+        this.locations = arr;
     }
 }
