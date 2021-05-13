@@ -123,7 +123,7 @@ public class GetContractDetailsByID extends TestBase {
     public void getManufacturerDetails(String query){
         try {result=dbHepler.executePreparedQuery(query,manufactuerID);
             result.next();
-            manufactuerDetails=result.getString("ManufacturerDetails");
+            manufactuerDetails=result.getString("manufacturerDetails");
             log.info("manufacturerDetails of Respective ManufacturerID is  " + manufactuerDetails + " From DB");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -200,7 +200,6 @@ public class GetContractDetailsByID extends TestBase {
     public void matchContractDetailsJSONwithTwoJSONPAths(String apiJSON,String dbJSON){
         if(apiJSON.equalsIgnoreCase("APIcontractDetailsJSONSchemaversion")||
                 apiJSON.equalsIgnoreCase("APIcontractDetailsJSONSubmissionWindow")||
-                                apiJSON.equalsIgnoreCase("APIcontractDetailsJSONResubmissionWindow")||
                                 apiJSON.equalsIgnoreCase("APIcontractDetailsJSONPaymentTerms"))
         {
         String apiJsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, apiJSON);
@@ -209,6 +208,7 @@ public class GetContractDetailsByID extends TestBase {
         verificationHelperClass.verifyAPIResponseJsonWithDBJsonWithIntDataTypeValues(getContractDetailsByIDResponse,contractDetailsJSON,apiJsonPath,dbJsonPath);
         }
         else if (apiJSON.equalsIgnoreCase("APIcontractDetailsJSONLocations") ||
+                apiJSON.equalsIgnoreCase("APIcontractDetailsJSONResubmissionWindow")||
                 apiJSON.equalsIgnoreCase("APIcontractDetailsJSONBillingCycle")
 
         ) {

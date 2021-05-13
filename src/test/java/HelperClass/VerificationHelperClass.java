@@ -149,8 +149,8 @@ public class VerificationHelperClass extends TestBase {
     public void verifyAPIResponseJsonWithDBJsonWithStringDataTypeValues(Response APIresponse, String dbResponseJsonAsString, String aPIjsonPath,String dBJSON) {
 
             try {
-                String actualValue = JsonPath.read(APIresponse.asString(), aPIjsonPath);
-                String expectedValue = JsonPath.read(dbResponseJsonAsString, dBJSON);
+                List<String> actualValue = JsonPath.read(APIresponse.asString(), aPIjsonPath);
+                List<String> expectedValue = JsonPath.read(dbResponseJsonAsString, dBJSON);
                 log.info("expectedValue from DB" + expectedValue + " And actualValue from APIJson response=" + actualValue);
                 Assert.assertTrue("The lists do not match!", expectedValue.equals(actualValue));
                 log.info("Verification pass where expectedValue=" + expectedValue + " equals to actualValue=" + actualValue);
