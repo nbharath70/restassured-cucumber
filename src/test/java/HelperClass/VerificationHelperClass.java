@@ -11,6 +11,7 @@ import java.lang.reflect.Type;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 public class VerificationHelperClass extends TestBase {
@@ -253,8 +254,8 @@ public class VerificationHelperClass extends TestBase {
             String val = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, jsonResponseBodyKey);
             Object actualValue = JsonPath.read(response.asString(), val);
             Boolean expValue = Boolean.valueOf(expectedValue);
+            log.info("Verify response body where expectedValue=" + expectedValue + " equals to actualValue=" + actualValue);
             Assert.assertTrue("The lists do not match!", expValue.equals(actualValue));
-            log.info("Verification pass where expectedValue=" + expectedValue + " equals to actualValue=" + actualValue);
         }catch  (Exception e) {
             e.printStackTrace();
         }
@@ -272,8 +273,8 @@ public class VerificationHelperClass extends TestBase {
             String val = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, jsonResponseBodyKey);
             Object actualValue = JsonPath.read(response.asString(), val);
             Object expValue = expectedValue;
+            log.info("Verify response body where expectedValue=" + expectedValue + " equals to actualValue=" + actualValue);
             Assert.assertTrue("The lists do not match!", expValue.equals(actualValue));
-            log.info("Verification pass where expectedValue=" + expectedValue + " equals to actualValue=" + actualValue);
         }catch  (Exception e) {
             e.printStackTrace();
         }

@@ -2,12 +2,12 @@ package RequestPojo;
 
 public class Audit {
     private String frequency;
-    private float lookback;
+    private int lookback;
     private String numScreenshots = null;
     private boolean allowThirdPartyAuditor;
     private boolean auditScreenshots;
 
-    public Audit(String frequency, float lookback, String numScreenshots, boolean allowThirdPartyAuditor, boolean auditScreenshots) {
+    public Audit(String frequency, int lookback, String numScreenshots, boolean allowThirdPartyAuditor, boolean auditScreenshots) {
         this.frequency = frequency;
         this.lookback = lookback;
         this.numScreenshots = numScreenshots;
@@ -21,7 +21,7 @@ public class Audit {
         return frequency;
     }
 
-    public float getLookback() {
+    public int getLookback() {
         return lookback;
     }
 
@@ -43,7 +43,7 @@ public class Audit {
         this.frequency = frequency;
     }
 
-    public void setLookback(float lookback) {
+    public void setLookback(int lookback) {
         this.lookback = lookback;
     }
 

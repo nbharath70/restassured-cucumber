@@ -30,7 +30,7 @@ public class DataBaseHelper extends TestBase {
         String dbPassword=null;
         try {
 
-            if(System.getProperty("environment").equalsIgnoreCase("UAT") || System.getProperty("dbEnvironment").equals(""))
+            if(System.getProperty("environment").equalsIgnoreCase("UAT") || System.getProperty("environment").equals(""))
             {
                 dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatDBURL");
                 dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatUser");
@@ -70,6 +70,23 @@ public class DataBaseHelper extends TestBase {
         ResultSet rs = null;
         try {
             rs = getStatement().executeQuery(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, query));
+            log.info("Result Set:"+rs);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    /**
+     * @uthor: Arun Kumar
+     * getDataWithoutPropertiesKey Method used to retrieves the data of given query without PropertiesKey
+     * @param query
+     * @return data
+     */
+    public ResultSet getDataWithoutPropertiesKey(String query){
+        ResultSet rs = null;
+        try {
+            rs = getStatement().executeQuery(query);
             log.info("Result Set:"+rs);
         } catch (Exception e) {
             e.printStackTrace();
@@ -121,10 +138,33 @@ public class DataBaseHelper extends TestBase {
         }
         return null;
     }
+
+    /**
+     * @uthor Arun Kumar
+     * getDataColumnArrayListValueDBWithoutKey method is used to get list values from database
+     * @param query
+     * @param columnName
+     * @return
+     */
+    public ArrayList<String> getDataColumnArrayListValueDBWithoutKey(String query, String columnName)
+    {
+        try{
+
+            ResultSet result = getDataWithoutPropertiesKey(query);
+            ArrayList<String> arrayList = new ArrayList<String>();
+            while (result.next()) {
+                arrayList.add(result.getString(columnName));
+            }
+            return arrayList;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     /**
      * @uthor Rabbani
-     * getSingleCellValueAsStringFromDB this method reads
-    the single cell value from DB query result and returns it as a String
+     * getSingleCellValueAsStringFromDB this method reads the single cell value from DB query result and returns it as a String
      * @param query
      * @param columnName
      * @return String
@@ -173,6 +213,7 @@ public class DataBaseHelper extends TestBase {
      */
     public void executeUpdatePreparedQuery(String query,int queryParam) {
         try {
+            getStatement();
             psmt= conn.prepareStatement(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, query));
             log.info("query parameter is"+queryParam);
             psmt.setInt(1,queryParam);
@@ -289,6 +330,46 @@ public class DataBaseHelper extends TestBase {
         }
     }
 
+    /**
+     * executeUpdatePreparedQueryAsString method is used to execute the Query as parameter which is type os String
+     * @uthor Arun Kumar
+     * @param query
+     * @param queryParam
+     */
+    public void executeUpdatePreparedQueryAsString(String query,String queryParam) {
+        try {
+            getStatement();
+            psmt = conn.prepareStatement(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, query));
+            log.info("query parameter is "+queryParam);
+            psmt.setString(1,queryParam);
+            psmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * executeUpdatePreparedQueryAsString method is used to execute the Query as parameter which is type os String
+     * @uthor Arun Kumar
+     * @param query
+     * @param queryParam2
+     */
+    public ResultSet executeUpdatePreparedQueryByTwoParamValue(String query,String queryParam1,int queryParam2) {
+        try {
+            getStatement();
+            psmt = conn.prepareStatement(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, query));
+            log.info("query parameter is "+queryParam1);
+            psmt.setString(1,queryParam1);
+            log.info("query parameter is "+queryParam2);
+            psmt.setInt(2,queryParam2);
+            prepareQueryResult =psmt.executeQuery();
+            log.info("Prepared query execution result is" + prepareQueryResult + " From DB");
+            return prepareQueryResult;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
 
 

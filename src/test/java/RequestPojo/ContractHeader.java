@@ -1,7 +1,7 @@
 package RequestPojo;
 
 public class ContractHeader {
-    private float rowKey;
+    private int rowKey;
     private String contractId;
     private String manufacturerId;
     private String contractType;
@@ -16,7 +16,16 @@ public class ContractHeader {
     private String contractDocReference = null;
     private String notes;
 
-    public ContractHeader(float rowKey, String contractId, String manufacturerId, String contractType, String contractName, String startDate, String endDate, String recCreatedDate, String recCreatedBy, String recUpdatedDate, String recUpdatedBy, String lifecycleStatus, String contractDocReference, String notes) {
+    public ContractHeader(String contractName,String contractType,  String startDate, String endDate,String notes,String lifecycleStatus) {
+        this.contractName = contractName;
+        this.contractType = contractType;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.notes = notes;
+        this.lifecycleStatus = lifecycleStatus;
+    }
+
+    public ContractHeader(int rowKey, String contractId, String manufacturerId, String contractType, String contractName, String startDate, String endDate, String recCreatedDate, String recCreatedBy, String recUpdatedDate, String recUpdatedBy, String lifecycleStatus, String contractDocReference, String notes) {
         this.rowKey = rowKey;
         this.contractId = contractId;
         this.manufacturerId = manufacturerId;
@@ -34,11 +43,9 @@ public class ContractHeader {
     }
 
 
-
-
     // Getter Methods
 
-    public float getRowKey() {
+    public int getRowKey() {
         return rowKey;
     }
 
@@ -96,7 +103,7 @@ public class ContractHeader {
 
     // Setter Methods
 
-    public void setRowKey(float rowKey) {
+    public void setRowKey(int rowKey) {
         this.rowKey = rowKey;
     }
 
