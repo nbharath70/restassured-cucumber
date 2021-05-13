@@ -352,7 +352,28 @@ public class DataBaseHelper extends TestBase {
         }
         return null;
     }
+    /**
+     *
+     * @uthor Smruti
+     * @param
+     * @param
+     */
 
+    public int executePreparedQuery(String query,String queryParam,String columnName) {
+        try {
+            psmt= conn.prepareStatement(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, query));
+            psmt.setString(1,queryParam);
+            prepareQueryResult =psmt.executeQuery();
+            log.info("Prepared query execution result is" + prepareQueryResult + " From DB");
+            prepareQueryResult.next();
+            int count=prepareQueryResult.getInt(1);
+            //log.info("The value retrieved from db is:"+count);
+            return count;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
 }
 

@@ -1,11 +1,3 @@
-/**
- * GetAllMFR class contains the methods to hit the getALLMFR end point and retrieve the details from
- * JSON response and compare the details with expected result retrieved from database
- *
- * @author  QATest
- * @version 1.0
- * @since   03/01/2021
- */
 package baseSteps;
 import HelperClass.DataBaseHelper;
 import HelperClass.ResourcePath;
@@ -13,6 +5,7 @@ import HelperClass.VerificationHelperClass;
 import TestBase.TestBase;
 import io.restassured.response.Response;
 import org.apache.log4j.Logger;
+import org.junit.Assert;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -38,8 +31,8 @@ public class DiscardContract extends TestBase {
             log.info("query is "+query);
             result = dbHepler.getData(query);
             result.next();
-            String Rk=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "rowkey");
-            rowKeyVal = result.getInt(Rk);
+            String rowKey=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "rowKey");
+            rowKeyVal = result.getInt(rowKey);
             log.info("RowKey of ActiveContract is  " + rowKeyVal + " From DB");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -58,7 +51,7 @@ public class DiscardContract extends TestBase {
             log.info("query is "+query);
             result = dbHepler.getData(query);
             result.next();
-            String CID=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "contractID");
+            String CID=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "contractId");
             contractID = result.getString(CID);
             log.info("RowKey of ActiveContract is  " + rowKeyVal + " From DB");
         } catch (SQLException e) {
@@ -84,5 +77,41 @@ public class DiscardContract extends TestBase {
         dbHepler.executeUpdatePreparedQuery(contractDetails,rowKeyVal);
     }
 
+    /**
+     * @uthour Smruti
+     * This method hits discard Mfr contract  end point and logs the response
+     * Verifies the response format is in JSON
+     */
+    public void verifyResponseFormatJSON()
+    {
+        verifyResponseFormatIsJSON();
+    }
+    /**
+     * @uthour Smruti
+     * This method Verifies the API response value for discarded contract
+     */
+    public void verifyIfIsManufacturerContractDiscarded()
+    {
+        String isContractDiscarded=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "jasonPathForIsDiscardContract");
+        verificationHelperClass.verifyAPIResponseBooleanValueTrue(discardContractResponse,isContractDiscarded);
+
+    }
+    /**
+     * @uthour Smruti
+     * This method Verifies the API response value for discarded contract
+     */
+    public void verifyis_current_flagInContractHeaderAndDetailsTable(String verifyContractHeaderQuery, String verifyContractDetailsQuery) throws SQLException {
+        String count=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "contractQueryCount");
+        int contractHDRCount= dbHepler.executePreparedQuery(verifyContractHeaderQuery,contractID,count);
+        int contractDetailsCount=dbHepler.executePreparedQuery(verifyContractDetailsQuery,contractID,count);
+        if(contractHDRCount==1 && contractDetailsCount==1){
+            log.info("The is_current_flagInContractHeaderAndDetailsTable is updated to 0");
+        }
+
+
+    }
 
 }
+
+
+

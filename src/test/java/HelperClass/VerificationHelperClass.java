@@ -296,7 +296,21 @@ public class VerificationHelperClass extends TestBase {
             e.printStackTrace();
         }
     }
-
+    /**
+     * @param jsonResponse
+     * @param APIjsonPath
+     * @authour Smruti
+     * verifyAPIResponseBooleanValue Method used to verify given boolean value in response
+     */
+    public void verifyAPIResponseBooleanValueTrue(Response jsonResponse, String APIjsonPath) {
+        try {
+            Boolean actualValue = JsonPath.read(jsonResponse.asString(), APIjsonPath);
+            Assert.assertTrue(actualValue);
+            log.info("Verified the boolean response true in API response");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
 }

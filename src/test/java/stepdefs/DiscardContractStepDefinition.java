@@ -27,32 +27,24 @@ public class DiscardContractStepDefinition {
         discardContract.verifyStatusCodeofDiscardContractAPI(StatusCode);
     }
 
+
+    @Then("^User verifies the response is in JSON format$")
+    public void userVerifiesTheResponseIsInJSONFormat() {
+        discardContract.verifyResponseFormatJSON();
+    }
+
+    @Then("^User verifies the isManufacturerContractDiscarded as true value in response$")
+    public void userVerifiesTheIsManufacturerContractDiscardedAsTrueValueInResponse() {
+        discardContract.verifyIfIsManufacturerContractDiscarded();
+    }
+    @Then("^user  runs \"([^\"]*)\" query and \"([^\"]*)\" query to verify is_current_flag$")
+    public void userRunsQueryAndQueryToVerifyIs_current_flag(String verifyContractHeaderQuery, String verifyContractDetailsQuery) throws Throwable {
+        discardContract.verifyis_current_flagInContractHeaderAndDetailsTable(verifyContractHeaderQuery,verifyContractDetailsQuery);
+    }
+
     @And("^user runs \"([^\"]*)\" query and \"([^\"]*)\" query to activate the contract$")
     public void userRunsQueryAndQueryToActivateTheContract(String contractHeader, String ContractDetail){
-       discardContract.reactivateContracts(contractHeader,ContractDetail);
+        discardContract.reactivateContracts(contractHeader,ContractDetail);
     }
-//    @Then("^User verifies the valid status code \"([^\"]*)\" in the response$")
-//    public void userGetsCorrectResponseCode(int statusCode) {
-//        mfr.getAllMFRResponseStatusCode(statusCode);
-//    }
-//
-//    @When("^User executes the query \"([^\"]*)\" And matches the count of MFR returned by API and DB$")
-//    public void matchesTheCountOfMFRReturnedByAPIAndDB(String query) {
-//        mfr.verifyRecordCount(query);
-//    }
-//
-//    @Then("^response is in JSON format$")
-//    public void verifyTheResponseInJSON() {
-//        mfr.verifyResponseFormatJSON();
-//    }
-//
-//    @Then("^User executes the query \"([^\"]*)\" And matches the MFR ID returned by API and DB$")
-//    public void matchesMFRIDsReturnedByAPIAndDB(String query) {
-//        mfr.verifyMFRDetails(query);
-//    }
-//    @Then("^User executes the query \"([^\"]*)\" And matches the MFR Name returned by API and DB$")
-//    public void matchesMFRNameReturnedByAPIAndDB(String query){
-//        mfr.verifyMFRNameDetails(query);
-//    }
 }
 
