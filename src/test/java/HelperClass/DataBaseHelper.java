@@ -35,7 +35,6 @@ public class DataBaseHelper extends TestBase {
                 dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatUser");
                 dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatPassword");
             }
-
             else if(System.getProperty("environment").equalsIgnoreCase("UAT"))
             {
                 dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatDBURL");

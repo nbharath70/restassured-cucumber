@@ -60,7 +60,7 @@ public class TestBase {
      * @uthoth Arun Kumar
      * getBaseURI method used to return the baseUrl
      * @return BaseURI
-     * @updated by: Rabbani
+     * @updated by: Rabbani1
      * This method will read the environment passed through command line and connects to that environment
      */
     public String getBaseURI()
@@ -70,16 +70,20 @@ public class TestBase {
             {
                 return getPropertiesFileValue(ResourcePath.Environment_Properties,"uatBaseUri");
             }
+
             else if(System.getProperty("environment").equalsIgnoreCase("Dev")){
                 return getPropertiesFileValue(ResourcePath.Environment_Properties,"devBaseUri");
             }
+
             else if(System.getProperty("environment").equalsIgnoreCase("UAT"))
             {
                 return getPropertiesFileValue(ResourcePath.Environment_Properties,"uatBaseUri");
             }
+
             else{
                 log.info("Invalid Environment");
             }
+
         } catch (Exception e)
         {
             e.printStackTrace();
