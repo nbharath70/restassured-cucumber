@@ -1,14 +1,9 @@
 package HelperClass;
 
 import TestBase.TestBase;
-import com.jayway.jsonpath.JsonPath;
-import io.restassured.response.Response;
 import org.apache.log4j.Logger;
-import org.junit.Assert;
-
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class DataBaseHelper extends TestBase {
     public static Logger log=getMyLogger(DataBaseHelper.class);

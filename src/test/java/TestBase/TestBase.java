@@ -71,20 +71,16 @@ public class TestBase {
             {
                 return getPropertiesFileValue(ResourcePath.Environment_Properties,"uatBaseUri");
             }
-
             else if(System.getProperty("environment").equalsIgnoreCase("Dev")){
                 return getPropertiesFileValue(ResourcePath.Environment_Properties,"devBaseUri");
             }
-
             else if(System.getProperty("environment").equalsIgnoreCase("UAT"))
             {
                 return getPropertiesFileValue(ResourcePath.Environment_Properties,"uatBaseUri");
             }
-
             else{
                 log.info("Invalid Environment");
             }
-
         } catch (Exception e)
         {
             e.printStackTrace();
