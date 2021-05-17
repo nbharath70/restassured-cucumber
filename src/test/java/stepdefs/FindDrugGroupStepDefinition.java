@@ -28,7 +28,7 @@ public class FindDrugGroupStepDefinition {
     }
 
     @Then("^User Runs the Query \"([^\"]*)\" and matches the DrugGroupSummary Column \"([^\"]*)\" and JSON from response$")
-    public void userRunsTheQueryAndMatchesTheDrugGroupSummaryColumnAndJSONFromResponse(String query, String columnName) throws Throwable {
+    public void userRunsTheQueryAndMatchesTheDrugGroupSummaryColumnAndJSONFromResponse(String query, String columnName)  {
         findDrugGroup.verifyFindDrugGroupSummaryWithDbTable(query,columnName);
     }
 
@@ -60,5 +60,11 @@ public class FindDrugGroupStepDefinition {
     @Then("^Verifies the JSON response with DB JSOn by numberOfPendingNDCJsonPath \"([^\"]*)\"$")
     public void verifiesTheJSONResponseWithDBJSOnByNumberOfPendingNDCJsonPath(String jsonPath) {
         findDrugGroup.verfyNumberOfPendingNDC(jsonPath);
+    }
+
+    @Then("^User Runs the Query \"([^\"]*)\" and matches the DrugListRuleId and DruggroupDescription \"([^\"]*)\" and JSON from response$")
+    public void userRunsTheQueryAndMatchesTheDrugListRuleIdAndDruggroupDescriptionAndJSONFromResponse(String query, String columnName) {
+
+      findDrugGroup.verifyFindDrugListRuleIDAndDrugListDescription(query,columnName);
     }
 }

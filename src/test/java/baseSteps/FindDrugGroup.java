@@ -67,17 +67,20 @@ public class FindDrugGroup extends TestBase {
         else if(columnName.equalsIgnoreCase("drugGroupType")){
             jsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"drugGroupTypeFinddrugGroupApi");
             columnNameofDruggroupsummary=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,columnName);
-        }else if(columnName.equalsIgnoreCase("drugGroupTypeDesc")){
-            jsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"drugGroupTypeDescFinddrugGroupApi");
-            columnNameofDruggroupsummary=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,columnName);
-        }else if(columnName.equalsIgnoreCase("mode")){
+        }
+//        else if(columnName.equalsIgnoreCase("drugGroupTypeDesc")){
+//            jsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"drugGroupTypeDescFinddrugGroupApi");
+//            columnNameofDruggroupsummary=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,columnName);
+//        }
+        else if(columnName.equalsIgnoreCase("mode")){
             jsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"modeFinddrugGroupApi");
             columnNameofDruggroupsummary=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,columnName);
         }
-        else if(columnName.equalsIgnoreCase("drugListRuleId")){
-            jsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"drugListRuleIdFinddrugGroupApi");
-            columnNameofDruggroupsummary=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,columnName);
-        }else if(columnName.equalsIgnoreCase("numberOfApprovedNDC")){
+//        else if(columnName.equalsIgnoreCase("drugListRuleId")){
+//            jsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"drugListRuleIdFinddrugGroupApi");
+//            columnNameofDruggroupsummary=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,columnName);
+//        }
+        else if(columnName.equalsIgnoreCase("numberOfApprovedNDC")){
             jsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"numberOfApprovedNDCFinddrugGroupApi");
             columnNameofDruggroupsummary=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,columnName);
         }else if(columnName.equalsIgnoreCase("numberOfPendingNDC")){
@@ -86,6 +89,16 @@ public class FindDrugGroup extends TestBase {
         }
 
         verificationHelperClass.verifyResponseJsonAndDbArrayByColumnNameWithPreparedQuery(findDrugGroupResponse ,jsonPath,query,columnNameofDruggroupsummary,manufactureName);
+    }
+    public void verifyFindDrugListRuleIDAndDrugListDescription(String query,String columnName){
+        if(columnName.equalsIgnoreCase("drugListRuleId")){
+            jsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"drugListRuleIdFinddrugGroupApi");
+            columnNameofDruggroupsummary=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,columnName);
+        }else if(columnName.equalsIgnoreCase("drugGroupTypeDesc")){
+            jsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"drugGroupTypeDescFinddrugGroupApi");
+            columnNameofDruggroupsummary=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,columnName);
+        }
+        verificationHelperClass.verifyResponseJsonAndDbArrayByColumnNameHavingNullValuesWithPreparedQuery(findDrugGroupResponse,jsonPath,query,columnNameofDruggroupsummary,manufactureName);
     }
     public String getManufactuereNameforDrugList(String query){
         try {

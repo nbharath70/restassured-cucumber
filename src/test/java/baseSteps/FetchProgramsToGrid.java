@@ -88,11 +88,11 @@ public class FetchProgramsToGrid extends TestBase {
             jsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"manufacturerProgramIdJSONPAth");
          columnNameofProgramtoProgramGrid=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,columnName);
 
-          } else if(columnName.equalsIgnoreCase("startDate")){
+          } else if(columnName.equalsIgnoreCase("startDateForFetchProgramToGrid")){
             jsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"startDateOfProgramJSONPath");
          columnNameofProgramtoProgramGrid=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,columnName);
 
-        } else if(columnName.equalsIgnoreCase("endDate")){
+        } else if(columnName.equalsIgnoreCase("endDateForFetchProgramToGrid")){
             jsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"endDateOfProgramJSONPath");
          columnNameofProgramtoProgramGrid=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,columnName);
 

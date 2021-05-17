@@ -1,4 +1,4 @@
-#This feature file defines the automation scenarios to be developed for getContractByID end point
+##This feature file defines the automation scenarios to be developed for getContractByID end point
 Feature:Retrieve and validate the Contract by ID
   Scenario: get All valid ContractDetailsbyID and verify correct status code is returned
     Given User Runs the Query "getMFRRowKey" and Get the Rowkey from DB

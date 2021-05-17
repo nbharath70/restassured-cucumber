@@ -1,5 +1,6 @@
 #This feature file defines the automation scenarios to be developed for Finding Drug of the given Manufacturer
 Feature:Retrieve and validate FindDrugGroup API
+
   Scenario: Hit findDrugGroup Api and validate Status Code
     Given User Runs the Query "getManufactuereName" and Fetch the Manufactuere Name from DB
     When User hits the FindDrugGroup "findDrugGroup" Endpoint with get request
@@ -14,16 +15,21 @@ Feature:Retrieve and validate FindDrugGroup API
     Given User Runs the Query "getManufactuereName" and Fetch the Manufactuere Name from DB
     When User hits the FindDrugGroup "findDrugGroup" Endpoint with get request
     Then User Runs the Query "getDrugGroupSummaryFromDB" and matches the DrugGroupSummary Column "<columnName>" and JSON from response
-      Examples:
-        |columnName|
-        |lifeCycleStatus|
-        |manufacturerNameofDrugGroup|
-        |drugGroupName|
-        |drugGroupType|
-        |drugGroupTypeDesc|
-        |mode             |
-        |drugListRuleId   |
+    Examples:
+      | columnName                  |
+      | lifeCycleStatus             |
+      | manufacturerNameofDrugGroup |
+      | drugGroupName               |
+      | drugGroupType               |
+      | mode                        |
 
+  Scenario Outline: Hit the findDrugGroup Api and validate drugGroupTypeDesc and drugListRuleId with DB
+    Given User Runs the Query "getManufactuereName" and Fetch the Manufactuere Name from DB
+    When User hits the FindDrugGroup "findDrugGroup" Endpoint with get request
+    Then User Runs the Query "getDrugGroupSummaryFromDB" and matches the DrugListRuleId and DruggroupDescription "<columnName>" and JSON from response
+    Examples:
+      | columnName     |
+      | drugListRuleId |
 
   Scenario: Hit the findDrugGroup Api and validate ManufacturerDrugListID with  DBDetailJSon
     Given User Runs the Query "getManufactuereName" and Fetch the Manufactuere Name from DB

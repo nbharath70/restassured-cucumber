@@ -162,7 +162,7 @@ public class GetContractDetailsByID extends TestBase {
     public void matchContractHeaderDetails(){
         String jsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "contractHeaderDetailsJSON");
         log.info("contractDetailsJson response is");
-        verificationHelperClass.verifyAPIResponseJsonWithDBJsonWithDifferentDataTypeValues(getContractDetailsByIDResponse,contractHeaderDetails,jsonPath);
+        verificationHelperClass.verifyAPIResponseJsonWithDBJsonWithIntandStringCombinationDataTypeValues(getContractDetailsByIDResponse,contractHeaderDetails,jsonPath);
     }
 
     /**
@@ -208,16 +208,24 @@ public class GetContractDetailsByID extends TestBase {
         verificationHelperClass.verifyAPIResponseJsonWithDBJsonWithIntDataTypeValues(getContractDetailsByIDResponse,contractDetailsJSON,apiJsonPath,dbJsonPath);
         }
         else if (apiJSON.equalsIgnoreCase("APIcontractDetailsJSONLocations") ||
-                apiJSON.equalsIgnoreCase("APIcontractDetailsJSONResubmissionWindow")||
-                apiJSON.equalsIgnoreCase("APIcontractDetailsJSONBillingCycle")
+                apiJSON.equalsIgnoreCase("APIcontractDetailsJSONLineOfBusiness")
+        )
 
-        ) {
+        {
             {
                 String apiJsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, apiJSON);
                 String dbJsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, dbJSON);
                 log.info("contractDetailsJson response is");
                 verificationHelperClass.verifyAPIResponseJsonWithDBJsonWithStringDataTypeValues(getContractDetailsByIDResponse,contractDetailsJSON,apiJsonPath,dbJsonPath);
             }
+        }
+        else if (apiJSON.equalsIgnoreCase("APIcontractDetailsJSONBillingCycle")||
+        apiJSON.equalsIgnoreCase("APIcontractDetailsJSONResubmissionWindow"))
+        {
+            String apiJsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, apiJSON);
+            String dbJsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, dbJSON);
+            log.info("contractDetailsJson response is");
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonWithonlyStringDataTypeValues(getContractDetailsByIDResponse,contractDetailsJSON,apiJsonPath,dbJsonPath);
         }
         else if(apiJSON.equalsIgnoreCase("APIcontractDetailsJSONOpsAssignee")||
                 apiJSON.equalsIgnoreCase("APIcontractDetailsJSONOpsQCer")){
