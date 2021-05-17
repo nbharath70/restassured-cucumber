@@ -1,14 +1,14 @@
 package RequestPojo;
 
 public class Payment {
-    private float disputeDays;
+    private int disputeDays;
     private String lateFee;
     private String lateFeeFixed = null;
     private String lateFeePct = null;
     private boolean paymentBackup;
     private String NCPDPReconFile = null;
 
-    public Payment(float disputeDays, String lateFee, String lateFeeFixed, String lateFeePct, boolean paymentBackup, String NCPDPReconFile) {
+    public Payment(int disputeDays, String lateFee, String lateFeeFixed, String lateFeePct, boolean paymentBackup, String NCPDPReconFile) {
         this.disputeDays = disputeDays;
         this.lateFee = lateFee;
         this.lateFeeFixed = lateFeeFixed;
@@ -18,7 +18,7 @@ public class Payment {
     }
 // Getter Methods
 
-    public float getDisputeDays() {
+    public int getDisputeDays() {
         return disputeDays;
     }
 
@@ -44,7 +44,7 @@ public class Payment {
 
     // Setter Methods
 
-    public void setDisputeDays(float disputeDays) {
+    public void setDisputeDays(int disputeDays) {
         this.disputeDays = disputeDays;
     }
 

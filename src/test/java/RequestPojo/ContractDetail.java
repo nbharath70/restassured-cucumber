@@ -1,21 +1,25 @@
 package RequestPojo;
 
 public class ContractDetail {
-    private float rowKey;
+    private int rowKey;
     private String contractId;
-    private float amendmentNumber;
+    private int amendmentNumber;
     private String amendmentName;
     private String lifecycleStatus;
     private String startDate;
     private String endDate;
-    private float versionNumber;
+    private int versionNumber;
     private String recCreatedBy;
     private String recCreatedDate;
     private String recUpdatedBy;
     private String recUpdatedDate;
     ContractDetailJson ContractDetailJsonObject;
 
-    public ContractDetail(float rowKey, String contractId, float amendmentNumber, String amendmentName, String lifecycleStatus, String startDate, String endDate, float versionNumber, String recCreatedBy, String recCreatedDate, String recUpdatedBy, String recUpdatedDate, ContractDetailJson contractDetailJsonObject) {
+    public ContractDetail( ContractDetailJson contractDetailJsonObject) {
+        ContractDetailJsonObject = contractDetailJsonObject;
+    }
+
+    public ContractDetail(int rowKey, String contractId, int amendmentNumber, String amendmentName, String lifecycleStatus, String startDate, String endDate, int versionNumber, String recCreatedBy, String recCreatedDate, String recUpdatedBy, String recUpdatedDate, ContractDetailJson contractDetailJsonObject) {
         this.rowKey = rowKey;
         this.contractId = contractId;
         this.amendmentNumber = amendmentNumber;
@@ -34,7 +38,7 @@ public class ContractDetail {
 
     // Getter Methods
 
-    public float getRowKey() {
+    public int getRowKey() {
         return rowKey;
     }
 
@@ -42,7 +46,7 @@ public class ContractDetail {
         return contractId;
     }
 
-    public float getAmendmentNumber() {
+    public int getAmendmentNumber() {
         return amendmentNumber;
     }
 
@@ -62,7 +66,7 @@ public class ContractDetail {
         return endDate;
     }
 
-    public float getVersionNumber() {
+    public int getVersionNumber() {
         return versionNumber;
     }
 
@@ -88,7 +92,7 @@ public class ContractDetail {
 
     // Setter Methods
 
-    public void setRowKey(float rowKey) {
+    public void setRowKey(int rowKey) {
         this.rowKey = rowKey;
     }
 
@@ -96,7 +100,7 @@ public class ContractDetail {
         this.contractId = contractId;
     }
 
-    public void setAmendmentNumber(float amendmentNumber) {
+    public void setAmendmentNumber(int amendmentNumber) {
         this.amendmentNumber = amendmentNumber;
     }
 
@@ -116,7 +120,7 @@ public class ContractDetail {
         this.endDate = endDate;
     }
 
-    public void setVersionNumber(float versionNumber) {
+    public void setVersionNumber(int versionNumber) {
         this.versionNumber = versionNumber;
     }
 

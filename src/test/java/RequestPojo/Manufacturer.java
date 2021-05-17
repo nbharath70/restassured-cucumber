@@ -5,13 +5,16 @@ public class Manufacturer {
     private String name;
     private boolean currentFlag;
 
+    public Manufacturer(String manufacturerId, String name) {
+        this.manufacturerId = manufacturerId;
+        this.name = name;
+    }
+
     public Manufacturer(String manufacturerId, String name, boolean currentFlag) {
         this.manufacturerId = manufacturerId;
         this.name = name;
         this.currentFlag = currentFlag;
     }
-
-
 
 
     // Getter Methods

@@ -9,6 +9,7 @@ import org.apache.log4j.PropertyConfigurator;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Properties;
 import static io.restassured.RestAssured.given;
 
@@ -66,10 +67,14 @@ public class TestBase {
     public String getBaseURI()
     {
         try {
-            if(System.getProperty("environment").equalsIgnoreCase("Dev")){
+            if(System.getProperty("environment")==null)
+            {
+                return getPropertiesFileValue(ResourcePath.Environment_Properties,"uatBaseUri");
+            }
+            else if(System.getProperty("environment").equalsIgnoreCase("Dev")){
                 return getPropertiesFileValue(ResourcePath.Environment_Properties,"devBaseUri");
             }
-            else if(System.getProperty("environment").equalsIgnoreCase("UAT") || System.getProperty("env").equals(""))
+            else if(System.getProperty("environment").equalsIgnoreCase("UAT"))
             {
                 return getPropertiesFileValue(ResourcePath.Environment_Properties,"uatBaseUri");
             }
@@ -232,17 +237,17 @@ public class TestBase {
      * postOperation method is used to hits the end point with request Json body and logs the response and also verify response body type as ContentType.JSON
      * @uthor Arun Kumar
      * @param endPoint
-     * @param requestJsonBody
+     * @param requestPayload
      * @return
      */
-    public Response postOperation(String endPoint, Object requestJsonBody)
+    public Response postOperation(String endPoint, Object requestPayload)
     {
         try {
             RequestSpecification requestSpecification = RestAssured.given();
             requestSpecification.header("Authorization", "Bearer " + getPropertiesFileValue(ResourcePath.Environment_Properties, "bearerToken"));
             requestSpecification.header("Content-Type", "application/json").contentType(ContentType.JSON);
             requestSpecification.when();
-            response=requestSpecification.body(requestJsonBody).log().all().post(getEndPointUrl(endPoint));
+            response=requestSpecification.body(requestPayload).log().all().post(getEndPointUrl(endPoint));
             log.info("****************** The Response JSON Body**************");
             log.info(response.getBody().jsonPath().prettify());
             response.then().assertThat().contentType(ContentType.JSON);
@@ -259,17 +264,17 @@ public class TestBase {
      * putOperation method is used to hits the end point with request Json body and logs the response and also verify response body type as ContentType.JSON
      * @uthor Arun Kumar
      * @param endPoint
-     * @param requestJsonBody
+     * @param requestPayload
      * @return
      */
-    public Response putOperation(String endPoint, Object requestJsonBody)
+    public Response putOperation(String endPoint, Object requestPayload)
     {
         try {
             RequestSpecification requestSpecification = RestAssured.given();
             requestSpecification.header("Authorization", "Bearer " + getPropertiesFileValue(ResourcePath.Environment_Properties, "bearerToken"));
             requestSpecification.header("Content-Type", "application/json").contentType(ContentType.JSON);
             requestSpecification.when();
-            response=requestSpecification.body(requestJsonBody).log().all().put(getEndPointUrl(endPoint));
+            response=requestSpecification.body(requestPayload).log().all().put(getEndPointUrl(endPoint));
             log.info("****************** The Response JSON Body**************");
             log.info(response.getBody().jsonPath().prettify());
             response.then().assertThat().contentType(ContentType.JSON);
@@ -280,5 +285,19 @@ public class TestBase {
             e.printStackTrace();
         }
         return  null;
+    }
+    /**
+     * This removeDuplicates method will eliminate the Duplicate Values in the ArrayList
+     * @uthor Bharath
+     * @param list
+     */
+    public  <T> ArrayList<T> removeDuplicates(ArrayList<T> list)
+    { ArrayList<T> newList = new ArrayList<T>();
+        for (T element : list) {
+            if (!newList.contains(element)) {
+                newList.add(element);
+            }
+        }
+        return newList;
     }
 }

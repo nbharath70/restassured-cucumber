@@ -41,7 +41,7 @@ public class GetContractDetailsByID extends TestBase {
             log.info("query is "+query);
             result = dbHepler.getData(query);
             result.next();
-            String rk=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "Rowkey");
+            String rk=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "rowkey");
             rowKeyVal = result.getInt(rk);
             log.info("RowKey of ActiveContract is  " + rowKeyVal + " From DB");
         } catch (SQLException e) {
@@ -59,7 +59,7 @@ public class GetContractDetailsByID extends TestBase {
         try {
             result=dbHepler.executePreparedQuery(query,rowKeyVal);
             result.next();
-            String cid=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "ContractID");
+            String cid=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "contractID");
             contractID=result.getString(cid);
             log.info("contractID of Respective rowkey is  " + contractID + " From DB");
         } catch (SQLException e) {
@@ -104,7 +104,7 @@ public class GetContractDetailsByID extends TestBase {
      */
     public void verifyContractDetailsByIDResponse(int statusCode) {
         verificationHelperClass.verifyStatusCode(getContractDetailsByIDResponse, statusCode);
-        log.info("getSelectOptionsResponse StatusCode is " + statusCode + " and its Pass");
+        log.info("getContractDetailsByIDResponse StatusCode is " + statusCode + " and its Pass");
     }
 
     /**
@@ -123,7 +123,7 @@ public class GetContractDetailsByID extends TestBase {
     public void getManufacturerDetails(String query){
         try {result=dbHepler.executePreparedQuery(query,manufactuerID);
             result.next();
-            manufactuerDetails=result.getString("ManufacturerDetails");
+            manufactuerDetails=result.getString("manufacturerDetails");
             log.info("manufacturerDetails of Respective ManufacturerID is  " + manufactuerDetails + " From DB");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -162,7 +162,7 @@ public class GetContractDetailsByID extends TestBase {
     public void matchContractHeaderDetails(){
         String jsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "contractHeaderDetailsJSON");
         log.info("contractDetailsJson response is");
-        verificationHelperClass.verifyAPIResponseJsonWithDBJsonWithDifferentDataTypeValues(getContractDetailsByIDResponse,contractHeaderDetails,jsonPath);
+        verificationHelperClass.verifyAPIResponseJsonWithDBJsonWithIntandStringCombinationDataTypeValues(getContractDetailsByIDResponse,contractHeaderDetails,jsonPath);
     }
 
     /**
@@ -200,7 +200,6 @@ public class GetContractDetailsByID extends TestBase {
     public void matchContractDetailsJSONwithTwoJSONPAths(String apiJSON,String dbJSON){
         if(apiJSON.equalsIgnoreCase("APIcontractDetailsJSONSchemaversion")||
                 apiJSON.equalsIgnoreCase("APIcontractDetailsJSONSubmissionWindow")||
-                                apiJSON.equalsIgnoreCase("APIcontractDetailsJSONResubmissionWindow")||
                                 apiJSON.equalsIgnoreCase("APIcontractDetailsJSONPaymentTerms"))
         {
         String apiJsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, apiJSON);
@@ -209,15 +208,24 @@ public class GetContractDetailsByID extends TestBase {
         verificationHelperClass.verifyAPIResponseJsonWithDBJsonWithIntDataTypeValues(getContractDetailsByIDResponse,contractDetailsJSON,apiJsonPath,dbJsonPath);
         }
         else if (apiJSON.equalsIgnoreCase("APIcontractDetailsJSONLocations") ||
-                apiJSON.equalsIgnoreCase("APIcontractDetailsJSONBillingCycle")
+                apiJSON.equalsIgnoreCase("APIcontractDetailsJSONLineOfBusiness")
+        )
 
-        ) {
+        {
             {
                 String apiJsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, apiJSON);
                 String dbJsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, dbJSON);
                 log.info("contractDetailsJson response is");
                 verificationHelperClass.verifyAPIResponseJsonWithDBJsonWithStringDataTypeValues(getContractDetailsByIDResponse,contractDetailsJSON,apiJsonPath,dbJsonPath);
             }
+        }
+        else if (apiJSON.equalsIgnoreCase("APIcontractDetailsJSONBillingCycle")||
+        apiJSON.equalsIgnoreCase("APIcontractDetailsJSONResubmissionWindow"))
+        {
+            String apiJsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, apiJSON);
+            String dbJsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, dbJSON);
+            log.info("contractDetailsJson response is");
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonWithonlyStringDataTypeValues(getContractDetailsByIDResponse,contractDetailsJSON,apiJsonPath,dbJsonPath);
         }
         else if(apiJSON.equalsIgnoreCase("APIcontractDetailsJSONOpsAssignee")||
                 apiJSON.equalsIgnoreCase("APIcontractDetailsJSONOpsQCer")){
