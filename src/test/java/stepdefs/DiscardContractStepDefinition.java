@@ -46,5 +46,15 @@ public class DiscardContractStepDefinition {
     public void userRunsQueryAndQueryToActivateTheContract(String contractHeader, String ContractDetail){
         discardContract.reactivateContracts(contractHeader,ContractDetail);
     }
+
+    @Then("^User runs \"([^\"]*)\" query and verify is_Current_Flag value as zero in database$")
+    public void userRunsQueryAndVerifyIs_Current_FlagValueAsZeroInDatabase(String query) throws Throwable {
+        discardContract.verifyDiscardContractFromDB(query);
+    }
+
+    @Then("^User valid Response discarded contract body key \"([^\"]*)\" of string$")
+    public void userValidResponseDiscardedContractBodyKeyAndExpectedValueOfString(String actual) throws Throwable {
+        discardContract.validateCreateDrugGroupResponseByString(actual);
+    }
 }
 
