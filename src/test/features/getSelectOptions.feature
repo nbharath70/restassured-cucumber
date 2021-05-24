@@ -1,4 +1,5 @@
 Feature:Retrieve and validate the list of valid getSelect Options of Code Dictionary Details
+
   Scenario: get All valid Code_Dictionary details and verify correct statusCode
     Given User hits the "getSelectOptionsResource" with get request
     Then User verify status code "200" for the response
@@ -54,5 +55,20 @@ Feature:Retrieve and validate the list of valid getSelect Options of Code Dictio
       | getCodeDictionaryOfCompRestrictions         |
       | getCodeTypeOfCompDrugTier                   |
       | getCodeDictionaryOfCompDrugTier             |
+      | getCodeTypeOfDrugSource                     |
+      | getCodeDictionaryOfDrugSource               |
+      | getCodeTypeOfDrugSearchCriteria             |
+      | getCodeDictionaryOfDrugSearchCriteria       |
+      | getCodeTypeOfLobNonPartD                    |
+      | getCodeDictionaryOfLobNonPartD              |
+      | getCodeTypeOfLocations                      |
+      | getCodeDictionaryOfLocations                |
+      | getCodeTypeOfLobPartD                       |
+      | getCodeDictionaryOfLobPartD                 |
+      | getCodeTypeOfFormularyType                  |
+      | getCodeDictionaryOfFormularyType            |
+
+
+
 
 

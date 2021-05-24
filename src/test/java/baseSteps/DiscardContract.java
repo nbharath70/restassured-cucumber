@@ -111,6 +111,31 @@ public class DiscardContract extends TestBase {
 
     }
 
+    public void verifyDiscardContractFromDB(String query)
+    {
+        try {
+            ResultSet isCurrentFlag = dbHepler.executePreparedQuery(query, contractID);
+            isCurrentFlag.next();
+            int currentFlagValue = isCurrentFlag.getInt("Is_Current_Flag");
+            int expectedValue=0;
+            Assert.assertEquals("Verify discard contract Is_Current_Flag is zero",expectedValue,currentFlagValue);
+            log.info("Verify discard contract Is_Current_Flag is zero PASS where expectedValue="+expectedValue+ " and actualValue="+currentFlagValue);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * This validateCreateDrugGroupResponseByString used to validate the response body value as String
+     * @uthor Arun Kumar
+     * @param actualValue
+     */
+    public void validateCreateDrugGroupResponseByString(String actualValue)
+    {
+        String expectedResponse = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "discardErrorResponse");
+        verificationHelperClass.verifyResponseJsonString(discardContractResponse,actualValue,expectedResponse);
+    }
+
 }
 
 

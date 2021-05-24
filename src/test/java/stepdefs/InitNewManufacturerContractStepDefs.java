@@ -3,8 +3,10 @@ package stepdefs;
 import TestBase.TestBase;
 import baseSteps.InitiateNewManufactureContract;
 import cucumber.api.DataTable;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
 public class InitNewManufacturerContractStepDefs extends TestBase {
     InitiateNewManufactureContract postInitiateNewManufactureContract=new InitiateNewManufactureContract();
@@ -37,5 +39,15 @@ public class InitNewManufacturerContractStepDefs extends TestBase {
     @Then("^User verify the valid Response body key \"([^\"]*)\" and expected value \"([^\"]*)\" of string$")
     public void userVerifyTheValidResponseBodyKeyAndExpectedValueOfString(String actualValue,String expectedValue) throws Throwable {
         postInitiateNewManufactureContract.validationResultsString(actualValue,expectedValue);
+    }
+
+    @When("^User hits the \"([^\"]*)\" Endpoint with delete API request to discard Initiate New Manufacture Contract by \"([^\"]*)\" and contractName \"([^\"]*)\"$")
+    public void userHitsTheEndpointWithDeleteAPIRequestToDiscardInitiateNewManufactureContractByAndContractName(String endPoint, String rowKey,String ContractName) throws Throwable {
+        postInitiateNewManufactureContract.discardContract(endPoint,rowKey,ContractName);
+    }
+
+    @Then("^User verifies the isManufacturerContractDiscarded as true value in response for new manufacture contract$")
+    public void userVerifiesTheIsManufacturerContractDiscardedAsTrueValueInResponseForNewManufactureContract() {
+        postInitiateNewManufactureContract.verifyIfIsManufacturerContractDiscarded();
     }
 }
