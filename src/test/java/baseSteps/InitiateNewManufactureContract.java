@@ -1,12 +1,15 @@
 package baseSteps;
 
 import HelperClass.DataBaseHelper;
+import HelperClass.ResourcePath;
 import HelperClass.VerificationHelperClass;
 import RequestPojo.*;
 import TestBase.TestBase;
 import cucumber.api.DataTable;
 import io.restassured.response.Response;
 import org.apache.log4j.Logger;
+
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +17,9 @@ import java.util.Map;
 
 public class InitiateNewManufactureContract extends TestBase {
     Response response;
+    String contractId;
+    int rowKeyContractHeader;
+    int rowKeyContractDetail;
     DataBaseHelper dataBaseHelper=new DataBaseHelper();
     public VerificationHelperClass verificationHelperClass = new VerificationHelperClass();
     public static Logger log = getMyLogger(InitiateNewManufactureContract.class);
@@ -97,6 +103,38 @@ public class InitiateNewManufactureContract extends TestBase {
     public void validationResultsString(String actualValue,String expectedValue)
     {
         verificationHelperClass.verifyResponseJsonString(response,actualValue,expectedValue);
+    }
+
+    /**
+     * This method is used to discard the manufacture contract
+     * @uthor Arun Kumar
+     * @param endpoint
+     * @param rowKey
+     */
+    public void discardContract(String endpoint,String rowKey,String ContractName)
+    {
+        try {
+            ResultSet getContractId = dataBaseHelper.executePreparedQuery("getContractIdByContractName", ContractName);
+            getContractId.next();
+            contractId = getContractId.getString("Contract_ID");
+            ResultSet getRowKeyContractHeader = dataBaseHelper.executePreparedQuery("getRowKeyByContractName",ContractName);
+            getRowKeyContractHeader.next();
+            rowKeyContractHeader = Integer.valueOf(getRowKeyContractHeader.getString("Row_Key"));
+            response = deleteOperation(endpoint, rowKeyContractHeader, contractId);
+            log.info("Response is " + response.asString());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * This method is used verifyIfIsManufacturerContractDiscarded
+     * @uthor Arun Kumar
+     */
+    public void verifyIfIsManufacturerContractDiscarded()
+    {
+        String isContractDiscarded=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "jasonPathForIsDiscardContract");
+        verificationHelperClass.verifyAPIResponseBooleanValueTrue(response,isContractDiscarded);
     }
 
 }

@@ -219,6 +219,50 @@ public class GetSelectOpt extends TestBase {
             jsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "CompDrugTierCodeDescription");
             columnName = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "codeDescription");
         }
+        else if (query.equalsIgnoreCase("getCodeTypeOfDrugSource")) {
+            jsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "DrugSourceCodeValue");
+            columnName = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "codeValue");
+
+        } else if (query.equalsIgnoreCase("getCodeDictionaryOfDrugSource")) {
+            jsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "DrugSourceCodeDescription");
+            columnName = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "codeDescription");
+        }
+        else if (query.equalsIgnoreCase("getCodeTypeOfDrugSearchCriteria")) {
+            jsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "DrugSearchCriteriaCodeValue");
+            columnName = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "codeValue");
+
+        } else if (query.equalsIgnoreCase("getCodeDictionaryOfDrugSearchCriteria")) {
+            jsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "DrugSearchCriteriaCodeDescription");
+            columnName = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "codeDescription");
+        } else if (query.equalsIgnoreCase("getCodeTypeOfLobNonPartD")) {
+            jsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "LobNonPartDCodeValue");
+            columnName = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "codeValue");
+
+        } else if (query.equalsIgnoreCase("getCodeDictionaryOfLobNonPartD")) {
+            jsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "LobNonPartDCodeDescription");
+            columnName = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "codeDescription");
+        } else if (query.equalsIgnoreCase("getCodeTypeOfLocations")) {
+            jsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "LocationsCodeValue");
+            columnName = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "codeValue");
+
+        } else if (query.equalsIgnoreCase("getCodeDictionaryOfLocations")) {
+            jsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "LocationsCodeDescription");
+            columnName = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "codeDescription");
+        } else if (query.equalsIgnoreCase("getCodeTypeOfLobPartD")) {
+            jsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "LobPartDCodeValue");
+            columnName = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "codeValue");
+
+        } else if (query.equalsIgnoreCase("getCodeDictionaryOfLobPartD")) {
+            jsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "LobPartDCodeDescription");
+            columnName = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "codeDescription");
+        } else if (query.equalsIgnoreCase("getCodeTypeOfFormularyType")) {
+            jsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "FormularyTypeCodeValue");
+            columnName = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "codeValue");
+
+        } else if (query.equalsIgnoreCase("getCodeDictionaryOfFormularyType")) {
+            jsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "FormularyTypeCodeDescription");
+            columnName = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "codeDescription");
+        }
         log.info("Validating GetSelectOptions Response Body JsonPath=" + jsonPath + " and query=" + query);
         verificationHelperClass.verifyResponseJsonAndDbArrayByColumnName(getSelectOptionsResponse, jsonPath, query, columnName);
     }
