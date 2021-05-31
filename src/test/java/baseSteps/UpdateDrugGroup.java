@@ -105,6 +105,13 @@ public class UpdateDrugGroup extends TestBase {
             e.printStackTrace();
         }
     }
-
-
+    /**
+     * This method is used validate verifyUpdateDrugGroupResponseHeaderErrorCode
+     * @uthor ArunKumar
+     * @param expectedHeaderValue
+     */
+    public void verifyUpdateDrugGroupResponseHeaderErrorCode(String expectedHeaderValue)
+    {
+        verificationHelperClass.verifyResponseHeaderApiReturnCodesValue(response,expectedHeaderValue);
+    }
 }

@@ -141,6 +141,76 @@ public class DataBaseHelper extends TestBase {
 
     /**
      * @uthor Arun Kumar
+     * getDataColumnArrayListValueDB method is used to get list values from database
+     * @param query
+     * @param columnName
+     * @return
+     */
+    public ArrayList<String> getDataColumnArrayListValueDBWithoutPropertiesKey(String query, String columnName)
+    {
+        try{
+
+            ResultSet result = getDataWithoutPropertiesKey(query);
+            ArrayList<String> arrayList = new ArrayList<String>();
+            while (result.next()) {
+                arrayList.add(result.getString(columnName));
+            }
+            return arrayList;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * @uthor Arun Kumar
+     * getDataColumnArrayListValueDBInterger method is used to get list values from database
+     * @param query
+     * @param columnName
+     * @return
+     */
+    public ArrayList<Integer> getDataColumnArrayListValueDBInterger(String query, String columnName)
+    {
+        try{
+
+            ResultSet result = getData(query);
+            ArrayList<Integer> arrayList = new ArrayList<Integer>();
+            while (result.next()) {
+                arrayList.add(result.getInt(columnName));
+            }
+            return arrayList;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * @uthor Arun Kumar
+     * getDataColumnArrayListValueDBIntergerWithoutPropertiesKey method is used to get list values from database
+     * @param query
+     * @param columnName
+     * @return
+     */
+    public ArrayList<Integer> getDataColumnArrayListValueDBIntergerWithoutPropertiesKey(String query, String columnName)
+    {
+        try{
+
+            ResultSet result = getDataWithoutPropertiesKey(query);
+            ArrayList<Integer> arrayList = new ArrayList<Integer>();
+            while (result.next()) {
+                arrayList.add(result.getInt(columnName));
+            }
+            return arrayList;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    /**
+     * @uthor Arun Kumar
      * getDataColumnArrayListValueDBWithoutKey method is used to get list values from database
      * @param query
      * @param columnName

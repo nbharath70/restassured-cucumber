@@ -32,4 +32,9 @@ public class UpdateDrugGroupStepdefs {
     public void userVerifyTheValidResponseUpdateDrugGroupBodyKeyAndExpectedValueOfString(String actualValue, String expectedValue) throws Throwable {
         updateDrugGroup.validateUpdateDrugGroupResponseByString(actualValue,expectedValue);
     }
+
+    @Then("^User verify the UpdateDrugGroup response header Error Code value \"([^\"]*)\"$")
+    public void userVerifyTheUpdateDrugGroupResponseHeaderErrorCodeValue(String expectedErrorCode) throws Throwable {
+        updateDrugGroup.verifyUpdateDrugGroupResponseHeaderErrorCode(expectedErrorCode);
+    }
 }

@@ -3,6 +3,7 @@ package stepdefs;
 import TestBase.TestBase;
 import baseSteps.UpdateManufactureContract;
 import cucumber.api.DataTable;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.Then;
 
 public class UpdateManufactureContractStepDefs extends TestBase {
@@ -31,5 +32,10 @@ public class UpdateManufactureContractStepDefs extends TestBase {
     @Then("^User verify UpdateManufacturerContract status code \"([^\"]*)\" for the response$")
     public void userVerifyUpdateManufacturerContractStatusCodeForTheResponse(int statusCode) throws Throwable {
         putUpdateManufactureContract.postUpdateManufactureContractStatusCode(statusCode);
+    }
+
+    @Then("^User verify the updateManufacturerContract response header Error Code value \"([^\"]*)\"$")
+    public void userVerifyTheUpdateManufacturerContractResponseHeaderErrorCodeValue(String expectedErrorCode) throws Throwable {
+        putUpdateManufactureContract.verifyUpdateManufactureContractResponseHeaderErrorCode(expectedErrorCode);
     }
 }

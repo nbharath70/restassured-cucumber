@@ -39,7 +39,6 @@ public class GetBenefitRulesByContractIDStepDefinition {
     @Then("^User verifies response from API with DB benefitRulesJson$")
     public void userVerifiesResponseFromAPIWithDBBenefitRulesJson() {
         getBenefitRules.verifyAPIresponseJsonwithDBresponseAsJson();
-
-
     }
+
 }
