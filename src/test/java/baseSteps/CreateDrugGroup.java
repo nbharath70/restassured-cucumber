@@ -114,6 +114,14 @@ public class CreateDrugGroup extends TestBase {
             e.printStackTrace();
         }
     }
-
+    /**
+     * This method is used validate verifyCreateDrugGroupResponseHeaderErrorCode
+     * @uthor ArunKumar
+     * @param expectedHeaderValue
+     */
+    public void verifyCreateDrugGroupResponseHeaderErrorCode(String expectedHeaderValue)
+    {
+        verificationHelperClass.verifyResponseHeaderApiReturnCodesValue(response,expectedHeaderValue);
+    }
 
 }

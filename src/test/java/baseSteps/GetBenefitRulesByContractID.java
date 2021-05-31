@@ -17,7 +17,6 @@ public class GetBenefitRulesByContractID extends TestBase {
     DataBaseHelper dbHelper=new DataBaseHelper();
     VerificationHelperClass verificationHelper=new VerificationHelperClass();
     public static Logger log= TestBase.getMyLogger(GetBenefitRulesByContractID.class);
-
     private String contractID=null;
     private Response jsonResponse=null;
     private String benefitRuleId=null;

@@ -2,12 +2,17 @@ package HelperClass;
 
 import TestBase.TestBase;
 import com.jayway.jsonpath.JsonPath;
+import cucumber.runtime.junit.Assertions;
+import io.restassured.http.Headers;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import io.restassured.response.Response;
 import org.junit.Assert;
+import org.testng.asserts.Assertion;
+
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 public class VerificationHelperClass extends TestBase {
@@ -70,6 +75,27 @@ public class VerificationHelperClass extends TestBase {
             e.printStackTrace();
         }
     }
+    /**
+     * @param response
+     * @param actualJsonPath
+     * @param Query
+     * @param ColumnName
+     * @uthor Arun Kumar
+     * verifyResponseJsonAndDbArrayByColumnNameWithoutPropertiesKey method is used verify the given jsonPath and DB query column value ArrayList value as String
+     */
+    public void verifyResponseJsonAndDbArrayByColumnNameWithoutPropertiesKey(Response response, String actualJsonPath, String Query, String ColumnName) {
+        try {
+            ArrayList<String> actualValue = JsonPath.read(response.asString(), actualJsonPath);
+            ArrayList<String> expectedValue = dataBaseHelper.getDataColumnArrayListValueDBWithoutPropertiesKey(Query, ColumnName);
+            Collections.sort(actualValue);
+            Collections.sort(expectedValue);
+            log.info("expectedValue from DB" + expectedValue + " And actualValue from Json response=" + actualValue);
+            Assert.assertTrue("The lists do not match!", expectedValue.equals(actualValue));
+            log.info("Verification pass where expectedValue=" + expectedValue + " equals to actualValue=" + actualValue);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     /** * @Author Rabbani * @param APIresp... by Rabbani Shaik
      /**
@@ -123,7 +149,7 @@ public class VerificationHelperClass extends TestBase {
     public void verifyAPIResponseJsonWithDBJsonWithIntandStringCombinationDataTypeValues(Response aPIresponse, String dbResponseJsonAsString, String jsonPath) {
         try {
             List<Object> actualValue = JsonPath.read(aPIresponse.asString(), jsonPath);
-            List<Object> expectedValue = JsonPath.read(dbResponseJsonAsString, jsonPath);
+            List<Object > expectedValue = JsonPath.read(dbResponseJsonAsString, jsonPath);
             log.info("expectedValue from DB" + expectedValue + " And actualValue from APIJson response=" + actualValue);
             Assert.assertTrue("The lists do not match!", expectedValue.equals(actualValue));
             log.info("Verification pass where expectedValue=" + expectedValue + " equals to actualValue=" + actualValue);
@@ -359,6 +385,88 @@ public class VerificationHelperClass extends TestBase {
             Assert.assertTrue("The lists do not match!",actualValue.equals(expectedValue));
             log.info("Verification pass where expectedValue=" + expectedValue + " equals to actualValue=" + actualValue);
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    /**
+     * @param response
+     * @param actualJsonPath
+     * @param Query
+     * @param ColumnName
+     * @uthor Arun Kumar
+     * verifyResponseJsonAndDbArrayByColumnNameInteger method is used verify the given jsonPath and DB query column value ArrayList value
+     */
+    public void verifyResponseJsonAndDbArrayByColumnNameForInteger(Response response, String actualJsonPath, String Query, String ColumnName) {
+        try {
+            ArrayList<Integer> actualValue = JsonPath.read(response.asString(), actualJsonPath);
+            ArrayList<Integer> expectedValue = dataBaseHelper.getDataColumnArrayListValueDBInterger(Query, ColumnName);
+            Collections.sort(actualValue);
+            Collections.sort(expectedValue);
+            log.info("expectedValue from DB" + expectedValue + " And actualValue from Json response=" + actualValue);
+            Assert.assertTrue("The lists do not match!", expectedValue.equals(actualValue));
+            log.info("Verification pass where expectedValue=" + expectedValue + " equals to actualValue=" + actualValue);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    /**
+     * @param response
+     * @param actualJsonPath
+     * @param Query
+     * @param ColumnName
+     * @uthor Arun Kumar
+     * verifyResponseJsonAndDbArrayByColumnNameInteger method is used verify the given jsonPath and DB query column value ArrayList value
+     */
+    public void verifyResponseJsonAndDbArrayByColumnNameForIntegerWithoutPropertiesKey(Response response, String actualJsonPath, String Query, String ColumnName) {
+        try {
+            ArrayList<Integer> actualValue = JsonPath.read(response.asString(), actualJsonPath);
+            ArrayList<Integer> expectedValue = dataBaseHelper.getDataColumnArrayListValueDBIntergerWithoutPropertiesKey(Query, ColumnName);
+            Collections.sort(actualValue);
+            Collections.sort(expectedValue);
+            log.info("expectedValue from DB" + expectedValue + " And actualValue from Json response=" + actualValue);
+            Assert.assertTrue("The lists do not match!", expectedValue.equals(actualValue));
+            log.info("Verification pass where expectedValue=" + expectedValue + " equals to actualValue=" + actualValue);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * This method is used to validate the ResponseHeader Error code Value
+     * @uthor ArunKumar
+     * @param response
+     * @param expectedErrorCode
+     */
+    public void verifyResponseHeaderApiReturnCodesValue(Response response,String expectedErrorCode)
+    {
+        try {
+            String s=response.getHeader("rb-api-result");
+            int actualCode = JsonPath.read(s, "$.apiReturnCodes[0]");
+            String expectedErrorCodeString=expectedErrorCode;
+            int expectedError=Integer.valueOf(expectedErrorCodeString);
+            Assert.assertEquals("Error code value do not match!", expectedError,actualCode);
+            log.info("Verification error code value pass where expectedValue=" + expectedError + " equals to actualValue=" + actualCode);
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * This method is used to validate the verifyResponseHeaderCountValue
+     * @uthor ArunKumar
+     * @param response
+     * @param expectedCountValue
+     */
+    public void verifyResponseHeaderCountValue(Response response,int expectedCountValue)
+    {
+        try {
+            Headers headers = response.getHeaders();
+            int actualHeaderCount = headers.asList().size();
+            Assert.assertEquals("verifying Response Header count value",actualHeaderCount,expectedCountValue);
+            log.info("Validating Response Header count value is pass actualValue="+expectedCountValue+" expectedValue="+expectedCountValue);
+        }catch (Exception e)
+        {
             e.printStackTrace();
         }
     }

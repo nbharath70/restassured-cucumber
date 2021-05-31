@@ -98,4 +98,14 @@ public class UpdateManufactureContract extends TestBase {
         log.info("PostUpdateManufactureContract StatusCode is " + statusCode + " and its Pass");
     }
 
+    /**
+     * This method is used validate verifyUpdateManufactureContractResponseHeaderErrorCode
+     * @uthor ArunKumar
+     * @param expectedHeaderValue
+     */
+    public void verifyUpdateManufactureContractResponseHeaderErrorCode(String expectedHeaderValue)
+    {
+        verificationHelperClass.verifyResponseHeaderApiReturnCodesValue(response,expectedHeaderValue);
+    }
+
 }
