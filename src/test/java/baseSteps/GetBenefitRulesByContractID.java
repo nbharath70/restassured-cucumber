@@ -4,10 +4,14 @@ import HelperClass.DataBaseHelper;
 import HelperClass.ResourcePath;
 import HelperClass.VerificationHelperClass;
 import TestBase.TestBase;
+import com.jayway.jsonpath.JsonPath;
 import io.restassured.response.Response;
 import org.apache.log4j.Logger;
+import org.junit.Assert;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class GetBenefitRulesByContractID extends TestBase {
     DataBaseHelper dbHelper=new DataBaseHelper();
@@ -53,6 +57,28 @@ public class GetBenefitRulesByContractID extends TestBase {
         verificationHelper.verifyAPIResponseJsonWithDBJson(jsonResponse,benefitRulesAsJsonfromDB,jsonPathforBenefitRuleId);
         String jsonPathforBenefitRuleName=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "jsonPathforBenefitRuleName");
         verificationHelper.verifyAPIResponseJsonWithDBJson(jsonResponse,benefitRulesAsJsonfromDB,jsonPathforBenefitRuleName);
+
+    }
+
+    public void userHitsAPIWithInvalidContractId(String endPointKey, String invalidContractId) {
+        jsonResponse=getCall(endPointKey,invalidContractId);
+
+//        String s=jsonResponse.getHeader("rb-api-result");
+//        System.out.println("Hiiiiii"+ s);
+//        int actualCode = JsonPath.read(s, "$.apiReturnCodes[0]");
+//        System.out.println(actualCode);
+//        String expectedErrorCodeString=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "expectedErrorCode");
+//        int expectedErrorCode=Integer.valueOf(expectedErrorCodeString);
+//        System.out.println(expectedErrorCode);
+//        Assert.assertEquals("The lists do not match!", expectedErrorCode,actualCode);
+//        log.info("Verification pass where expectedValue=" + expectedErrorCode + " equals to actualValue=" + actualCode);
+
+    }
+
+    public void verifyAPIresponseErrorMsgWithExpectedErrorMsg(String errorMsgJsonKey) {
+        String jsonPathforErrorMsg=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "jsonPathforErrorMsgOfBenefitRulesforBlankContractId");
+        String errorMsgJsonAsString=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, errorMsgJsonKey);
+        verificationHelper.verifyAPIResponseJsonWithDBJson(jsonResponse,errorMsgJsonAsString,jsonPathforErrorMsg);
 
     }
 }

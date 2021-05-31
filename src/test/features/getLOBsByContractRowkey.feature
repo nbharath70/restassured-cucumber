@@ -6,10 +6,27 @@ Feature:Retrieve and validate the LOBs for a  Contract
     And User Hits "getLOBofaContractRowkeyResource" with Get API request
     Then User verifies the valid status code "200" in get LOBs API response
 
-
   Scenario: get LOBS for a valid contract and verify it from DB
     Given User executes query "SQLtoPickaValidContract" and gets value for column "columnNameToGetContractRowkey"
     And User executes query "SQLtoPickaValidContract" and gets Contract "colNametoGetContractDetailJson" from DB
     And User Hits "getLOBofaContractRowkeyResource" with Get API request
     Then User verifies API response with DB response
+
+  Scenario: get LOBS for an Invalid contract and verify the error msg
+    Given User executes "SQLtoPickAnInvalidContract" and gets value for column "columnNameToGetContractRowkey"
+    And User Hits "getLOBofaContractRowkeyResource" with Get API request
+    Then User verifies API response with error msg "errorMsgJsonforLOBofInvalidContractRowKey"
+
+  Scenario: get LOBS for an Blank contract rowKey and verify the error msg
+    Given User Hits "getLOBofaContractRowkeyResource" with blank rowKey and Get API request
+    Then User verifies API response with Blank Contract RowKey error msg "errorMsgJsonforLOBofBlankContractRowKey"
+
+  Scenario: get LOBS for a contract with type mismatch and verify the error msg
+    Given User Hits "getLOBofaContractRowkeyResource" with rowKey "ABCD" and Get API request
+    Then User verifies API response with type mismatch error msg "errorMsgJsonforLOBofTypeMismatchedContractRowkey"
+
+  Scenario: get LOBS for a contract with Is_current_Flag 0 and verify the error msg
+    Given User executes "SQLtoPickAContractWithIsCurrentFlag0" and gets value for column "columnNameToGetContractRowkey"
+    And User Hits "getLOBofaContractRowkeyResource" with Get API request
+    Then User verifies API response with error msg "errorMsgJsonforLOBofIsCurrentFlag0ContractRowKey"
 

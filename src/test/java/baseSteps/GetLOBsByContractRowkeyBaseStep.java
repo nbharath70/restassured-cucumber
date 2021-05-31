@@ -42,4 +42,39 @@ public class GetLOBsByContractRowkeyBaseStep {
     }
 
 
+    public void get_value_for_rowkey_from_DB_and_generate_invalidRowkey(String queryKey, String columnNameKey) {
+        String columnName=testBase.getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, columnNameKey);
+        rowKey= dbHelper.getDataColumnCountDB(queryKey,columnName)+9;
+        log.info("RowKey selected:" + rowKey);
+    }
+
+    public void verifyAPIResponsewithErrorMsg(String errorMsgKey) {
+        String jsonPathForErrorMsg=testBase.getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "jsonPathforErrorMsgforLOBofInvalidContractRowKey");
+        String errorMsgAsJson=testBase.getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, errorMsgKey);
+        String fullErrorMsgAsJson=errorMsgAsJson.concat(String.valueOf(rowKey)).concat("\"}");
+        verHelper.verifyAPIResponseJsonWithDBJsonWithonlyStringDataTypeValues(getLOBAPIresponse,fullErrorMsgAsJson,jsonPathForErrorMsg,jsonPathForErrorMsg);
+    }
+
+    public void hitsEndPointWithBlankRowKeyAndGetAPIRequest(String endPointKey) {
+        getLOBAPIresponse=testBase.getCall(endPointKey,"");
+    }
+
+    public void verifyAPIResponsewithBlankContractRowKeyErrorMsg(String errorMsgKey) {
+        String jsonPathForErrorMsg=testBase.getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "jsonPathforErrorMsgforLOBofBlankContractRowKey");
+        String errorMsgAsJson=testBase.getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, errorMsgKey);
+        verHelper.verifyAPIResponseJsonWithDBJsonWithonlyStringDataTypeValues(getLOBAPIresponse,errorMsgAsJson,jsonPathForErrorMsg,jsonPathForErrorMsg);
+
+    }
+
+    public void hitEndPointWithMismatchRowKeyandGetAPIRequest(String endPointKey, String typeMismatchRowkey) {
+        getLOBAPIresponse=testBase.getCall(endPointKey,typeMismatchRowkey);
+    }
+
+    public void verifiesAPIResponseWithTypeMismatchErrorMsg(String errorMsgKey) {
+        String jsonPathForErrorMsg=testBase.getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "jsonPathforErrorMsgforLOBofInvalidContractRowKey");
+        String errorMsgAsJson=testBase.getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, errorMsgKey);
+        String fullErrorMsgAsJson=errorMsgAsJson.concat("ABCD\\\"\"}");
+        verHelper.verifyAPIResponseJsonWithDBJsonWithonlyStringDataTypeValues(getLOBAPIresponse,fullErrorMsgAsJson,jsonPathForErrorMsg,jsonPathForErrorMsg);
+
+    }
 }
