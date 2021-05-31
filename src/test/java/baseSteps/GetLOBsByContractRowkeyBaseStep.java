@@ -77,4 +77,8 @@ public class GetLOBsByContractRowkeyBaseStep {
         verHelper.verifyAPIResponseJsonWithDBJsonWithonlyStringDataTypeValues(getLOBAPIresponse,fullErrorMsgAsJson,jsonPathForErrorMsg,jsonPathForErrorMsg);
 
     }
+
+    public void verifiesTheLOBsForAContractResponseHeaderErrorCodeValue(String expectedHeaderErrorCode) {
+        verHelper.verifyResponseHeaderApiReturnCodesValue(getLOBAPIresponse,expectedHeaderErrorCode);
+    }
 }

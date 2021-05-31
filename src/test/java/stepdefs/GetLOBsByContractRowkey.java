@@ -81,4 +81,10 @@ public class GetLOBsByContractRowkey {
     public void userVerifiesAPIResponseWithTypeMismatchErrorMsg(String errorMsgkey)  {
         getLobsBaseSteps.verifiesAPIResponseWithTypeMismatchErrorMsg(errorMsgkey);
     }
+
+
+    @Then("^User verifies the LOBS for a contract response header Error Code value \"([^\"]*)\"$")
+    public void userVerifiesTheLOBSForAContractResponseHeaderErrorCodeValue(String expectedHeaderErrorCode)  {
+        getLobsBaseSteps.verifiesTheLOBsForAContractResponseHeaderErrorCodeValue(expectedHeaderErrorCode);
+    }
 }

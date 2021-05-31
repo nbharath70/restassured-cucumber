@@ -80,4 +80,8 @@ public class GetBenefitRulesByContractID extends TestBase {
         verificationHelper.verifyAPIResponseJsonWithDBJson(jsonResponse,errorMsgJsonAsString,jsonPathforErrorMsg);
 
     }
+
+    public void verifyTheBenefitRulesForAContractResponseHeaderErrorCodeValue(String expectedHeaderErrorCode) {
+        verificationHelper.verifyResponseHeaderApiReturnCodesValue(jsonResponse,expectedHeaderErrorCode);
+    }
 }

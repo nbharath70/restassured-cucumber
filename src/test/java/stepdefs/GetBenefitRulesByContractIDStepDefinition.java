@@ -64,4 +64,9 @@ public class GetBenefitRulesByContractIDStepDefinition {
     public void userVerifiesErrorMsgGotFromAPIWith(String errorMsgJsonKey)  {
         getBenefitRules.verifyAPIresponseErrorMsgWithExpectedErrorMsg(errorMsgJsonKey);
     }
+
+    @Then("^User verifies the BenefitRules for a contract response header Error Code value \"([^\"]*)\"$")
+    public void userVerifiesTheBenefitRulesForAContractResponseHeaderErrorCodeValue(String expectedHeaderErrorCode)  {
+        getBenefitRules.verifyTheBenefitRulesForAContractResponseHeaderErrorCodeValue(expectedHeaderErrorCode);
+    }
 }
