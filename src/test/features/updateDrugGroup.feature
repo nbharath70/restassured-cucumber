@@ -32,6 +32,7 @@ Feature:Retrieve and validate the update drug group details
       | mfrId    | drugGroupName      | drugGroupType | oldDrugGroupName   |
       | ASTRA001 | QAAutomation_Drug1 | Rebateable    | QAAutomation_Drug1 |
     Then User hits the "updateDrugGroup" with put request of UpdateNewDrugGroup
+    Then User verify the UpdateDrugGroup response header Error Code value "501"
     Then User verify update drug group status code "200" for the response
     Then User verify the valid UpdateNewDrugGroup Response body key "recordSaved" and expected value "false"
     Then User verify the valid UpdateNewDrugGroup Response body key "recordUpdated" and expected value "false"
@@ -51,6 +52,7 @@ Feature:Retrieve and validate the update drug group details
       | mfrId | drugGroupName | drugGroupType | oldDrugGroupName   |
       |       |               |               | QAAutomation_Drug1 |
     Then User hits the "updateDrugGroup" with put request of UpdateNewDrugGroup
+    Then User verify the UpdateDrugGroup response header Error Code value "-1"
     Then User verify update drug group status code "200" for the response
     Then User verify the valid Response UpdateDrugGroup body key "messageDrugGroup" and expected value "Invalid input: mfrId,drugGroupName,drugGroupType" of string
 
@@ -69,6 +71,7 @@ Feature:Retrieve and validate the update drug group details
       | mfrId | drugGroupName        | drugGroupType | oldDrugGroupName   |
       | Test  | QAAutomation_DrugNew | Rebateable    | QAAutomation_Drug1 |
     Then User hits the "updateDrugGroup" with put request of UpdateNewDrugGroup
+    Then User verify the UpdateDrugGroup response header Error Code value "-1"
     Then User verify update drug group status code "200" for the response
     Then User verify the valid Response UpdateDrugGroup body key "messageDrugGroup" and expected value "Invalid Data: DrugGroupType/ ManufacturerId" of string
 
@@ -104,6 +107,6 @@ Feature:Retrieve and validate the update drug group details
       | mfrId | drugGroupName        | drugGroupType | oldDrugGroupName   |
       | Test  | QAAutomation_DrugNew | Test          | QAAutomation_Drug1 |
     Then User hits the "updateDrugGroup" with put request of UpdateNewDrugGroup
+    Then User verify the UpdateDrugGroup response header Error Code value "-1"
     Then User verify update drug group status code "200" for the response
     Then User verify the valid Response UpdateDrugGroup body key "messageDrugGroup" and expected value "Invalid Data: DrugGroupType/ ManufacturerId" of string
-
