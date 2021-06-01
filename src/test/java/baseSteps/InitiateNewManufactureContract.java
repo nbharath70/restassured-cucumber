@@ -137,4 +137,14 @@ public class InitiateNewManufactureContract extends TestBase {
         verificationHelperClass.verifyAPIResponseBooleanValueTrue(response,isContractDiscarded);
     }
 
+     /**
+     * This method is used validate verifyInitiateNewManufactureContractResponseHeaderErrorCode
+     * @uthor ArunKumar
+     * @param expectedHeaderValue
+     */
+    public void verifyInitiateNewManufactureContractResponseHeaderErrorCode(String expectedHeaderValue)
+    {
+        verificationHelperClass.verifyResponseHeaderApiReturnCodesValue(response,expectedHeaderValue);
+    }
+
 }

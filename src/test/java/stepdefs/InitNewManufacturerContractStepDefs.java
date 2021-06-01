@@ -50,4 +50,9 @@ public class InitNewManufacturerContractStepDefs extends TestBase {
     public void userVerifiesTheIsManufacturerContractDiscardedAsTrueValueInResponseForNewManufactureContract() {
         postInitiateNewManufactureContract.verifyIfIsManufacturerContractDiscarded();
     }
+
+    @Then("^User verify the InitiateNewManufacturerContract response header Error Code value \"([^\"]*)\"$")
+    public void userVerifyTheInitiateNewManufacturerContractResponseHeaderErrorCodeValue(String expectedErrorCode) throws Throwable {
+        postInitiateNewManufactureContract.verifyInitiateNewManufactureContractResponseHeaderErrorCode(expectedErrorCode);
+    }
 }

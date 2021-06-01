@@ -141,11 +141,6 @@ public class TestBase {
                     .pathParam("rowKey",rowKey)
                     .log().all().header("Authorization", "Bearer "+getPropertiesFileValue(ResourcePath.Environment_Properties, "bearerToken"))
                     .when().delete(getEndPointUrl(endPoint)+"/{contractID}"+"/{rowKey}");
-
-            //            log.info("Response is=" + response);
-//            response.then().assertThat().contentType(ContentType.JSON);
-//            log.info("The response is in proper JSON format");
-//            log.info("The response Body="+response.getBody().asString());
             return response;
         }catch (Exception e) {
             e.printStackTrace();

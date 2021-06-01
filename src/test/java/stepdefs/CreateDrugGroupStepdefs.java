@@ -2,6 +2,7 @@ package stepdefs;
 import TestBase.TestBase;
 import baseSteps.CreateDrugGroup;
 import cucumber.api.DataTable;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 
@@ -40,5 +41,10 @@ public class CreateDrugGroupStepdefs extends TestBase {
     @Then("^User verify the valid Response body key \"([^\"]*)\" and execute the query \"([^\"]*)\" matches the Drug groupID return from API and DB$")
     public void userVerifyTheValidResponseBodyKeyAndExecuteTheQueryMatchesTheDrugGroupIDReturnFromAPIAndDB(String jsonPath, String query) throws Throwable {
         createDrugGroup.verifyManufactureDrugGroupID(jsonPath,query);
+    }
+
+    @Then("^User verify the Create new group details response header Error Code value \"([^\"]*)\"$")
+    public void userVerifyTheCreateNewGroupDetailsResponseHeaderErrorCodeValue(String expectedErrorCode) throws Throwable {
+        createDrugGroup.verifyCreateDrugGroupResponseHeaderErrorCode(expectedErrorCode);
     }
 }
