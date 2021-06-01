@@ -33,6 +33,7 @@ Feature: Discard a contract
     Then User runs "verifyDiscardContractHeader" query and verify is_Current_Flag value as zero in database
     Then User runs "verifyDiscardContractDetails" query and verify is_Current_Flag value as zero in database
     When User hits the "discardContractResource" Endpoint with delete API request
+    Then User verify the discard contract response header Error Code value "-1"
     Then User valid Response discarded contract body key "discardErrorMessage" of string
     And user runs "updateContractHeader" query and "updateContractDetail" query to activate the contract
 
