@@ -220,14 +220,17 @@ public class CreateBenefitRuleForAContract extends TestBase {
 
     public void hitCreateBenefitRuleAPI(String endpoint){
         response=postOperation(endpoint,benefitRuleforAContract);
-        String s=response.getHeader("rb-api-result");
-        System.out.println(s);
+//        String s=response.getHeader("rb-api-result");
+//        System.out.println(s);
     }
     public void validationCreateBenefitResultStatus(String jsonPath,String expectedValue)
     {
         String jsonPathForBR=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,jsonPath);
         String expected=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,expectedValue);
         verificationHelperClass.verifyAPIResponseJsonWithDBJson(response,expected,jsonPathForBR);
+    }
+    public void validateHeaderCodeOfResponse(String headerCode){
+        verificationHelperClass.verifyResponseHeaderApiReturnCodesValue(response,headerCode);
     }
 
 }

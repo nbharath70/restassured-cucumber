@@ -52,6 +52,11 @@ public class CreateBenefitRuleForAContractStepDefinition extends TestBase {
        createAndValidateBenefitRule.validationCreateBenefitResultStatus(actualValue,expectedValue);
     }
 
+    @Then("^User Verifies the headercode for this response is \"([^\"]*)\"$")
+    public void userVerifiesTheHeadercodeForThisResponseIs(String headerCode){
+       createAndValidateBenefitRule.validateHeaderCodeOfResponse(headerCode);
+    }
+
 //    @And("^User create the MutipleBenefitruledata$")
 //    public void userCreateTheMutipleBenefitruledata(DataTable dataTable) {
 //        createAndValidateBenefitRule.createMultipleBenefitRuleJSONBody(dataTable);

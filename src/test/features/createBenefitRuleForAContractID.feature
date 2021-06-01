@@ -1,4 +1,4 @@
-## In This Feature file All the Scenarios for CreateBenefitRuleForAContract API exists
+# In This Feature file All the Scenarios for CreateBenefitRuleForAContract API exists
 Feature: Create and Validate the BenefitRule for a Contract
 
   Scenario: validate BenefitRule creation for Contract and verify correct status code with response body is returned
@@ -218,6 +218,7 @@ Feature: Create and Validate the BenefitRule for a Contract
     Then User verify the valid Response body key of CreateBenefitRuleAPI "recordSavingStatus" and expected value "false"
     Then user runs Deletes the BenefitRule Created by Executing the Query "deleteBenefitRulesCreated"
     Then User User Redo's Change made to Lifecycle Status for both ContractHeader "updateContractHeaderLifeCycleStatusToNew" and ContractDetail "updateContractDetailLifeCycleStausToNew"
+    Then User Verifies the headercode for this response is "503"
 
   # Negetive Scenarios
    Scenario: Create BenefitRule for Incentive formularyType with null Values and check the Response
@@ -230,6 +231,7 @@ Feature: Create and Validate the BenefitRule for a Contract
      Then user runs Deletes the BenefitRule Created by Executing the Query "deleteBenefitRulesCreated"
      Then User User Redo's Change made to Lifecycle Status for both ContractHeader "updateContractHeaderLifeCycleStatusToNew" and ContractDetail "updateContractDetailLifeCycleStausToNew"
      Then User verify the valid Response body key of CreateBenefitRuleAPI "ivalidDataResponseMessage" and expected value "givingBothAboveAndBelowvalueNull"
+     Then User Verifies the headercode for this response is "-1"
 
    Scenario: Create BenefitRule for Incentive formularyType with null Values and check the Response
      Given User runs the Query "contractIdForCreateBenefitRuleForContract"and Get the Contract ContractId
@@ -241,6 +243,7 @@ Feature: Create and Validate the BenefitRule for a Contract
      Then user runs Deletes the BenefitRule Created by Executing the Query "deleteBenefitRulesCreated"
      Then User User Redo's Change made to Lifecycle Status for both ContractHeader "updateContractHeaderLifeCycleStatusToNew" and ContractDetail "updateContractDetailLifeCycleStausToNew"
      Then User verify the valid Response body key of CreateBenefitRuleAPI "ivalidDataResponseMessage" and expected value "givingBothAboveAndBelowvalueNull"
+     Then User Verifies the headercode for this response is "-1"
 
    Scenario: Create BenefitRule for Incentive formularyType with null Values and check the Response
      Given User runs the Query "contractIdForCreateBenefitRuleForContract"and Get the Contract ContractId
@@ -252,7 +255,7 @@ Feature: Create and Validate the BenefitRule for a Contract
      Then user runs Deletes the BenefitRule Created by Executing the Query "deleteBenefitRulesCreated"
      Then User User Redo's Change made to Lifecycle Status for both ContractHeader "updateContractHeaderLifeCycleStatusToNew" and ContractDetail "updateContractDetailLifeCycleStausToNew"
      Then User verify the valid Response body key of CreateBenefitRuleAPI "ivalidDataResponseMessage" and expected value "givingBothAboveAndBelowvalueNull"
-
+     Then User Verifies the headercode for this response is "-1"
 
   Scenario: Create BenefitRule for Incentive formularyType with invalidFormularyType
     Given User runs the Query "contractIdForCreateBenefitRuleForContract"and Get the Contract ContractId
@@ -264,7 +267,7 @@ Feature: Create and Validate the BenefitRule for a Contract
     Then user runs Deletes the BenefitRule Created by Executing the Query "deleteBenefitRulesCreated"
     Then User User Redo's Change made to Lifecycle Status for both ContractHeader "updateContractHeaderLifeCycleStatusToNew" and ContractDetail "updateContractDetailLifeCycleStausToNew"
     Then User verify the valid Response body key of CreateBenefitRuleAPI "ivalidDataResponseMessage" and expected value "invalidFormularyType"
-
+    Then User Verifies the headercode for this response is "-1"
 
   Scenario: Create BenefitRule for Incentive formularyType with invalid Less than Minimum Character BenefitRulename
     Given User runs the Query "contractIdForCreateBenefitRuleForContract"and Get the Contract ContractId
@@ -276,6 +279,7 @@ Feature: Create and Validate the BenefitRule for a Contract
     Then user runs Deletes the BenefitRule Created by Executing the Query "deleteBenefitRulesCreated"
     Then User User Redo's Change made to Lifecycle Status for both ContractHeader "updateContractHeaderLifeCycleStatusToNew" and ContractDetail "updateContractDetailLifeCycleStausToNew"
     Then User verify the valid Response body key of CreateBenefitRuleAPI "ivalidDataResponseMessage" and expected value "invalidBenifitRulenameLessThanMinimumCharacters"
+    Then User Verifies the headercode for this response is "-1"
 
   Scenario: Create BenefitRule for Incentive formularyType with invalid Less than Minimum Character BenefitRulename
     Given User runs the Query "contractIdForCreateBenefitRuleForContract"and Get the Contract ContractId
@@ -287,6 +291,7 @@ Feature: Create and Validate the BenefitRule for a Contract
     Then user runs Deletes the BenefitRule Created by Executing the Query "deleteBenefitRulesCreated"
     Then User User Redo's Change made to Lifecycle Status for both ContractHeader "updateContractHeaderLifeCycleStatusToNew" and ContractDetail "updateContractDetailLifeCycleStausToNew"
     Then User verify the valid Response body key of CreateBenefitRuleAPI "ivalidDataResponseMessage" and expected value "invalidBenifitruleMoreThanMaximumCharacters"
+    Then User Verifies the headercode for this response is "-1"
 
   Scenario: Create BenefitRule for Contract having LifeCycle Status as New IncentiveClosed formularyType with both above and below Value and check the Response
     Given User runs the Query "contractIdForCreateBenefitRuleForContract"and Get the Contract ContractId
@@ -296,8 +301,9 @@ Feature: Create and Validate the BenefitRule for a Contract
     When User hits createBenefitRuleAPI "createBenefitRuleForAContract" with Post Request
     Then user runs Deletes the BenefitRule Created by Executing the Query "deleteBenefitRulesCreated"
     Then User verify the valid Response body key of CreateBenefitRuleAPI "recordSavingStatus" and expected value "false"
+    Then User Verifies the headercode for this response is "502"
 
-  Scenario: Create BenefitRule for Incentive formularyType with null Values and check the Response
+  Scenario: Create BenefitRule for Incentive formularyType with Values more than 100 or equal to 100and check the Response
     Given User runs the Query "contractIdForCreateBenefitRuleForContract"and Get the Contract ContractId
     And User runs Update Query to Update LifeCycleStatus of Contract ID of ContractHeader "updateContractHeaderLifeCycleStatusToInProgress" and ContractDetails "updateContractDetailLifeCycleStausToInProgress" to InProgress
     And User create the Benefitruledata
@@ -307,4 +313,4 @@ Feature: Create and Validate the BenefitRule for a Contract
     Then user runs Deletes the BenefitRule Created by Executing the Query "deleteBenefitRulesCreated"
     Then User User Redo's Change made to Lifecycle Status for both ContractHeader "updateContractHeaderLifeCycleStatusToNew" and ContractDetail "updateContractDetailLifeCycleStausToNew"
     Then User verify the valid Response body key of CreateBenefitRuleAPI "ivalidDataResponseMessage" and expected value "invalidAboveOrBelowValue"
-
+    Then User Verifies the headercode for this response is "-1"
