@@ -470,4 +470,24 @@ public class VerificationHelperClass extends TestBase {
             e.printStackTrace();
         }
     }
+
+    /**
+     * @param response
+     * @param actualJsonPath
+     * @param Query
+     * @param ColumnName
+     * @uthour Smruti
+     * verifyRecordCount method is used verify the total record count from given jsonPath and DB query column value
+     */
+    public void matchRecordCount(Response response, String actualJsonPath, String Query, String ColumnName) {
+        try {
+            int actualValue = JsonPath.read(response.asString(), actualJsonPath);
+            int expectedValue = dataBaseHelper.getDataColumnCountDB(Query, ColumnName);
+            Assert.assertEquals("Verification failed, expectedValue is not same as  actual value", expectedValue, actualValue);
+            log.info("Verification pass where expectedValue=" + expectedValue + " equals to actualValue=" + actualValue);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

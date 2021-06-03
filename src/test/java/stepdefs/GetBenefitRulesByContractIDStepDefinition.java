@@ -39,6 +39,34 @@ public class GetBenefitRulesByContractIDStepDefinition {
     @Then("^User verifies response from API with DB benefitRulesJson$")
     public void userVerifiesResponseFromAPIWithDBBenefitRulesJson() {
         getBenefitRules.verifyAPIresponseJsonwithDBresponseAsJson();
+
+
     }
 
+
+    @Given("^User Hits API \"([^\"]*)\" with Get request and Invalid contract Id \"([^\"]*)\"$")
+    public void userHitsAPIWithGetRequestAndInvalidContractId(String endPointKey, String invalidContractId) {
+        getBenefitRules.userHitsAPIWithInvalidContractId(endPointKey,invalidContractId);
+    }
+
+    @Then("^User verifies error msg \"([^\"]*)\" from API response$")
+    public void userVerifiesErrorMsgFromAPIResponse(String errorMsgJsonKey)  {
+        getBenefitRules.verifyAPIresponseErrorMsgWithExpectedErrorMsg(errorMsgJsonKey);
+    }
+
+    @Given("^User Hits API \"([^\"]*)\" with Get request and Invalid contract Id$")
+    public void userHitsAPIWithGetRequestAndInvalidContractId(String endPointKey) {
+        getBenefitRules.userHitsAPIWithInvalidContractId(endPointKey,"");
+
+    }
+
+    @Then("^User verifies error msg got from API with \"([^\"]*)\"$")
+    public void userVerifiesErrorMsgGotFromAPIWith(String errorMsgJsonKey)  {
+        getBenefitRules.verifyAPIresponseErrorMsgWithExpectedErrorMsg(errorMsgJsonKey);
+    }
+
+    @Then("^User verifies the BenefitRules for a contract response header Error Code value \"([^\"]*)\"$")
+    public void userVerifiesTheBenefitRulesForAContractResponseHeaderErrorCodeValue(String expectedHeaderErrorCode)  {
+        getBenefitRules.verifyTheBenefitRulesForAContractResponseHeaderErrorCodeValue(expectedHeaderErrorCode);
+    }
 }
