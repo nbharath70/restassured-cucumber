@@ -136,6 +136,17 @@ public class DiscardContract extends TestBase {
         verificationHelperClass.verifyResponseJsonString(discardContractResponse,actualValue,expectedResponse);
     }
 
+    /**
+     * This method is used validate verifyDiscardContractResponseHeaderErrorCode
+     * @uthor ArunKumar
+     * @param expectedHeaderValue
+     */
+    public void verifyDiscardContractResponseHeaderErrorCode(String expectedHeaderValue)
+    {
+        verificationHelperClass.verifyResponseHeaderApiReturnCodesValue(discardContractResponse,expectedHeaderValue);
+    }
+
+
 }
 
 

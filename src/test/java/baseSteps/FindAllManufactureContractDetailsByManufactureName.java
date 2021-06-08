@@ -29,6 +29,8 @@ public class FindAllManufactureContractDetailsByManufactureName extends TestBase
     {
         log.info("User hit post call for FindAllManufactureContractDetails");
         response = postOperation(endPoint, requestJsonBody);
+        String s=response.getHeader("rb-api-result");
+        log.info("FindAllManufactureContractDetails API error code value"+s);
     }
 
     /**

@@ -71,3 +71,7 @@ Feature:Retrieve and validate ProgramsToDisplay on Grid
       | rebatebleDrugGroupIDDB    | rebatebleDrugGroupListTypeDBJSONPath    | rebatebleDrugGroupListTypeAPIJSONPath    |
       | compitatorDrugGroupIDDB   | compitatorDrugGroupListTypeDBJSONPath   | compitatorDrugGroupListTypeAPIJSONPath   |
       | marketBasketDrugGroupIDDB | marketBasketDrugGroupListTypeDBJSONPath | marketBasketDrugGroupListTypeAPIJSONPath |
+
+  Scenario: Validate error code for invalid programID
+    When User hits the "fetchProgramsToGrid" Endpoint with get request for given programID "Test"
+    Then User Verifies the API response Status code is "200" for FetchProgramsToGridApi

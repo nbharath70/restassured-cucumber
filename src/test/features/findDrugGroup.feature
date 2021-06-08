@@ -50,6 +50,11 @@ Feature:Retrieve and validate FindDrugGroup API
     When User hits the FindDrugGroup "findDrugGroup" Endpoint with get request
     Then Verifies the JSON response with DB JSOn by numberOfPendingNDCJsonPath "numberOfPendingNDCFinddrugGroupApi"
 
+  Scenario: Validate error code for invalid manufactureName
+    When User hits the FindDrugGroup "findDrugGroup" Endpoint with get request for given ManufactuereName "Test"
+    Then User verifies the API response Status code is "200" for FindDrugGroup API
+    Then User verify the FindDrugGroup response header Error Code value "-1"
+    Then User verify the valid Response FindDrugGroup body key "messageFindDrugGroup" and expected value "404 NOT_FOUND" of string
 
 
 

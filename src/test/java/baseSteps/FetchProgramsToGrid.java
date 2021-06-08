@@ -59,6 +59,20 @@ public class FetchProgramsToGrid extends TestBase {
         log.info("FetchProgramToGrid API Appending EndPoint " + endpointCompletetion);
         fetchProgramsToGridResponse = getCall(endpoint,endpointCompletetion);
     }
+
+    /**
+     * This method used to hit the FetchProgramsToGridAPI with Endpoint & programContractID
+     * @author Bharath
+     * @param endpoint
+     * @param programContractID
+     */
+    public void hitFetchProgramsToGridEndpoint(String endpoint,String programContractID) {
+        String endpointCompletetion=programContractID+"/programs";
+        log.info("FetchProgramToGrid API Appending EndPoint " + endpointCompletetion);
+        fetchProgramsToGridResponse = getCall(endpoint,endpointCompletetion);
+        String s=fetchProgramsToGridResponse.getHeader("rb-api-result");
+        log.info("fetchProgramsToGridResponse error code"+s);
+    }
     /**
      * This method used to  FetchProgramsToGridAPI response
      * @author Bharath
@@ -178,5 +192,15 @@ public class FetchProgramsToGrid extends TestBase {
       String dBjsonPathForListNameAndTypeOfDrogGroup=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,dbJsonpath);
         verificationHelperClass.verifyAPIResponseJsonWithDBJsonWithDifferentDataTypeValues(fetchProgramsToGridResponse,drugDetailJSON,aPIjsonPathForListNameAndTypeOfDrogGroup,dBjsonPathForListNameAndTypeOfDrogGroup);
   }
+    /**
+     * This method is used validate verifyFetchProgramsToGridResponseHeaderErrorCode
+     * @uthor ArunKumar
+     * @param expectedHeaderValue
+     */
+    public void verifyFetchProgramsToGridResponseHeaderErrorCode(String expectedHeaderValue)
+    {
+        verificationHelperClass.verifyResponseHeaderApiReturnCodesValue(fetchProgramsToGridResponse,expectedHeaderValue);
+    }
+
 
 }

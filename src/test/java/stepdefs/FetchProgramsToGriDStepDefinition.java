@@ -1,5 +1,6 @@
 package stepdefs;
 import baseSteps.FetchProgramsToGrid;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
@@ -63,5 +64,16 @@ public class FetchProgramsToGriDStepDefinition {
     public void userExecutesTheQueryAndGetDrugDetailJSONFromDB(String initialSplitQuery, String finalSplitQuery) {
         fetchProgramsToGrid.getDruggroupDetails(initialSplitQuery,finalSplitQuery);
 
+    }
+
+    @When("^User hits the \"([^\"]*)\" Endpoint with get request for given programID \"([^\"]*)\"$")
+    public void userHitsTheEndpointWithGetRequestForGivenProgramID(String endpoint, String ProgramID) throws Throwable {
+        fetchProgramsToGrid.hitFetchProgramsToGridEndpoint(endpoint,ProgramID);
+    }
+
+    @Then("^User verify the fetchProgramsToGrid response header Error Code value \"([^\"]*)\"$")
+    public void userVerifyTheFetchProgramsToGridResponseHeaderErrorCodeValue(String arg0) throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        throw new PendingException();
     }
 }
