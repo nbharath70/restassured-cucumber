@@ -67,4 +67,19 @@ public class FindDrugGroupStepDefinition {
 
       findDrugGroup.verifyFindDrugListRuleIDAndDrugListDescription(query,columnName);
     }
+
+    @When("^User hits the FindDrugGroup \"([^\"]*)\" Endpoint with get request for given ManufactuereName \"([^\"]*)\"$")
+    public void userHitsTheFindDrugGroupEndpointWithGetRequestForGivenManufactuereName(String endpoint, String manufName) throws Throwable {
+        findDrugGroup.hitFindDruggroupEndpoint(endpoint,manufName);
+    }
+
+    @Then("^User verify the valid Response FindDrugGroup body key \"([^\"]*)\" and expected value \"([^\"]*)\" of string$")
+    public void userVerifyTheValidResponseFindDrugGroupBodyKeyAndExpectedValueOfString(String actual, String expected) throws Throwable {
+        findDrugGroup.validateFindDrugGroupResponse(actual,expected);
+    }
+
+    @Then("^User verify the FindDrugGroup response header Error Code value \"([^\"]*)\"$")
+    public void userVerifyTheFindDrugGroupResponseHeaderErrorCodeValue(String expectedErrorCode) throws Throwable {
+        findDrugGroup.verifyFindDrugGroupResponseResponseHeaderErrorCode(expectedErrorCode);
+    }
 }

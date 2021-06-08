@@ -40,6 +40,12 @@ public class FindDrugGroup extends TestBase {
         findDrugGroupResponse=getCall(endpoint,manufactureName);
         log.info("Response of FindDrugGroup API is "+findDrugGroupResponse);
     }
+    public void hitFindDruggroupEndpoint(String endpoint,String manufactureName){
+        findDrugGroupResponse=getCall(endpoint,manufactureName);
+        log.info("Response of FindDrugGroup API is "+findDrugGroupResponse);
+        String s=findDrugGroupResponse.getHeader("rb-api-result");
+        log.info("fetchProgramsToGridResponse error code"+s);
+    }
     public void verifiyStatusCode(int statusCode){
         verificationHelperClass.verifyStatusCode(findDrugGroupResponse,statusCode);
         log.info(" FindDrugGroup API StatusCode is " + statusCode + " and its Pass");
@@ -148,4 +154,15 @@ public class FindDrugGroup extends TestBase {
         jsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,jsonPathforNumberOfPendingNDC);
         verificationHelperClass.verifyAPIResponseJsonWithDBJsonWithDifferentDataTypeValues(findDrugGroupResponse,numberOfPendingNDC,jsonPath);
     }
+    public void validateFindDrugGroupResponse(String actualValue,String expectedValue)
+    {
+        verificationHelperClass.verifyResponseJsonString(findDrugGroupResponse,actualValue,expectedValue);
+    }
+
+    public void verifyFindDrugGroupResponseResponseHeaderErrorCode(String expectedHeaderValue)
+    {
+        verificationHelperClass.verifyResponseHeaderApiReturnCodesValue(findDrugGroupResponse,expectedHeaderValue);
+    }
+
+
 }
