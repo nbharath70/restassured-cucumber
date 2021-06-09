@@ -56,5 +56,10 @@ public class DiscardContractStepDefinition {
     public void userValidResponseDiscardedContractBodyKeyAndExpectedValueOfString(String actual) throws Throwable {
         discardContract.validateCreateDrugGroupResponseByString(actual);
     }
+
+    @Then("^User verify the discard contract response header Error Code value \"([^\"]*)\"$")
+    public void userVerifyTheDiscardContractResponseHeaderErrorCodeValue(String expectedErrorCode) throws Throwable {
+        discardContract.verifyDiscardContractResponseHeaderErrorCode(expectedErrorCode);
+    }
 }
 

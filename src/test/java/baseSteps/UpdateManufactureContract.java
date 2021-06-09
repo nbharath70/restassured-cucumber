@@ -7,6 +7,8 @@ import TestBase.TestBase;
 import cucumber.api.DataTable;
 import io.restassured.response.Response;
 import org.apache.log4j.Logger;
+import org.junit.Assert;
+
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,7 @@ public class UpdateManufactureContract extends TestBase {
     public VerificationHelperClass verificationHelperClass = new VerificationHelperClass();
     public static Logger log = getMyLogger(InitiateNewManufactureContract.class);
     InitManufactureContract initManufactureContractObject;
+    private String contractName=null;
 
     /**
      * updateExistingManufactureContractDetails Method is used to update the manufacture contract detail data for init new manufacture contract
@@ -29,6 +32,7 @@ public class UpdateManufactureContract extends TestBase {
         try {
             List<Map<String, String>> updateManufactureDetailData = dataTable.asMaps(String.class, String.class);
             for (Map<String, String> map : updateManufactureDetailData) {
+                contractName = map.get("contractName");
                 ResultSet getContractId = dataBaseHelper.executePreparedQuery("getContractIdByContractName", map.get("contractName"));
                 getContractId.next();
                 String contractId=getContractId.getString("Contract_ID");
@@ -108,4 +112,19 @@ public class UpdateManufactureContract extends TestBase {
         verificationHelperClass.verifyResponseHeaderApiReturnCodesValue(response,expectedHeaderValue);
     }
 
+    public void executeTheQueryAndValidateForLCS(String queryKey, String expectedLCS) {
+        try {
+            ResultSet resultSetforLCS = dataBaseHelper.executePreparedQuery(queryKey, contractName);
+            resultSetforLCS.next();
+            String headerLCSfromDB = resultSetforLCS.getString("headerLCS");
+            Assert.assertEquals("Life Cycle Status of contract do not match! in Contract Header table ", headerLCSfromDB,expectedLCS);
+            log.info("Life Cycle Status pass in Contract Header where expectedValue=" + expectedLCS + " equals to actualValue=" + headerLCSfromDB);
+            String detailLCSfromDB = resultSetforLCS.getString("detailLCS");
+            Assert.assertEquals("Life Cycle Status of contract do not match! in Contract Detail table ", detailLCSfromDB,expectedLCS);
+            log.info("Life Cycle Status pass in Contract Detail where expectedValue=" + expectedLCS + " equals to actualValue=" + detailLCSfromDB);
+
+        }catch (Exception e){e.printStackTrace();}
+
+
+    }
 }

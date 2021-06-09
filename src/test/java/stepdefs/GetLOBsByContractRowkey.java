@@ -50,4 +50,41 @@ public class GetLOBsByContractRowkey {
     public void userVerifiesAPIResponseWithDBResponse() {
         getLobsBaseSteps.verifiyAPIResponseWithDBResponse();
     }
+
+    @Given("^User executes \"([^\"]*)\" and gets value for column \"([^\"]*)\"$")
+    public void userExecutesAndGetsValueForColumn(String queryKey, String columnNameKey)  {
+        getLobsBaseSteps.get_value_for_rowkey_from_DB_and_generate_invalidRowkey(queryKey,columnNameKey);
+
+    }
+
+    @Then("^User verifies API response with error msg \"([^\"]*)\"$")
+    public void userVerifiesAPIResponseWithErrorMsg(String errorMsgKey) throws Throwable {
+        getLobsBaseSteps.verifyAPIResponsewithErrorMsg(errorMsgKey);
+    }
+
+    @Given("^User Hits \"([^\"]*)\" with blank rowKey and Get API request$")
+    public void userHitsEndPointWithBlankRowKeyAndGetAPIRequest(String endPointKey) throws Throwable {
+        getLobsBaseSteps.hitsEndPointWithBlankRowKeyAndGetAPIRequest(endPointKey);
+    }
+
+    @Then("^User verifies API response with Blank Contract RowKey error msg \"([^\"]*)\"$")
+    public void userVerifiesAPIResponseWithBlankContractRowKeyErrorMsg(String errorMsgKey) throws Throwable {
+        getLobsBaseSteps.verifyAPIResponsewithBlankContractRowKeyErrorMsg(errorMsgKey);
+    }
+
+    @Given("^User Hits \"([^\"]*)\" with rowKey \"([^\"]*)\" and Get API request$")
+    public void userHitsWithRowKeyAndGetAPIRequest(String endPointKey, String typeMismatchRowkey)  {
+        getLobsBaseSteps.hitEndPointWithMismatchRowKeyandGetAPIRequest(endPointKey,typeMismatchRowkey);
+    }
+
+    @Then("^User verifies API response with type mismatch error msg \"([^\"]*)\"$")
+    public void userVerifiesAPIResponseWithTypeMismatchErrorMsg(String errorMsgkey)  {
+        getLobsBaseSteps.verifiesAPIResponseWithTypeMismatchErrorMsg(errorMsgkey);
+    }
+
+
+    @Then("^User verifies the LOBS for a contract response header Error Code value \"([^\"]*)\"$")
+    public void userVerifiesTheLOBSForAContractResponseHeaderErrorCodeValue(String expectedHeaderErrorCode)  {
+        getLobsBaseSteps.verifiesTheLOBsForAContractResponseHeaderErrorCodeValue(expectedHeaderErrorCode);
+    }
 }
