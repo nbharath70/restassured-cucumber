@@ -13,7 +13,7 @@ public class DataBaseHelper extends TestBase {
     public ResultSet prepareQueryResult;
 
     /**
-     * @uthor Arun Kumar
+     * @Author Arun Kumar
      * This is the  method establishes the connection to database
      * @return stmt
      * @updated by: Rabbani
@@ -61,7 +61,7 @@ public class DataBaseHelper extends TestBase {
         return stmt;
     }
     /**
-     * @uthor: Arun Kumar
+     * @Author Arun Kumar
      * getData Method used to retrieves the data of given query
      * @param query
      * @return data
@@ -78,7 +78,7 @@ public class DataBaseHelper extends TestBase {
     }
 
     /**
-     * @uthor: Arun Kumar
+     * @Author Arun Kumar
      * getDataWithoutPropertiesKey Method used to retrieves the data of given query without PropertiesKey
      * @param query
      * @return data
@@ -95,7 +95,7 @@ public class DataBaseHelper extends TestBase {
     }
 
     /**
-     * @uthor Arun Kumar
+     * @Author Arun Kumar
      * getDataColumnCount this method used get the total count of value for given query and column value
      * @param query
      * @param columnName
@@ -117,7 +117,7 @@ public class DataBaseHelper extends TestBase {
 
 
     /**
-     * @uthor Arun Kumar
+     * @Author Arun Kumar
      * getDataColumnArrayListValueDB method is used to get list values from database
      * @param query
      * @param columnName
@@ -140,7 +140,7 @@ public class DataBaseHelper extends TestBase {
     }
 
     /**
-     * @uthor Arun Kumar
+     * @Author Arun Kumar
      * getDataColumnArrayListValueDB method is used to get list values from database
      * @param query
      * @param columnName
@@ -163,7 +163,7 @@ public class DataBaseHelper extends TestBase {
     }
 
     /**
-     * @uthor Arun Kumar
+     * @Author Arun Kumar
      * getDataColumnArrayListValueDBInterger method is used to get list values from database
      * @param query
      * @param columnName
@@ -186,7 +186,7 @@ public class DataBaseHelper extends TestBase {
     }
 
     /**
-     * @uthor Arun Kumar
+     * @Author Arun Kumar
      * getDataColumnArrayListValueDBIntergerWithoutPropertiesKey method is used to get list values from database
      * @param query
      * @param columnName
@@ -210,7 +210,7 @@ public class DataBaseHelper extends TestBase {
 
 
     /**
-     * @uthor Arun Kumar
+     * @Author Arun Kumar
      * getDataColumnArrayListValueDBWithoutKey method is used to get list values from database
      * @param query
      * @param columnName
@@ -233,7 +233,7 @@ public class DataBaseHelper extends TestBase {
     }
 
     /**
-     * @uthor Rabbani
+     * @Author Rabbani
      * getSingleCellValueAsStringFromDB this method reads the single cell value from DB query result and returns it as a String
      * @param query
      * @param columnName
@@ -254,7 +254,7 @@ public class DataBaseHelper extends TestBase {
     }
 
     /**
-     * @uthor Bharath
+     * @Author Bharath
      * executePreparedQuery this method Executes the Prepared Query Upends the Intvalue to the Query
      * @param query
      * @param queryParam
@@ -275,7 +275,7 @@ public class DataBaseHelper extends TestBase {
         return null;
     }
     /**
-     * @uthor Bharath
+     * @Author Bharath
      * executePreparedQuery this method Executes the Prepared Query Upends the Intvalue to the Query
      * @param query
      * @param queryParam
@@ -295,7 +295,7 @@ public class DataBaseHelper extends TestBase {
 
     }
     /**
-     * @uthor Bharath
+     * @Author Bharath
      * executePreparedQuery this method Executes the Prepared Query Upends the Stringvalues to the Query
      * @param query
      * @param queryParam
@@ -315,7 +315,7 @@ public class DataBaseHelper extends TestBase {
         return null;
     }
     /**
-     * @uthor Bharath
+     * @Author Bharath
      * executePreparedQuery this method Executes the Prepared Query it will Append the List of values into the Query
      * @param initialSplitquery
      * @param finalSplitQuery
@@ -346,7 +346,7 @@ public class DataBaseHelper extends TestBase {
     }
     /**
      * executeUpdatePreparedQueryAsString method is used to execute the Query as parameter which is type os String
-     * @uthor Bharath
+     * @Author Bharath
      * @param query
      * @param queryParam
      */
@@ -363,7 +363,7 @@ public class DataBaseHelper extends TestBase {
     }
     /**
      * getDataColumnArrayUsingPreparedStatement method is used to execute the Query as parameter and will return the Columnvalue as String from DB
-     * @uthor Bharath
+     * @Author Bharath
      * @param query
      * @param queryParam
      */
@@ -402,7 +402,7 @@ public class DataBaseHelper extends TestBase {
 
     /**
      * executeUpdatePreparedQueryAsString method is used to execute the Query as parameter which is type os String
-     * @uthor Arun Kumar
+     * @Author Arun Kumar
      * @param query
      * @param queryParam2
      */
@@ -424,7 +424,7 @@ public class DataBaseHelper extends TestBase {
     }
     /**
      *
-     * @uthor Smruti
+     * @Author Smruti
      * @param
      * @param
      */
