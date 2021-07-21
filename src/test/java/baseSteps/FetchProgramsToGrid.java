@@ -55,7 +55,7 @@ public class FetchProgramsToGrid extends TestBase {
      * @param endpoint
      */
     public void hitFetchProgramsToGridEndpoint(String endpoint) {
-        String endpointCompletetion=programContractID+"/programs";
+        String endpointCompletetion=programContractID+"/programs/";
         log.info("FetchProgramToGrid API Appending EndPoint " + endpointCompletetion);
         fetchProgramsToGridResponse = getCall(endpoint,endpointCompletetion);
     }
