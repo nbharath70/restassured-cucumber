@@ -13,7 +13,7 @@ Feature:Retrieve and validate the Update Manufacture Contract
       | ASTRA001       | Astra Zeneca | false       | 75     | ABV0011037 | Non-Part D   | QAAutomation_10 | 2021-08-01 | 2021-09-20 | 2021-02-05T11:17:18.337 | SYSTEM       | 2021-02-05T11:17:18.337 | SYSTEM       | NEW             | null                 | This is test 02 | 30          | AMT     | null         | null       | false         | null           | ANNUAL    | 12       | null           | true                   | false            | 1             | HiEx           | All       | YRL          | 90               | 60                 | 30           | true           | null        | null    | 0               | QAAutomation_10 | 1             |
     Then User hits the "updateManufacturerContract" update manufacture contract post request
     Then User verify UpdateManufacturerContract status code "200" for the response
-    Then User verify the updateManufacturerContract valid Response body key "recordInserted" and expected value "true"
+    Then User verify the updateManufacturerContract valid Response body key "recordUpdated" and expected value "true"
     Then User executes the query "deleteContractHeaderByContractName" and "deleteContractDetailByAmendmentName" for contract & Amendment name "QAAutomation%" to delete the record from the database
 
   Scenario: Validate the Overlapping date with Update Manufacture Contract with different Line of Business value
