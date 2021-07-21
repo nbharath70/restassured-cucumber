@@ -38,4 +38,10 @@ public class UpdateManufactureContractStepDefs extends TestBase {
     public void userVerifyTheUpdateManufacturerContractResponseHeaderErrorCodeValue(String expectedErrorCode) throws Throwable {
         putUpdateManufactureContract.verifyUpdateManufactureContractResponseHeaderErrorCode(expectedErrorCode);
     }
+
+    // Glue code for Update Mfr contract and send to rebate Ops
+    @Then("^User executes the query \"([^\"]*)\" and validates for LCS \"([^\"]*)\"$")
+    public void userExecutesTheQueryAndValidatesForLCS(String queryKey, String expectedLCS) throws Throwable {
+        putUpdateManufactureContract.executeTheQueryAndValidateForLCS(queryKey,expectedLCS);
+    }
 }

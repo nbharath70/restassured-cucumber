@@ -6,6 +6,7 @@ Feature:Retrieve and validate FindDrugGroup API
     When User hits the FindDrugGroup "findDrugGroup" Endpoint with get request
     Then User verifies the API response Status code is "200" for FindDrugGroup API
 
+
   Scenario: Hit findDrugGroup Api and Format of response
     Given User Runs the Query "getManufactuereName" and Fetch the Manufactuere Name from DB
     When User hits the FindDrugGroup "findDrugGroup" Endpoint with get request

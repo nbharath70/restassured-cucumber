@@ -75,3 +75,20 @@ Feature:Retrieve and validate ProgramsToDisplay on Grid
   Scenario: Validate error code for invalid programID
     When User hits the "fetchProgramsToGrid" Endpoint with get request for given programID "Test"
     Then User Verifies the API response Status code is "200" for FetchProgramsToGridApi
+
+  Scenario: Verify Contract Id that has Completed and InProgress Programs
+    Given User Runs the Query "getContractIDOfProgramHavingCompletedAndInProgressProgramms" and Get the Contract Id of Program
+    When User hits the "fetchProgramsToGrid" Endpoint with get request
+    Then User Verifies the API response Status code is "200" for FetchProgramsToGridApi
+    And User executes the query "getProgramDetailJSONValues" and get the ProgramDetailJSON from DB
+    Then User validate the details with JSON by "programName" JSonpaths for Progarms to programgrid
+
+  Scenario: Verify Contract Id with IsCurrentFlag has Zero
+    Given User Runs the Query "gteContractIDWithIsCurrentFlagZero" and Get the Contract Id of Program
+    When User hits the "fetchProgramsToGrid" Endpoint with get request
+    Then User Verifies the API response Status code is "200" for FetchProgramsToGridApi
+    And User executes the query "getProgramDetailJSONValues" and get the ProgramDetailJSON from DB
+    Then User validate the details with JSON by "programName" JSonpaths for Progarms to programgrid
+
+
+
