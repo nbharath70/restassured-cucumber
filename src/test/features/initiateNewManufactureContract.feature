@@ -1,5 +1,5 @@
 Feature:Retrieve and validate the Initiate New Manufacture Contract
-
+  @Smoke
   Scenario: validate InitiateNewManufactureContract creation and verify correct status code with response body is returned
     Then User executes the query "deleteContractHeaderByContractName" and "deleteContractDetailByAmendmentName" for contract & Amendment name "QAAutomation%" to delete the record from the database
     Given User create the Initiate New Manufacture Contract date
@@ -10,6 +10,7 @@ Feature:Retrieve and validate the Initiate New Manufacture Contract
     Then User verify the valid Response body key "recordInserted" and expected value "true"
     Then User executes the query "deleteContractHeaderByContractName" and "deleteContractDetailByAmendmentName" for contract & Amendment name "QAAutomation%" to delete the record from the database
 
+  @Functional
   Scenario: validate the Overlapping date with InitiateNewManufactureContract creation with different Line of Buisness value
     Then User executes the query "deleteContractHeaderByContractName" and "deleteContractDetailByAmendmentName" for contract & Amendment name "QAAutomation%" to delete the record from the database
     Given User create the Initiate New Manufacture Contract date
@@ -26,7 +27,7 @@ Feature:Retrieve and validate the Initiate New Manufacture Contract
     Then User verify the valid Response body key "recordInserted" and expected value "true"
     Then User executes the query "deleteContractHeaderByContractName" and "deleteContractDetailByAmendmentName" for contract & Amendment name "QAAutomation%" to delete the record from the database
 
-
+  @Regression @Functional
   Scenario: validate the Overlapping date with InitiateNewManufactureContract creation with existing Line of Buisness value
     Then User executes the query "deleteContractHeaderByContractName" and "deleteContractDetailByAmendmentName" for contract & Amendment name "QAAutomation%" to delete the record from the database
     Given User create the Initiate New Manufacture Contract date
@@ -51,6 +52,7 @@ Feature:Retrieve and validate the Initiate New Manufacture Contract
     Then User verify the valid Response body key "contractDetailDatesOverlappingWithOtherContractDetailDates" and expected value "true"
     Then User executes the query "deleteContractHeaderByContractName" and "deleteContractDetailByAmendmentName" for contract & Amendment name "QAAutomation%" to delete the record from the database
 
+  @Regression @Functional
   Scenario: validate Invalid Line of Business value
     Given User create the Initiate New Manufacture Contract date
       | ManufacturerId | name         | currentFlag | rowKey | contractId | contractType | contractName     | startDate  | endDate    | recCreatedDate          | recCreatedBy | recUpdatedDate          | recUpdatedBy | lifecycleStatus | contractDocReference | notes           | disputeDays | lateFee | lateFeeFixed | lateFeePct | paymentBackup | NCPDPReconFile | frequency | lookback | numScreenshots | allowThirdPartyAuditor | auditScreenshots | schemaVersion | lineOfBusiness | locations | billingCycle | submissionWindow | resubmissionWindow | paymentTerms | thirdPartyAuth | opsAssignee | opsQCer | amendmentNumber | amendmentName    | versionNumber |
@@ -71,6 +73,7 @@ Feature:Retrieve and validate the Initiate New Manufacture Contract
     Then User verify the valid Response body key "recordInserted" and expected value "false"
     Then User verify the valid Response body key "invalidContractName" and expected value "true"
 
+  @Regression @Functional
   Scenario: validate invalid Manufacturer
     Given User create the Initiate New Manufacture Contract date
       | ManufacturerId | name | currentFlag | rowKey | contractId | contractType | contractName     | startDate  | endDate    | recCreatedDate          | recCreatedBy | recUpdatedDate          | recUpdatedBy | lifecycleStatus | contractDocReference | notes           | disputeDays | lateFee | lateFeeFixed | lateFeePct | paymentBackup | NCPDPReconFile | frequency | lookback | numScreenshots | allowThirdPartyAuditor | auditScreenshots | schemaVersion | lineOfBusiness | locations | billingCycle | submissionWindow | resubmissionWindow | paymentTerms | thirdPartyAuth | opsAssignee | opsQCer | amendmentNumber | amendmentName    | versionNumber |
@@ -81,6 +84,7 @@ Feature:Retrieve and validate the Initiate New Manufacture Contract
     Then User verify the valid Response body key "recordInserted" and expected value "false"
     Then User verify the valid Response body key "invalidManufacturer" and expected value "true"
 
+  @Regression @Functional
   Scenario: validate Manufacturer Contract start date should not be after the end date
     Given User create the Initiate New Manufacture Contract date
       | ManufacturerId | name         | currentFlag | rowKey | contractId | contractType | contractName     | startDate  | endDate    | recCreatedDate          | recCreatedBy | recUpdatedDate          | recUpdatedBy | lifecycleStatus | contractDocReference | notes           | disputeDays | lateFee | lateFeeFixed | lateFeePct | paymentBackup | NCPDPReconFile | frequency | lookback | numScreenshots | allowThirdPartyAuditor | auditScreenshots | schemaVersion | lineOfBusiness | locations | billingCycle | submissionWindow | resubmissionWindow | paymentTerms | thirdPartyAuth | opsAssignee | opsQCer | amendmentNumber | amendmentName    | versionNumber |
@@ -90,6 +94,7 @@ Feature:Retrieve and validate the Initiate New Manufacture Contract
     Then User verify InitiateNewManufacturerContract status code "200" for the response
     Then User verify the valid Response body key "message" and expected value "Manufacturer Contract start date should not be after the end date" of string
 
+  @Regression @Functional
   Scenario: validate invalidNotes
     Then User executes the query "deleteContractHeaderByContractName" and "deleteContractDetailByAmendmentName" for contract & Amendment name "QAAutomation%" to delete the record from the database
     Given User create the Initiate New Manufacture Contract date
@@ -101,6 +106,7 @@ Feature:Retrieve and validate the Initiate New Manufacture Contract
     Then User verify the valid Response body key "recordInserted" and expected value "false"
     Then User verify the valid Response body key "invalidNotes" and expected value "true"
 
+  @Regression @Functional
   Scenario: Validate Initiate New Manufacture Contract for Discard contract
     Then User executes the query "deleteContractHeaderByContractName" and "deleteContractDetailByAmendmentName" for contract & Amendment name "QAAutomation%" to delete the record from the database
     Given User create the Initiate New Manufacture Contract date

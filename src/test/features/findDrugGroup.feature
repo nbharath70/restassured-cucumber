@@ -1,17 +1,19 @@
 #This feature file defines the automation scenarios to be developed for Finding Drug of the given Manufacturer
 Feature:Retrieve and validate FindDrugGroup API
 
+  @Smoke
   Scenario: Hit findDrugGroup Api and validate Status Code
     Given User Runs the Query "getManufactuereName" and Fetch the Manufactuere Name from DB
     When User hits the FindDrugGroup "findDrugGroup" Endpoint with get request
     Then User verifies the API response Status code is "200" for FindDrugGroup API
 
-
+  @Smoke
   Scenario: Hit findDrugGroup Api and Format of response
     Given User Runs the Query "getManufactuereName" and Fetch the Manufactuere Name from DB
     When User hits the FindDrugGroup "findDrugGroup" Endpoint with get request
     Then User verifies the FindDrugGroup API Response is in JSON Format
 
+  @Functional
   Scenario Outline: Hit the findDrugGroup Api and validate ResponseDetailsWith DB
     Given User Runs the Query "getManufactuereName" and Fetch the Manufactuere Name from DB
     When User hits the FindDrugGroup "findDrugGroup" Endpoint with get request
@@ -24,6 +26,7 @@ Feature:Retrieve and validate FindDrugGroup API
       | drugGroupType               |
       | mode                        |
 
+  @Regression @Functional
   Scenario Outline: Hit the findDrugGroup Api and validate drugGroupTypeDesc and drugListRuleId with DB
     Given User Runs the Query "getManufactuereName" and Fetch the Manufactuere Name from DB
     When User hits the FindDrugGroup "findDrugGroup" Endpoint with get request
@@ -32,6 +35,7 @@ Feature:Retrieve and validate FindDrugGroup API
       | columnName     |
       | drugListRuleId |
 
+  @Regression @Functional
   Scenario: Hit the findDrugGroup Api and validate ManufacturerDrugListID with  DBDetailJSon
     Given User Runs the Query "getManufactuereName" and Fetch the Manufactuere Name from DB
     And User execute the getManufacturerDruglistNAme Query "getManufacturerDrugList" and get the DetialJSOn from DB
@@ -39,18 +43,21 @@ Feature:Retrieve and validate FindDrugGroup API
     Then Verifies the JSON response with DB JSOn by manufacturerDrugListIDJsonPath "manufacturerDrugListIDFinddrugGroupApi"
 
 
+  @Regression @Functional
   Scenario: Hit the findDrugGroup Api and validate Number of Approved NDC with  DBDetailJSon
     Given User Runs the Query "getManufactuereName" and Fetch the Manufactuere Name from DB
     And User execute the getNumberofApprovedNDC Query "getNumberofApprovedNDC" and get the DetialJSOn from DB
     When User hits the FindDrugGroup "findDrugGroup" Endpoint with get request
     Then Verifies the JSON response with DB JSOn by numberOfApprovedNDCJsonPath "numberOfApprovedNDCFinddrugGroupApi"
 
+  @Regression @Functional
   Scenario: Hit the findDrugGroup Api and validate Number of Pending NDC with  DBDetailJSon
     Given User Runs the Query "getManufactuereName" and Fetch the Manufactuere Name from DB
     And User execute the getNumberofPendingNDC Query "getNumberofPendingNDC" and get the DetialJSOn from DB
     When User hits the FindDrugGroup "findDrugGroup" Endpoint with get request
     Then Verifies the JSON response with DB JSOn by numberOfPendingNDCJsonPath "numberOfPendingNDCFinddrugGroupApi"
 
+  @Regression @Functional
   Scenario: Validate error code for invalid manufactureName
     When User hits the FindDrugGroup "findDrugGroup" Endpoint with get request for given ManufactuereName "Test"
     Then User verifies the API response Status code is "200" for FindDrugGroup API
