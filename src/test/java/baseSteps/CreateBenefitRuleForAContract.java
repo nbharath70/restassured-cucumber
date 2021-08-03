@@ -233,4 +233,53 @@ public class CreateBenefitRuleForAContract extends TestBase {
         verificationHelperClass.verifyResponseHeaderApiReturnCodesValue(response,headerCode);
     }
 
+    /**
+     * This method is used to get the contractID from the contract name
+     * @param ContractName
+     * @Author: Arun Kumar
+     */
+    public void getContractIDByContractName(String query,String ContractName)
+    {
+        try {
+            ResultSet getContractId = dataBaseHelper.executePreparedQuery(query, ContractName);
+            getContractId.next();
+            contractId = getContractId.getString("Contract_ID");
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * This method is used to updateBenefitRule Status from InProgress to Approve
+     * @param query
+     * @param benefitRuleName
+     * @Author: Arun Kumar
+     */
+    public void updateBenefitRuleStatusApprove(String query,String benefitRuleName)
+    {
+        try {
+            dataBaseHelper.executeUpdatePreparedQueryAsString(query,benefitRuleName);
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * This method is used to delete BenefitRule
+     * @param query
+     * @param benefitRuleName
+     * @Author: Arun Kumar
+     */
+    public void deleteBenefitRule(String query,String benefitRuleName)
+    {
+        try {
+            dataBaseHelper.executeUpdatePreparedQueryAsString(query,benefitRuleName);
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
 }
