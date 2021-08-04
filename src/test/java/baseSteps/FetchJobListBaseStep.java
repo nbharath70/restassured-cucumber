@@ -27,7 +27,7 @@ public class FetchJobListBaseStep extends TestBase {
     public void verifyFetchJobListAPIresponseCode (int statusCode)
     {
         verificationHelperClass.verifyStatusCode(response,statusCode);
-        log.info("getjobStatuscode API's StatusCode is: "+statusCode);
+        log.info("fetchJobList API's StatusCode is: "+statusCode);
     }
 
     public void verifyFetchJobListAPIResponseFormatJSON()

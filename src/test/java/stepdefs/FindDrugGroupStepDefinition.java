@@ -1,5 +1,6 @@
 package stepdefs;
 
+import TestBase.TestBase;
 import baseSteps.FindDrugGroup;
 import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
@@ -7,7 +8,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 import cucumber.api.java.en.Then;
 
-public class FindDrugGroupStepDefinition {
+public class FindDrugGroupStepDefinition extends TestBase {
     FindDrugGroup findDrugGroup=new FindDrugGroup();
     @Given("^User Runs the Query \"([^\"]*)\" and Fetch the Manufactuere Name from DB$")
     public void fetchManufacturerNameFromDb(String query) {

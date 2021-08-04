@@ -1,5 +1,5 @@
 #This feature file defines the automation scenarios to be developed for Finding Drug of the given Manufacturer
-Feature:Retrieve and validate FindDrugGroup API
+Feature:Validate the Find Drug group API
 
   @Smoke
   Scenario: Hit findDrugGroup Api and validate Status Code
@@ -64,8 +64,23 @@ Feature:Retrieve and validate FindDrugGroup API
     Then User verify the FindDrugGroup response header Error Code value "-1"
     Then User verify the valid Response FindDrugGroup body key "messageFindDrugGroup" and expected value "404 NOT_FOUND" of string
 
+  Scenario: Verify the DrugGroup name is in Ascending order
+    Given User Runs the Query "getManufactuereName" and Fetch the Manufactuere Name from DB
+    When User hits the FindDrugGroup "findDrugGroup" Endpoint with get request
+    Then User Runs the Query "getDrugGroupSummaryFromDB" and matches the DrugGroupSummary Column "drugGroupName" and JSON from response
 
+  Scenario: Validate error code for invalid manufactureName
+    When User hits the FindDrugGroup "findDrugGroup" Endpoint with get request for given ManufactuereName "htarahb"
+    Then User verifies the API response Status code is "200" for FindDrugGroup API
+    Then User verify the valid Response FindDrugGroup body key "messageFindDrugGroup" and expected value "404 NOT_FOUND" of string
 
+  Scenario: Verify with TypeMismatch of Manufacturer name
+    When User hits the FindDrugGroup "findDrugGroup" Endpoint with get request for given ManufactuereName "$3!23"
+    Then User verifies the API response Status code is "200" for FindDrugGroup API
+    Then User verify the valid Response FindDrugGroup body key "messageFindDrugGroup" and expected value "404 NOT_FOUND" of string
 
-
+  Scenario : Verify that it should fetch DrugList for all the Life_Cycle_Status
+    Given User Runs the Query "getManufactuereName" and Fetch the Manufactuere Name from DB
+    When User hits the FindDrugGroup "findDrugGroup" Endpoint with get request
+    Then User Runs the Query "getDrugGroupSummaryFromDB" and matches the DrugGroupSummary Column "<columnName>" and JSON from response
 
