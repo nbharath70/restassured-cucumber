@@ -1,5 +1,6 @@
 Feature:Retrieve and validate the find all manufacture contract details by given manufacture name
 
+  @Smoke
   Scenario: Validate find all manufacture contract details by given manufacture name and verify correct status code with response body is returned
     Then User executes the query "deleteContractHeaderByContractName" and "deleteContractDetailByAmendmentName" for contract & Amendment name "QAAutomation%" to delete the record from the database
     Given User create the Initiate New Manufacture Contract date
@@ -18,6 +19,7 @@ Feature:Retrieve and validate the find all manufacture contract details by given
     Then User hits the FindAllManufactureDetails "findAllManufactureContractDetails" with post request
     Then User verify FindAllManufactureDetails status code "200" for the response
 
+  @Regression @Functional
   Scenario: Validate find all manufacture contract details by given manufacture name response and verify it from DB
     Then User executes the query "deleteContractHeaderByContractName" and "deleteContractDetailByAmendmentName" for contract & Amendment name "QAAutomation%" to delete the record from the database
     Given User create the Initiate New Manufacture Contract date
@@ -37,6 +39,7 @@ Feature:Retrieve and validate the find all manufacture contract details by given
     Then User verify FindAllManufactureDetails status code "200" for the response
     When User executes FindAllManufacture query "getCountOfManufactureID" And matches the count of MFR returned by API and DB
 
+  @Regression @Functional
   Scenario: Validate error code for invalid manufacturer name
     Given User find all manufacture contract details for given manufacture name "Test"
     Then User hits the FindAllManufactureDetails "findAllManufactureContractDetails" with post request

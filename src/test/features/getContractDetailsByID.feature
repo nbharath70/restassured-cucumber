@@ -1,15 +1,18 @@
 ##This feature file defines the automation scenarios to be developed for getContractByID end point
 Feature:Retrieve and validate the Contract by ID
+  @Smoke
   Scenario: get All valid ContractDetailsbyID and verify correct status code is returned
     Given User Runs the Query "getMFRRowKey" and Get the Rowkey from DB
     And User hits the "getContractDetailsByID" Endpoint with get API request
     Then User Verifies the API response Status code is "200"
 
-   Scenario: verifies the response is in JSON format
+  @Smoke
+  Scenario: verifies the response is in JSON format
      Given User Runs the Query "getMFRRowKey" and Get the Rowkey from DB
     And User hits the "getContractDetailsByID" Endpoint with get API request
     Then verify the Response in JSON format
 
+  @Regression @Functional
   Scenario: get Manufacturername and Manufacturer ID from response and Validate with DB
     Given User Runs the Query "getMFRRowKey" and Get the Rowkey from DB
     And User Runs the Fetching ContractDetailsID Query "getContractID" and Get the ContractDetailsId from DB
@@ -18,6 +21,7 @@ Feature:Retrieve and validate the Contract by ID
     And User hits the "getContractDetailsByID" Endpoint with get API request
     Then Verify both the ManufacturerDetails response from DB and API
 
+  @Regression @Functional
    Scenario: get ContractHeaderDetails from response and Validate with DB
     Given User Runs the Query "getMFRRowKey" and Get the Rowkey from DB
     And User Runs the Fetching ContractDetailsID Query "getContractID" and Get the ContractDetailsId from DB
