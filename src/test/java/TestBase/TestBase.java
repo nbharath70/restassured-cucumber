@@ -295,4 +295,33 @@ public class TestBase {
         }
         return newList;
     }
+
+
+    /**
+     * postOperation method is used to hits the end point with request Json body and logs the response and also verify response body type as ContentType.JSON
+     * @uthor Rabbani
+     * @param endPoint
+     * @param id -
+     * @return
+     */
+    public Response postOperation(String endPoint, String id)
+    {
+        try {
+            RequestSpecification requestSpecification = RestAssured.given();
+            requestSpecification.header("Authorization", "Bearer " + getPropertiesFileValue(ResourcePath.Environment_Properties, "bearerToken"));
+            requestSpecification.header("Content-Type", "application/json").contentType(ContentType.JSON);
+            requestSpecification.when();
+            response=requestSpecification.log().all().post(getEndPointUrl(endPoint,id));
+            log.info("****************** The Response JSON Body**************");
+            log.info(response.getBody().jsonPath().prettify());
+            response.then().assertThat().contentType(ContentType.JSON);
+            log.info("The response is in proper JSON format");
+            return response;
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return  null;
+    }
+
 }

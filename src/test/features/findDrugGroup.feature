@@ -1,5 +1,6 @@
 #This feature file defines the automation scenarios to be developed for Finding Drug of the given Manufacturer
 Feature:Validate the Find Drug group API test cases
+  Feature:Validate the Find Drug group API test cases
 
   @Smoke
   Scenario: Hit findDrugGroup Api and validate Status Code
