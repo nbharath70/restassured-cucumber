@@ -68,14 +68,14 @@ public class FetchDrugGroupSummaryBaseStep extends TestBase {
 //
 //
 //    }
-    public void verifyFetchDruGroupSummary(String query,String columnName,String jsonPath) {
-        try{
-            resultSet=dataBaseHelper.executePreparedQuery(query,rowkeyValue);
-            resultSet.next();
-            String actualColumnname=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,columnName);
-            dbJson=resultSet.getString(actualColumnname);
-        }catch (Exception e){ e.printStackTrace(); }
-        String actualJsonPathofAPI=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,jsonPath);
-        verificationHelperClass.verifyAPIResponseJsonWithDBJson(response,dbJson,actualJsonPathofAPI);
-    }
+public void verifyFetchDruGroupSummary(String query,String columnName,String jsonPath) {
+    try{
+        resultSet=dataBaseHelper.executePreparedQuery(query,rowkeyValue);
+        resultSet.next();
+        String actualColumnname=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,columnName);
+        dbJson=resultSet.getString(actualColumnname);
+    }catch (Exception e){ e.printStackTrace(); }
+    String actualJsonPathofAPI=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,jsonPath);
+    verificationHelperClass.verifyAPIResponseJsonWithDBJson(response,dbJson,actualJsonPathofAPI);
+}
 }

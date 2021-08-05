@@ -266,7 +266,7 @@ public class DataBaseHelper extends TestBase {
             log.info("query parameter is"+queryParam);
             psmt.setInt(1,queryParam);
             prepareQueryResult =psmt.executeQuery();
-            log.info("Contract_ID is  " + prepareQueryResult + " From DB");
+            log.info("Prepared query execution Result is  " + prepareQueryResult + " From DB");
             return prepareQueryResult;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -444,7 +444,28 @@ public class DataBaseHelper extends TestBase {
         }
         return 0;
     }
+    public ArrayList executePreparedQuerytoGetColumnArray(String query,String queryParam,String columnName) {
+        getStatement();
+//            psmt= conn.prepareStatement(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, query));
+//            psmt.setString(1,queryParam);
+//            prepareQueryResult =psmt.executeQuery();
+//            log.info("Prepared query execution result is" + prepareQueryResult + " From DB");
+//            return prepareQueryResult;
+        try{
+            ResultSet result = executePreparedQuery(query,queryParam);
+            ArrayList arrayList = new ArrayList();
+            String column=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,columnName);
+            while (result.next()) {
+                arrayList.add(result.getString(column));
+            }
+            return arrayList;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
 
+
+    }
 }
 
 
