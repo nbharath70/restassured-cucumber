@@ -38,10 +38,10 @@ public class FindDrugGroupStepDefinition extends TestBase {
         findDrugGroup.getManufactuereNameforDrugList(query);
     }
 
-    @Then("^Verifies the JSON response with DB JSOn by manufacturerDrugListIDJsonPath \"([^\"]*)\"$")
-    public void verifiesTheJSONResponseWithDBJSOnByJsonPath(String jsonPath) {
-        findDrugGroup.verifyManufactuereDrugListID(jsonPath);
-    }
+//    @Then("^Verifies the JSON response with DB JSOn by manufacturerDrugListIDJsonPath \"([^\"]*)\"$")
+//    public void verifiesTheJSONResponseWithDBJSOnByJsonPath(String jsonPath) {
+//        findDrugGroup.verifyManufactuereDrugListID(jsonPath);
+//    }
 
     @And("^User execute the getNumberofApprovedNDC Query \"([^\"]*)\" and get the DetialJSOn from DB$")
     public void userExecuteTheGetNumberofApprovedNDCQueryAndGetTheDetialJSOnFromDB(String query){
