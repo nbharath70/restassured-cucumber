@@ -285,7 +285,7 @@ public class DataBaseHelper extends TestBase {
         try {
             getStatement();
             psmt= conn.prepareStatement(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, query));
-            log.info("query parameter is"+queryParam);
+            log.info("query parameter is:"+queryParam);
             psmt.setInt(1,queryParam);
             psmt.executeUpdate();
         } catch (SQLException e) {
