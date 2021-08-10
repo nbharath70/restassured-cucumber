@@ -6,12 +6,14 @@ import java.util.ArrayList;
 
 public class SaveDrugGroupDetailPojoClass{
     private int drugListId;
+    private int drugRowKey;
     private ArrayList ndcs;
     private String startDate;
     private String endDate;
 
-    public SaveDrugGroupDetailPojoClass(int drugListId, ArrayList ndcs,String startDate, String endDate) {
+    public SaveDrugGroupDetailPojoClass(int drugListId,int drugRowKey, ArrayList ndcs,String startDate, String endDate) {
         this.drugListId = drugListId;
+        this.drugRowKey = drugRowKey;
         this.ndcs = ndcs;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -27,6 +29,10 @@ public class SaveDrugGroupDetailPojoClass{
         return drugListId;
     }
 
+    public int getDrugRowKey() {
+        return drugRowKey;
+    }
+
     public String getStartDate() {
         return startDate;
     }
@@ -39,6 +45,10 @@ public class SaveDrugGroupDetailPojoClass{
 
     public void setDrugListId(int drugListId) {
         this.drugListId = drugListId;
+    }
+
+    public void setDrugRowKey(int drugRowKey) {
+        this.drugRowKey = drugRowKey;
     }
 
     public void setStartDate(String startDate) {

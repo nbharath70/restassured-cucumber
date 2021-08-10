@@ -18,3 +18,4 @@ Feature:Retrieve and validate the save drug group details
       |            |      |           |         | getListOfNdcs | DRUG_PRODUCT_CODE |
     Then User hits the "saveDrugGroupDetails" with post request of saveDrugGroupDetails API
     Then User verify save drug drug group status code "200" for the response
+
