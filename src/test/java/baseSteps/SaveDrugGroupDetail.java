@@ -35,7 +35,7 @@ public class SaveDrugGroupDetail extends TestBase {
                 SaveDrugGroupDetailPojoClass saveDrugGroupDetailobj1=new SaveDrugGroupDetailPojoClass();
                 saveDrugGroupDetailobj1.setNdcs(map.get("query"),map.get("columnName"));
                 ArrayList ndcs = saveDrugGroupDetailobj1.getNdcs();
-                saveDrugGroupDetail=new SaveDrugGroupDetailPojoClass(drugListId,ndcs,utilitiesClass.getStartDate(),utilitiesClass.getEndDate());
+                saveDrugGroupDetail=new SaveDrugGroupDetailPojoClass(drugListId,drugGroupRowKey,ndcs,utilitiesClass.getStartDate(),utilitiesClass.getEndDate());
             }
         } catch (Exception e) {
             e.printStackTrace();
