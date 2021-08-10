@@ -11,17 +11,15 @@ package cucumberRunner;
 import com.cucumber.listener.Reporter;
 import org.junit.AfterClass;
 import org.junit.runner.RunWith;
-
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
-
 import java.io.File;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(//dryRun=true,
         format = {"pretty"},
         glue = {"stepdefs"},
-        features = {"src/test/features/fetchDrugGroupSummary.feature"},
+        features = {"src/test/features/CreateNewRebateProgram.feature"},
         plugin = {
                 "com.cucumber.listener.ExtentCucumberFormatter:src/test/reports/cucumber_report.html",
                 "html:output/html-report"}, monochrome = true
