@@ -58,6 +58,7 @@ Feature:Retrieve and validate the update drug group details
     Then User verify update drug group status code "200" for the response
     Then User verify the valid Response UpdateDrugGroup body key "messageDrugGroup" and expected value "Invalid input: mfrId,drugGroupName,drugGroupType" of string
 
+
   @Regression @Functional
   Scenario: validation Invalid input mfrId by update the drug group details
     Then User executes the delete existing DrugGroup query "deleteDrugGroupByName" and List name "QAAutomation%" to delete the record from the database

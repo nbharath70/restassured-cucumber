@@ -68,4 +68,9 @@ public class CreateNewRebateOptionsStepDef extends TestBase {
     public void userSendTheInvalidProgramIDForValidation(int invalidProgramID) throws Throwable {
         createNewRebateOption.invalidProgramID(invalidProgramID);
     }
+
+    @Then("^User verify the createNewRebateOptionsSaveProgress response header Error Code value \"([^\"]*)\"$")
+    public void userVerifyTheCreateNewRebateOptionsSaveProgressResponseHeaderErrorCodeValue(String expectedErrorCode) throws Throwable {
+        createNewRebateOption.verifyCreateNewRebateOptionSaveProgressResponseHeaderErrorCode(expectedErrorCode);
+    }
 }

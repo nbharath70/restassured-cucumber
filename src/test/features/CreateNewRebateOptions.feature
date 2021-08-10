@@ -44,6 +44,7 @@ Feature:Retrieve and validate the create new rebate option
 
 #    Then validate the rebate option ID by executing query "getRebateOptionIDFromDB" by rebate option name "QAAutomationRebateOptions" and response json "getRebateOptionIdFromResponseJSON"
 #    Then User verify the createNewRebateOptionsSaveProgress valid Response body key "message" and expected value "Program level psf should be blank when psf apply is false" of string
+#    Then User verify the createNewRebateOptionsSaveProgress response header Error Code value "501"
 
   @Functional @Regression
   Scenario: Validate the existing create new rebate options record for save progress creation for manufacturer contract and verify correct status code with response body is returned
@@ -92,6 +93,7 @@ Feature:Retrieve and validate the create new rebate option
     Then User hits the "createNewRebateOptionsSaveProgress" with post request of CreateNewRebateOptions save progress API
     Then User verify createNewRebateOptionsSaveProgress status code "200" for the response
     Then User verify the valid createNewRebateOptionsSaveProgress Response body key "isRecordSaved" and expected value "false"
+
 
   @Functional @Regression
   Scenario: Validate the Rebate Option dates are overlapping with parent program dates and verify correct status code with response body is returned

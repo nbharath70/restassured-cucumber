@@ -64,6 +64,29 @@ public class CreateNewRebateOption extends TestBase {
     public void createNewRebateOptionPostCall(String endPoint)
     {
         response = postOperation(endPoint,createNewRebateOptions);
+        String s=response.getHeader("rb-api-result");
+        int actualCode = JsonPath.read(s, "$.apiReturnCodes[0].code");
+        System.out.println(actualCode);
+    }
+
+    /**
+     * This method is used validate verifyUpdateManufactureContractResponseHeaderErrorCode
+     * @uthor ArunKumar
+     * @param expectedErrorCode
+     */
+    public void verifyCreateNewRebateOptionSaveProgressResponseHeaderErrorCode(String expectedErrorCode)
+    {
+        try {
+            String s=response.getHeader("rb-api-result");
+            int actualCode = JsonPath.read(s, "$.apiReturnCodes[0].code");
+            String expectedErrorCodeString=expectedErrorCode;
+            int expectedError=Integer.valueOf(expectedErrorCodeString);
+            org.junit.Assert.assertEquals("Error code value do not match!", expectedError,actualCode);
+            log.info("Verification error code value pass where expectedValue=" + expectedError + " equals to actualValue=" + actualCode);
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     /**

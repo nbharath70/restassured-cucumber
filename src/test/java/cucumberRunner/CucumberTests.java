@@ -19,7 +19,7 @@ import java.io.File;
 @CucumberOptions(//dryRun=true,
         format = {"pretty"},
         glue = {"stepdefs"},
-        features = {"src/test/features/updateManufactureContract.feature"},
+        features = {"src/test/features/saveDrugGroupDetails.feature"},
         plugin = {
                 "com.cucumber.listener.ExtentCucumberFormatter:src/test/reports/cucumber_report.html",
                 "html:output/html-report"}, monochrome = true

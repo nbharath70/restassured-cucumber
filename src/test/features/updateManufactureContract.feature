@@ -37,7 +37,7 @@ Feature:Retrieve and validate the Update Manufacture Contract
       | ASTRA001       | Astra Zeneca | false       | 75     | ABV0011037 | Non-Part D   | QAAutomation_10 | 2021-01-01 | 2021-04-20 | 2021-02-05T11:17:18.337 | SYSTEM       | 2021-02-05T11:17:18.337 | SYSTEM       | NEW             | null                 | This is test 02 | 30          | AMT     | null         | null       | false         | null           | ANNUAL    | 12       | null           | true                   | false            | 1             | Commercial     | All       | MON          | 90               | 60                 | 30           | true           | null        | null    | 0               | QAAutomation_10 | 1             |
     Then User hits the "updateManufacturerContract" update manufacture contract post request
     Then User verify UpdateManufacturerContract status code "200" for the response
-    Then User verify the updateManufacturerContract valid Response body key "recordInserted" and expected value "true"
+    Then User verify the updateManufacturerContract valid Response body key "recordUpdated" and expected value "true"
 
   @Regression
   Scenario: Validate the contractDetailDatesOverlappingWithOtherContractDetailDates in update manufacturer contract
@@ -61,24 +61,31 @@ Feature:Retrieve and validate the Update Manufacture Contract
     Then User hits the "updateManufacturerContract" update manufacture contract post request
     Then User verify the updateManufacturerContract response header Error Code value "507"
     Then User verify UpdateManufacturerContract status code "200" for the response
-    Then User verify the updateManufacturerContract valid Response body key "recordInserted" and expected value "false"
+    Then User verify the updateManufacturerContract valid Response body key "recordUpdated" and expected value "false"
+    Then User verify the updateManufacturerContract valid Response body key "contractDetailDatesOverlappingWithOtherContractDetailDates" and expected value "true"
 
   @Regression @Functional
   Scenario: Validate Update Manufacture Contract for contractExists
-    Then User executes the query "deleteContractHeaderByContractName" and "deleteContractDetailByAmendmentName" for contract & Amendment name "QAAutomation_007" to delete the record from the database
+    Then User executes the query "deleteContractHeaderByContractName" and "deleteContractDetailByAmendmentName" for contract & Amendment name "QAAutomation%" to delete the record from the database
+    Given User create the Initiate New Manufacture Contract date
+      | ManufacturerId | name         | currentFlag | rowKey | contractId | contractType | contractName    | startDate  | endDate    | recCreatedDate          | recCreatedBy | recUpdatedDate          | recUpdatedBy | lifecycleStatus | contractDocReference | notes           | disputeDays | lateFee | lateFeeFixed | lateFeePct | paymentBackup | NCPDPReconFile | frequency | lookback | numScreenshots | allowThirdPartyAuditor | auditScreenshots | schemaVersion | lineOfBusiness | locations | billingCycle | submissionWindow | resubmissionWindow | paymentTerms | thirdPartyAuth | opsAssignee | opsQCer | amendmentNumber | amendmentName   | versionNumber |
+      | ASTRA001       | Astra Zeneca | false       | 75     | ABV0011037 | Non-Part D   | QAAutomation_10 | 2021-05-01 | 2021-07-20 | 2021-02-05T11:17:18.337 | SYSTEM       | 2021-02-05T11:17:18.337 | SYSTEM       | NEW             | null                 | This is test 01 | 30          | AMT     | null         | null       | false         | null           | ANNUAL    | 12       | null           | true                   | false            | 1             | CPOS           | All       | MON          | 90               | 60                 | 30           | true           | null        | null    | 0               | QAAutomation_10 | 1             |
+    Then User hits the "postInitiateNewManufacturerContract" with post request
+    Then User verify InitiateNewManufacturerContract status code "200" for the response
+    Then User verify the valid Response body key "recordInserted" and expected value "true"
     Given User create the Initiate New Manufacture Contract date
       | ManufacturerId | name         | currentFlag | rowKey | contractId | contractType | contractName     | startDate  | endDate    | recCreatedDate          | recCreatedBy | recUpdatedDate          | recUpdatedBy | lifecycleStatus | contractDocReference | notes           | disputeDays | lateFee | lateFeeFixed | lateFeePct | paymentBackup | NCPDPReconFile | frequency | lookback | numScreenshots | allowThirdPartyAuditor | auditScreenshots | schemaVersion | lineOfBusiness | locations | billingCycle | submissionWindow | resubmissionWindow | paymentTerms | thirdPartyAuth | opsAssignee | opsQCer | amendmentNumber | amendmentName    | versionNumber |
-      | ASTRA001       | Astra Zeneca | false       | 75     | ABV0011037 | Non-Part D   | QAAutomation_007 | 2021-01-01 | 2021-04-20 | 2021-02-05T11:17:18.337 | SYSTEM       | 2021-02-05T11:17:18.337 | SYSTEM       | NEW             | null                 | This is test 01 | 30          | AMT     | null         | null       | false         | null           | ANNUAL    | 12       | null           | true                   | false            | 1             | CPOS           | All       | MON          | 90               | 60                 | 30           | true           | null        | null    | 0               | QAAutomation_007 | 1             |
+      | ASTRA001       | Astra Zeneca | false       | 75     | ABV0011037 | Non-Part D   | QAAutomation_007 | 2021-01-01 | 2021-04-20 | 2021-02-05T11:17:18.337 | SYSTEM       | 2021-02-05T11:17:18.337 | SYSTEM       | NEW             | null                 | This is test 01 | 30          | AMT     | null         | null       | false         | null           | ANNUAL    | 12       | null           | true                   | false            | 1             | HiEx           | All       | MON          | 90               | 60                 | 30           | true           | null        | null    | 0               | QAAutomation_007 | 1             |
     Then User hits the "postInitiateNewManufacturerContract" with post request
     Then User verify InitiateNewManufacturerContract status code "200" for the response
     Then User verify the valid Response body key "recordInserted" and expected value "true"
     Then User update manufacture contract data
-      | ManufacturerId | name         | currentFlag | rowKey | contractId | contractType | contractName     | startDate  | endDate    | recCreatedDate          | recCreatedBy | recUpdatedDate          | recUpdatedBy | lifecycleStatus | contractDocReference | notes           | disputeDays | lateFee | lateFeeFixed | lateFeePct | paymentBackup | NCPDPReconFile | frequency | lookback | numScreenshots | allowThirdPartyAuditor | auditScreenshots | schemaVersion | lineOfBusiness | locations | billingCycle | submissionWindow | resubmissionWindow | paymentTerms | thirdPartyAuth | opsAssignee | opsQCer | amendmentNumber | amendmentName   | versionNumber |
-      | ASTRA001       | Astra Zeneca | false       | 75     | ABV0011037 | Non-Part D   | QAAutomation_007 | 2021-08-01 | 2021-09-20 | 2021-02-05T11:17:18.337 | SYSTEM       | 2021-02-05T11:17:18.337 | SYSTEM       | NEW             | null                 | This is test 02 | 30          | AMT     | null         | null       | false         | null           | ANNUAL    | 12       | null           | true                   | false            | 1             | HiEx           | All       | MON          | 90               | 60                 | 30           | true           | null        | null    | 0               | QAAutomation_10 | 1             |
+      | ManufacturerId | name         | currentFlag | rowKey | contractId | contractType | contractName    | startDate  | endDate    | recCreatedDate          | recCreatedBy | recUpdatedDate          | recUpdatedBy | lifecycleStatus | contractDocReference | notes           | disputeDays | lateFee | lateFeeFixed | lateFeePct | paymentBackup | NCPDPReconFile | frequency | lookback | numScreenshots | allowThirdPartyAuditor | auditScreenshots | schemaVersion | lineOfBusiness | locations | billingCycle | submissionWindow | resubmissionWindow | paymentTerms | thirdPartyAuth | opsAssignee | opsQCer | amendmentNumber | amendmentName    | versionNumber |
+      | ASTRA001       | Astra Zeneca | false       | 75     | ABV0011037 | Non-Part D   | QAAutomation_10 | 2021-08-01 | 2021-09-20 | 2021-02-05T11:17:18.337 | SYSTEM       | 2021-02-05T11:17:18.337 | SYSTEM       | NEW             | null                 | This is test 02 | 30          | AMT     | null         | null       | false         | null           | ANNUAL    | 12       | null           | true                   | false            | 1             | HiEx           | All       | MON          | 90               | 60                 | 30           | true           | null        | null    | 0               | QAAutomation_007 | 1             |
     Then User hits the "updateManufacturerContract" update manufacture contract post request
     Then User verify the updateManufacturerContract response header Error Code value "502"
     Then User verify UpdateManufacturerContract status code "200" for the response
-    Then User verify the updateManufacturerContract valid Response body key "recordInserted" and expected value "false"
+    Then User verify the updateManufacturerContract valid Response body key "recordUpdated" and expected value "false"
     Then User verify the updateManufacturerContract valid Response body key "contractExists" and expected value "true"
 
   @Regression @Functional
@@ -99,7 +106,7 @@ Feature:Retrieve and validate the Update Manufacture Contract
     Then User hits the "updateManufacturerContract" update manufacture contract post request
     Then User verify the updateManufacturerContract response header Error Code value "504"
     Then User verify UpdateManufacturerContract status code "200" for the response
-    Then User verify the updateManufacturerContract valid Response body key "recordInserted" and expected value "false"
+    Then User verify the updateManufacturerContract valid Response body key "recordUpdated" and expected value "false"
     Then User verify the updateManufacturerContract valid Response body key "invalidLOB" and expected value "true"
 
   @Regression @Functional
@@ -110,7 +117,7 @@ Feature:Retrieve and validate the Update Manufacture Contract
     Then User hits the "updateManufacturerContract" update manufacture contract post request
     Then User verify the updateManufacturerContract response header Error Code value "503"
     Then User verify UpdateManufacturerContract status code "200" for the response
-    Then User verify the updateManufacturerContract valid Response body key "recordInserted" and expected value "false"
+    Then User verify the updateManufacturerContract valid Response body key "recordUpdated" and expected value "false"
 
   @Regression @Functional
   Scenario: Validate Update Manufacture Contract of invalidSelectedOptions & validContractHeader
@@ -120,7 +127,7 @@ Feature:Retrieve and validate the Update Manufacture Contract
     Then User hits the "updateManufacturerContract" update manufacture contract post request
     Then User verify the updateManufacturerContract response header Error Code value "505"
     Then User verify UpdateManufacturerContract status code "200" for the response
-    Then User verify the updateManufacturerContract valid Response body key "recordInserted" and expected value "false"
+    Then User verify the updateManufacturerContract valid Response body key "recordUpdated" and expected value "false"
     Then User verify the updateManufacturerContract valid Response body key "invalidSelectedOptions" and expected value "true"
 
   @Regression @Functional
@@ -138,7 +145,7 @@ Feature:Retrieve and validate the Update Manufacture Contract
     Then User hits the "updateManufacturerContract" update manufacture contract post request
     Then User verify UpdateManufacturerContract status code "200" for the response
     Then User verify the updateManufacturerContract response header Error Code value "507"
-    Then User verify the updateManufacturerContract valid Response body key "recordInserted" and expected value "false"
+    Then User verify the updateManufacturerContract valid Response body key "recordUpdated" and expected value "false"
     Then User verify the updateManufacturerContract valid Response body key "invalidLocation" and expected value "true"
 
   @Regression @Functional
@@ -155,5 +162,5 @@ Feature:Retrieve and validate the Update Manufacture Contract
       | ASTRA001       | Astra Zeneca | false       | 75     | ABV0011037 | Non-Part D   | QAAutomation_10 | 2021-08-01 | 2021-09-20 | 2021-02-05T11:17:18.337 | SYSTEM       | 2021-02-05T11:17:18.337 | SYSTEM       | NEW             | null                 | This is test 02 | 30          | AMT     | null         | null       | false         | null           | ANNUAL    | 12       | null           | true                   | false            | 1             | HiEx           | US_Only,Guam_Only,Puerto_Rico_Only | YRL          | 90               | 60                 | 30           | true           | null        | null    | 0               | QAAutomation_10 | 1             |
     Then User hits the "updateManufacturerContract" update manufacture contract post request
     Then User verify UpdateManufacturerContract status code "200" for the response
-    Then User verify the updateManufacturerContract valid Response body key "recordInserted" and expected value "true"
+    Then User verify the updateManufacturerContract valid Response body key "recordUpdated" and expected value "true"
     Then User executes the query "deleteContractHeaderByContractName" and "deleteContractDetailByAmendmentName" for contract & Amendment name "QAAutomation%" to delete the record from the database
