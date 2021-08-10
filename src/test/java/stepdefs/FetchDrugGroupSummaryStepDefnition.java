@@ -2,7 +2,7 @@ package stepdefs;
 
 import TestBase.TestBase;
 import baseSteps.FetchDrugGroupSummaryBaseStep;
-import cucumber.api.PendingException;
+
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -33,5 +33,16 @@ public class FetchDrugGroupSummaryStepDefnition extends TestBase {
     @And("^User Runs the DrugGroupQuery \"([^\"]*)\" to fetch Coulumn \"([^\"]*)\" and Verify with Response by JSONpath \"([^\"]*)\"$")
     public void userRunsTheDrugGroupQueryToFetchCoulumnAndVerifyWithResponseByJSONpath(String query, String columnName, String jsonPath) {
         fetchDrugGroupSummary.verifyFetchDruGroupSummary(query,columnName,jsonPath);
+    }
+
+
+    @Given("^User Hits the API endpoint \"([^\"]*)\" with Typemissmatch datatype Druglist ID \"([^\"]*)\"$")
+    public void userHitsTheAPIEndpointWithTypemissmatchDatatypeDruglistID(String endpoint, String drugListID){
+        fetchDrugGroupSummary.hitInvalidEndpoint(endpoint,drugListID);
+    }
+
+    @Then("^User Verifies and Validate the Response of \"([^\"]*)\" and expected value \"([^\"]*)\"$")
+    public void userVerifiesAndValidateTheResponseOfAndExpectedValue(String jsonpath, String invalidMessage) {
+       fetchDrugGroupSummary.verifiesAPIResponseWithTypeMismatchErrorMsg(jsonpath,invalidMessage);
     }
 }

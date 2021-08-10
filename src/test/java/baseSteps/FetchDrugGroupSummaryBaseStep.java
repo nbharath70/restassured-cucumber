@@ -4,16 +4,11 @@ import HelperClass.DataBaseHelper;
 import HelperClass.ResourcePath;
 import HelperClass.VerificationHelperClass;
 import TestBase.TestBase;
-import com.jayway.jsonpath.JsonPath;
 import io.restassured.response.Response;
 import org.apache.log4j.Logger;
-import org.junit.Assert;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+
 
 public class FetchDrugGroupSummaryBaseStep extends TestBase {
     Response response;
@@ -37,6 +32,9 @@ public class FetchDrugGroupSummaryBaseStep extends TestBase {
 
     public void hitEndpoint(String endpoint){
         response=getCall(endpoint,String.valueOf(rowkeyValue));
+    }
+    public void hitInvalidEndpoint(String endpoint,String drugListID){
+        response=getCall(endpoint,drugListID);
     }
     public void verifyFetchDrugGroupSummaryStatusCode (int statusCode)
     {
@@ -78,4 +76,23 @@ public void verifyFetchDruGroupSummary(String query,String columnName,String jso
     String actualJsonPathofAPI=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,jsonPath);
     verificationHelperClass.verifyAPIResponseJsonWithDBJson(response,dbJson,actualJsonPathofAPI);
 }
+    public void validatefetchDrugGroupSummaryInvalidResponse(String actualValue,String expectedValue)
+    {
+        String actualExpectedValue=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,expectedValue);
+        verificationHelperClass.verifyResponseJsonString(response,actualValue,actualExpectedValue);
+    }
+//    public void validatefetchDrugGroupSummaryInvalidResponse(String actualValue,String expectedValue) {
+//        String jsonPathforErrorMsg=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, actualValue);
+//        String errorMsgJsonAsString=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, expectedValue);
+//        verificationHelperClass.verifyAPIResponseJsonWithDBJson(response,errorMsgJsonAsString,jsonPathforErrorMsg);
+//
+//    }
+public void verifiesAPIResponseWithTypeMismatchErrorMsg(String jsonpath,String errorMesssage) {
+    String jsonPathForErrorMsg=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, jsonpath);
+    String errorMsgAsJson=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, errorMesssage);
+//    String fullErrorMsgAsJson=errorMsgAsJson.concat("ABCD\\\"\"}");
+    verificationHelperClass.verifyAPIResponseJsonWithDBJsonWithonlyStringDataTypeValues(response,errorMsgAsJson,jsonPathForErrorMsg,jsonPathForErrorMsg);
+
+}
+
 }

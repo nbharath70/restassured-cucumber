@@ -1,6 +1,5 @@
 #This feature file defines the automation scenarios to be developed for Finding Drug of the given Manufacturer
 Feature:Validate the Find Drug group API test cases
-  Feature:Validate the Find Drug group API test cases
 
   @Smoke
   Scenario: Hit findDrugGroup Api and validate Status Code
@@ -83,9 +82,4 @@ Feature:Validate the Find Drug group API test cases
     Then User verifies the API response Status code is "200" for FindDrugGroup API
     Then User verify the valid Response FindDrugGroup body key "messageFindDrugGroup" and expected value "Invalid mfr name $3!23 used to search drug groups." of string
 
-#  @Regression @Functional
-#  Scenario : Verify that it should fetch DrugList for all the Life_Cycle_Status
-#    Given User Runs the Query "getManufactuereName" and Fetch the Manufactuere Name from DB
-#    When User hits the FindDrugGroup "findDrugGroup" Endpoint with get request
-#    Then User Runs the Query "getDrugGroupSummaryFromDB" and matches the DrugGroupSummary Column "lifeCycleStatus" and JSON from response
 
