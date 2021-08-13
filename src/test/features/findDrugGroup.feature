@@ -62,7 +62,7 @@ Feature:Validate the Find Drug group API test cases
     When User hits the FindDrugGroup "findDrugGroup" Endpoint with get request for given ManufactuereName "Test"
     Then User verifies the API response Status code is "200" for FindDrugGroup API
     Then User verify the FindDrugGroup response header Error Code value "-1"
-    Then User verify the valid Response FindDrugGroup body key "messageFindDrugGroup" and expected value "No Drug Group Summary found for the Manufacturer Name, contact support team." of string
+    Then User verify the valid Response FindDrugGroup body key "messageFindDrugGroupJson" and expected value "invalidDrugMessage" of string
 
   @Regression @Functional
   Scenario: Verify the DrugGroup name is in Ascending order
@@ -74,12 +74,12 @@ Feature:Validate the Find Drug group API test cases
   Scenario: Validate for invalid manufactureName
     When User hits the FindDrugGroup "findDrugGroup" Endpoint with get request for given ManufactuereName "htarahb"
     Then User verifies the API response Status code is "200" for FindDrugGroup API
-    Then User verify the valid Response FindDrugGroup body key "messageFindDrugGroup" and expected value "No Drug Group Summary found for the Manufacturer Name, contact support team." of string
+    Then User verify the valid Response FindDrugGroup body key "messageFindDrugGroupJson" and expected value "invalidDrugMessage" of string
 
   @Regression @Functional
   Scenario: Verify with TypeMismatch of Manufacturer name
     When User hits the FindDrugGroup "findDrugGroup" Endpoint with get request for given ManufactuereName "$3!23"
     Then User verifies the API response Status code is "200" for FindDrugGroup API
-    Then User verify the valid Response FindDrugGroup body key "messageFindDrugGroup" and expected value "Invalid mfr name $3!23 used to search drug groups." of string
+    Then User verify the valid Response FindDrugGroup body key "messageFindDrugGroupJson" and expected value "invalidMessageForTypeMissMatchDrugGroup" of string
 
 

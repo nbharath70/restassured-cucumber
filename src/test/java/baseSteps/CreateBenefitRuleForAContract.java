@@ -4,16 +4,12 @@ import HelperClass.ResourcePath;
 import HelperClass.VerificationHelperClass;
 import RequestPojo.*;
 import TestBase.TestBase;
-import com.jayway.jsonpath.JsonPath;
 import cucumber.api.DataTable;
 import io.restassured.response.Response;
 import org.apache.log4j.Logger;
-import org.junit.Assert;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 public class CreateBenefitRuleForAContract extends TestBase {
@@ -24,6 +20,13 @@ public class CreateBenefitRuleForAContract extends TestBase {
     BenefitRule benefitRuleforAContract;
     ResultSet resultSet;
     private String contractId;
+
+
+    /**
+     * This method is used to fetch the contract ID used to create Benefit rule
+     * @uthor Bharath
+     * @param query-
+     */
     public void getContractIdToUpdateAndCreateBenefitRule(String query){
         try{resultSet= dataBaseHelper.getData(query);
             resultSet.next();
@@ -34,22 +37,55 @@ public class CreateBenefitRuleForAContract extends TestBase {
             e.printStackTrace();
         }
     }
+
+    /**
+     * This method is used to update back a Life cycle of Contract header and contract detail status to Inprogress so that we can create the benefit rule
+     * @uthor Bharath
+     * @param contractHeaderQuery-updating contract header Life Cycle Status to Inprogress
+     *@param  contractDetailQuery-updating contract detail life cycle Status to InProgress
+     */
     public void updateLifeCycleStatusToInprogressForContract(String contractHeaderQuery,String contractDetailQuery)
     {
         dataBaseHelper.executeUpdatePreparedQueryAsString(contractHeaderQuery,contractId);
         dataBaseHelper.executeUpdatePreparedQueryAsString(contractDetailQuery,contractId);
     }
+
+    /**
+     * This method is used to update back a Life cycle of Contract header and contract detail status to New After Testing is done so that Data remains Same
+     * @uthor Bharath
+     * @param contractHeaderQuery-updating contract header Life Cycle Status to new
+     *@param  contractDetailQuery-updating contract detail life cycle Status to new
+     */
     public void updateLifeCycleStatusToNewForContract(String contractHeaderQuery,String contractDetailQuery)
     {
         dataBaseHelper.executeUpdatePreparedQueryAsString(contractHeaderQuery,contractId);
         dataBaseHelper.executeUpdatePreparedQueryAsString(contractDetailQuery,contractId);
     }
+
+
+    /**
+     * This method is used to verify the Status code of the response
+     * @uthor Bharath
+     * @param StatusCode-sent from feture file
+     */
     public void verifyStatusCodeofCreateBenefitRuleAPI(int StatusCode){
         verificationHelperClass.verifyStatusCode(response,StatusCode);
     }
+
+    /**
+     * This method is used to delete the benefit rule created for testing
+     * @uthor Bharath
+     * @param deleteBenefitRuleQuery-this Query is used to delete the benefit rule created for testing
+     */
     public void deleteCreatedBenefitRule(String deleteBenefitRuleQuery){
         dataBaseHelper.executeUpdatePreparedQueryAsString(deleteBenefitRuleQuery,contractId);
     }
+
+    /**
+     * This method is used to create the benefitrule Request body for API
+     * @uthor Bharath
+     * @param dataTable-the Details are passed from Feature file through data table
+     */
     public void createBenefitRuleJSONBody(DataTable dataTable) {
         try {
             List<Map<String, String>> benefitRuleData = dataTable.asMaps(String.class, String.class);
@@ -218,11 +254,23 @@ public class CreateBenefitRuleForAContract extends TestBase {
 //        }
 //    }
 
+    /**
+     * This method is hit he create benefit Rule API
+     * @uthor Bharath
+     * @param endpoint-this is the create benefitrule endpoint
+     */
     public void hitCreateBenefitRuleAPI(String endpoint){
         response=postOperation(endpoint,benefitRuleforAContract);
 //        String s=response.getHeader("rb-api-result");
 //        System.out.println(s);
     }
+
+    /**
+     * This method is used to check the result Status of in Response
+     * @uthor Bharath
+     * @param jsonPath-this is jsonpath for result validation
+     * @param expectedValue-this is expected value for result validation
+     */
     public void validationCreateBenefitResultStatus(String jsonPath,String expectedValue)
     {
         String jsonPathForBR=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,jsonPath);
@@ -235,7 +283,7 @@ public class CreateBenefitRuleForAContract extends TestBase {
 
     /**
      * This method is used to get the contractID from the contract name
-     * @param ContractName
+     * @param ContractName-
      * @Author: Arun Kumar
      */
     public void getContractIDByContractName(String query,String ContractName)
@@ -252,8 +300,8 @@ public class CreateBenefitRuleForAContract extends TestBase {
 
     /**
      * This method is used to updateBenefitRule Status from InProgress to Approve
-     * @param query
-     * @param benefitRuleName
+     * @param query-
+     * @param benefitRuleName-
      * @Author: Arun Kumar
      */
     public void updateBenefitRuleStatusApprove(String query,String benefitRuleName)
@@ -268,8 +316,8 @@ public class CreateBenefitRuleForAContract extends TestBase {
 
     /**
      * This method is used to delete BenefitRule
-     * @param query
-     * @param benefitRuleName
+     * @param query-
+     * @param benefitRuleName-
      * @Author: Arun Kumar
      */
     public void deleteBenefitRule(String query,String benefitRuleName)

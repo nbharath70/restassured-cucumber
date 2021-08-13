@@ -314,6 +314,20 @@ public class DataBaseHelper extends TestBase {
 
         return null;
     }
+
+    public ResultSet executePreparedDirectQuery(String query,String queryParam) {
+        try {getStatement();
+            psmt= conn.prepareStatement(query);
+            psmt.setString(1,queryParam);
+            prepareQueryResult =psmt.executeQuery();
+            log.info("Prepared query execution result is" + prepareQueryResult + " From DB");
+            return prepareQueryResult;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
     /**
      * @Author Bharath
      * executePreparedQuery this method Executes the Prepared Query it will Append the List of values into the Query
@@ -354,6 +368,18 @@ public class DataBaseHelper extends TestBase {
         try {
             getStatement();
             psmt = conn.prepareStatement(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, query));
+            log.info("query parameter is "+queryParam);
+            psmt.setString(1,queryParam);
+            psmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void executeUpdatePreparedQueryAsStringwithDirectQuery(String query,String queryParam) {
+        try {
+            getStatement();
+            psmt = conn.prepareStatement( query);
             log.info("query parameter is "+queryParam);
             psmt.setString(1,queryParam);
             psmt.executeUpdate();

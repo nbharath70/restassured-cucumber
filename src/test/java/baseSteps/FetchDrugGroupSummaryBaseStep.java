@@ -87,12 +87,18 @@ public void verifyFetchDruGroupSummary(String query,String columnName,String jso
 //        verificationHelperClass.verifyAPIResponseJsonWithDBJson(response,errorMsgJsonAsString,jsonPathforErrorMsg);
 //
 //    }
-public void verifiesAPIResponseWithTypeMismatchErrorMsg(String jsonpath,String errorMesssage) {
-    String jsonPathForErrorMsg=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, jsonpath);
+public void verifiesAPIResponseWithTypeMismatchErrorMsg(String jsonPath,String errorMesssage) {
+    String jsonPathForErrorMsg=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, jsonPath);
     String errorMsgAsJson=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, errorMesssage);
 //    String fullErrorMsgAsJson=errorMsgAsJson.concat("ABCD\\\"\"}");
     verificationHelperClass.verifyAPIResponseJsonWithDBJsonWithonlyStringDataTypeValues(response,errorMsgAsJson,jsonPathForErrorMsg,jsonPathForErrorMsg);
 
 }
+
+    public void validateFectDrugGroupSummaryResponse(String actualValue,String expectedValue)
+    {
+        String expectedValueMessage= getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,expectedValue);
+        verificationHelperClass.verifyResponseJsonString(response,actualValue,expectedValueMessage);
+    }
 
 }

@@ -3,6 +3,7 @@ package stepdefs;
 import TestBase.TestBase;
 import baseSteps.FetchDrugGroupSummaryBaseStep;
 
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -44,5 +45,10 @@ public class FetchDrugGroupSummaryStepDefnition extends TestBase {
     @Then("^User Verifies and Validate the Response of \"([^\"]*)\" and expected value \"([^\"]*)\"$")
     public void userVerifiesAndValidateTheResponseOfAndExpectedValue(String jsonpath, String invalidMessage) {
        fetchDrugGroupSummary.verifiesAPIResponseWithTypeMismatchErrorMsg(jsonpath,invalidMessage);
+    }
+
+    @Then("^User verify the valid Response fetchDrugGroupSummary body key \"([^\"]*)\" and expected value \"([^\"]*)\" of string$")
+    public void userVerifyTheValidResponseFetchDrugGroupSummaryBodyKeyAndExpectedValueOfString(String json, String message) throws Throwable {
+        fetchDrugGroupSummary.validateFectDrugGroupSummaryResponse(json,message);
     }
 }

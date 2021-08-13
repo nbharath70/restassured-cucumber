@@ -159,7 +159,8 @@ public class FindDrugGroup extends TestBase {
     }
     public void validateFindDrugGroupResponse(String actualValue,String expectedValue)
     {
-        verificationHelperClass.verifyResponseJsonString(findDrugGroupResponse,actualValue,expectedValue);
+        String expectedValueMessage= getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,expectedValue);
+        verificationHelperClass.verifyResponseJsonString(findDrugGroupResponse,actualValue,expectedValueMessage);
     }
 
     public void verifyFindDrugGroupResponseResponseHeaderErrorCode(String expectedHeaderValue)
