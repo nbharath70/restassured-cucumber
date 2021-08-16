@@ -2,17 +2,13 @@ package HelperClass;
 
 import TestBase.TestBase;
 import com.jayway.jsonpath.JsonPath;
-import cucumber.runtime.junit.Assertions;
 import io.restassured.http.Headers;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import io.restassured.response.Response;
 import org.junit.Assert;
-import org.testng.asserts.Assertion;
-
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 public class VerificationHelperClass extends TestBase {
@@ -490,4 +486,24 @@ public class VerificationHelperClass extends TestBase {
         }
     }
 
+    /**
+     * @Author Arun Kumar
+     * @param expValue
+     * @param apiJsonPath
+     * verifyAPIResponseJsonWithDBJsonWithObjectDataTypeValues method is used verify the given jsonPath and DB having Object type values in result
+     */
+    public void verifyAPIResponseJsonByArrayListValue(Response aPIresponse, String apiJsonPath,ArrayList expValue) {
+
+        try {
+            ArrayList<Object>actualValue = JsonPath.read(aPIresponse.asString(), apiJsonPath);
+            ArrayList<Object>expectedValue = expValue;
+            System.out.println("actualValue"+actualValue);
+            System.out.println("expectedValue"+expectedValue);
+            log.info("expectedValue from DB=" + expectedValue + " And actualValue from APIJson response=" + actualValue);
+            Assert.assertTrue("The lists do not match!", expectedValue.equals(actualValue));
+            log.info("Verification pass where expectedValue=" + expectedValue + " equals to actualValue=" + actualValue);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

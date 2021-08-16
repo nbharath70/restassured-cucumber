@@ -93,7 +93,6 @@ public class DataBaseHelper extends TestBase {
         }
         return rs;
     }
-
     /**
      * @uthor Arun Kumar
      * getDataColumnCount this method used get the total count of value for given query and column value
@@ -443,6 +442,25 @@ public class DataBaseHelper extends TestBase {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    /**
+     * @uthor Arun Kumar
+     * executePreparedQuery this method Executes the Prepared Query Upends the Intvalue to the Query
+     * @param query
+     * @param queryParam
+     * @return ResultSet
+     */
+    public void executeUpdatePreparedQueryWithPropertiesFile(String query,String queryParam) {
+        try {
+            getStatement();
+            psmt = conn.prepareStatement(query);
+            log.info("query parameter is" + queryParam);
+            psmt.setString(1, queryParam);
+            psmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }
