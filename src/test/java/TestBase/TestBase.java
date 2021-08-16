@@ -18,6 +18,7 @@ public class TestBase {
     Response response;
     private String contractID;
     private int rowKey;
+    //private int discardDrugGroupRowKey;
     /**
      * @uthour :Arun Kumar
      * @param cls
@@ -89,7 +90,7 @@ public class TestBase {
     }
 
     /**
-     * @uthor Arun Kumar
+     * @author Arun Kumar
      * getEndPointUrl Method used to concornate endpointUrl with baseUri and return the URL
      * @param endpointUrl
      * @return url
@@ -129,7 +130,7 @@ public class TestBase {
         return null;
     }
     /**
-     * @uthor: Smruti
+     * @Author: Smruti
      * @param endPoint, rowKey and contract id
      * @return response
      * deleteOperation method hits the end point and logs the response
@@ -141,6 +142,24 @@ public class TestBase {
                     .pathParam("rowKey",rowKey)
                     .log().all().header("Authorization", "Bearer "+getPropertiesFileValue(ResourcePath.Environment_Properties, "bearerToken"))
                     .when().delete(getEndPointUrl(endPoint)+"/{contractID}"+"/{rowKey}");
+            return response;
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    /**
+     * @Author: Smruti
+     * @param endPoint, discardDrugGroupRowKey
+     * @return response
+     * deleteOperation method hits the end point and logs the response
+     */
+    public Response deleteOperation(String endPoint,int discardDrugGroupRowKey)
+    {
+        try {
+            response = given().pathParam("discardDrugGroupRowKey",discardDrugGroupRowKey)
+                    .log().all().header("Authorization", "Bearer "+getPropertiesFileValue(ResourcePath.Environment_Properties, "bearerToken"))
+                    .when().delete(getEndPointUrl(endPoint)+"/{discardDrugGroupRowKey}");
             return response;
         }catch (Exception e) {
             e.printStackTrace();

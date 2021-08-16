@@ -372,6 +372,22 @@ public class VerificationHelperClass extends TestBase {
             e.printStackTrace();
         }
     }
+    /**
+     * @authour Smruti
+     * verifyAPIResponseError message in response
+     */
+    public void verifyAPIResponseErrorMessage(Response jsonResponse,String expectedErrorMessage, String APIjsonPath) {
+        try {
+            String actualValue = JsonPath.read(jsonResponse.asString(), APIjsonPath);
+            Assert.assertTrue("The lists do not match!", expectedErrorMessage.equals(actualValue));
+            log.info("Error message returned from API is:"+actualValue);
+            log.info("Expected  message returned  is:"+expectedErrorMessage);
+            log.info("Verified the error message  in API response");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     /**
      * This Reusable methods can be used to Verify Response Values having Null in it with DB Nulls
