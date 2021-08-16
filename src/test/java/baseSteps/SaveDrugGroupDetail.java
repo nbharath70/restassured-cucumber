@@ -1,9 +1,9 @@
 package baseSteps;
 
 import HelperClass.DataBaseHelper;
+import HelperClass.ResourcePath;
 import HelperClass.UtilitiesClass;
 import HelperClass.VerificationHelperClass;
-import RequestPojo.CreateNewRebateOptionPojo.*;
 import RequestPojo.SaveDrugGroupDetailPojo.SaveDrugGroupDetailPojoClass;
 import TestBase.TestBase;
 import cucumber.api.DataTable;
@@ -32,10 +32,40 @@ public class SaveDrugGroupDetail extends TestBase {
         try {
             List<Map<String, String>> saveDrugGroupData = dataTable.asMaps(String.class, String.class);
             for (Map<String, String> map : saveDrugGroupData) {
-                SaveDrugGroupDetailPojoClass saveDrugGroupDetailobj1=new SaveDrugGroupDetailPojoClass();
-                saveDrugGroupDetailobj1.setNdcs(map.get("query"),map.get("columnName"));
-                ArrayList ndcs = saveDrugGroupDetailobj1.getNdcs();
-                saveDrugGroupDetail=new SaveDrugGroupDetailPojoClass(drugListId,drugGroupRowKey,ndcs,utilitiesClass.getStartDate(),utilitiesClass.getEndDate());
+                if(map.get("condition").equalsIgnoreCase("nonOverLappingDate"))
+                {
+                    SaveDrugGroupDetailPojoClass saveDrugGroupDetailobj1=new SaveDrugGroupDetailPojoClass();
+                    saveDrugGroupDetailobj1.setNdcs(map.get("query"),map.get("columnName"));
+                    ArrayList ndcs = saveDrugGroupDetailobj1.getNdcs();
+                    saveDrugGroupDetail=new SaveDrugGroupDetailPojoClass(drugListId,drugGroupRowKey,ndcs,map.get("startDate"),map.get("endDate"));
+                }
+                else if(map.get("condition").equalsIgnoreCase("invalidDrugListId"))
+                {
+                    SaveDrugGroupDetailPojoClass saveDrugGroupDetailobj1=new SaveDrugGroupDetailPojoClass();
+                    saveDrugGroupDetailobj1.setNdcs(map.get("query"),map.get("columnName"));
+                    ArrayList ndcs = saveDrugGroupDetailobj1.getNdcs();
+                    saveDrugGroupDetail=new SaveDrugGroupDetailPojoClass(Integer.valueOf(map.get("drugListId")),drugGroupRowKey,ndcs,map.get("startDate"),map.get("endDate"));
+                }
+                else if(map.get("condition").equalsIgnoreCase("invalidDrugListRowKey"))
+                {
+                    SaveDrugGroupDetailPojoClass saveDrugGroupDetailobj1=new SaveDrugGroupDetailPojoClass();
+                    saveDrugGroupDetailobj1.setNdcs(map.get("query"),map.get("columnName"));
+                    ArrayList ndcs = saveDrugGroupDetailobj1.getNdcs();
+                    saveDrugGroupDetail=new SaveDrugGroupDetailPojoClass(drugListId,ndcs,map.get("startDate"),map.get("endDate"));
+                }
+                else if(map.get("condition").equalsIgnoreCase("invalidNDCS"))
+                {
+                    SaveDrugGroupDetailPojoClass saveDrugGroupDetailobj1=new SaveDrugGroupDetailPojoClass();
+                    saveDrugGroupDetailobj1.setNdcs(map.get("ndcs"));
+                    ArrayList ndcs = saveDrugGroupDetailobj1.getNdcs();
+                    saveDrugGroupDetail=new SaveDrugGroupDetailPojoClass(drugListId,drugGroupRowKey,ndcs,map.get("startDate"),map.get("endDate"));
+                }
+                else {
+                    SaveDrugGroupDetailPojoClass saveDrugGroupDetailobj1 = new SaveDrugGroupDetailPojoClass();
+                    saveDrugGroupDetailobj1.setNdcs(map.get("query"), map.get("columnName"));
+                    ArrayList ndcs = saveDrugGroupDetailobj1.getNdcs();
+                    saveDrugGroupDetail = new SaveDrugGroupDetailPojoClass(drugListId, drugGroupRowKey, ndcs, utilitiesClass.getStartDate(), utilitiesClass.getEndDate());
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -92,5 +122,57 @@ public class SaveDrugGroupDetail extends TestBase {
     {
         verificationHelperClass.verifyStatusCode(response, statusCode);
         log.info("saveDrugGroupDetails StatusCode is " + statusCode + " and its Pass");
+    }
+
+    /**
+     * @uthour Arun Kumar
+     * validating getAllNDCDetailsResponseBody method is used to validate the response body output with database value
+     * @param json
+     * @param columnName
+     */
+    public void verifyNDCDetails(String json,String columnName)
+    {
+
+        String getDrugProductQuery="select Drug_Product_Code from [cfg].[MFR_DrugList_Detail] where MFR_DrugList_ID="+drugListId+" and Is_Current_Flag=1";
+        log.info("Validating getAll NDC details Response with query as:"+getDrugProductQuery);
+        String jsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, json);
+        String dbColumn = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, columnName);
+        verificationHelperClass.verifyResponseJsonAndDbArrayByColumnNameWithoutPropertiesKey(response,jsonPath,getDrugProductQuery,dbColumn);
+    }
+
+    /**
+     * @uthour Arun Kumar
+     * validating getAllNDCDetailsRowKeyResponseBody method is used to validate the response body output with database value
+     * @param json
+     * @param columnName
+     */
+    public void verifyNDCDetailsRowKey(String json,String columnName)
+    {
+        String getNDCDetailsRowKeyQuery="select Row_Key from [cfg].[MFR_DrugList_Detail] where MFR_DrugList_ID="+drugListId+" and Is_Current_Flag=1";
+        log.info("Validating getAll NDC Row Key details Response with query as:"+getNDCDetailsRowKeyQuery);
+        String jsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, json);
+        String dbColumn = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, columnName);
+        verificationHelperClass.verifyResponseJsonAndDbArrayByColumnNameWithoutPropertiesKey(response,jsonPath,getNDCDetailsRowKeyQuery,dbColumn);
+    }
+    /**
+     * This validationResultsString used to validate the respanse body value as String
+     * @uthor Arun Kumar
+     * @param actualValue
+     * @param expectedValue
+     */
+    public void validationResultsString(String actualValue,String expectedValue)
+    {
+        verificationHelperClass.verifyResponseJsonString(response,actualValue,expectedValue);
+    }
+
+    /**
+     * This validationResultsBoolean used to validate the respanse body value as Boolean
+     * @uthor Arun Kumar
+     * @param actualValue
+     * @param expectedValue
+     */
+    public void validationResultsBoolean(String actualValue,String expectedValue)
+    {
+        verificationHelperClass.verifyResponseJsonBoolean(response,actualValue,expectedValue);
     }
 }

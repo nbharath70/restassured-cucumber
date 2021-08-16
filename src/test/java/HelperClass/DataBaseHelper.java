@@ -93,7 +93,6 @@ public class DataBaseHelper extends TestBase {
         }
         return rs;
     }
-
     /**
      * @Author Arun Kumar
      * getDataColumnCount this method used get the total count of value for given query and column value
@@ -477,20 +476,36 @@ public class DataBaseHelper extends TestBase {
 //            prepareQueryResult =psmt.executeQuery();
 //            log.info("Prepared query execution result is" + prepareQueryResult + " From DB");
 //            return prepareQueryResult;
-        try{
-            ResultSet result = executePreparedQuery(query,queryParam);
+        try {
+            ResultSet result = executePreparedQuery(query, queryParam);
             ArrayList arrayList = new ArrayList();
-            String column=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,columnName);
+            String column = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, columnName);
             while (result.next()) {
                 arrayList.add(result.getString(column));
             }
             return arrayList;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
-
-
+    }
+    /**
+     * @uthor Arun Kumar
+     * executePreparedQuery this method Executes the Prepared Query Upends the Intvalue to the Query
+     * @param query
+     * @param queryParam
+     * @return ResultSet
+     */
+    public void executeUpdatePreparedQueryWithPropertiesFile(String query,String queryParam) {
+        try {
+            getStatement();
+            psmt = conn.prepareStatement(query);
+            log.info("query parameter is" + queryParam);
+            psmt.setString(1, queryParam);
+            psmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
 

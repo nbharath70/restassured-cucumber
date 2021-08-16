@@ -18,6 +18,12 @@ public class SaveDrugGroupDetailPojoClass{
         this.startDate = startDate;
         this.endDate = endDate;
     }
+    public SaveDrugGroupDetailPojoClass(int drugListId, ArrayList ndcs,String startDate, String endDate) {
+        this.drugListId = drugListId;
+        this.ndcs = ndcs;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
 
     public SaveDrugGroupDetailPojoClass()
     {
@@ -67,5 +73,15 @@ public class SaveDrugGroupDetailPojoClass{
         DataBaseHelper dataBaseHelper=new DataBaseHelper();
         ArrayList<String> arrNdcs = dataBaseHelper.getDataColumnArrayListValueDB(query, columName);
         this.ndcs = arrNdcs;
+    }
+
+    public void setNdcs(String ndcs) {
+        String[] lb = ndcs.split(",");
+        ArrayList<String> arr=new ArrayList<String>();
+        for(String newNdcs:lb)
+        {
+            arr.add(newNdcs);
+        }
+        this.ndcs = arr;
     }
 }

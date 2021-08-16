@@ -507,4 +507,24 @@ public class VerificationHelperClass extends TestBase {
     }
 
 
+    /**
+     * @Author Arun Kumar
+     * @param expValue
+     * @param apiJsonPath
+     * verifyAPIResponseJsonWithDBJsonWithObjectDataTypeValues method is used verify the given jsonPath and DB having Object type values in result
+     */
+    public void verifyAPIResponseJsonByArrayListValue(Response aPIresponse, String apiJsonPath,ArrayList expValue) {
+
+        try {
+            ArrayList<Object>actualValue = JsonPath.read(aPIresponse.asString(), apiJsonPath);
+            ArrayList<Object>expectedValue = expValue;
+            System.out.println("actualValue"+actualValue);
+            System.out.println("expectedValue"+expectedValue);
+            log.info("expectedValue from DB=" + expectedValue + " And actualValue from APIJson response=" + actualValue);
+            Assert.assertTrue("The lists do not match!", expectedValue.equals(actualValue));
+            log.info("Verification pass where expectedValue=" + expectedValue + " equals to actualValue=" + actualValue);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

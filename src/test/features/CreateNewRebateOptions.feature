@@ -522,4 +522,3 @@ Feature:Retrieve and validate the create new rebate option
     Then User hits the "createNewRebateOptionsSaveProgress" with post request of CreateNewRebateOptions save progress API
     Then User verify createNewRebateOptionsSaveProgress status code "200" for the response
     Then User verify the createNewRebateOptionsSaveProgress valid Response body key "message" and expected value "Invalid dropdown option for PricingMethod value : Test" of string
-

@@ -32,4 +32,19 @@ public class SaveDrugGroupDetailsStepdefs {
     public void userExecutesTheQueryByDrugGroupNameToGetRowKeyForDrugGroupToSaveDrugGroupDetails(String query, String drugGroupName) throws Throwable {
         saveDrugGroupDetail.getDrugGroupRowKey(query,drugGroupName);
     }
+
+    @Then("^User verify the NDC details And matches returned by API and DB by NDCJson path \"([^\"]*)\" and columnName \"([^\"]*)\"$")
+    public void userVerifyTheNDCDetailsAndMatchesReturnedByAPIAndDBByNDCJsonPathAndColumnName(String jsonPath, String columnName) throws Throwable {
+        saveDrugGroupDetail.verifyNDCDetails(jsonPath,columnName);
+    }
+
+    @Then("^User verify the NDC details Row Key And matches returned by API and DB by NDCJson path \"([^\"]*)\" and columnName \"([^\"]*)\"$")
+    public void userVerifyTheNDCDetailsRowKeyAndMatchesReturnedByAPIAndDBByNDCJsonPathAndColumnName(String jsonPath, String columnName) throws Throwable {
+        saveDrugGroupDetail.verifyNDCDetailsRowKey(jsonPath,columnName);
+    }
+
+    @Then("^User verify the saveDrugGroupDetails valid Response body key \"([^\"]*)\" and expected value \"([^\"]*)\" of string$")
+    public void userVerifyTheSaveDrugGroupDetailsValidResponseBodyKeyAndExpectedValueOfString(String actualVal, String expectedVal) throws Throwable {
+        saveDrugGroupDetail.validationResultsString(actualVal,expectedVal);
+    }
 }

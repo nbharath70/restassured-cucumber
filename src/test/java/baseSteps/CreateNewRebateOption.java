@@ -64,9 +64,9 @@ public class CreateNewRebateOption extends TestBase {
     public void createNewRebateOptionPostCall(String endPoint)
     {
         response = postOperation(endPoint,createNewRebateOptions);
-        String s=response.getHeader("rb-api-result");
-        int actualCode = JsonPath.read(s, "$.apiReturnCodes[0].code");
-        System.out.println(actualCode);
+//        String s=response.getHeader("rb-api-result");
+//        int actualCode = JsonPath.read(s, "$.apiReturnCodes[0].code");
+//        System.out.println(actualCode);
     }
 
     /**
