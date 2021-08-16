@@ -1,4 +1,4 @@
-## In This Feature file All the Scenarios for FtechJobList API
+## In This Feature file All the Scenarios for fetchDrugGroupSummay
 Feature: Fetch the Drug group summary and validate the response
 
   Scenario: Hit the Fetch Drug group summary API and Check the API response Status Code is 200

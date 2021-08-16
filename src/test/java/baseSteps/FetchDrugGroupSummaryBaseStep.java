@@ -91,7 +91,7 @@ public void verifiesAPIResponseWithTypeMismatchErrorMsg(String jsonPath,String e
     String jsonPathForErrorMsg=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, jsonPath);
     String errorMsgAsJson=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, errorMesssage);
 //    String fullErrorMsgAsJson=errorMsgAsJson.concat("ABCD\\\"\"}");
-    verificationHelperClass.verifyAPIResponseJsonWithDBJsonWithonlyStringDataTypeValues(response,errorMsgAsJson,jsonPathForErrorMsg,jsonPathForErrorMsg);
+    verificationHelperClass.verifyAPIResponseJsonWithDBJsonWithStringDataTypeValues(response,errorMsgAsJson,jsonPathForErrorMsg,jsonPathForErrorMsg);
 
 }
 
