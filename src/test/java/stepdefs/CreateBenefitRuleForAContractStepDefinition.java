@@ -57,6 +57,21 @@ public class CreateBenefitRuleForAContractStepDefinition extends TestBase {
        createAndValidateBenefitRule.validateHeaderCodeOfResponse(headerCode);
     }
 
+    @Then("^User executes the query \"([^\"]*)\" by contract name \"([^\"]*)\" to get contractID to create benefit rule$")
+    public void userExecutesTheQueryByContractNameToGetContractIDToCreateBenefitRule(String query, String contractName) throws Throwable {
+        createAndValidateBenefitRule.getContractIDByContractName(query,contractName);
+    }
+
+    @Then("^User executes the query \"([^\"]*)\" by benefitRuleName \"([^\"]*)\"  for update benefit rule status to approved by contractID$")
+    public void userExecutesTheQueryByBenefitRuleNameForUpdateBenefitRuleStatusToApprovedByContractID(String query, String benefitRuleName) throws Throwable {
+        createAndValidateBenefitRule.updateBenefitRuleStatusApprove(query,benefitRuleName);
+    }
+
+    @Then("^User executes the query \"([^\"]*)\" by benefitRuleName \"([^\"]*)\" for delete benefit rule by contractID$")
+    public void userExecutesTheQueryByBenefitRuleNameForDeleteBenefitRuleByContractID(String query, String benefitRuleName) throws Throwable {
+        createAndValidateBenefitRule.deleteBenefitRule(query,benefitRuleName);
+    }
+
 //    @And("^User create the MutipleBenefitruledata$")
 //    public void userCreateTheMutipleBenefitruledata(DataTable dataTable) {
 //        createAndValidateBenefitRule.createMultipleBenefitRuleJSONBody(dataTable);

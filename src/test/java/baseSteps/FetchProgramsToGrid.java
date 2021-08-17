@@ -34,7 +34,7 @@ public class FetchProgramsToGrid extends TestBase {
     /**
      * This method used to fetch ProgramContractID from DataBase
      * @author Bharath
-     * @param query
+     * @param query-fetches the Contract ID of Program and Also checks this contract is valid and present in contract header and Contract detail
      */
     public  void programContractID(String query) {
         try {
@@ -52,7 +52,7 @@ public class FetchProgramsToGrid extends TestBase {
     /**
      * This method used to hit the FetchProgramsToGridAPI with Endpoint
      * @author Bharath
-     * @param endpoint
+     * @param endpoint-Endpoint of Fetch programs to Program Grid API
      */
     public void hitFetchProgramsToGridEndpoint(String endpoint) {
         String endpointCompletetion=programContractID+"/programs/";
@@ -63,8 +63,8 @@ public class FetchProgramsToGrid extends TestBase {
     /**
      * This method used to hit the FetchProgramsToGridAPI with Endpoint & programContractID
      * @author Bharath
-     * @param endpoint
-     * @param programContractID
+     * @param endpoint-Endpoint of Fetch programs to Program Grid API
+     * @param programContractID-fetched and Stored here it is used
      */
     public void hitFetchProgramsToGridEndpoint(String endpoint,String programContractID) {
         String endpointCompletetion=programContractID+"/programs";
@@ -76,7 +76,7 @@ public class FetchProgramsToGrid extends TestBase {
     /**
      * This method used to  FetchProgramsToGridAPI response
      * @author Bharath
-     * @param statusCode
+     * @param statusCode-It is passed from the feature file
      */
     public void verifyFetchProgramsToGridAPIResponse(int statusCode) {
         verificationHelperClass.verifyStatusCode(fetchProgramsToGridResponse, statusCode);
@@ -94,8 +94,8 @@ public class FetchProgramsToGrid extends TestBase {
     /**
      * This method used to  Verify the ProgramDetails which are present in Column
      * @author Bharath
-     * @param query
-     * @param columnName
+     * @param query-It fetches the Program details in the form of JSON
+     * @param columnName-Column is fetched using JSON path which we pass to resusable method build in verification helper class
      */
   public void verifyFetchProgramResponseDetailsWithDbTable(String query,String columnName){
     if(columnName.equalsIgnoreCase("manufactuererProgramID")){
@@ -118,9 +118,9 @@ public class FetchProgramsToGrid extends TestBase {
       verificationHelperClass.verifyResponseJsonAndDbArrayByColumnNameWithPreparedQuery(fetchProgramsToGridResponse,jsonPath,query,columnNameofProgramtoProgramGrid,programContractID);
   }
     /**
-     * This method used to  get the  ProgramDetails which are present in DetailJSOnColumn
+     * This method used to  get the  ProgramDetails which are present in DetailJSONColumn
      * @author Bharath
-     * @param query
+     * @param query-Program Detail JSON is fetched from the DB
      */
   public void getProgramDetailJSON(String query){
       try {
@@ -137,7 +137,7 @@ public class FetchProgramsToGrid extends TestBase {
     /**
      * This method used to  Verify the ProgramDetails which are present in DetailJSOnColumn
      * @author Bharath
-     * @param progarmDetailjsonPath
+     * @param progarmDetailjsonPath-Its a json path used to retrieve Program Details
      */
   public void verifyProgarmDetailJSONWithDB(String progarmDetailjsonPath){
         jsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,progarmDetailjsonPath);
@@ -146,8 +146,8 @@ public class FetchProgramsToGrid extends TestBase {
     /**
      * This method used to  Verify the DrugGroupId with DB
      * @author Bharath
-     * @param dbJSONPath
-     * @param aPIJSONPath
+     * @param dbJSONPath-Json path passed to DB result from query
+     * @param aPIJSONPath-Json path passed to DB API response
      */
   public void verifyDrugGroupIDWithDB(String dbJSONPath,String aPIJSONPath){
       aPIjsonPathForProgram=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,aPIJSONPath);
@@ -157,7 +157,7 @@ public class FetchProgramsToGrid extends TestBase {
     /**
      * This method used to  get the RebatableDrugGroupID from DB
      * @author Bharath
-     * @param jsonPath
+     * @param jsonPath-Json Path for Rebateble drugs
      */
   public void getRebatableDrugGroupIDfromJSON(String jsonPath) {
         String jSONPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,jsonPath);
@@ -168,11 +168,13 @@ public class FetchProgramsToGrid extends TestBase {
     /**
      * This method used to  get the DruggroupDetails from DB
      * @author Bharath
-     * @param initialSplitquery
-     * @param finalSplitQuery
+     * @param initialSplitquery-This Split is done becuase in SQL using Multiple ? is Not supported two Split of Query is concated and used
+     * @param finalSplitQuery-This Split is done becuase in SQL using Multiple ? is Not supported two Split of Query is concated and used
      */
   public void getDruggroupDetails(String initialSplitquery,String finalSplitQuery){
-      try {result=dbHepler.executePreparedQueryForArrayAsParameter(initialSplitquery,drugGroupIDList,finalSplitQuery);
+      try {
+          System.out.println(drugGroupIDList);
+          result=dbHepler.executePreparedQueryForArrayAsParameter(initialSplitquery,drugGroupIDList,finalSplitQuery);
           result.next();
           drugGroupJSON=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "drugGroupJSON");
           drugDetailJSON = result.getString(drugGroupJSON);
@@ -182,10 +184,10 @@ public class FetchProgramsToGrid extends TestBase {
       }
   }
     /**
-     * This method used to  get the rugListNameAndListType from DB
+     * This method used to  get the drugListNameAndListType from DB
      * @author Bharath
-     * @param dbJsonpath
-     * @param apiJsonpath
+     * @param dbJsonpath-
+     * @param apiJsonpath-
      */
   public void verifyDrugListNameAndListType(String dbJsonpath,String apiJsonpath){
       String aPIjsonPathForListNameAndTypeOfDrogGroup=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,apiJsonpath);
@@ -195,7 +197,7 @@ public class FetchProgramsToGrid extends TestBase {
     /**
      * This method is used validate verifyFetchProgramsToGridResponseHeaderErrorCode
      * @uthor ArunKumar
-     * @param expectedHeaderValue
+     * @param expectedHeaderValue-
      */
     public void verifyFetchProgramsToGridResponseHeaderErrorCode(String expectedHeaderValue)
     {

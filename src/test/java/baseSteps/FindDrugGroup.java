@@ -103,6 +103,9 @@ public class FindDrugGroup extends TestBase {
         }else if(columnName.equalsIgnoreCase("drugGroupTypeDesc")){
             jsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"drugGroupTypeDescFinddrugGroupApi");
             columnNameofDruggroupsummary=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,columnName);
+        }else if(columnName.equalsIgnoreCase("manufacturerDrugListID")){
+            jsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"manufacturerDrugListIDFinddrugGroupApi");
+            columnNameofDruggroupsummary=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,columnName);
         }
         verificationHelperClass.verifyResponseJsonAndDbArrayByColumnNameHavingNullValuesWithPreparedQuery(findDrugGroupResponse,jsonPath,query,columnNameofDruggroupsummary,manufactureName);
     }
@@ -118,10 +121,10 @@ public class FindDrugGroup extends TestBase {
             e.printStackTrace();
         } return manufactureDruglistID;
     }
-    public void verifyManufactuereDrugListID(String jsonPathforMfrdlID){
-        jsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,jsonPathforMfrdlID);
-        verificationHelperClass.verifyAPIResponseJsonWithDBJsonWithDifferentDataTypeValues(findDrugGroupResponse,manufactureDruglistID,jsonPath);
-    }
+//    public void verifyManufactuereDrugListID(String jsonPathforMfrdlID){
+//        jsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,jsonPathforMfrdlID);
+//        verificationHelperClass.verifyAPIResponseJsonWithDBJsonWithDifferentDataTypeValues(findDrugGroupResponse,manufactureDruglistID,jsonPath);
+//    }
     public String getNumberOfApprovedNdc(String query){
         try {
             log.info("query is "+query);
@@ -156,7 +159,8 @@ public class FindDrugGroup extends TestBase {
     }
     public void validateFindDrugGroupResponse(String actualValue,String expectedValue)
     {
-        verificationHelperClass.verifyResponseJsonString(findDrugGroupResponse,actualValue,expectedValue);
+        String expectedValueMessage= getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,expectedValue);
+        verificationHelperClass.verifyResponseJsonString(findDrugGroupResponse,actualValue,expectedValueMessage);
     }
 
     public void verifyFindDrugGroupResponseResponseHeaderErrorCode(String expectedHeaderValue)

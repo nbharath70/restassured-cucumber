@@ -13,7 +13,7 @@ public class DataBaseHelper extends TestBase {
     public ResultSet prepareQueryResult;
 
     /**
-     * @uthor Arun Kumar
+     * @Author Arun Kumar
      * This is the  method establishes the connection to database
      * @return stmt
      * @updated by: Rabbani
@@ -61,7 +61,7 @@ public class DataBaseHelper extends TestBase {
         return stmt;
     }
     /**
-     * @uthor: Arun Kumar
+     * @Author Arun Kumar
      * getData Method used to retrieves the data of given query
      * @param query
      * @return data
@@ -78,7 +78,7 @@ public class DataBaseHelper extends TestBase {
     }
 
     /**
-     * @uthor: Arun Kumar
+     * @Author Arun Kumar
      * getDataWithoutPropertiesKey Method used to retrieves the data of given query without PropertiesKey
      * @param query
      * @return data
@@ -93,9 +93,8 @@ public class DataBaseHelper extends TestBase {
         }
         return rs;
     }
-
     /**
-     * @uthor Arun Kumar
+     * @Author Arun Kumar
      * getDataColumnCount this method used get the total count of value for given query and column value
      * @param query
      * @param columnName
@@ -117,7 +116,7 @@ public class DataBaseHelper extends TestBase {
 
 
     /**
-     * @uthor Arun Kumar
+     * @Author Arun Kumar
      * getDataColumnArrayListValueDB method is used to get list values from database
      * @param query
      * @param columnName
@@ -140,7 +139,7 @@ public class DataBaseHelper extends TestBase {
     }
 
     /**
-     * @uthor Arun Kumar
+     * @Author Arun Kumar
      * getDataColumnArrayListValueDB method is used to get list values from database
      * @param query
      * @param columnName
@@ -163,7 +162,7 @@ public class DataBaseHelper extends TestBase {
     }
 
     /**
-     * @uthor Arun Kumar
+     * @Author Arun Kumar
      * getDataColumnArrayListValueDBInterger method is used to get list values from database
      * @param query
      * @param columnName
@@ -186,7 +185,7 @@ public class DataBaseHelper extends TestBase {
     }
 
     /**
-     * @uthor Arun Kumar
+     * @Author Arun Kumar
      * getDataColumnArrayListValueDBIntergerWithoutPropertiesKey method is used to get list values from database
      * @param query
      * @param columnName
@@ -210,7 +209,7 @@ public class DataBaseHelper extends TestBase {
 
 
     /**
-     * @uthor Arun Kumar
+     * @Author Arun Kumar
      * getDataColumnArrayListValueDBWithoutKey method is used to get list values from database
      * @param query
      * @param columnName
@@ -233,7 +232,7 @@ public class DataBaseHelper extends TestBase {
     }
 
     /**
-     * @uthor Rabbani
+     * @Author Rabbani
      * getSingleCellValueAsStringFromDB this method reads the single cell value from DB query result and returns it as a String
      * @param query
      * @param columnName
@@ -254,7 +253,7 @@ public class DataBaseHelper extends TestBase {
     }
 
     /**
-     * @uthor Bharath
+     * @Author Bharath
      * executePreparedQuery this method Executes the Prepared Query Upends the Intvalue to the Query
      * @param query
      * @param queryParam
@@ -266,7 +265,7 @@ public class DataBaseHelper extends TestBase {
             log.info("query parameter is"+queryParam);
             psmt.setInt(1,queryParam);
             prepareQueryResult =psmt.executeQuery();
-            log.info("Contract_ID is  " + prepareQueryResult + " From DB");
+            log.info("Prepared query execution Result is  " + prepareQueryResult + " From DB");
             return prepareQueryResult;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -275,7 +274,7 @@ public class DataBaseHelper extends TestBase {
         return null;
     }
     /**
-     * @uthor Bharath
+     * @Author Bharath
      * executePreparedQuery this method Executes the Prepared Query Upends the Intvalue to the Query
      * @param query
      * @param queryParam
@@ -285,7 +284,7 @@ public class DataBaseHelper extends TestBase {
         try {
             getStatement();
             psmt= conn.prepareStatement(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, query));
-            log.info("query parameter is"+queryParam);
+            log.info("query parameter is:"+queryParam);
             psmt.setInt(1,queryParam);
             psmt.executeUpdate();
         } catch (SQLException e) {
@@ -295,7 +294,7 @@ public class DataBaseHelper extends TestBase {
 
     }
     /**
-     * @uthor Bharath
+     * @Author Bharath
      * executePreparedQuery this method Executes the Prepared Query Upends the Stringvalues to the Query
      * @param query
      * @param queryParam
@@ -314,8 +313,22 @@ public class DataBaseHelper extends TestBase {
 
         return null;
     }
+
+    public ResultSet executePreparedDirectQuery(String query,String queryParam) {
+        try {getStatement();
+            psmt= conn.prepareStatement(query);
+            psmt.setString(1,queryParam);
+            prepareQueryResult =psmt.executeQuery();
+            log.info("Prepared query execution result is" + prepareQueryResult + " From DB");
+            return prepareQueryResult;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
     /**
-     * @uthor Bharath
+     * @Author Bharath
      * executePreparedQuery this method Executes the Prepared Query it will Append the List of values into the Query
      * @param initialSplitquery
      * @param finalSplitQuery
@@ -346,7 +359,7 @@ public class DataBaseHelper extends TestBase {
     }
     /**
      * executeUpdatePreparedQueryAsString method is used to execute the Query as parameter which is type os String
-     * @uthor Bharath
+     * @Author Bharath
      * @param query
      * @param queryParam
      */
@@ -361,9 +374,21 @@ public class DataBaseHelper extends TestBase {
             e.printStackTrace();
         }
     }
+
+    public void executeUpdatePreparedQueryAsStringwithDirectQuery(String query,String queryParam) {
+        try {
+            getStatement();
+            psmt = conn.prepareStatement( query);
+            log.info("query parameter is "+queryParam);
+            psmt.setString(1,queryParam);
+            psmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * getDataColumnArrayUsingPreparedStatement method is used to execute the Query as parameter and will return the Columnvalue as String from DB
-     * @uthor Bharath
+     * @Author Bharath
      * @param query
      * @param queryParam
      */
@@ -402,7 +427,7 @@ public class DataBaseHelper extends TestBase {
 
     /**
      * executeUpdatePreparedQueryAsString method is used to execute the Query as parameter which is type os String
-     * @uthor Arun Kumar
+     * @Author Arun Kumar
      * @param query
      * @param queryParam2
      */
@@ -424,7 +449,7 @@ public class DataBaseHelper extends TestBase {
     }
     /**
      *
-     * @uthor Smruti
+     * @Author Smruti
      * @param
      * @param
      */
@@ -444,7 +469,44 @@ public class DataBaseHelper extends TestBase {
         }
         return 0;
     }
-
+    public ArrayList executePreparedQuerytoGetColumnArray(String query,String queryParam,String columnName) {
+        getStatement();
+//            psmt= conn.prepareStatement(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, query));
+//            psmt.setString(1,queryParam);
+//            prepareQueryResult =psmt.executeQuery();
+//            log.info("Prepared query execution result is" + prepareQueryResult + " From DB");
+//            return prepareQueryResult;
+        try {
+            ResultSet result = executePreparedQuery(query, queryParam);
+            ArrayList arrayList = new ArrayList();
+            String column = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, columnName);
+            while (result.next()) {
+                arrayList.add(result.getString(column));
+            }
+            return arrayList;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    /**
+     * @uthor Arun Kumar
+     * executePreparedQuery this method Executes the Prepared Query Upends the Intvalue to the Query
+     * @param query
+     * @param queryParam
+     * @return ResultSet
+     */
+    public void executeUpdatePreparedQueryWithPropertiesFile(String query,String queryParam) {
+        try {
+            getStatement();
+            psmt = conn.prepareStatement(query);
+            log.info("query parameter is" + queryParam);
+            psmt.setString(1, queryParam);
+            psmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
 
 
