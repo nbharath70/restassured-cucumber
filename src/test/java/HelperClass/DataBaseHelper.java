@@ -4,6 +4,7 @@ import TestBase.TestBase;
 import org.apache.log4j.Logger;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class DataBaseHelper extends TestBase {
     public static Logger log=getMyLogger(DataBaseHelper.class);
@@ -507,6 +508,29 @@ public class DataBaseHelper extends TestBase {
             e.printStackTrace();
         }
     }
+    /**
+     * @Author Rabbani
+     * preparedQueryWithListOfStrings Method used to replaces strings in query with list of strings
+     * @param queryKey
+     * @param listStrings - List<String>
+     * @return url
+     */
+    public String preparedQueryWithListOfStrings(String queryKey, List<String> listStrings)
+    {
+        try {
+            String query = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, queryKey);
+            for(String strToReplace:listStrings){
+                query=query.replaceFirst("strToReplace",strToReplace);
+            }
+            log.info("*****The Final query="+query+"*****************");
+            return query;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
 }
 
 

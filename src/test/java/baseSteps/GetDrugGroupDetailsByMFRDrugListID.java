@@ -62,10 +62,13 @@ public class GetDrugGroupDetailsByMFRDrugListID extends TestBase {
             String jsonPathAndColumnName = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, actualJsonPathAndColumnName);
             String dbColumn = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, columnName);
             String query = "select " + dbColumn + " from [cfg].[MFR_DrugList_Detail] DD inner join [ref].[Drug_Product] DP  ON DD.Drug_Product_Code=DP.DRUG_PRODUCT_CODE where DD.MFR_DrugList_ID='" + manfDrugListID + "'";
+            log.info(query);
             ArrayList<String> actualValue = JsonPath.read(response.asString(), jsonPathAndColumnName);
             ArrayList<String> expectedValue = dbHelper.getDataColumnArrayListValueDBWithoutKey(query, actualJsonPathAndColumnName);
             Collections.sort(actualValue);
             Collections.sort(expectedValue);
+            System.out.println(actualValue);
+            System.out.println(expectedValue);
             log.info("expectedValue from DB" + expectedValue + " And actualValue from Json response=" + actualValue);
             Assert.assertTrue("The lists do not match!", expectedValue.equals(actualValue));
             log.info("Verification pass where expectedValue=" + expectedValue + " equals to actualValue=" + actualValue);
