@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import static io.restassured.RestAssured.given;
 
@@ -322,6 +323,55 @@ public class TestBase {
             e.printStackTrace();
         }
         return  null;
+    }
+
+
+    /**
+     * @Author Rabbani
+     * getEndPointUrl Method used to concatenates Base URI + endpointUrl + and multiple path params and returns the final URL
+     * @param endpointUrl
+     * @param listPathParams - List<String> of path params
+     * @return url
+     */
+    public String getEndPointUrl(String endpointUrl,List<String> listPathParams)
+    {
+        try {
+            String baseURl = getBaseURI();
+            String endpoint = getPropertiesFileValue(ResourcePath.Environment_Properties, endpointUrl);
+            String url = baseURl + "/" + endpoint;
+            for(String pathParam:listPathParams){
+                System.out.println(pathParam);
+                url = url.replaceFirst("pathparam", pathParam);
+            }
+            log.info("****************The request url="+url+"*****************");
+            return url;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * @Author: Rabbani
+     * @param endPoint
+     * @param listPathParams -List<String> of path parameters
+     * @return response
+     * getCall (overloaded) method hits the end point and logs the response and also verify response body type as ContentType.JSON
+     */
+    public Response getCall(String endPoint, List<String> listPathParams)
+    {
+        try {
+            response = given().log().all().urlEncodingEnabled(false).header("Authorization", "Bearer "+getPropertiesFileValue(ResourcePath.Environment_Properties, "bearerToken")).when().get(getEndPointUrl(endPoint,listPathParams));
+            //response = given().log().all().urlEncodingEnabled(false).header("Authorization", "Bearer "+getPropertiesFileValue(ResourcePath.Environment_Properties, "bearerToken")).when().get("https://uat-rebate.prescientgroup.com/rebate/api/rebatedata/manufacturer/contract/drug-group-detail/medispan-data/drug-list//ndcs/");
+            log.info("Response is=" + response);
+            response.then().assertThat().contentType(ContentType.JSON);
+            log.info("The response is in proper JSON format");
+            log.info("The response Body="+response.getBody().asString());
+            return response;
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }
