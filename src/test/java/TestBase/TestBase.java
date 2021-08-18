@@ -373,5 +373,29 @@ public class TestBase {
         }
         return null;
     }
+    /**
+     * @uthor: Rabbani
+     * @param endPoint, requestbody as object
+     * @return response
+     * deleteOperation method hits the end point with request body and returns the response
+     */
+    public Response deleteOperation(String endPoint,Object requestBody)
+    {
+        try {
+            RequestSpecification requestSpecification = RestAssured.given();
+            requestSpecification.header("Authorization", "Bearer " + getPropertiesFileValue(ResourcePath.Environment_Properties, "bearerToken"));
+            requestSpecification.header("Content-Type", "application/json").contentType(ContentType.JSON);
+            requestSpecification.when();
+            response=requestSpecification.body(requestBody).log().all().delete(getEndPointUrl(endPoint));
+            log.info("****************** The Response JSON Body**************");
+            log.info(response.getBody().jsonPath().prettify());
+            response.then().assertThat().contentType(ContentType.JSON);
+            log.info("The response is in proper JSON format");
+            return response;
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }

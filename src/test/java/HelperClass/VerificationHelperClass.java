@@ -550,4 +550,11 @@ public class VerificationHelperClass extends TestBase {
         return jsonPathList;
     }
 
+    public void verifyexpectedAndActualDirectlyAsStrings(Response response, String expectedResponse) {
+        String actualResponse=response.asString();
+        log.info("expectedValue:" + expectedResponse + " And actualValue from APIJson response=" + actualResponse);
+        Assert.assertEquals("The lists do not match!", expectedResponse, actualResponse);
+        log.info("Verification pass where expectedValue=" + expectedResponse + " equals to actualValue=" + actualResponse);
+
+    }
 }
