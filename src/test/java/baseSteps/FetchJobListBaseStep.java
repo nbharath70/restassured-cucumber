@@ -1,23 +1,18 @@
 package baseSteps;
 
-import HelperClass.DataBaseHelper;
+
 import HelperClass.ResourcePath;
 import HelperClass.VerificationHelperClass;
 import TestBase.TestBase;
 import io.restassured.response.Response;
 import org.apache.log4j.Logger;
 
-import java.sql.Array;
-import java.util.ArrayList;
 
 
 public class FetchJobListBaseStep extends TestBase {
     Response response;
-    DataBaseHelper dataBaseHelper=new DataBaseHelper();
     public VerificationHelperClass verificationHelperClass = new VerificationHelperClass();
     public static Logger log = getMyLogger(FetchJobListBaseStep.class);
-    public ArrayList<String> scheduledName;
-
 
     public void hitFetchJobListAPI(String endpoint)
     {

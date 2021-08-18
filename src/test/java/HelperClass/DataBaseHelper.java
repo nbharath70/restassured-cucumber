@@ -94,7 +94,6 @@ public class DataBaseHelper extends TestBase {
         }
         return rs;
     }
-
     /**
      * @Author Arun Kumar
      * getDataColumnCount this method used get the total count of value for given query and column value
@@ -247,7 +246,6 @@ public String getSingleCellValueAsStringFromDB(String query, String columnName)
             ResultSet result = getData(query);
             result.next();
             String cellValue = result.getString(columnName);
-            System.out.println(cellValue);
             return cellValue;
         }catch (Exception e){
             e.printStackTrace();
@@ -268,7 +266,7 @@ public String getSingleCellValueAsStringFromDB(String query, String columnName)
             log.info("query parameter is"+queryParam);
             psmt.setInt(1,queryParam);
             prepareQueryResult =psmt.executeQuery();
-            log.info("Contract_ID is  " + prepareQueryResult + " From DB");
+            log.info("Prepared query execution Result is  " + prepareQueryResult + " From DB");
             return prepareQueryResult;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -287,7 +285,7 @@ public String getSingleCellValueAsStringFromDB(String query, String columnName)
         try {
             getStatement();
             psmt= conn.prepareStatement(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, query));
-            log.info("query parameter is"+queryParam);
+            log.info("query parameter is:"+queryParam);
             psmt.setInt(1,queryParam);
             psmt.executeUpdate();
         } catch (SQLException e) {
@@ -306,6 +304,20 @@ public String getSingleCellValueAsStringFromDB(String query, String columnName)
     public ResultSet executePreparedQuery(String query,String queryParam) {
         try {getStatement();
             psmt= conn.prepareStatement(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, query));
+            psmt.setString(1,queryParam);
+            prepareQueryResult =psmt.executeQuery();
+            log.info("Prepared query execution result is" + prepareQueryResult + " From DB");
+            return prepareQueryResult;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public ResultSet executePreparedDirectQuery(String query,String queryParam) {
+        try {getStatement();
+            psmt= conn.prepareStatement(query);
             psmt.setString(1,queryParam);
             prepareQueryResult =psmt.executeQuery();
             log.info("Prepared query execution result is" + prepareQueryResult + " From DB");
@@ -356,6 +368,18 @@ public String getSingleCellValueAsStringFromDB(String query, String columnName)
         try {
             getStatement();
             psmt = conn.prepareStatement(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, query));
+            log.info("query parameter is "+queryParam);
+            psmt.setString(1,queryParam);
+            psmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void executeUpdatePreparedQueryAsStringwithDirectQuery(String query,String queryParam) {
+        try {
+            getStatement();
+            psmt = conn.prepareStatement( query);
             log.info("query parameter is "+queryParam);
             psmt.setString(1,queryParam);
             psmt.executeUpdate();
@@ -445,6 +469,44 @@ public String getSingleCellValueAsStringFromDB(String query, String columnName)
             e.printStackTrace();
         }
         return 0;
+    }
+    public ArrayList executePreparedQuerytoGetColumnArray(String query,String queryParam,String columnName) {
+        getStatement();
+//            psmt= conn.prepareStatement(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, query));
+//            psmt.setString(1,queryParam);
+//            prepareQueryResult =psmt.executeQuery();
+//            log.info("Prepared query execution result is" + prepareQueryResult + " From DB");
+//            return prepareQueryResult;
+        try {
+            ResultSet result = executePreparedQuery(query, queryParam);
+            ArrayList arrayList = new ArrayList();
+            String column = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, columnName);
+            while (result.next()) {
+                arrayList.add(result.getString(column));
+            }
+            return arrayList;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    /**
+     * @uthor Arun Kumar
+     * executePreparedQuery this method Executes the Prepared Query Upends the Intvalue to the Query
+     * @param query
+     * @param queryParam
+     * @return ResultSet
+     */
+    public void executeUpdatePreparedQueryWithPropertiesFile(String query,String queryParam) {
+        try {
+            getStatement();
+            psmt = conn.prepareStatement(query);
+            log.info("query parameter is" + queryParam);
+            psmt.setString(1, queryParam);
+            psmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     /**
      * @Author Rabbani

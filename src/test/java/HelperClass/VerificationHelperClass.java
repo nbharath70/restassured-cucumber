@@ -9,6 +9,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import io.restassured.response.Response;
 import org.junit.Assert;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import org.testng.asserts.Assertion;
 import org.testng.asserts.SoftAssert;
 
@@ -19,8 +22,8 @@ public class VerificationHelperClass extends TestBase {
     public static Logger log = getMyLogger(VerificationHelperClass.class);
 
     /**
-     * @param jsonResponse
-     * @param statusCode
+     * @param jsonResponse-
+     * @param statusCode-
      * @uthour Arun Kumar
      * verifyStatusCode Method used to verify given the status code
      */
@@ -34,10 +37,10 @@ public class VerificationHelperClass extends TestBase {
     }
 
     /**
-     * @param response
-     * @param actualJsonPath
-     * @param Query
-     * @param ColumnName
+     * @param response-
+     * @param actualJsonPath-
+     * @param Query-
+     * @param ColumnName-
      * @uthour Arun Kumar
      * verifyRecordCount method is used verify the total record count from given jsonPath and DB query column value
      */
@@ -54,10 +57,10 @@ public class VerificationHelperClass extends TestBase {
     }
 
     /**
-     * @param response
-     * @param actualJsonPath
-     * @param Query
-     * @param ColumnName
+     * @param response-
+     * @param actualJsonPath-
+     * @param Query-
+     * @param ColumnName-
      * @uthor Arun Kumar
      * VerifyResponseJsonAndDbArrayByColumnName method is used verify the given jsonPath and DB query column value ArrayList value
      */
@@ -75,10 +78,10 @@ public class VerificationHelperClass extends TestBase {
         }
     }
     /**
-     * @param response
-     * @param actualJsonPath
-     * @param Query
-     * @param ColumnName
+     * @param response-
+     * @param actualJsonPath-
+     * @param Query-
+     * @param ColumnName-
      * @uthor Arun Kumar
      * verifyResponseJsonAndDbArrayByColumnNameWithoutPropertiesKey method is used verify the given jsonPath and DB query column value ArrayList value as String
      */
@@ -99,8 +102,8 @@ public class VerificationHelperClass extends TestBase {
     /** * @Author Rabbani * @param APIresp... by Rabbani Shaik
      /**
      * @Author Rabbani
-     * @param APIresponse
-     * @param dbResponseJsonAsString
+     * @param APIresponse-
+     * @param dbResponseJsonAsString-
      * @param jsonPath
      * VerifyResponseJsonAndDbArrayByColumnName method is used verify the given jsonPath and DB query column value ArrayList value
      */
@@ -120,8 +123,8 @@ public class VerificationHelperClass extends TestBase {
 
      /**
      * @Author Bharath
-     * @param aPIresponse
-     * @param dbResponseJsonAsString
+     * @param aPIresponse-
+     * @param dbResponseJsonAsString-
      * @param jsonPath
      * verifyAPIResponseJsonWithDBJsonWithDifferentDataTypeValues method is used verify the given jsonPath and DB having different values with different datatypes using List
      */
@@ -140,8 +143,8 @@ public class VerificationHelperClass extends TestBase {
     }
     /**
      * @Author Bharath
-     * @param aPIresponse
-     * @param dbResponseJsonAsString
+     * @param aPIresponse-
+     * @param dbResponseJsonAsString-
      * @param jsonPath
      * verifyAPIResponseJsonWithDBJsonWithDifferentDataTypeValues method is used verify the given jsonPath and DB having different values with different datatypes using List
      */
@@ -159,8 +162,8 @@ public class VerificationHelperClass extends TestBase {
 
     /**
      * @Author Bharath
-     * @param aPIresponse
-     * @param dbResponseJsonAsString
+     * @param aPIresponse-
+     * @param dbResponseJsonAsString-
      * @param dBJSON
      * verifyAPIResponseJsonWithDBJsonWithDifferentDataTypeValues method is used verify the given jsonPath and DB having different values with different datatypes using List
      */
@@ -180,9 +183,9 @@ public class VerificationHelperClass extends TestBase {
 
     /**
      * @Author Bharath
-     * @param APIresponse
-     * @param dbResponseJsonAsString
-     * @param aPIjsonPath
+     * @param APIresponse-
+     * @param dbResponseJsonAsString-
+     * @param aPIjsonPath-
      * @param dBJSON
      * verifyAPIResponseJsonWithDBJsonWithStringDataTypeValues method is used verify the given jsonPath and DB having String Type values in result
      */
@@ -201,9 +204,9 @@ public class VerificationHelperClass extends TestBase {
     }
     /**
      * @Author Bharath
-     * @param APIresponse
-     * @param dbResponseJsonAsString
-     * @param aPIjsonPath
+     * @param APIresponse-
+     * @param dbResponseJsonAsString-
+     * @param aPIjsonPath-
      * @param dBJSON
      * verifyAPIResponseJsonWithDBJsonWithStringDataTypeValues method is used verify the given jsonPath and DB having String Type values in result
      */
@@ -221,9 +224,9 @@ public class VerificationHelperClass extends TestBase {
 
             /**
              * @Author Bharath
-             * @param aPIresponse
-             * @param dbResponseJsonAsString
-             * @param aPIjsonPath
+             * @param aPIresponse-
+             * @param dbResponseJsonAsString-
+             * @param aPIjsonPath-
              * @param dBJSON
              * verifyAPIResponseJsonWithDBJsonWithIntDataTypeValues method is used verify the given jsonPath and DB having Int type values in result
              */
@@ -242,9 +245,9 @@ public class VerificationHelperClass extends TestBase {
 
     /**
      * @Author Bharath
-     * @param aPIresponse
-     * @param dbResponseJsonAsString
-     * @param aPIjsonPath
+     * @param aPIresponse-
+     * @param dbResponseJsonAsString-
+     * @param aPIjsonPath-
      * @param dBJSON
      * verifyAPIResponseJsonWithDBJsonWithObjectDataTypeValues method is used verify the given jsonPath and DB having Object type values in result
      */
@@ -262,9 +265,9 @@ public class VerificationHelperClass extends TestBase {
     }
     /**
      * @Author Bharath
-     * @param aPIresponse
-     * @param dbResponseJsonAsString
-     * @param aPIjsonPath
+     * @param aPIresponse-
+     * @param dbResponseJsonAsString-
+     * @param aPIjsonPath-
      * @param dBJSON
      * verifyAPIResponseJsonWithDBJsonNullValues method is used verify the given jsonPath and DB having null values in result
      */
@@ -282,9 +285,9 @@ public class VerificationHelperClass extends TestBase {
     }
     /**
      * @Author Bharath
-     * @param aPIresponse
-     * @param dbResponseJsonAsString
-     * @param aPIjsonPath
+     * @param aPIresponse-
+     * @param dbResponseJsonAsString-
+     * @param aPIjsonPath-
      * @param dBJSON
      * verifyAPIResponseJsonWithDBJsonWithBooleanDataTypeValues method is used verify the given jsonPath and DB having Boolean values in result
      */
@@ -304,9 +307,9 @@ public class VerificationHelperClass extends TestBase {
     /**
      * verifyResponseJsonBoolean method is used to validate the jsonResponse Body which is type of boolean
      * @uthor Arun Kumar
-     * @param response
-     * @param jsonResponseBodyKey
-     * @param expectedValue
+     * @param response-
+     * @param jsonResponseBodyKey-
+     * @param expectedValue-
      */
     public void verifyResponseJsonBoolean(Response response,String jsonResponseBodyKey,String expectedValue)
     {
@@ -323,9 +326,9 @@ public class VerificationHelperClass extends TestBase {
     /**
      * verifyResponseJsonBoolean method is used to validate the jsonResponse Body which is type of String
      * @uthor Arun Kumar
-     * @param response
-     * @param jsonResponseBodyKey
-     * @param expectedValue
+     * @param response-
+     * @param jsonResponseBodyKey-
+     * @param expectedValue-
      */
     public void verifyResponseJsonString(Response response,String jsonResponseBodyKey,String expectedValue)
     {
@@ -341,10 +344,10 @@ public class VerificationHelperClass extends TestBase {
     }
     /**
      * @Author Bharath
-     * @param response
-     * @param actualJsonPath
-     * @param query
-     * @param queryparam
+     * @param response-
+     * @param actualJsonPath-
+     * @param query-
+     * @param queryparam-
      * verifyResponseJsonAndDbArrayByColumnNameWithPreparedQuery method is used verify the JsonArray and DbArray columnname using prepared query
      */
     public void verifyResponseJsonAndDbArrayByColumnNameWithPreparedQuery(Response response, String actualJsonPath, String query, String columnName,String queryparam) {
@@ -361,8 +364,8 @@ public class VerificationHelperClass extends TestBase {
         }
     }
     /**
-     * @param jsonResponse
-     * @param APIjsonPath
+     * @param jsonResponse-
+     * @param APIjsonPath-
      * @authour Smruti
      * verifyAPIResponseBooleanValue Method used to verify given boolean value in response
      */
@@ -375,7 +378,32 @@ public class VerificationHelperClass extends TestBase {
             e.printStackTrace();
         }
     }
+    /**
+     * @authour Smruti
+     * verifyAPIResponseError message in response
+     */
+    public void verifyAPIResponseErrorMessage(Response jsonResponse,String expectedErrorMessage, String APIjsonPath) {
+        try {
+            String actualValue = JsonPath.read(jsonResponse.asString(), APIjsonPath);
+            Assert.assertTrue("The lists do not match!", expectedErrorMessage.equals(actualValue));
+            log.info("Error message returned from API is:"+actualValue);
+            log.info("Expected  message returned  is:"+expectedErrorMessage);
+            log.info("Verified the error message  in API response");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+
+    /**
+     * This Reusable methods can be used to Verify Response Values having Null in it with DB Nulls
+     * @Author Bharath
+     * @param response-
+     * @param actualJsonPath-
+     * @param query-
+     * @param queryparam-
+     *
+     */
     public void verifyResponseJsonAndDbArrayByColumnNameHavingNullValuesWithPreparedQuery(Response response, String actualJsonPath, String query, String columnName,String queryparam) {
         try {
             List<Object> actualValue = JsonPath.read(response.asString(), actualJsonPath);
@@ -388,17 +416,17 @@ public class VerificationHelperClass extends TestBase {
         }
     }
     /**
-     * @param response
-     * @param actualJsonPath
-     * @param Query
-     * @param ColumnName
+     * @param response-
+     * @param actualJsonPath--
+     * @param query-
+     * @param ColumnName-
      * @uthor Arun Kumar
      * verifyResponseJsonAndDbArrayByColumnNameInteger method is used verify the given jsonPath and DB query column value ArrayList value
      */
-    public void verifyResponseJsonAndDbArrayByColumnNameForInteger(Response response, String actualJsonPath, String Query, String ColumnName) {
+    public void verifyResponseJsonAndDbArrayByColumnNameForInteger(Response response, String actualJsonPath, String query, String ColumnName) {
         try {
             ArrayList<Integer> actualValue = JsonPath.read(response.asString(), actualJsonPath);
-            ArrayList<Integer> expectedValue = dataBaseHelper.getDataColumnArrayListValueDBInterger(Query, ColumnName);
+            ArrayList<Integer> expectedValue = dataBaseHelper.getDataColumnArrayListValueDBInterger(query, ColumnName);
             Collections.sort(actualValue);
             Collections.sort(expectedValue);
             log.info("expectedValue from DB" + expectedValue + " And actualValue from Json response=" + actualValue);
@@ -409,10 +437,10 @@ public class VerificationHelperClass extends TestBase {
         }
     }
     /**
-     * @param response
-     * @param actualJsonPath
-     * @param Query
-     * @param ColumnName
+     * @param response-
+     * @param actualJsonPath-
+     * @param Query-
+     * @param ColumnName-
      * @uthor Arun Kumar
      * verifyResponseJsonAndDbArrayByColumnNameInteger method is used verify the given jsonPath and DB query column value ArrayList value
      */
@@ -433,8 +461,8 @@ public class VerificationHelperClass extends TestBase {
     /**
      * This method is used to validate the ResponseHeader Error code Value
      * @uthor ArunKumar
-     * @param response
-     * @param expectedErrorCode
+     * @param response-
+     * @param expectedErrorCode-
      */
     public void verifyResponseHeaderApiReturnCodesValue(Response response,String expectedErrorCode)
     {
@@ -454,8 +482,8 @@ public class VerificationHelperClass extends TestBase {
     /**
      * This method is used to validate the verifyResponseHeaderCountValue
      * @uthor ArunKumar
-     * @param response
-     * @param expectedCountValue
+     * @param response-
+     * @param expectedCountValue-
      */
     public void verifyResponseHeaderCountValue(Response response,int expectedCountValue)
     {
@@ -471,10 +499,10 @@ public class VerificationHelperClass extends TestBase {
     }
 
     /**
-     * @param response
-     * @param actualJsonPath
-     * @param Query
-     * @param ColumnName
+     * @param response-
+     * @param actualJsonPath-
+     * @param Query-
+     * @param ColumnName-
      * @uthour Smruti
      * verifyRecordCount method is used verify the total record count from given jsonPath and DB query column value
      */
@@ -489,6 +517,38 @@ public class VerificationHelperClass extends TestBase {
         }
     }
 
+
+    /**
+     *This Method is Used for Comparing the 2 String Passed into it and Asserting the Reponse
+     * @uthour Bharath
+     *
+     */
+    public void compareTwoStrings(String textone,String textTwo){
+        Assert.assertEquals("Verification failed, expectedValue is not same as  actual value",textone,textTwo);
+        log.info("Verification pass where expectedValue=" + textone + " equals to actualValue=" + textTwo);
+    }
+
+
+    /**
+     * @Author Arun Kumar
+     * @param expValue
+     * @param apiJsonPath
+     * verifyAPIResponseJsonWithDBJsonWithObjectDataTypeValues method is used verify the given jsonPath and DB having Object type values in result
+     */
+    public void verifyAPIResponseJsonByArrayListValue(Response aPIresponse, String apiJsonPath,ArrayList expValue) {
+
+        try {
+            ArrayList<Object>actualValue = JsonPath.read(aPIresponse.asString(), apiJsonPath);
+            ArrayList<Object>expectedValue = expValue;
+            System.out.println("actualValue"+actualValue);
+            System.out.println("expectedValue"+expectedValue);
+            log.info("expectedValue from DB=" + expectedValue + " And actualValue from APIJson response=" + actualValue);
+            Assert.assertTrue("The lists do not match!", expectedValue.equals(actualValue));
+            log.info("Verification pass where expectedValue=" + expectedValue + " equals to actualValue=" + actualValue);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
      /**
      * @Author Rabbani
