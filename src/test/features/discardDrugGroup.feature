@@ -14,7 +14,7 @@ Feature: Discard a drug group
     Then User verifies the discard Drug group response is in JSON format
     And user runs "restoreTheDrugGroupStatus" query to activate the drug list
 
-  @Smoke @@Functional
+  @Smoke @Functional
    Scenario: Discard the Drug group  and verify  response message value
     Given User executes the "getNewDrugGroupRowKey" query and retrieves rowkey
     When User hits the "discardDrugGroup" Endpoint with delete request

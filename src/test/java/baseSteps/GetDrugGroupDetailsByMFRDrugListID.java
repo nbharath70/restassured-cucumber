@@ -61,7 +61,9 @@ public class GetDrugGroupDetailsByMFRDrugListID extends TestBase {
         try {
             String jsonPathAndColumnName = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, actualJsonPathAndColumnName);
             String dbColumn = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, columnName);
-            String query = "select " + dbColumn + " from [cfg].[MFR_DrugList_Detail] DD inner join [ref].[Drug_Product] DP  ON DD.Drug_Product_Code=DP.DRUG_PRODUCT_CODE where DD.MFR_DrugList_ID='" + manfDrugListID + "'";
+            System.out.println(jsonPathAndColumnName);
+            System.out.println(dbColumn);
+            String query ="select " + dbColumn + " from [cfg].[MFR_DrugList]  where Row_Key="+ manfDrugListID +" and Is_Current_Flag=1";
             ArrayList<String> actualValue = JsonPath.read(response.asString(), jsonPathAndColumnName);
             ArrayList<String> expectedValue = dbHelper.getDataColumnArrayListValueDBWithoutKey(query, actualJsonPathAndColumnName);
             Collections.sort(actualValue);

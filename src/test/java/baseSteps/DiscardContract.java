@@ -2,6 +2,7 @@ package baseSteps;
 import HelperClass.DataBaseHelper;
 import HelperClass.ResourcePath;
 import HelperClass.VerificationHelperClass;
+import RequestPojo.DisContractPojo.DiscardContractPojo;
 import TestBase.TestBase;
 import io.restassured.response.Response;
 import org.apache.log4j.Logger;
@@ -18,6 +19,7 @@ public class DiscardContract extends TestBase {
     public ResultSet result;
     private int rowKeyVal;
     private String contractID;
+    DiscardContractPojo discardContractPojo;
 
 
     /**
@@ -65,8 +67,9 @@ public class DiscardContract extends TestBase {
      */
     public void discardContract(String endpoint)
     {
-        discardContractResponse=deleteOperation(endpoint,rowKeyVal,contractID);
-        log.info("Response is "+discardContractResponse.asString());
+       discardContractPojo=new DiscardContractPojo("undefined",contractID,rowKeyVal);
+       discardContractResponse=deleteOperation(endpoint,discardContractPojo);
+       log.info("Response is "+discardContractResponse.asString());
     }
 
     public void verifyStatusCodeofDiscardContractAPI(int StatusCode){

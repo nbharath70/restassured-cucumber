@@ -4,6 +4,7 @@ import HelperClass.DataBaseHelper;
 import HelperClass.ResourcePath;
 import HelperClass.VerificationHelperClass;
 import RequestPojo.*;
+import RequestPojo.DisContractPojo.DiscardContractPojo;
 import TestBase.TestBase;
 import cucumber.api.DataTable;
 import io.restassured.response.Response;
@@ -24,6 +25,8 @@ public class InitiateNewManufactureContract extends TestBase {
     public VerificationHelperClass verificationHelperClass = new VerificationHelperClass();
     public static Logger log = getMyLogger(InitiateNewManufactureContract.class);
     InitManufactureContract initManufactureContractObject;
+    DiscardContractPojo discardContractPojo;
+    Response discardContractResponse;
 
     /**
      * createNewManufactureContract Method is used for create nee manufacture contract request pay load
@@ -120,8 +123,9 @@ public class InitiateNewManufactureContract extends TestBase {
             ResultSet getRowKeyContractHeader = dataBaseHelper.executePreparedQuery("getRowKeyByContractName",ContractName);
             getRowKeyContractHeader.next();
             rowKeyContractHeader = Integer.valueOf(getRowKeyContractHeader.getString("Row_Key"));
-            response = deleteOperation(endpoint, rowKeyContractHeader, contractId);
-            log.info("Response is " + response.asString());
+            discardContractPojo=new DiscardContractPojo("undefined",contractId,rowKeyContractHeader);
+            discardContractResponse = deleteOperation(endpoint, discardContractPojo);
+            log.info("Response is "+discardContractResponse.asString());
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -131,10 +135,11 @@ public class InitiateNewManufactureContract extends TestBase {
      * This method is used verifyIfIsManufacturerContractDiscarded
      * @uthor Arun Kumar
      */
-    public void verifyIfIsManufacturerContractDiscarded()
+    public void verifyIfIsManufacturerContractIDDiscarded()
     {
         String isContractDiscarded=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "jasonPathForIsDiscardContract");
-        verificationHelperClass.verifyAPIResponseBooleanValueTrue(response,isContractDiscarded);
+        verificationHelperClass.verifyAPIResponseBooleanValueTrue(discardContractResponse,isContractDiscarded);
+
     }
 
      /**

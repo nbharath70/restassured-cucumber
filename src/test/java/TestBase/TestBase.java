@@ -343,4 +343,31 @@ public class TestBase {
         return  null;
     }
 
+    /**
+     * deleteOperation method is used to hits the end point with request Json body and logs the response and also verify response body type as ContentType.JSON
+     * @uthor Arun Kumar
+     * @param endPoint
+     * @param requestPayload
+     * @return
+     */
+    public Response deleteOperation(String endPoint, Object requestPayload)
+    {
+        try {
+            RequestSpecification requestSpecification = RestAssured.given();
+            requestSpecification.header("Authorization", "Bearer " + getPropertiesFileValue(ResourcePath.Environment_Properties, "bearerToken"));
+            requestSpecification.header("Content-Type", "application/json").contentType(ContentType.JSON);
+            requestSpecification.when();
+            response=requestSpecification.body(requestPayload).log().all().delete(getEndPointUrl(endPoint));
+            log.info("****************** The Response JSON Body**************");
+            log.info(response.getBody().jsonPath().prettify());
+            response.then().assertThat().contentType(ContentType.JSON);
+            log.info("The response is in proper JSON format");
+            return response;
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return  null;
+    }
+
 }
