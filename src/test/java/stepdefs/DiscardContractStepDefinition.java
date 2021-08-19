@@ -1,5 +1,6 @@
 package stepdefs;
 
+import RequestPojo.DisContractPojo.DiscardContractPojo;
 import baseSteps.DiscardContract;
 import baseSteps.GetContractDetailsByID;
 import cucumber.api.PendingException;
