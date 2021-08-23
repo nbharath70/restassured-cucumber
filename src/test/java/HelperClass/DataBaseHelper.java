@@ -29,22 +29,48 @@ public class DataBaseHelper extends TestBase {
         try {
             if(System.getProperty("environment")==null)
             {
-                dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatDBURL");
-                dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatUser");
-                dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatPassword");
+                if(System.getProperty("connectToFlowable")==null){
+                    dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatDBURL");
+                    dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatUser");
+                    dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatPassword");
+                }
+                else {
+                    log.info("connecting to flowable DB");
+                    dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatDBURLFlowable");
+                    dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatUserFlowable");
+                    dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatPasswordFlowable");
+                }
+
             }
             else if(System.getProperty("environment").equalsIgnoreCase("UAT"))
             {
-                dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatDBURL");
-                dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatUser");
-                dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatPassword");
+                if(System.getProperty("connectToFlowable")==null){
+                    dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatDBURL");
+                    dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatUser");
+                    dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatPassword");
+                }
+                else {
+                    log.info("connecting to flowable DB");
+                    dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatDBURLFlowable");
+                    dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatUserFlowable");
+                    dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatPasswordFlowable");
+                }
+
 
             }
             else if(System.getProperty("environment").equalsIgnoreCase("Dev"))
             {
-                dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "devDBURL");
-                dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "devUser");
-                dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "devPassword");
+                if(System.getProperty("connectToFlowable")==null){
+                    dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatDBURL");
+                    dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatUser");
+                    dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatPassword");
+                }
+                else {
+                    log.info("connecting to flowable DB");
+                    dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "devDBURLFlowable");
+                    dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "devUserFlowable");
+                    dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "devPasswordFlowable");
+                }
 
             }
             else{
@@ -248,6 +274,7 @@ public String getSingleCellValueAsStringFromDB(String query, String columnName)
             ResultSet result = getData(query);
             result.next();
             String cellValue = result.getString(columnName);
+            System.out.println(cellValue);
             return cellValue;
         }catch (Exception e){
             e.printStackTrace();
@@ -549,6 +576,19 @@ public String getSingleCellValueAsStringFromDB(String query, String columnName)
 
     }
 
+    /**
+     * @Author Rabbani
+     * this method will set property to connect to flowable DB
+     *
+     */
+    public void connectToFlowable() {
+        System.setProperty("connectToFlowable","yes");
+    }
+
+    public void disConnectToFlowable() {
+        System.clearProperty("connectToFlowable");
+        cleanUp();
+    }
 }
 
 
