@@ -2,6 +2,8 @@ package HelperClass;
 
 import TestBase.TestBase;
 import org.apache.log4j.Logger;
+import org.junit.Assert;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -529,7 +531,23 @@ public String getSingleCellValueAsStringFromDB(String query, String columnName)
         }
         return null;
     }
+    /**
+     * @Author Rabbani
+     * this method will executes a delete query
+     * @param query
+     *
+     */
+    public void executeDeleteQueryWithoutreadingFromPropFile(String query) {
+        try {
+            boolean result=getStatement().execute(query);
+            Assert.assertFalse("Delete query not executed ", result);
+            log.info("Delete query executed successfully");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
+
+    }
 
 }
 
