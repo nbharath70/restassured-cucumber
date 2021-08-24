@@ -11,35 +11,40 @@ Feature: Fetch the Drug group summary and validate the response
     When User hits the API with Endpoint "fetchDrugListSummary"
     Then User check Response is in JSON format
 
-  Scenario: Hit the Fetch Drug group summary API and verify drugGroupName from response
+  Scenario: Hit the Fetch Drug group summary API and Validate the API response with DB
     Given User runs the Query and get the "drugGroupSummaryRowkey" and get the Rowkey of the DrugGroup
     When User hits the API with Endpoint "fetchDrugListSummary"
-    And User Runs the DrugGroupQuery "drugGroupSummaryDetails" to fetch Coulumn "fetchDrugGroupSummaryAPIColumnName" and Verify with Response by JSONpath "drugGroupNameForFetcDrugGroupSummary"
+    Then User hits the Query "drugGroupSummaryDetails" and evaluates the Response with DB "resultColumnName"
 
-  Scenario: Hit the Fetch Drug group summary API and verify mfrName from response
-    Given User runs the Query and get the "drugGroupSummaryRowkey" and get the Rowkey of the DrugGroup
-    When User hits the API with Endpoint "fetchDrugListSummary"
-    And User Runs the DrugGroupQuery "drugGroupSummaryDetails" to fetch Coulumn "fetchDrugGroupSummaryAPIColumnName" and Verify with Response by JSONpath "mfrNameJsonPathForFetcDrugGroupSummary"
-
-  Scenario: Hit the Fetch Drug group summary API and verify drugGroupType from response
-    Given User runs the Query and get the "drugGroupSummaryRowkey" and get the Rowkey of the DrugGroup
-    When User hits the API with Endpoint "fetchDrugListSummary"
-    And User Runs the DrugGroupQuery "drugGroupSummaryDetails" to fetch Coulumn "fetchDrugGroupSummaryAPIColumnName" and Verify with Response by JSONpath "drugGroupTypeForFetcDrugGroupSummary"
-
-  Scenario: Hit the Fetch Drug group summary API and verify drugGroupTypeDesc from response
-    Given User runs the Query and get the "drugGroupSummaryRowkey" and get the Rowkey of the DrugGroup
-    When User hits the API with Endpoint "fetchDrugListSummary"
-    And User Runs the DrugGroupQuery "drugGroupSummaryDetails" to fetch Coulumn "fetchDrugGroupSummaryAPIColumnName" and Verify with Response by JSONpath "drugGroupTypeDescFetcDrugGroupSummary"
-
-  Scenario: Hit the Fetch Drug group summary API and verify lifecycleStatus from response
-    Given User runs the Query and get the "drugGroupSummaryRowkey" and get the Rowkey of the DrugGroup
-    When User hits the API with Endpoint "fetchDrugListSummary"
-    And User Runs the DrugGroupQuery "drugGroupSummaryDetails" to fetch Coulumn "fetchDrugGroupSummaryAPIColumnName" and Verify with Response by JSONpath "lifecycleStatusForFetcDrugGroupSummary"
-
-#  Scenario: Hit the Fetch Drug group summary API and verify previouslyApproved drug from response
+#  Scenario: Hit the Fetch Drug group summary API and verify drugGroupName from response
 #    Given User runs the Query and get the "drugGroupSummaryRowkey" and get the Rowkey of the DrugGroup
 #    When User hits the API with Endpoint "fetchDrugListSummary"
-#    And User Runs the DrugGroupQuery "drugGroupSummaryDetails" to fetch Coulumn "fetchJobListAPIColumnName" and Verify with Response by JSONpath "previouslyApprovedForFetcDrugGroupSummary"
+#    And User Runs the DrugGroupQuery "drugGroupSummaryDetails" to fetch Coulumn "fetchDrugGroupSummaryAPIColumnName" and Verify with Response by JSONpath "drugGroupNameForFetcDrugGroupSummary"
+#
+#  Scenario: Hit the Fetch Drug group summary API and verify mfrName from response
+#    Given User runs the Query and get the "drugGroupSummaryRowkey" and get the Rowkey of the DrugGroup
+#    When User hits the API with Endpoint "fetchDrugListSummary"
+#    And User Runs the DrugGroupQuery "drugGroupSummaryDetails" to fetch Coulumn "fetchDrugGroupSummaryAPIColumnName" and Verify with Response by JSONpath "mfrNameJsonPathForFetcDrugGroupSummary"
+#
+#  Scenario: Hit the Fetch Drug group summary API and verify drugGroupType from response
+#    Given User runs the Query and get the "drugGroupSummaryRowkey" and get the Rowkey of the DrugGroup
+#    When User hits the API with Endpoint "fetchDrugListSummary"
+#    And User Runs the DrugGroupQuery "drugGroupSummaryDetails" to fetch Coulumn "fetchDrugGroupSummaryAPIColumnName" and Verify with Response by JSONpath "drugGroupTypeForFetcDrugGroupSummary"
+#
+#  Scenario: Hit the Fetch Drug group summary API and verify drugGroupTypeDesc from response
+#    Given User runs the Query and get the "drugGroupSummaryRowkey" and get the Rowkey of the DrugGroup
+#    When User hits the API with Endpoint "fetchDrugListSummary"
+#    And User Runs the DrugGroupQuery "drugGroupSummaryDetails" to fetch Coulumn "fetchDrugGroupSummaryAPIColumnName" and Verify with Response by JSONpath "drugGroupTypeDescFetcDrugGroupSummary"
+#
+#  Scenario: Hit the Fetch Drug group summary API and verify lifecycleStatus from response
+#    Given User runs the Query and get the "drugGroupSummaryRowkey" and get the Rowkey of the DrugGroup
+#    When User hits the API with Endpoint "fetchDrugListSummary"
+#    And User Runs the DrugGroupQuery "drugGroupSummaryDetails" to fetch Coulumn "fetchDrugGroupSummaryAPIColumnName" and Verify with Response by JSONpath "lifecycleStatusForFetcDrugGroupSummary"
+#
+##  Scenario: Hit the Fetch Drug group summary API and verify previouslyApproved drug from response
+##    Given User runs the Query and get the "drugGroupSummaryRowkey" and get the Rowkey of the DrugGroup
+##    When User hits the API with Endpoint "fetchDrugListSummary"
+##    And User Runs the DrugGroupQuery "drugGroupSummaryDetails" to fetch Coulumn "fetchJobListAPIColumnName" and Verify with Response by JSONpath "previouslyApprovedForFetcDrugGroupSummary"
 
   Scenario: Verify blank drugGroup RowKey
     When User hits the API with Endpoint "fetchDrugListSummary"

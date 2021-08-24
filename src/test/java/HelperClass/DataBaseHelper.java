@@ -490,6 +490,22 @@ public class DataBaseHelper extends TestBase {
         }
         return null;
     }
+
+    public ArrayList executePreparedQuerytoGetColumnArrayofIntValues(String query,String queryParam,String columnName) {
+        getStatement();
+        try {
+            ResultSet result = executePreparedQuery(query, queryParam);
+            ArrayList arrayList = new ArrayList();
+            String column = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, columnName);
+            while (result.next()) {
+                arrayList.add(result.getInt(column));
+            }
+            return arrayList;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     /**
      * @uthor Arun Kumar
      * executePreparedQuery this method Executes the Prepared Query Upends the Intvalue to the Query

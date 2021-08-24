@@ -83,4 +83,9 @@ public class FindDrugGroupStepDefinition extends TestBase {
     public void userVerifyTheFindDrugGroupResponseHeaderErrorCodeValue(String expectedErrorCode) throws Throwable {
         findDrugGroup.verifyFindDrugGroupResponseResponseHeaderErrorCode(expectedErrorCode);
     }
+
+    @Then("^User verifies Json Response with DB using Query \"([^\"]*)\" and ColumnName \"([^\"]*)\"$")
+    public void userVerifiesJsonResponseWithDBUsingQueryAndColumnName(String query, String columnName) throws Throwable {
+       findDrugGroup.validateJSONResponse(query,columnName);
+    }
 }

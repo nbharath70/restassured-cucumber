@@ -141,6 +141,7 @@ public class VerificationHelperClass extends TestBase {
             e.printStackTrace();
         }
     }
+
     /**
      * @Author Bharath
      * @param aPIresponse-
@@ -278,6 +279,20 @@ public class VerificationHelperClass extends TestBase {
            String expectedValue = JsonPath.read(dbResponseJsonAsString, dBJSON);
             log.info("expectedValue from DB" + expectedValue + " And actualValue from APIJson response=" + actualValue);
             Assert.assertTrue("The lists do not match!", StringUtils.equals(actualValue,expectedValue));
+            log.info("Verification pass where expectedValue=" + expectedValue + " equals to actualValue=" + actualValue);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void verifyAPIResponseJsonWithDBJsonAsWholeJson(Response aPIresponse, String dbResponseJsonAsString, String aPIjsonPath,String dBJSON) {
+
+        try {
+            String actualValue = (JsonPath.read(aPIresponse.asString(), aPIjsonPath)).toString();
+            String expectedValue = (JsonPath.read(dbResponseJsonAsString, dBJSON)).toString();
+            System.out.println(actualValue);
+            System.out.println(expectedValue);
+            log.info("expectedValue from DB" + expectedValue + " And actualValue from APIJson response" + actualValue);
+            Assert.assertEquals("The lists do not match!",expectedValue,actualValue );
             log.info("Verification pass where expectedValue=" + expectedValue + " equals to actualValue=" + actualValue);
         } catch (Exception e) {
             e.printStackTrace();

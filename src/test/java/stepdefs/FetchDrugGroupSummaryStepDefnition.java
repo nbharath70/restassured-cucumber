@@ -51,4 +51,9 @@ public class FetchDrugGroupSummaryStepDefnition extends TestBase {
     public void userVerifyTheValidResponseFetchDrugGroupSummaryBodyKeyAndExpectedValueOfString(String json, String message) throws Throwable {
         fetchDrugGroupSummary.validateFectDrugGroupSummaryResponse(json,message);
     }
+
+    @Then("^User hits the Query \"([^\"]*)\" and evaluates the Response with DB \"([^\"]*)\"$")
+    public void userHitsTheQueryAndEvaluatesTheResponseWithDB(String query, String columnName) {
+        fetchDrugGroupSummary.validateJSONResponse(query,columnName);
+    }
 }

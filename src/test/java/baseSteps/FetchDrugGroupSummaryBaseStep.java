@@ -101,4 +101,24 @@ public void verifiesAPIResponseWithTypeMismatchErrorMsg(String jsonPath,String e
         verificationHelperClass.verifyResponseJsonString(response,actualValue,expectedValueMessage);
     }
 
+    /**
+     * @uthor Bharath
+     * @param query-Query that fetches the Columns of DB in the form of
+     * @param columnName-
+     */
+    public void validateJSONResponse(String query,String columnName){
+        try{ String actualquery=getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES,query);
+            String actualColumnName=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,columnName);
+            String apiJsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"jsonPathForResponsevalidation");
+            String dBJsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"jsonPathForResponsevalidation");
+            resultSet=dataBaseHelper.executePreparedQuery(query,rowkeyValue);
+            resultSet.next();
+            String dbJson=resultSet.getString(actualColumnName);
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(response,dbJson,apiJsonPath,dBJsonPath);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
 }

@@ -359,7 +359,6 @@ public class TestBase {
             String endpoint = getPropertiesFileValue(ResourcePath.Environment_Properties, endpointUrl);
             String url = baseURl + "/" + endpoint;
             for(String pathParam:listPathParams){
-                System.out.println(pathParam);
                 url = url.replaceFirst("pathparam", pathParam);
             }
             log.info("****************The request url="+url+"*****************");

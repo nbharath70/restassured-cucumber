@@ -16,14 +16,10 @@
     When User executes the query "getCountOfMFRName" And matches the count of MFR returned by API and DB
 
     @Regression @Functional
-  Scenario: Match the ManufacturerID of  All valid MFR details
+  Scenario: verify API Response with DB
     Given User hits the "getAllMFRResource" with get API request
-    Then User executes the query "getAllActiveMFRID" And matches the MFR ID returned by API and DB
+    Then User executes the query "getAllManufacturerDetails" And matches the Details returned by API and DB ColumnName "resultColumnName"
 
-    @Regression @Functional
-  Scenario: Match the ManufacturerName of  All valid MFR details
-    Given User hits the "getAllMFRResource" with get API request
-    Then User executes the query "getAllActiveMFRName" And matches the MFR Name returned by API and DB
 
 
 

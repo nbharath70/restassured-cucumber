@@ -1,6 +1,7 @@
 
 package stepdefs;
 import baseSteps.GetContractDetailsByID;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
@@ -69,5 +70,10 @@ public class GetContractDetailsByIDDefinition {
     @Then("^verify Both API ContractDetailJSON with JSONpath \"([^\"]*)\" with DB JSON with DB JSON \"([^\"]*)\"$")
     public void verifyBothAPIContractDetailJSONWithJSONpathWithDBJSONWithDBJSON(String apiJsonPath, String dbJsonPath){
         contractDetails.matchContractDetailsJSONwithTwoJSONPAths(apiJsonPath,dbJsonPath);
+    }
+
+    @Then("^User runs the Query \"([^\"]*)\" and Validate the response with DB column \"([^\"]*)\"$")
+    public void userRunsTheQueryAndValidateTheResponseWithDBColumn(String query, String columnName)  {
+        contractDetails.validateJSONResponse(query,columnName);
     }
 }
