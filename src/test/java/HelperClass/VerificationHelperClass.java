@@ -533,6 +533,30 @@ public class VerificationHelperClass extends TestBase {
     }
 
 
+
+
+
+    /**
+     * @Author Arun Kumar
+     * @param expValue
+     * @param apiJsonPath
+     * verifyAPIResponseJsonWithDBJsonWithObjectDataTypeValues method is used verify the given jsonPath and DB having Object type values in result
+     */
+    public void verifyAPIResponseJsonByArrayListValue(Response aPIresponse, String apiJsonPath,ArrayList expValue) {
+
+        try {
+            ArrayList<Object>actualValue = JsonPath.read(aPIresponse.asString(), apiJsonPath);
+            ArrayList<Object>expectedValue = expValue;
+            System.out.println("actualValue"+actualValue);
+            System.out.println("expectedValue"+expectedValue);
+            log.info("expectedValue from DB=" + expectedValue + " And actualValue from APIJson response=" + actualValue);
+            Assert.assertTrue("The lists do not match!", expectedValue.equals(actualValue));
+            log.info("Verification pass where expectedValue=" + expectedValue + " equals to actualValue=" + actualValue);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
      /**
      * @Author Rabbani
      * @param APIresponse - API response object
@@ -594,35 +618,14 @@ public class VerificationHelperClass extends TestBase {
     }
 
 
-    /**
-     *This Method is Used for Comparing the 2 String Passed into it and Asserting the Reponse
-     * @uthour Bharath
-     *
-     */
-    public void compareTwoStrings(String textone,String textTwo){
-        Assert.assertEquals("Verification failed, expectedValue is not same as  actual value",textone,textTwo);
-        log.info("Verification pass where expectedValue=" + textone + " equals to actualValue=" + textTwo);
-    }
 
 
-    /**
-     * @Author Arun Kumar
-     * @param expValue
-     * @param apiJsonPath
-     * verifyAPIResponseJsonWithDBJsonWithObjectDataTypeValues method is used verify the given jsonPath and DB having Object type values in result
-     */
-    public void verifyAPIResponseJsonByArrayListValue(Response aPIresponse, String apiJsonPath,ArrayList expValue) {
 
-        try {
-            ArrayList<Object>actualValue = JsonPath.read(aPIresponse.asString(), apiJsonPath);
-            ArrayList<Object>expectedValue = expValue;
-            System.out.println("actualValue"+actualValue);
-            System.out.println("expectedValue"+expectedValue);
-            log.info("expectedValue from DB=" + expectedValue + " And actualValue from APIJson response=" + actualValue);
-            Assert.assertTrue("The lists do not match!", expectedValue.equals(actualValue));
-            log.info("Verification pass where expectedValue=" + expectedValue + " equals to actualValue=" + actualValue);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void verifyexpectedAndActualDirectlyAsStrings(Response response, String expectedResponse) {
+        String actualResponse=response.asString();
+        log.info("expectedValue:" + expectedResponse + " And actualValue from APIJson response=" + actualResponse);
+        Assert.assertEquals("The lists do not match!", expectedResponse, actualResponse);
+        log.info("Verification pass where expectedValue=" + expectedResponse + " equals to actualValue=" + actualResponse);
+
     }
 }
