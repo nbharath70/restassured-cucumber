@@ -593,7 +593,17 @@ public class VerificationHelperClass extends TestBase {
         }
 
     }
-     /**
+    /**
+     *This Method is Used for Comparing the 2 String Passed into it and Asserting the Reponse
+     * @uthour Bharath
+     *
+     */
+    public void compareTwoStrings(String textone,String textTwo){
+        Assert.assertEquals("Verification failed, expectedValue is not same as  actual value",textone,textTwo);
+        log.info("Verification pass where expectedValue=" + textone + " equals to actualValue=" + textTwo);
+    }
+
+    /**
      * @Author Rabbani
      * @param dataTable - DataTable object from cucumber steps
      * @return jsonPathList - List if all JsonPaths from VERIFICATION_PROPERTIES file
