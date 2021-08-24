@@ -1,9 +1,12 @@
 package baseSteps;
 
 import HelperClass.DataBaseHelper;
+import HelperClass.ResourcePath;
 import HelperClass.VerificationHelperClass;
 import RequestPojo.*;
+import RequestPojo.DisContractPojo.DiscardContractPojo;
 import TestBase.TestBase;
+import com.jayway.jsonpath.JsonPath;
 import cucumber.api.DataTable;
 import io.restassured.response.Response;
 import org.apache.log4j.Logger;
@@ -21,6 +24,10 @@ public class UpdateManufactureContract extends TestBase {
     public static Logger log = getMyLogger(InitiateNewManufactureContract.class);
     InitManufactureContract initManufactureContractObject;
     private String contractName=null;
+    String contractId;
+    DiscardContractPojo discardContractPojo;
+    Response discardContractResponse;
+    String procIns;
 
     /**
      * updateExistingManufactureContractDetails Method is used to update the manufacture contract detail data for init new manufacture contract
@@ -35,7 +42,7 @@ public class UpdateManufactureContract extends TestBase {
                 contractName = map.get("contractName");
                 ResultSet getContractId = dataBaseHelper.executePreparedQuery("getContractIdByContractName", map.get("contractName"));
                 getContractId.next();
-                String contractId=getContractId.getString("Contract_ID");
+                contractId=getContractId.getString("Contract_ID");
                 ResultSet getRowKeyContractHeader = dataBaseHelper.executePreparedQuery("getRowKeyByContractName", map.get("contractName"));
                 getRowKeyContractHeader.next();
                 String rowKeyContractHeader=getRowKeyContractHeader.getString("Row_Key");
@@ -124,7 +131,49 @@ public class UpdateManufactureContract extends TestBase {
             log.info("Life Cycle Status pass in Contract Detail where expectedValue=" + expectedLCS + " equals to actualValue=" + detailLCSfromDB);
 
         }catch (Exception e){e.printStackTrace();}
+    }
 
+    public void verifyProcessInstID(String env,String query)
+    {
+        String procInsColumnName=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"procInsColumnName");
+        procIns=dataBaseHelper.executeUpdatePreparedQueryAsStringFlowable(env,query,contractId,procInsColumnName);
+        String val = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "processInstanceIdJsonPath");
+        Object actualValue = JsonPath.read(response.asString(), val);
+        Object expValue = procIns;
+        log.info("Verify response body where expectedValue=" + expValue + " equals to actualValue=" + procIns);
+        Assert.assertTrue("The lists do not match!", expValue.equals(procIns));
+    }
 
+    public void verifyContractStatus() {
+        try {
+            ResultSet getContractLCS = dataBaseHelper.executePreparedQuery("getContractLifecycleStatus", contractId);
+            getContractLCS.next();
+            String LifecycleStatus = getContractLCS.getString("Lifecycle_Status");
+            String expected=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"sendToRebateOpsLSC");
+            Assert.assertEquals("Validate the Life Cycle status of contract",expected,LifecycleStatus);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    /**
+     * This method is used to discard the manufacture contract
+     * @uthor Arun Kumar
+     * @param endpoint
+     */
+    public void discardContract(String endpoint,String ContractName)
+    {
+        try {
+            ResultSet getContractId = dataBaseHelper.executePreparedQuery("getContractIdByContractName", ContractName);
+            getContractId.next();
+            String contractId = getContractId.getString("Contract_ID");
+            ResultSet getRowKeyContractHeader = dataBaseHelper.executePreparedQuery("getRowKeyByContractName",ContractName);
+            getRowKeyContractHeader.next();
+            int rowKeyContractHeader = Integer.valueOf(getRowKeyContractHeader.getString("Row_Key"));
+            discardContractPojo=new DiscardContractPojo(procIns,contractId,rowKeyContractHeader);
+            discardContractResponse = deleteOperation(endpoint, discardContractPojo);
+            log.info("Response is "+discardContractResponse.asString());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

@@ -19,7 +19,6 @@ import java.util.Map;
 public class InitiateNewManufactureContract extends TestBase {
     Response response;
     String contractId;
-    int rowKeyContractHeader;
     int rowKeyContractDetail;
     DataBaseHelper dataBaseHelper=new DataBaseHelper();
     public VerificationHelperClass verificationHelperClass = new VerificationHelperClass();
@@ -120,10 +119,10 @@ public class InitiateNewManufactureContract extends TestBase {
             ResultSet getContractId = dataBaseHelper.executePreparedQuery("getContractIdByContractName", ContractName);
             getContractId.next();
             contractId = getContractId.getString("Contract_ID");
-            ResultSet getRowKeyContractHeader = dataBaseHelper.executePreparedQuery("getRowKeyByContractName",ContractName);
-            getRowKeyContractHeader.next();
-            rowKeyContractHeader = Integer.valueOf(getRowKeyContractHeader.getString("Row_Key"));
-            discardContractPojo=new DiscardContractPojo("undefined",contractId,rowKeyContractHeader);
+            ResultSet getRowKeyContractDetails = dataBaseHelper.executePreparedQuery("getRowKeyByAmendmentName",ContractName);
+            getRowKeyContractDetails.next();
+            rowKeyContractDetail = Integer.valueOf(getRowKeyContractDetails.getString("Row_Key"));
+            discardContractPojo=new DiscardContractPojo("undefined",contractId,rowKeyContractDetail);
             discardContractResponse = deleteOperation(endpoint, discardContractPojo);
             log.info("Response is "+discardContractResponse.asString());
         }catch (Exception e){

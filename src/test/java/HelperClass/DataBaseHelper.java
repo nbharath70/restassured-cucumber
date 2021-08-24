@@ -507,6 +507,82 @@ public class DataBaseHelper extends TestBase {
             e.printStackTrace();
         }
     }
+
+    /**
+     * @Author Arun Kumar
+     * This is the  method establishes the connection to Flowable database
+     * @return stmt
+     * @updated by: Rabbani
+     * This method will read the environment passed through command line and connects to that environment
+     */
+    public Statement getStatementFlowable(String env){
+        String dbUrl=null;
+        String dbUserName=null;
+        String dbPassword=null;
+        try {
+            if(env.equalsIgnoreCase("UAT"))
+            {
+                dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatDBFlowableURL");
+                dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatUser");
+                dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatPassword");
+
+            }
+            else if(env.equalsIgnoreCase("Dev"))
+            {
+                dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "devDBFlowableURL");
+                dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "devUser");
+                dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "devPassword");
+
+            }
+            else{
+                log.info("Invalid environment");
+            }
+
+            conn = DriverManager.getConnection(dbUrl, dbUserName, dbPassword);
+            if (conn != null) {
+                log.info("Connected to DB");
+            }
+            stmt = conn.createStatement();
+            return stmt;
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        return stmt;
+    }
+    /**
+     * @Author Arun Kumar
+     * getStatementFlowable Method used to retrieves the data of given query
+     * @param query
+     * @return data
+     */
+    public ResultSet getDataFlowable(String env,String query){
+        ResultSet rs = null;
+        try {
+            rs = getStatementFlowable(env).executeQuery(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, query));
+            log.info("Result Set:"+rs);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    public String executeUpdatePreparedQueryAsStringFlowable(String env, String query, String queryParam,String columnName) {
+        try {
+            getStatementFlowable(env);
+            psmt = conn.prepareStatement(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, query));
+            log.info("query parameter is "+queryParam);
+            psmt.setString(1,queryParam);
+            ResultSet prepareQueryResult =psmt.executeQuery();
+            log.info("Prepared query execution result is" + prepareQueryResult + " From DB");
+            prepareQueryResult.next();
+            String str = prepareQueryResult.getString(columnName);
+            return str;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
 
 

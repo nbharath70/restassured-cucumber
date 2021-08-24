@@ -6,6 +6,7 @@ import cucumber.api.java.Before;
 import io.restassured.RestAssured;
 import org.apache.log4j.Logger;
 import org.junit.Assume;
+import org.testng.annotations.AfterMethod;
 
 public class Hooks extends DataBaseHelper {
     DataBaseHelper dbHelper = new DataBaseHelper();
@@ -25,11 +26,11 @@ public class Hooks extends DataBaseHelper {
 
     @Before
     public void setUp() {
-        log.info("+++++++++++++Setting up DB connection and API End Point+++++++++++++++++++++++++");
+//        log.info("+++++++++++++Setting up DB connection and API End Point+++++++++++++++++++++++++");
         RestAssured.useRelaxedHTTPSValidation();
     }
 
-    @After
+    @AfterMethod
     public void cleanUp() {
         log.info("+++++++++++++Closing up the  up DB connection +++++++++++++++++++++++++");
         dbHelper.cleanUp();

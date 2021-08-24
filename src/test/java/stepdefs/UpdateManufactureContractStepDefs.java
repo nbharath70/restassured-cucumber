@@ -5,6 +5,7 @@ import baseSteps.UpdateManufactureContract;
 import cucumber.api.DataTable;
 import cucumber.api.PendingException;
 import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
 public class UpdateManufactureContractStepDefs extends TestBase {
     UpdateManufactureContract putUpdateManufactureContract=new UpdateManufactureContract();
@@ -44,4 +45,15 @@ public class UpdateManufactureContractStepDefs extends TestBase {
     public void userExecutesTheQueryAndValidatesForLCS(String queryKey, String expectedLCS) throws Throwable {
         putUpdateManufactureContract.executeTheQueryAndValidateForLCS(queryKey,expectedLCS);
     }
+
+    @Then("^User connect to \"([^\"]*)\" and verify processInsID by execute query \"([^\"]*)\"$")
+    public void userConnectToAndVerifyProcessInsIDByExecuteQuery(String env, String processInstID) throws Throwable {
+        putUpdateManufactureContract.verifyProcessInstID(env,processInstID);
+    }
+
+    @Then("^User verify the LifeCycle status of contract as UnAssigned$")
+    public void userVerifyTheLifeCycleStatusOfContractAsUnAssigned() {
+        putUpdateManufactureContract.verifyContractStatus();
+    }
+
 }
