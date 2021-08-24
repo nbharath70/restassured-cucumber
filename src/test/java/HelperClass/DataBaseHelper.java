@@ -29,12 +29,12 @@ public class DataBaseHelper extends TestBase {
         try {
             if(System.getProperty("environment")==null)
             {
-                if(System.getProperty("connectToFlowable")==null){
+                if(System.getProperty("connectTo")==null){
                     dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatDBURL");
                     dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatUser");
                     dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatPassword");
                 }
-                else {
+                else if(System.getProperty("connectTo").equalsIgnoreCase("flowable")){
                     log.info("connecting to flowable DB");
                     dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatDBURLFlowable");
                     dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatUserFlowable");
@@ -44,12 +44,12 @@ public class DataBaseHelper extends TestBase {
             }
             else if(System.getProperty("environment").equalsIgnoreCase("UAT"))
             {
-                if(System.getProperty("connectToFlowable")==null){
+                if(System.getProperty("connectTo")==null){
                     dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatDBURL");
                     dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatUser");
                     dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatPassword");
                 }
-                else {
+                else if(System.getProperty("connectTo").equalsIgnoreCase("flowable")) {
                     log.info("connecting to flowable DB");
                     dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatDBURLFlowable");
                     dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatUserFlowable");
@@ -60,12 +60,12 @@ public class DataBaseHelper extends TestBase {
             }
             else if(System.getProperty("environment").equalsIgnoreCase("Dev"))
             {
-                if(System.getProperty("connectToFlowable")==null){
-                    dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatDBURL");
-                    dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatUser");
-                    dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatPassword");
+                if(System.getProperty("connectTo")==null){
+                    dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "devDBURL");
+                    dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "devUser");
+                    dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "devPassword");
                 }
-                else {
+                else if(System.getProperty("connectTo").equalsIgnoreCase("flowable")){
                     log.info("connecting to flowable DB");
                     dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "devDBURLFlowable");
                     dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "devUserFlowable");
@@ -581,12 +581,17 @@ public String getSingleCellValueAsStringFromDB(String query, String columnName)
      * this method will set property to connect to flowable DB
      *
      */
-    public void connectToFlowable() {
-        System.setProperty("connectToFlowable","yes");
+    public void connectToOtherDB(String dbName) {
+        if(dbName.equalsIgnoreCase("flowable")){
+            System.setProperty("connectTo","flowable");
+        }
+        else {
+            log.info("Invalid DB name");
+        }
     }
 
     public void disConnectToFlowable() {
-        System.clearProperty("connectToFlowable");
+        System.clearProperty("connectTo");
         cleanUp();
     }
 }
