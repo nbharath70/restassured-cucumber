@@ -25,7 +25,7 @@ public class GetDrugGroupDetailsByMFRDrugListIDStepdefs extends TestBase {
 
 
     @Then("^User executes the query \"([^\"]*)\" & columnName \"([^\"]*)\" And matches the DrugGroupDetails returned by API and DB$")
-    public void userExecutesTheQueryColumnNameAndMatchesTheDrugGroupDetailsReturnedByAPIAndDB(String columnName, String jsonPath) throws Throwable {
+    public void userExecutesTheQueryColumnNameAndMatchesTheDrugGroupDetailsReturnedByAPIAndDB( String jsonPath,String columnName) throws Throwable {
         getDrugGroupDetailsByMFRDrugListID.validationOfDrugGroupDetails(columnName,jsonPath);
     }
 }

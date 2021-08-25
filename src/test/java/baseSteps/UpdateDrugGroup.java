@@ -34,7 +34,10 @@ public class UpdateDrugGroup extends TestBase {
                 ResultSet manufactureDrugListID = dataBaseHelper.executePreparedQuery("getDrugListID", map.get("oldDrugGroupName"));
                 manufactureDrugListID.next();
                 int manfDrugListID = Integer.valueOf(manufactureDrugListID.getString(columnName));
-                updateDrugGroupPojo=new UpdateDrugGroupPojo(manfDrugListID,map.get("mfrId"),map.get("drugGroupName"),map.get("drugGroupType"));
+                ResultSet getDrugListRowKey = dataBaseHelper.executePreparedQuery("getDrugListRowKey", map.get("oldDrugGroupName"));
+                getDrugListRowKey.next();
+                int rowKey = Integer.valueOf(getDrugListRowKey.getString("Row_Key"));
+                updateDrugGroupPojo=new UpdateDrugGroupPojo(rowKey, manfDrugListID,map.get("mfrId"),map.get("drugGroupName"),map.get("drugGroupType"));
             }
         }catch (Exception e){
             e.printStackTrace();

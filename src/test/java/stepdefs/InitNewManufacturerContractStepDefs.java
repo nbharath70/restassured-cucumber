@@ -48,7 +48,7 @@ public class InitNewManufacturerContractStepDefs extends TestBase {
 
     @Then("^User verifies the isManufacturerContractDiscarded as true value in response for new manufacture contract$")
     public void userVerifiesTheIsManufacturerContractDiscardedAsTrueValueInResponseForNewManufactureContract() {
-        postInitiateNewManufactureContract.verifyIfIsManufacturerContractDiscarded();
+        postInitiateNewManufactureContract.verifyIfIsManufacturerContractIDDiscarded();
     }
 
     @Then("^User verify the InitiateNewManufacturerContract response header Error Code value \"([^\"]*)\"$")

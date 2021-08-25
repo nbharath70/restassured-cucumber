@@ -1,18 +1,24 @@
 package RequestPojo;
 
 public class UpdateDrugGroupPojo {
+    private int drugListRowKey;
     private int mfrDrugListId;
     private String mfrId;
     private String drugGroupName;
     private String drugGroupType;
 
-    public UpdateDrugGroupPojo(int mfrDrugListId, String mfrId, String drugGroupName, String drugGroupType) {
+    public UpdateDrugGroupPojo(int drugListRowKey, int mfrDrugListId, String mfrId, String drugGroupName, String drugGroupType) {
+        this.drugListRowKey = drugListRowKey;
         this.mfrDrugListId = mfrDrugListId;
         this.mfrId = mfrId;
         this.drugGroupName = drugGroupName;
         this.drugGroupType = drugGroupType;
     }
 // Getter Methods
+
+    public int getdrugListRowKey() {
+        return drugListRowKey;
+    }
 
     public int getMfrDrugListId() {
         return mfrDrugListId;
@@ -30,7 +36,10 @@ public class UpdateDrugGroupPojo {
         return drugGroupType;
     }
 
-    // Setter Methods 
+    // Setter Methods
+    public void setdrugListRowKey(int drugListRowKey) {
+        this.drugListRowKey = drugListRowKey;
+    }
 
     public void setMfrDrugListId(int mfrDrugListId) {
         this.mfrDrugListId = mfrDrugListId;

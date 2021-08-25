@@ -1,5 +1,6 @@
 package HelperClass;
 
+import RequestPojo.DisContractPojo.DiscardContractPojo;
 import TestBase.TestBase;
 import com.jayway.jsonpath.JsonPath;
 import cucumber.api.DataTable;
@@ -9,6 +10,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import io.restassured.response.Response;
 import org.junit.Assert;
+
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

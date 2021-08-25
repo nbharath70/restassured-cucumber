@@ -67,8 +67,6 @@ public class GetDrugGroupDetailsByMFRDrugListID extends TestBase {
             ArrayList<String> expectedValue = dbHelper.getDataColumnArrayListValueDBWithoutKey(query, actualJsonPathAndColumnName);
             Collections.sort(actualValue);
             Collections.sort(expectedValue);
-            System.out.println(actualValue);
-            System.out.println(expectedValue);
             log.info("expectedValue from DB" + expectedValue + " And actualValue from Json response=" + actualValue);
             Assert.assertTrue("The lists do not match!", expectedValue.equals(actualValue));
             log.info("Verification pass where expectedValue=" + expectedValue + " equals to actualValue=" + actualValue);

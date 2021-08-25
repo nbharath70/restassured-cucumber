@@ -274,7 +274,6 @@ public class DataBaseHelper extends TestBase {
             ResultSet result = getData(query);
             result.next();
             String cellValue = result.getString(columnName);
-            System.out.println(cellValue);
             return cellValue;
         }catch (Exception e){
             e.printStackTrace();
