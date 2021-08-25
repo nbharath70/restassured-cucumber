@@ -303,8 +303,17 @@ public class GetContractDetailsByID extends TestBase {
             e.printStackTrace();
         }
 
+        }
+
+    public void  validateTask(){
+        dbHepler.connectToOtherDB("flowable");
+        getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"");
+        dbHepler.executePreparedQuery("","");
+        dbHepler.disConnectToFlowable();
     }
     }
+
+
 
 
 

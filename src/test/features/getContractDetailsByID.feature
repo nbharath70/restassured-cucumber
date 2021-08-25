@@ -20,5 +20,6 @@ Feature:Retrieve and validate the Contract by ID
     And user Runs the Fetching ManufacturerDetails Query "getManufacturerDetails" and get All Manufacturer details from DB
     And User hits the "getContractDetailsByID" Endpoint with get API request
     Then User runs the Query "getContractDetailJson" and Validate the response with DB column "resultColumnName"
+#    Then User Validates the task message in db with Response using the Query ""
 
 
