@@ -50,7 +50,7 @@ public class DataBaseHelper extends TestBase {
                     dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatPassword");
                 }
                 else if(System.getProperty("connectTo").equalsIgnoreCase("flowable")) {
-                    log.info("connecting to flowable DB");
+                    log.info("connecting to UATflowable DB");
                     dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatDBURLFlowable");
                     dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatUserFlowable");
                     dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatPasswordFlowable");
@@ -274,7 +274,6 @@ public String getSingleCellValueAsStringFromDB(String query, String columnName)
             ResultSet result = getData(query);
             result.next();
             String cellValue = result.getString(columnName);
-            System.out.println(cellValue);
             return cellValue;
         }catch (Exception e){
             e.printStackTrace();
@@ -560,6 +559,26 @@ public String getSingleCellValueAsStringFromDB(String query, String columnName)
     }
     /**
      * @Author Rabbani
+     * replaceMultipleQueryParamWithOneString Method used to replace one string multiple query params
+     * @param queryKey
+     * @param queryParam -
+     * @return url
+     */
+    public String replaceMultipleQueryParamWithOneString(String queryKey, String queryParam)
+    {
+        try {
+            String query = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, queryKey);
+            query=query.replaceAll("strToReplace",queryParam);
+            log.info("*****The Final query="+query+"*****************");
+            return query;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * @Author Rabbani
      * this method will executes a delete query
      * @param query
      *
@@ -590,7 +609,7 @@ public String getSingleCellValueAsStringFromDB(String query, String columnName)
         }
     }
 
-    public void disConnectToFlowable() {
+    public void disConnectToOtherDB() {
         System.clearProperty("connectTo");
         cleanUp();
     }
