@@ -32,4 +32,10 @@ public class GetSelectOptStepDefinition {
     public void userExecutesTheQueryAndMatchesTheCodeValueAndCodeDescriptionReturnedByAPIAndDB(String query) throws Throwable {
         getSelectOpt.validatingCodeValueAndCodeDescription(query);
     }
+
+    @Then("^User Verifies with DB using Query \"([^\"]*)\" and ColumnName \"([^\"]*)\"$")
+    public void userVerifiesWithDBUsingQueryAndColumnName(String query, String columnName){
+     getSelectOpt.validateJSONResponse(query,columnName);
+    }
+
 }

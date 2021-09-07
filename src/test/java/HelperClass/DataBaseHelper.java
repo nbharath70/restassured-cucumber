@@ -2,6 +2,8 @@ package HelperClass;
 
 import TestBase.TestBase;
 import org.apache.log4j.Logger;
+import org.junit.Assert;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -26,22 +28,48 @@ public class DataBaseHelper extends TestBase {
         try {
             if(System.getProperty("environment")==null)
             {
-                dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatDBURL");
-                dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatUser");
-                dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatPassword");
+                if(System.getProperty("connectTo")==null){
+                    dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatDBURL");
+                    dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatUser");
+                    dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatPassword");
+                }
+                else if(System.getProperty("connectTo").equalsIgnoreCase("flowable")){
+                    log.info("connecting to flowable DB");
+                    dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatDBURLFlowable");
+                    dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatUserFlowable");
+                    dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatPasswordFlowable");
+                }
+
             }
             else if(System.getProperty("environment").equalsIgnoreCase("UAT"))
             {
-                dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatDBURL");
-                dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatUser");
-                dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatPassword");
+                if(System.getProperty("connectTo")==null){
+                    dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatDBURL");
+                    dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatUser");
+                    dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatPassword");
+                }
+                else if(System.getProperty("connectTo").equalsIgnoreCase("flowable")) {
+                    log.info("connecting to flowable DB");
+                    dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatDBURLFlowable");
+                    dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatUserFlowable");
+                    dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatPasswordFlowable");
+                }
+
 
             }
             else if(System.getProperty("environment").equalsIgnoreCase("Dev"))
             {
-                dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "devDBURL");
-                dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "devUser");
-                dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "devPassword");
+                if(System.getProperty("connectTo")==null){
+                    dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "devDBURL");
+                    dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "devUser");
+                    dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "devPassword");
+                }
+                else if(System.getProperty("connectTo").equalsIgnoreCase("flowable")){
+                    log.info("connecting to flowable DB");
+                    dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "devDBURLFlowable");
+                    dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "devUserFlowable");
+                    dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "devPasswordFlowable");
+                }
 
             }
             else{
@@ -245,6 +273,7 @@ public class DataBaseHelper extends TestBase {
             ResultSet result = getData(query);
             result.next();
             String cellValue = result.getString(columnName);
+            System.out.println(cellValue);
             return cellValue;
         }catch (Exception e){
             e.printStackTrace();
@@ -489,6 +518,22 @@ public class DataBaseHelper extends TestBase {
         }
         return null;
     }
+
+    public ArrayList executePreparedQuerytoGetColumnArrayofIntValues(String query,String queryParam,String columnName) {
+        getStatement();
+        try {
+            ResultSet result = executePreparedQuery(query, queryParam);
+            ArrayList arrayList = new ArrayList();
+            String column = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, columnName);
+            while (result.next()) {
+                arrayList.add(result.getInt(column));
+            }
+            return arrayList;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     /**
      * @uthor Arun Kumar
      * executePreparedQuery this method Executes the Prepared Query Upends the Intvalue to the Query
@@ -506,6 +551,64 @@ public class DataBaseHelper extends TestBase {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    /**
+     * @Author Rabbani
+     * preparedQueryWithListOfStrings Method used to replaces strings in query with list of strings
+     * @param queryKey
+     * @param listStrings - List<String>
+     * @return url
+     */
+    public String preparedQueryWithListOfStrings(String queryKey, List<String> listStrings)
+    {
+        try {
+            String query = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, queryKey);
+            for(String strToReplace:listStrings){
+                query=query.replaceFirst("strToReplace",strToReplace);
+            }
+            log.info("*****The Final query="+query+"*****************");
+            return query;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+    /**
+     * @Author Rabbani
+     * this method will executes a delete query
+     * @param query
+     *
+     */
+    public void executeDeleteQueryWithoutreadingFromPropFile(String query) {
+        try {
+            boolean result=getStatement().execute(query);
+            Assert.assertFalse("Delete query not executed ", result);
+            log.info("Delete query executed successfully");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+
+    /**
+     * @Author Rabbani
+     * this method will set property to connect to flowable DB
+     *
+     */
+    public void connectToOtherDB(String dbName) {
+        if(dbName.equalsIgnoreCase("flowable")){
+            System.setProperty("connectTo","flowable");
+        }
+        else {
+            log.info("Invalid DB name");
+        }
+    }
+
+    public void disConnectToFlowable() {
+        System.clearProperty("connectTo");
+        cleanUp();
     }
 
     /**

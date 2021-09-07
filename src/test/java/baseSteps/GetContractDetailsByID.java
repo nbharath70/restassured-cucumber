@@ -256,7 +256,64 @@ public class GetContractDetailsByID extends TestBase {
 
         }
         }
+    public void validateJSONResponse(String query,String columnName){
+       try{ String actualquery=getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES,query);
+            String actualColumnName=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,columnName);
+            String conRowKey=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"jsonForContractRowkey");
+            String conLCS=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"jsonForContractLCS");
+            String contractStartDate=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"jsonForContractStartDate");
+            String contractEndDate=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"jsonForContractEndDate");
+            String recordCreatedBy=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"jsonForRecordCreatedBy");
+            String recordUpdatedBy=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"jsonForRecordUpdatedBy");
+            String contractID=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"jsonForContractID");
+            String amendmentNumber=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"jsonForAmendmentNumber");
+            String amendmentName=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"jsonForAmendmentName");
+            String versionNumber=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"jsonForVersionNumber");
+            String contractDetailJson=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"jsonForContractDetailJson");
+            String contractExpiry=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"jsonForContractExpiry");
+            String contractType=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"jsonForContractType");
+            String contractName=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"jsonForContractName");
+            String contractNotes=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"jsonForContractNotes");
+            String manufacturerName=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"jsonForManufacturerName");
+            String iRManager=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"jsonForIRManager");
+            String accountManager=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"JsonForAccountManager");
+
+            result=dbHepler.executePreparedQuery(query,String.valueOf(rowKeyVal));
+            result.next();
+            String dbJson=result.getString(actualColumnName);
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(getContractDetailsByIDResponse,dbJson,conRowKey,conRowKey);
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(getContractDetailsByIDResponse,dbJson,conLCS,conLCS);
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(getContractDetailsByIDResponse,dbJson,contractStartDate,contractStartDate);
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(getContractDetailsByIDResponse,dbJson,contractEndDate,contractEndDate);
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(getContractDetailsByIDResponse,dbJson,recordCreatedBy,recordCreatedBy);
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(getContractDetailsByIDResponse,dbJson,recordUpdatedBy,recordUpdatedBy);
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(getContractDetailsByIDResponse,dbJson,contractID,contractID);
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(getContractDetailsByIDResponse,dbJson,amendmentNumber,amendmentNumber);
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(getContractDetailsByIDResponse,dbJson,amendmentName,amendmentName);
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(getContractDetailsByIDResponse,dbJson,versionNumber,versionNumber);
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(getContractDetailsByIDResponse,dbJson,contractDetailJson,contractDetailJson);
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(getContractDetailsByIDResponse,dbJson,contractExpiry,contractExpiry);
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(getContractDetailsByIDResponse,dbJson,contractType,contractType);
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(getContractDetailsByIDResponse,dbJson,contractName,contractName);
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(getContractDetailsByIDResponse,dbJson,contractNotes,contractNotes);
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(getContractDetailsByIDResponse,dbJson,manufacturerName,manufacturerName);
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(getContractDetailsByIDResponse,dbJson,iRManager,iRManager);
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(getContractDetailsByIDResponse,dbJson,accountManager,accountManager);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        }
+
+    public void  validateTask(){
+        dbHepler.connectToOtherDB("flowable");
+        getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"");
+        dbHepler.executePreparedQuery("","");
+        dbHepler.disConnectToFlowable();
     }
+    }
+
+
 
 
 

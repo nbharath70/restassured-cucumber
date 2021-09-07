@@ -14,48 +14,10 @@ Feature:Validate the Find Drug group API test cases
     Then User verifies the FindDrugGroup API Response is in JSON Format
 
   @Functional
-  Scenario Outline: Hit the findDrugGroup Api and validate ResponseDetailsWith DB
+  Scenario: Hit the findDrugGroup Api and validate ResponseDetailsWith DB
     Given User Runs the Query "getManufactuereName" and Fetch the Manufactuere Name from DB
     When User hits the FindDrugGroup "findDrugGroup" Endpoint with get request
-    Then User Runs the Query "getDrugGroupSummaryFromDB" and matches the DrugGroupSummary Column "<columnName>" and JSON from response
-    Examples:
-      | columnName                  |
-      | lifeCycleStatus             |
-      | manufacturerNameofDrugGroup |
-      | drugGroupName               |
-      | drugGroupType               |
-      | mode                        |
-
-  @Regression @Functional
-  Scenario Outline: Hit the findDrugGroup Api and validate drugGroupTypeDesc and drugListRuleId with DB
-    Given User Runs the Query "getManufactuereName" and Fetch the Manufactuere Name from DB
-    When User hits the FindDrugGroup "findDrugGroup" Endpoint with get request
-    Then User Runs the Query "getDrugGroupSummaryFromDB" and matches the DrugListRuleId and DruggroupDescription "<columnName>" and JSON from response
-    Examples:
-      | columnName     |
-      | drugListRuleId |
-      |manufacturerDrugListIDFinddrugGroupApi|
-
-#  @Regression @Functional
-#  Scenario: Hit the findDrugGroup Api and validate ManufacturerDrugListID with  DBDetailJSon
-#    Given User Runs the Query "getManufactuereName" and Fetch the Manufactuere Name from DB
-#    And User execute the getManufacturerDruglistNAme Query "getManufacturerDrugList" and get the DetialJSOn from DB
-#    When User hits the FindDrugGroup "findDrugGroup" Endpoint with get request
-#    Then Verifies the JSON response with DB JSOn by manufacturerDrugListIDJsonPath "manufacturerDrugListIDFinddrugGroupApi"
-
-  @Regression @Functional
-  Scenario: Hit the findDrugGroup Api and validate Number of Approved NDC with  DBDetailJSon
-    Given User Runs the Query "getManufactuereName" and Fetch the Manufactuere Name from DB
-    And User execute the getNumberofApprovedNDC Query "getNumberofApprovedNDC" and get the DetialJSOn from DB
-    When User hits the FindDrugGroup "findDrugGroup" Endpoint with get request
-    Then Verifies the JSON response with DB JSOn by numberOfApprovedNDCJsonPath "numberOfApprovedNDCFinddrugGroupApi"
-
-  @Regression @Functional
-  Scenario: Hit the findDrugGroup Api and validate Number of Pending NDC with  DBDetailJSon
-    Given User Runs the Query "getManufactuereName" and Fetch the Manufactuere Name from DB
-    And User execute the getNumberofPendingNDC Query "getNumberofPendingNDC" and get the DetialJSOn from DB
-    When User hits the FindDrugGroup "findDrugGroup" Endpoint with get request
-    Then Verifies the JSON response with DB JSOn by numberOfPendingNDCJsonPath "numberOfPendingNDCFinddrugGroupApi"
+    Then User verifies Json Response with DB using Query "DBjsonResponse" and ColumnName "resultColumnName"
 
   @Regression @Functional
   Scenario: Validate error code for invalid manufactureName

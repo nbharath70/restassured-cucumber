@@ -3,6 +3,8 @@ package HelperClass;
 import RequestPojo.DisContractPojo.DiscardContractPojo;
 import TestBase.TestBase;
 import com.jayway.jsonpath.JsonPath;
+import cucumber.api.DataTable;
+import cucumber.runtime.junit.Assertions;
 import io.restassured.http.Headers;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -13,6 +15,10 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.testng.asserts.Assertion;
+import org.testng.asserts.SoftAssert;
+
+import java.util.*;
 
 public class VerificationHelperClass extends TestBase {
     DataBaseHelper dataBaseHelper=new DataBaseHelper();
@@ -138,6 +144,7 @@ public class VerificationHelperClass extends TestBase {
             e.printStackTrace();
         }
     }
+
     /**
      * @Author Bharath
      * @param aPIresponse-
@@ -275,6 +282,20 @@ public class VerificationHelperClass extends TestBase {
            String expectedValue = JsonPath.read(dbResponseJsonAsString, dBJSON);
             log.info("expectedValue from DB" + expectedValue + " And actualValue from APIJson response=" + actualValue);
             Assert.assertTrue("The lists do not match!", StringUtils.equals(actualValue,expectedValue));
+            log.info("Verification pass where expectedValue=" + expectedValue + " equals to actualValue=" + actualValue);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void verifyAPIResponseJsonWithDBJsonAsWholeJson(Response aPIresponse, String dbResponseJsonAsString, String aPIjsonPath,String dBJSON) {
+
+        try {
+            String actualValue = (JsonPath.read(aPIresponse.asString(), aPIjsonPath)).toString();
+            String expectedValue = (JsonPath.read(dbResponseJsonAsString, dBJSON)).toString();
+            System.out.println(actualValue);
+            System.out.println(expectedValue);
+            log.info("expectedValue from DB" + expectedValue + " And actualValue from APIJson response" + actualValue);
+            Assert.assertEquals("The lists do not match!",expectedValue,actualValue );
             log.info("Verification pass where expectedValue=" + expectedValue + " equals to actualValue=" + actualValue);
         } catch (Exception e) {
             e.printStackTrace();
@@ -515,15 +536,7 @@ public class VerificationHelperClass extends TestBase {
     }
 
 
-    /**
-     *This Method is Used for Comparing the 2 String Passed into it and Asserting the Reponse
-     * @uthour Bharath
-     *
-     */
-    public void compareTwoStrings(String textone,String textTwo){
-        Assert.assertEquals("Verification failed, expectedValue is not same as  actual value",textone,textTwo);
-        log.info("Verification pass where expectedValue=" + textone + " equals to actualValue=" + textTwo);
-    }
+
 
 
     /**
@@ -545,5 +558,87 @@ public class VerificationHelperClass extends TestBase {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+     /**
+     * @Author Rabbani
+     * @param APIresponse - API response object
+     * @param dbResponseJsonAsString - data base response as Json in String form
+     * @param jsonPathList - List<String> if all JsonPaths
+     *This method will compare and verify the API response Json and db response Json values for a List of Json paths
+     */
+    public void verifyAPIResponseJsonWithDBJsonForListofJsonPaths(Response APIresponse, String dbResponseJsonAsString, List<String> jsonPathList) {
+        try {
+
+            List<Boolean> expectedValueBoolean=null;
+            for(String jsonPath:jsonPathList) {
+                ArrayList<String> actualValue = JsonPath.read(APIresponse.asString(), jsonPath);
+                ArrayList<String> expectedValue = JsonPath.read(dbResponseJsonAsString, jsonPath);
+                //Assert.assertEquals("APIResponse and DBResponse Json sizes don't match",actualValue.size(),expectedValue.size());
+                if (expectedValue.contains("true") || expectedValue.contains("false")) {
+                    expectedValueBoolean = new ArrayList<Boolean>();
+                    for (String a : expectedValue) {
+                        boolean b = Boolean.valueOf(a);
+                        expectedValueBoolean.add(b);
+                    }
+                    log.info("expectedValue from DB" + expectedValueBoolean + " And actualValue from APIJson response=" + actualValue);
+                    Assert.assertEquals("The lists do not match!", expectedValueBoolean, actualValue);
+                    log.info("Verification pass where expectedValue=" + expectedValueBoolean + " equals to actualValue=" + actualValue);
+                continue;
+                }
+                    log.info("expectedValue from DB" + expectedValue + " And actualValue from APIJson response=" + actualValue);
+                    Assert.assertEquals("The lists do not match!", expectedValue, actualValue);
+                    log.info("Verification pass where expectedValue=" + expectedValue + " equals to actualValue=" + actualValue);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+    /**
+     *This Method is Used for Comparing the 2 String Passed into it and Asserting the Reponse
+     * @uthour Bharath
+     *
+     */
+    public void compareTwoStrings(String textone,String textTwo){
+        Assert.assertEquals("Verification failed, expectedValue is not same as  actual value",textone,textTwo);
+        log.info("Verification pass where expectedValue=" + textone + " equals to actualValue=" + textTwo);
+    }
+
+    /**
+     * @Author Rabbani
+     * @param dataTable - DataTable object from cucumber steps
+     * @return jsonPathList - List if all JsonPaths from VERIFICATION_PROPERTIES file
+     *This method will read the DataTable object provided and for the keys it will search the correcsponding values
+      *in VERIFICATION_PROPERTIES file and collects them into a list<String> and returns the list
+     */
+    public List<String> getListofJsonpathsFromPropertiesFile(DataTable dataTable) {
+        List<String> jsonPathList=new ArrayList<String>();
+        try {
+            List<Map<String, String>> paramsToValidate = dataTable.asMaps(String.class, String.class);
+            for(Map<String, String> map : paramsToValidate){
+                for(Map.Entry me:map.entrySet()){
+                    String jsonPathKey= me.getValue().toString();
+                    String jsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,jsonPathKey);
+                    jsonPathList.add(jsonPath);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonPathList;
+    }
+
+
+
+
+
+    public void verifyexpectedAndActualDirectlyAsStrings(Response response, String expectedResponse) {
+        String actualResponse=response.asString();
+        log.info("expectedValue:" + expectedResponse + " And actualValue from APIJson response=" + actualResponse);
+        Assert.assertEquals("The lists do not match!", expectedResponse, actualResponse);
+        log.info("Verification pass where expectedValue=" + expectedResponse + " equals to actualValue=" + actualResponse);
+
     }
 }

@@ -1,18 +1,22 @@
 package baseSteps;
 
 
+import HelperClass.DataBaseHelper;
 import HelperClass.ResourcePath;
 import HelperClass.VerificationHelperClass;
 import TestBase.TestBase;
 import io.restassured.response.Response;
 import org.apache.log4j.Logger;
 
+import java.sql.ResultSet;
 
 
 public class FetchJobListBaseStep extends TestBase {
     Response response;
     public VerificationHelperClass verificationHelperClass = new VerificationHelperClass();
     public static Logger log = getMyLogger(FetchJobListBaseStep.class);
+    ResultSet resultSet;
+    DataBaseHelper dataBaseHelper=new DataBaseHelper();
 
     public void hitFetchJobListAPI(String endpoint)
     {
@@ -38,23 +42,18 @@ public class FetchJobListBaseStep extends TestBase {
 
     }
 
-//    public void lobfromResponse(String query,String columnName){
-////        String actualQuery=getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES,query);
-//
-//   String actualColumnname=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,columnName);
-//        ArrayList<String> scheduledBy =dataBaseHelper.getDataColumnArrayListValueDB(query,actualColumnname);
-//        for(int i=0;i<scheduledBy.size();i++){
-//            if(scheduledBy.get(i).contains("@")){
-//                int index=scheduledBy.indexOf("@");
-//                 String name=scheduledBy.get(i).substring(0,index);
-//                scheduledName.add(name);
-//            }
-//           else {
-//               scheduledName.add(scheduledBy.get(i));
-//            }
-//
-//        }
-//        System.out.println(scheduledName);
-//
-//    }
+    public void validateJSONResponse(String query,String columnName){
+        try{ String actualquery=getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES,query);
+            String actualColumnName=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,columnName);
+            String apiJsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"jsonPathForResponsevalidation");
+            String dBJsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"jsonPathForResponsevalidation");
+            resultSet=dataBaseHelper.getDataWithoutPropertiesKey(actualquery);
+            resultSet.next();
+            String dbJson=resultSet.getString(actualColumnName);
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(response,dbJson,apiJsonPath,dBJsonPath);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
 }

@@ -22,6 +22,7 @@ public class FindDrugGroup extends TestBase {
     public static Response findDrugGroupResponse;
     public VerificationHelperClass verificationHelperClass = new VerificationHelperClass();
     public DataBaseHelper dbHepler = new DataBaseHelper();
+    ResultSet resultSet;
 
 
     public void getManufactuereNameforDrugGroup(String query){
@@ -46,6 +47,21 @@ public class FindDrugGroup extends TestBase {
         String s=findDrugGroupResponse.getHeader("rb-api-result");
         log.info("fetchProgramsToGridResponse error code"+s);
     }
+    public void validateJSONResponse(String query,String columnName){
+        try{
+            String actualColumnName=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,columnName);
+            String apiJsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"jsonPathForResponsevalidation");
+            String dBJsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"jsonPathForResponsevalidation");
+            resultSet=dbHepler.executePreparedQuery(query,manufactureName);
+            resultSet.next();
+            String dbJson=resultSet.getString(actualColumnName);
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(findDrugGroupResponse,dbJson,apiJsonPath,dBJsonPath);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
     public void verifiyStatusCode(int statusCode){
         verificationHelperClass.verifyStatusCode(findDrugGroupResponse,statusCode);
         log.info(" FindDrugGroup API StatusCode is " + statusCode + " and its Pass");

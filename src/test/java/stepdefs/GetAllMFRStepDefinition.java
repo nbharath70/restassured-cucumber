@@ -1,6 +1,7 @@
 package stepdefs;
 
 import baseSteps.GetAllMFR;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -34,6 +35,11 @@ public class GetAllMFRStepDefinition {
     @Then("^User executes the query \"([^\"]*)\" And matches the MFR Name returned by API and DB$")
     public void matchesMFRNameReturnedByAPIAndDB(String query){
         mfr.verifyMFRNameDetails(query);
+    }
+
+    @Then("^User executes the query \"([^\"]*)\" And matches the Details returned by API and DB ColumnName \"([^\"]*)\"$")
+    public void userExecutesTheQueryAndMatchesTheDetailsReturnedByAPIAndDBColumnName(String query, String columnName) {
+       mfr.validateJSONResponse(query,columnName);
     }
 }
 

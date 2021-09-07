@@ -32,4 +32,9 @@ public class FetchJobListStepDefnition extends TestBase {
     @Given("^This is Not Automated due to SQL Tool Compatibility$")
     public void thisIsNotAutomatedDueToSQLToolCompatibility() {
     }
+
+    @And("^Then User hits the Query \"([^\"]*)\" and evaluates the Response with DB \"([^\"]*)\"$")
+    public void thenUserHitsTheQueryAndEvaluatesTheResponseWithDB(String query, String columnName) {
+        fetchJobList.validateJSONResponse(query,columnName);
+    }
 }
