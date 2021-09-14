@@ -10,15 +10,12 @@ import cucumber.api.java.en.When;
 public class TermDrugsfromDrugGroupStepDefnition {
     TermDrugsFromDrugGroup termDrugs =new TermDrugsFromDrugGroup();
 
-
-
-
-    @Given("^User Runs the Query \"([^\"]*)\" and get valid Drug List Detail with columName \"([^\"]*)\"$")
+    @Given("^User Runs the Query \"([^\"]*)\" and get valid Drug List Detail with columnName \"([^\"]*)\"$")
     public void userRunsTheQueryAndGetValidDrugListDetailWithColumName(String query, String columnName) {
         termDrugs.executeQueryandfetchDrugListDetails(query,columnName);
     }
 
-    @And("^User fetchs all the Details from the Result and createRequestBody$")
+    @And("^User fetches all the details from the result and createRequestBody$")
     public void userFetchsAllTheDetailsFromTheResultAndCreateRequestBody() {
         termDrugs.fetchAllTheDrugListDetails();
     }
@@ -46,7 +43,7 @@ public class TermDrugsfromDrugGroupStepDefnition {
     }
 
     @Then("^User Runs the Query\"([^\"]*)\" and Check the LifeCycle Status in Dbcolumn \"([^\"]*)\" as \"([^\"]*)\"$")
-    public void userRunsTheQueryAndCheckTheLifeCycleStatusInDbcolumnAs(String query, String dbColumn, String expectedvalue) throws Throwable {
+    public void userRunsTheQueryAndCheckTheLifeCycleStatusInDbcolumnAs(String query, String dbColumn, String expectedvalue) {
         termDrugs.verifyWithDB(query,dbColumn,expectedvalue);
     }
 }

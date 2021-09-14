@@ -42,7 +42,7 @@ public class InitNewManufacturerContractStepDefs extends TestBase {
     }
 
     @When("^User hits the \"([^\"]*)\" Endpoint with delete API request to discard Initiate New Manufacture Contract by \"([^\"]*)\" and contractName \"([^\"]*)\"$")
-    public void userHitsTheEndpointWithDeleteAPIRequestToDiscardInitiateNewManufactureContractByAndContractName(String endPoint, String rowKey,String ContractName) throws Throwable {
+    public void userHitsTheEndpointWithDeleteAPIRequestToDiscardInitiateNewManufactureContractByAndContractName(String endPoint, String rowKey,String ContractName){
         postInitiateNewManufactureContract.discardContract(endPoint,rowKey,ContractName);
     }
 

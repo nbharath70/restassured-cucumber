@@ -15,12 +15,12 @@ public class FetchFQDetailsByTxnJobIdAndProgramRowKeyStepDef extends TestBase {
         fetchFQDetailsByTxnJobIdAndProgramRowKey.getJobIDAndProgramRowKey(query);
     }
 
-    @And("^User hits the Endpoint \"([^\"]*)\" JobID and ProgramRowkey$")
+    @And("^User hits the endpoint \"([^\"]*)\" jobID and programRowkey$")
     public void userHitsTheEndpointJobIDAndProgramRowkey(String endpoint){
       fetchFQDetailsByTxnJobIdAndProgramRowKey.hitEndpoint(endpoint);
     }
 
-    @Then("^User verifies the fetchFQDetailsByFQHIdAndProgramRowKeyAPI Status Code is \"([^\"]*)\"$")
+    @Then("^User verifies the fetchFQDetailsByFQHIdAndProgramRowKeyAPI statusCode is \"([^\"]*)\"$")
     public void userVerifiesTheFetchFQDetailsByFQHIdAndProgramRowKeyAPIStatusCodeIs(int statusCode)  {
       fetchFQDetailsByTxnJobIdAndProgramRowKey.verifyStatusCode(statusCode);
     }
@@ -30,33 +30,33 @@ public class FetchFQDetailsByTxnJobIdAndProgramRowKeyStepDef extends TestBase {
         fetchFQDetailsByTxnJobIdAndProgramRowKey.verifyFormatJSON();
     }
 
-    @And("^User hits the Endpoint \"([^\"]*)\" JobID with inValid ProgramRowkey$")
+    @And("^User hits the endpoint \"([^\"]*)\" jobID with invalid programRowkey$")
     public void userHitsTheEndpointJobIDWithInValidProgramRowkey(String endpoint)  {
         fetchFQDetailsByTxnJobIdAndProgramRowKey.hitEndpointwithInvalidProgramID(endpoint);
     }
 
-    @And("^User hits the Endpoint \"([^\"]*)\" JobID with inValid processTrasactionJOBID$")
+    @And("^User hits the endpoint \"([^\"]*)\" jobID with invalid processTrasactionJOBID$")
     public void userHitsTheEndpointJobIDWithInValidProcessTrasactionJOBID(String endpoint){
         fetchFQDetailsByTxnJobIdAndProgramRowKey.hitEndpointwithInvalidTransactionJobID(endpoint);
     }
 
-    @Given("^User hits the Endpoint \"([^\"]*)\" JobID with both BlankValues$")
+    @Given("^User hits the Endpoint \"([^\"]*)\" jobID with both blankValues$")
     public void userHitsTheEndpointJobIDWithBothBlankValues(String endpoint)  {
         fetchFQDetailsByTxnJobIdAndProgramRowKey.hitEndpointwithBothBlankvalues(endpoint);
 
     }
 
-    @Then("^User verifies the invalid Message \"([^\"]*)\" using jsonPath \"([^\"]*)\"$")
+    @Then("^User verifies the invalid message \"([^\"]*)\" using jsonPath \"([^\"]*)\"$")
     public void userVerifiesTheInvalidMessageUsingJsonPath(String invalidMessageKey, String jsonPath){
         fetchFQDetailsByTxnJobIdAndProgramRowKey.validateInvalidValues(invalidMessageKey,jsonPath);
     }
 
-    @And("^User Runs the Query \"([^\"]*)\" and fetch the RebateoptionsRowkey from DB using ColumnName\"([^\"]*)\"$")
+    @And("^User Runs the query \"([^\"]*)\" and fetch the rebateOptionsRowkey from DB using columnName\"([^\"]*)\"$")
     public void userRunsTheQueryAndFetchTheRebateoptionsRowkeyFromDBUsingColumnName(String query, String columnName) {
      fetchFQDetailsByTxnJobIdAndProgramRowKey.getRebateOptionRowkey(query,columnName);
     }
 
-    @And("^User Runs the Query \"([^\"]*)\" and Validate the Rebate option response with DB Columnname \"([^\"]*)\"$")
+    @And("^User Runs the query \"([^\"]*)\" and validate the rebate options response with DB columnname \"([^\"]*)\"$")
     public void userRunsTheQueryAndValidateTheRebateOptionResponseWithDBColumnname(String query, String columnName) throws Throwable {
         fetchFQDetailsByTxnJobIdAndProgramRowKey.validateRebateOptions(query,columnName);
     }

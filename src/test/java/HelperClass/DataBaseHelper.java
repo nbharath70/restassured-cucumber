@@ -606,7 +606,7 @@ public class DataBaseHelper extends TestBase {
         }
     }
 
-    public void disConnectToFlowable() {
+    public void disConnectToOtherDB() {
         System.clearProperty("connectTo");
         cleanUp();
     }

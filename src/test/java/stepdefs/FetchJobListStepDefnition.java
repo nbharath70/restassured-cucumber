@@ -7,7 +7,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 
-public class FetchJobListStepDefnition extends TestBase {
+public class FetchJobListStepDefnition  {
     FetchJobListBaseStep fetchJobList=new FetchJobListBaseStep();
     @Given("^User hits the fetchJobList API with EndPoint \"([^\"]*)\" with get Request$")
     public void userHitsTheFetchjoblistApi(String endpoint)  {
@@ -33,7 +33,7 @@ public class FetchJobListStepDefnition extends TestBase {
     public void thisIsNotAutomatedDueToSQLToolCompatibility() {
     }
 
-    @And("^Then User hits the Query \"([^\"]*)\" and evaluates the Response with DB \"([^\"]*)\"$")
+    @And("^Then User hits the \"([^\"]*)\" and evaluates the Response with DB \"([^\"]*)\"$")
     public void thenUserHitsTheQueryAndEvaluatesTheResponseWithDB(String query, String columnName) {
         fetchJobList.validateJSONResponse(query,columnName);
     }

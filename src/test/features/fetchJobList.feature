@@ -13,11 +13,8 @@ Feature: Create and Validate the BenefitRule for a Contract
     And User verifies the Response in JSON Format
 
   @Regression @Functional
-  Scenario: Verify Process Job Run ID from Response
+  Scenario: Verify Response with DB
     Given User hits the fetchJobList API with EndPoint "fetchJobList" with get Request
     Then User verifies the Status Code is "200"
-    And Then User hits the Query "fetchJobListAPI" and evaluates the Response with DB "resultColumnName"
+    And Then User hits the "fetchJobListAPI" and evaluates the Response with DB "resultColumnName"
 
-   @NonAutomated
-  Scenario: Verify LOB for Fetch JobList API from Response
-      Given This is Not Automated due to SQL Tool Compatibility

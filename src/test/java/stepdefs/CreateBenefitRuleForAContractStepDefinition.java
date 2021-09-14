@@ -9,11 +9,11 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
-public class CreateBenefitRuleForAContractStepDefinition extends TestBase {
+public class CreateBenefitRuleForAContractStepDefinition  {
     CreateBenefitRuleForAContract createAndValidateBenefitRule=new CreateBenefitRuleForAContract();
 
-    @And("^User create the Benefitruledata$")
-    public void userCreateTheBenefitruledata(DataTable dataTable) {
+    @And("^User create the BenefitRuleData$")
+    public void userCreateTheBenefitRuleData(DataTable dataTable) {
         createAndValidateBenefitRule.createBenefitRuleJSONBody(dataTable);
     }
 
@@ -37,12 +37,12 @@ public class CreateBenefitRuleForAContractStepDefinition extends TestBase {
       createAndValidateBenefitRule.verifyStatusCodeofCreateBenefitRuleAPI(statusCode);
     }
 
-    @Then("^user runs Deletes the BenefitRule Created by Executing the Query \"([^\"]*)\"$")
+    @Then("^User Deletes the BenefitRule Created by Executing the Query \"([^\"]*)\"$")
     public void userRunsDeletesTheBenefitRuleCreatedByExecutingTheQuery(String deleteQuery) {
        createAndValidateBenefitRule.deleteCreatedBenefitRule(deleteQuery);
     }
 
-    @Then("^User User Redo's Change made to Lifecycle Status for both ContractHeader \"([^\"]*)\" and ContractDetail \"([^\"]*)\"$")
+    @Then("^User User reverts back the Changes made to Lifecycle Status for both ContractHeader \"([^\"]*)\" and ContractDetail \"([^\"]*)\"$")
     public void userUserRedoSChangeMadeToLifecycleStatusForBothContractHeaderAndContractDetail(String contractHeaderQuery, String ContractDetailQuery){
         createAndValidateBenefitRule.updateLifeCycleStatusToNewForContract(contractHeaderQuery,ContractDetailQuery);
     }

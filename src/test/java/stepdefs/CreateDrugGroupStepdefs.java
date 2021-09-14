@@ -1,14 +1,20 @@
 package stepdefs;
+import HelperClass.VerificationHelperClass;
 import TestBase.TestBase;
 import baseSteps.CreateDrugGroup;
 import cucumber.api.DataTable;
 import cucumber.api.PendingException;
+import cucumber.api.Scenario;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
+import org.junit.After;
+
 
 public class CreateDrugGroupStepdefs extends TestBase {
     CreateDrugGroup createDrugGroup=new CreateDrugGroup();
-    @Then("^User executes the delete existing DrugGroup query \"([^\"]*)\" and List name \"([^\"]*)\" to delete the record from the database$")
+
+    @And("^User executes the delete existing DrugGroup query \"([^\"]*)\" and List name \"([^\"]*)\" to delete the record from the database$")
     public void userExecutesTheDeleteExistingDrugGroupQueryAndListNameToDeleteTheRecordFromTheDatabase(String query, String colName) throws Throwable {
         createDrugGroup.deleteDrugGroupFromDB(query,colName);
     }
@@ -47,4 +53,5 @@ public class CreateDrugGroupStepdefs extends TestBase {
     public void userVerifyTheCreateNewGroupDetailsResponseHeaderErrorCodeValue(String expectedErrorCode) throws Throwable {
         createDrugGroup.verifyCreateDrugGroupResponseHeaderErrorCode(expectedErrorCode);
     }
+
 }

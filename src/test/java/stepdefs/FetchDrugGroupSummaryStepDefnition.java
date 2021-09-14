@@ -9,7 +9,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
-public class FetchDrugGroupSummaryStepDefnition extends TestBase {
+public class FetchDrugGroupSummaryStepDefnition  {
     FetchDrugGroupSummaryBaseStep fetchDrugGroupSummary=new FetchDrugGroupSummaryBaseStep();
     @Given("^User runs the Query and get the \"([^\"]*)\" and get the Rowkey of the DrugGroup$")
     public void runQueryAndFetchRowkeyOfDrugGroup(String query)  {
@@ -31,11 +31,6 @@ public class FetchDrugGroupSummaryStepDefnition extends TestBase {
         fetchDrugGroupSummary.verifyFetchDrugGroupSummaryAPIResponseFormatJSON();
     }
 
-    @And("^User Runs the DrugGroupQuery \"([^\"]*)\" to fetch Coulumn \"([^\"]*)\" and Verify with Response by JSONpath \"([^\"]*)\"$")
-    public void userRunsTheDrugGroupQueryToFetchCoulumnAndVerifyWithResponseByJSONpath(String query, String columnName, String jsonPath) {
-        fetchDrugGroupSummary.verifyFetchDruGroupSummary(query,columnName,jsonPath);
-    }
-
 
     @Given("^User Hits the API endpoint \"([^\"]*)\" with Typemissmatch datatype Druglist ID \"([^\"]*)\"$")
     public void userHitsTheAPIEndpointWithTypemissmatchDatatypeDruglistID(String endpoint, String drugListID){
@@ -47,8 +42,8 @@ public class FetchDrugGroupSummaryStepDefnition extends TestBase {
        fetchDrugGroupSummary.verifiesAPIResponseWithTypeMismatchErrorMsg(jsonpath,invalidMessage);
     }
 
-    @Then("^User verify the valid Response fetchDrugGroupSummary body key \"([^\"]*)\" and expected value \"([^\"]*)\" of string$")
-    public void userVerifyTheValidResponseFetchDrugGroupSummaryBodyKeyAndExpectedValueOfString(String json, String message) throws Throwable {
+    @Then("^User verify the valid Response fetchDrugGroupSummary body key \"([^\"]*)\" and expected value \"([^\"]*)\"$")
+    public void userVerifyTheValidResponseFetchDrugGroupSummaryBodyKeyAndExpectedValueOfString(String json, String message)  {
         fetchDrugGroupSummary.validateFectDrugGroupSummaryResponse(json,message);
     }
 

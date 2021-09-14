@@ -4,25 +4,27 @@ import RequestPojo.DisContractPojo.DiscardContractPojo;
 import TestBase.TestBase;
 import com.jayway.jsonpath.JsonPath;
 import cucumber.api.DataTable;
+import cucumber.api.Scenario;
 import cucumber.runtime.junit.Assertions;
 import io.restassured.http.Headers;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import io.restassured.response.Response;
+import org.junit.After;
 import org.junit.Assert;
-
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.testng.asserts.Assertion;
-import org.testng.asserts.SoftAssert;
+
 
 import java.util.*;
 
 public class VerificationHelperClass extends TestBase {
     DataBaseHelper dataBaseHelper=new DataBaseHelper();
     public static Logger log = getMyLogger(VerificationHelperClass.class);
+
 
     /**
      * @param jsonResponse-
@@ -292,8 +294,6 @@ public class VerificationHelperClass extends TestBase {
         try {
             String actualValue = (JsonPath.read(aPIresponse.asString(), aPIjsonPath)).toString();
             String expectedValue = (JsonPath.read(dbResponseJsonAsString, dBJSON)).toString();
-            System.out.println(actualValue);
-            System.out.println(expectedValue);
             log.info("expectedValue from DB" + expectedValue + " And actualValue from APIJson response" + actualValue);
             Assert.assertEquals("The lists do not match!",expectedValue,actualValue );
             log.info("Verification pass where expectedValue=" + expectedValue + " equals to actualValue=" + actualValue);
@@ -336,7 +336,8 @@ public class VerificationHelperClass extends TestBase {
             Object actualValue = JsonPath.read(response.asString(), val);
             Boolean expValue = Boolean.valueOf(expectedValue);
             log.info("Verify response body where expectedValue=" + expectedValue + " equals to actualValue=" + actualValue);
-            Assert.assertTrue("The lists do not match!", expValue.equals(actualValue));
+            Assert.assertEquals("The lists do not match!", expValue.equals(actualValue));
+//            assertion.assertAll();
         }catch  (Exception e) {
             e.printStackTrace();
         }
@@ -631,9 +632,6 @@ public class VerificationHelperClass extends TestBase {
     }
 
 
-
-
-
     public void verifyexpectedAndActualDirectlyAsStrings(Response response, String expectedResponse) {
         String actualResponse=response.asString();
         log.info("expectedValue:" + expectedResponse + " And actualValue from APIJson response=" + actualResponse);
@@ -641,4 +639,6 @@ public class VerificationHelperClass extends TestBase {
         log.info("Verification pass where expectedValue=" + expectedResponse + " equals to actualValue=" + actualResponse);
 
     }
+
+
 }

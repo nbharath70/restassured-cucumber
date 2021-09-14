@@ -26,7 +26,6 @@ public class FetchProgramsToGrid extends TestBase {
     private String drugGroupJSON;
     private ArrayList drugGroupIDList;
     private String columnNameofProgramtoProgramGrid;
-    private Array array;
     public static Logger log = getMyLogger(FetchProgramsToGrid.class);
     public static Response fetchProgramsToGridResponse;
     public VerificationHelperClass verificationHelperClass = new VerificationHelperClass();
@@ -55,9 +54,9 @@ public class FetchProgramsToGrid extends TestBase {
      * @param endpoint-Endpoint of Fetch programs to Program Grid API
      */
     public void hitFetchProgramsToGridEndpoint(String endpoint) {
-        String endpointCompletetion=programContractID+"/programs/";
-        log.info("FetchProgramToGrid API Appending EndPoint " + endpointCompletetion);
-        fetchProgramsToGridResponse = getCall(endpoint,endpointCompletetion);
+        String finalEndpoint=programContractID+"/programs/";
+        log.info("FetchProgramToGrid API Appending EndPoint " + finalEndpoint);
+        fetchProgramsToGridResponse = getCall(endpoint,finalEndpoint);
     }
 
     /**
@@ -67,9 +66,9 @@ public class FetchProgramsToGrid extends TestBase {
      * @param programContractID-fetched and Stored here it is used
      */
     public void hitFetchProgramsToGridEndpoint(String endpoint,String programContractID) {
-        String endpointCompletetion=programContractID+"/programs";
-        log.info("FetchProgramToGrid API Appending EndPoint " + endpointCompletetion);
-        fetchProgramsToGridResponse = getCall(endpoint,endpointCompletetion);
+        String finalEndpoint=programContractID+"/programs";
+        log.info("FetchProgramToGrid API Appending EndPoint " + finalEndpoint);
+        fetchProgramsToGridResponse = getCall(endpoint,finalEndpoint);
         String s=fetchProgramsToGridResponse.getHeader("rb-api-result");
         log.info("fetchProgramsToGridResponse error code"+s);
     }
@@ -168,13 +167,13 @@ public class FetchProgramsToGrid extends TestBase {
     /**
      * This method used to  get the DruggroupDetails from DB
      * @author Bharath
-     * @param initialSplitquery-This Split is done becuase in SQL using Multiple ? is Not supported two Split of Query is concated and used
+     * @param initialSplitQuery-This Split is done becuase in SQL using Multiple ? is Not supported two Split of Query is concated and used
      * @param finalSplitQuery-This Split is done becuase in SQL using Multiple ? is Not supported two Split of Query is concated and used
      */
-  public void getDruggroupDetails(String initialSplitquery,String finalSplitQuery){
+  public void getDruggroupDetails(String initialSplitQuery,String finalSplitQuery){
       try {
           System.out.println(drugGroupIDList);
-          result=dbHepler.executePreparedQueryForArrayAsParameter(initialSplitquery,drugGroupIDList,finalSplitQuery);
+          result=dbHepler.executePreparedQueryForArrayAsParameter(initialSplitQuery,drugGroupIDList,finalSplitQuery);
           result.next();
           drugGroupJSON=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "drugGroupJSON");
           drugDetailJSON = result.getString(drugGroupJSON);

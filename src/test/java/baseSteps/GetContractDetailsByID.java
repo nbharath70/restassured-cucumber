@@ -309,7 +309,7 @@ public class GetContractDetailsByID extends TestBase {
         dbHepler.connectToOtherDB("flowable");
         getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"");
         dbHepler.executePreparedQuery("","");
-        dbHepler.disConnectToFlowable();
+        dbHepler.disConnectToOtherDB();
     }
     }
 

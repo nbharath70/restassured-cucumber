@@ -6,7 +6,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 import cucumber.api.java.en.Then;
 
-public class FetchProgramsToGriDStepDefinition {
+public class FetchProgramsToGridStepDefinition {
     FetchProgramsToGrid fetchProgramsToGrid=new FetchProgramsToGrid();
     @Given("^User Runs the Query \"([^\"]*)\" and Get the Contract Id of Program$")
     public void userRunsTheQueryAndGetTheContractIdOfProgram(String query) {
@@ -56,7 +56,7 @@ public class FetchProgramsToGriDStepDefinition {
     }
 
     @Then("^User validate the ListType with \"([^\"]*)\" and \"([^\"]*)\"$")
-    public void userValidateTheListTypeWithAnd(String dBJSONPath, String aPIJSONPAth) throws Throwable {
+    public void userValidateTheListTypeWithAnd(String dBJSONPath, String aPIJSONPAth)  {
         fetchProgramsToGrid.verifyDrugListNameAndListType(dBJSONPath,aPIJSONPAth);
     }
 
@@ -67,13 +67,9 @@ public class FetchProgramsToGriDStepDefinition {
     }
 
     @When("^User hits the \"([^\"]*)\" Endpoint with get request for given programID \"([^\"]*)\"$")
-    public void userHitsTheEndpointWithGetRequestForGivenProgramID(String endpoint, String ProgramID) throws Throwable {
+    public void userHitsTheEndpointWithGetRequestForGivenProgramID(String endpoint, String ProgramID) {
         fetchProgramsToGrid.hitFetchProgramsToGridEndpoint(endpoint,ProgramID);
     }
 
-    @Then("^User verify the fetchProgramsToGrid response header Error Code value \"([^\"]*)\"$")
-    public void userVerifyTheFetchProgramsToGridResponseHeaderErrorCodeValue(String arg0) throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
-    }
+
 }

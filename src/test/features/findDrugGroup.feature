@@ -3,45 +3,44 @@ Feature:Validate the Find Drug group API test cases
 
   @Smoke
   Scenario: Hit findDrugGroup Api and validate Status Code
-    Given User Runs the Query "getManufactuereName" and Fetch the Manufactuere Name from DB
-    When User hits the FindDrugGroup "findDrugGroup" Endpoint with get request
-    Then User verifies the API response Status code is "200" for FindDrugGroup API
+    Given User runs the query "getManufactuereName" and fetch the manufactuereName from DB
+    When User hits the findDrugGroup "findDrugGroup" endpoint
+    Then User verifies the API response statusCode is "200" for findDrugGroup API
 
   @Smoke
   Scenario: Hit findDrugGroup Api and Format of response
-    Given User Runs the Query "getManufactuereName" and Fetch the Manufactuere Name from DB
-    When User hits the FindDrugGroup "findDrugGroup" Endpoint with get request
-    Then User verifies the FindDrugGroup API Response is in JSON Format
+    Given User runs the query "getManufactuereName" and fetch the manufactuereName from DB
+    When User hits the findDrugGroup "findDrugGroup" endpoint
+    Then User verifies the findDrugGroup API response is in JSON format
 
   @Functional
   Scenario: Hit the findDrugGroup Api and validate ResponseDetailsWith DB
-    Given User Runs the Query "getManufactuereName" and Fetch the Manufactuere Name from DB
-    When User hits the FindDrugGroup "findDrugGroup" Endpoint with get request
-    Then User verifies Json Response with DB using Query "DBjsonResponse" and ColumnName "resultColumnName"
+    Given User runs the query "getManufactuereName" and fetch the manufactuereName from DB
+    When User hits the findDrugGroup "findDrugGroup" endpoint
+    Then User verifies json response with DB using query "DBJsonResponse" and columnName "resultColumnName"
 
   @Regression @Functional
   Scenario: Validate error code for invalid manufactureName
-    When User hits the FindDrugGroup "findDrugGroup" Endpoint with get request for given ManufactuereName "Test"
-    Then User verifies the API response Status code is "200" for FindDrugGroup API
-    Then User verify the FindDrugGroup response header Error Code value "-1"
-    Then User verify the valid Response FindDrugGroup body key "messageFindDrugGroupJson" and expected value "invalidDrugMessage" of string
+    When User hits the "findDrugGroup" endpoint with manufactuereName "inValidmanuFacturerName"
+    Then User verifies the API response statusCode is "200" for findDrugGroup API
+    Then User verifies the findDrugGroup response header errorCode value "-1"
+    Then User verifies the valid response using findDrugGroup bodyKey "messageFindDrugGroupJson" and expected value "invalidDrugMessage"
 
   @Regression @Functional
   Scenario: Verify the DrugGroup name is in Ascending order
-    Given User Runs the Query "getManufactuereName" and Fetch the Manufactuere Name from DB
-    When User hits the FindDrugGroup "findDrugGroup" Endpoint with get request
-    Then User Runs the Query "getDrugGroupSummaryFromDB" and matches the DrugGroupSummary Column "drugGroupName" and JSON from response
+    Given User runs the query "getManufactuereName" and fetch the manufactuereName from DB
+    When User hits the findDrugGroup "findDrugGroup" endpoint
+    Then User Runs the query "getDrugGroupSummaryFromDB" and matches the DrugGroupSummary Column "drugGroupName" and JSON from response
 
   @Regression @Functional
   Scenario: Validate for invalid manufactureName
-    When User hits the FindDrugGroup "findDrugGroup" Endpoint with get request for given ManufactuereName "htarahb"
-    Then User verifies the API response Status code is "200" for FindDrugGroup API
-    Then User verify the valid Response FindDrugGroup body key "messageFindDrugGroupJson" and expected value "invalidDrugMessage" of string
+    When User hits the "findDrugGroup" endpoint with manufactuereName "inValidmanuFacturerName"
+    Then User verifies the API response statusCode is "200" for findDrugGroup API
+    Then User verifies the valid response using findDrugGroup bodyKey "messageFindDrugGroupJson" and expected value "invalidDrugMessage"
 
   @Regression @Functional
   Scenario: Verify with TypeMismatch of Manufacturer name
-    When User hits the FindDrugGroup "findDrugGroup" Endpoint with get request for given ManufactuereName "$3!23"
-    Then User verifies the API response Status code is "200" for FindDrugGroup API
-    Then User verify the valid Response FindDrugGroup body key "messageFindDrugGroupJson" and expected value "invalidMessageForTypeMissMatchDrugGroup" of string
-
+    When User hits the "findDrugGroup" endpoint with manufactuereName "typeMissMatchManufacturerName"
+    Then User verifies the API response statusCode is "200" for findDrugGroup API
+    Then User verifies the valid response using findDrugGroup bodyKey "messageFindDrugGroupJson" and expected value "invalidDrugMessage"
 

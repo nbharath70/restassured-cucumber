@@ -24,7 +24,11 @@ public class FindDrugGroup extends TestBase {
     public DataBaseHelper dbHepler = new DataBaseHelper();
     ResultSet resultSet;
 
-
+    /**
+     * @uthour Bharath
+     * This method is used to fetch the manufacturerName from DB
+     * @param query-
+     */
     public void getManufactuereNameforDrugGroup(String query){
         try {
             log.info("query is "+query);
@@ -37,16 +41,37 @@ public class FindDrugGroup extends TestBase {
             e.printStackTrace();
         }
     }
+
+    /**
+     * @uthour Bharath
+     * This method is used to hit the Endpoint
+     * @param endpoint-
+     */
     public void hitFindDruggroupEndpoint(String endpoint){
         findDrugGroupResponse=getCall(endpoint,manufactureName);
         log.info("Response of FindDrugGroup API is "+findDrugGroupResponse);
     }
+
+    /**
+     * @uthour Bharath
+     * This method is used to hit the endpoint with invalid manufacturerName
+     * @param endpoint-
+     * @param manufactureName-
+     */
     public void hitFindDruggroupEndpoint(String endpoint,String manufactureName){
-        findDrugGroupResponse=getCall(endpoint,manufactureName);
+        String invalidManufacturerName=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,manufactureName);
+        findDrugGroupResponse=getCall(endpoint,invalidManufacturerName);
         log.info("Response of FindDrugGroup API is "+findDrugGroupResponse);
         String s=findDrugGroupResponse.getHeader("rb-api-result");
         log.info("fetchProgramsToGridResponse error code"+s);
     }
+
+    /**
+     * @uthour Bharath
+     * This method is used to validate the Response of the API
+     * @param query-
+     * @param columnName-
+     */
     public void validateJSONResponse(String query,String columnName){
         try{
             String actualColumnName=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,columnName);
@@ -62,13 +87,31 @@ public class FindDrugGroup extends TestBase {
 
     }
 
+    /**
+     * @uthour Bharath
+     * This method is used to validate the statusCode of the Response
+     * @param statusCode-
+     */
     public void verifiyStatusCode(int statusCode){
         verificationHelperClass.verifyStatusCode(findDrugGroupResponse,statusCode);
         log.info(" FindDrugGroup API StatusCode is " + statusCode + " and its Pass");
     }
+
+    /**
+     * @uthour Bharath
+     * This method is used to validate the format of the Response
+     */
     public void verifyFormatOfJSONBody(){
         verifyResponseFormatIsJSON();
     }
+
+
+    /**
+     * @uthour Bharath
+     * This method is used to Verify the Response with DB
+     * @param query-
+     * @param columnName-
+     */
     public void verifyFindDrugGroupSummaryWithDbTable(String query,String columnName){
         if(columnName.equalsIgnoreCase("lifeCycleStatus")){
             jsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"lifeCycleStatusFinddrugGroupApi");
@@ -90,11 +133,7 @@ public class FindDrugGroup extends TestBase {
             jsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"drugGroupTypeFinddrugGroupApi");
             columnNameofDruggroupsummary=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,columnName);
         }
-//        else if(columnName.equalsIgnoreCase("drugGroupTypeDesc")){
-//            jsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"drugGroupTypeDescFinddrugGroupApi");
-//            columnNameofDruggroupsummary=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,columnName);
-//        }
-        else if(columnName.equalsIgnoreCase("mode")){
+       else if(columnName.equalsIgnoreCase("mode")){
             jsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"modeFinddrugGroupApi");
             columnNameofDruggroupsummary=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,columnName);
         }
@@ -112,6 +151,13 @@ public class FindDrugGroup extends TestBase {
 
         verificationHelperClass.verifyResponseJsonAndDbArrayByColumnNameWithPreparedQuery(findDrugGroupResponse ,jsonPath,query,columnNameofDruggroupsummary,manufactureName);
     }
+
+    /**
+     * @uthour Bharath
+     * This method is used to Verify the DrugListDescription
+     * @param query-
+     * @param columnName-
+     */
     public void verifyFindDrugListRuleIDAndDrugListDescription(String query,String columnName){
         if(columnName.equalsIgnoreCase("drugListRuleId")){
             jsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"drugListRuleIdFinddrugGroupApi");
@@ -125,6 +171,12 @@ public class FindDrugGroup extends TestBase {
         }
         verificationHelperClass.verifyResponseJsonAndDbArrayByColumnNameHavingNullValuesWithPreparedQuery(findDrugGroupResponse,jsonPath,query,columnNameofDruggroupsummary,manufactureName);
     }
+
+    /**
+     * @uthour Bharath
+     * This method is used to getThe ManufacturerDrugList
+     * @param query-
+     */
     public String getManufactuereNameforDrugList(String query){
         try {
             log.info("query is "+query);
@@ -137,48 +189,25 @@ public class FindDrugGroup extends TestBase {
             e.printStackTrace();
         } return manufactureDruglistID;
     }
-//    public void verifyManufactuereDrugListID(String jsonPathforMfrdlID){
-//        jsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,jsonPathforMfrdlID);
-//        verificationHelperClass.verifyAPIResponseJsonWithDBJsonWithDifferentDataTypeValues(findDrugGroupResponse,manufactureDruglistID,jsonPath);
-//    }
-    public String getNumberOfApprovedNdc(String query){
-        try {
-            log.info("query is "+query);
-            result = dbHepler.executePreparedQuery(query,manufactureName);
-            result.next();
-            String mfrnameColumNameForDrugList=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "numberOfApprovedNDC");
-            numberOfApprovedNDC = result.getString(mfrnameColumNameForDrugList);
-            log.info("Program ContractID is  " + numberOfApprovedNDC + " From DB");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } return numberOfApprovedNDC;
-    }
-    public void verifyNumberOfApprovedNDC(String jsonPathforNumberOfApprovedNDC){
-        jsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,jsonPathforNumberOfApprovedNDC);
-        verificationHelperClass.verifyAPIResponseJsonWithDBJsonWithDifferentDataTypeValues(findDrugGroupResponse,numberOfApprovedNDC,jsonPath);
-    }
-    public String getNumberOfPendingNdc(String query){
-        try {
-            log.info("query is "+query);
-            result = dbHepler.executePreparedQuery(query,manufactureName);
-            result.next();
-            String mfrnameColumNameForDrugList=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "numberOfPendingNDC");
-            numberOfPendingNDC = result.getString(mfrnameColumNameForDrugList);
-            log.info("Program ContractID is  " + numberOfPendingNDC + " From DB");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } return numberOfPendingNDC;
-    }
-    public void verfyNumberOfPendingNDC(String jsonPathforNumberOfPendingNDC){
-        jsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,jsonPathforNumberOfPendingNDC);
-        verificationHelperClass.verifyAPIResponseJsonWithDBJsonWithDifferentDataTypeValues(findDrugGroupResponse,numberOfPendingNDC,jsonPath);
-    }
+
+
+    /**
+     * @uthour Bharath
+     * This method is used to validate the Response with Db as JSON
+     * @param actualValue-
+     * @param expectedValue-
+     */
     public void validateFindDrugGroupResponse(String actualValue,String expectedValue)
     {
         String expectedValueMessage= getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,expectedValue);
         verificationHelperClass.verifyResponseJsonString(findDrugGroupResponse,actualValue,expectedValueMessage);
     }
 
+    /**
+     * @uthour Bharath
+     * This method is used to validate the Error Codes in Response Headers
+     * @param expectedHeaderValue-
+     */
     public void verifyFindDrugGroupResponseResponseHeaderErrorCode(String expectedHeaderValue)
     {
         verificationHelperClass.verifyResponseHeaderApiReturnCodesValue(findDrugGroupResponse,expectedHeaderValue);

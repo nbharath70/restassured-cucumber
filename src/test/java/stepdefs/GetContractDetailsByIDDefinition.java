@@ -77,8 +77,5 @@ public class GetContractDetailsByIDDefinition {
         contractDetails.validateJSONResponse(query,columnName);
     }
 
-//    @Then("^User Validates the task message In Db Response$")
-//    public void userValidatesTheTaskMessageInDbResponse() {
-//        contractDetails.
-//    }
+
 }
