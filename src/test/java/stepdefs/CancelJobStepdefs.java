@@ -16,13 +16,13 @@ public class CancelJobStepdefs extends TestBase {
     }
 
     @Given("^User hits the \"([^\"]*)\" with post request for cancel job$")
-    public void userHitsTheWithPostRequestForCancelJob(String endPoint) throws Throwable {
-        cancelJob.cancelJobPostCall(endPoint);
+    public void userHitsTheWithPostRequestForCancelJob(String endPoint) {
+        cancelJob.cancelJob(endPoint);
     }
 
-    @Then("^User verify cancelJob status code \"([^\"]*)\" for the response$")
-    public void userVerifyCancelJobStatusCodeForTheResponse(int statusCode) throws Throwable {
-        cancelJob.cancelJobPostCallStatusCode(statusCode);
+    @Then("^User verifies cancelJob status code \"([^\"]*)\" for the response$")
+    public void userVerifyCancelJobStatusCodeForTheResponse(int statusCode) {
+        cancelJob.cancelJobStatusCode(statusCode);
     }
 
     @Then("^User execute the query to update existing processing job status to the database$")
@@ -30,7 +30,7 @@ public class CancelJobStepdefs extends TestBase {
         cancelJob.updateStatus();
     }
 
-    @Then("^User verify API response isCanceled is true$")
+    @Then("^User verifies API response isCanceled is true$")
     public void userVerifyAPIResponseIsCanceledIsTrue() {
         cancelJob.verifyIsCanceledIsTrue();
     }
@@ -40,12 +40,12 @@ public class CancelJobStepdefs extends TestBase {
         cancelJob.verifyResponseFormatIsJSON();
     }
 
-    @Then("^User verify API response isCanceled is false$")
+    @Then("^User verifies API response isCanceled is false$")
     public void userVerifyAPIResponseIsCanceledIsFalse() {
         cancelJob.verifyIsCanceledIsFalse();
     }
 
-    @Then("^User verify API response error message$")
+    @Then("^User verifies API response error message$")
     public void userVerifyAPIResponseErrorMessage() {
         cancelJob.verifyErrorMessage();
     }
