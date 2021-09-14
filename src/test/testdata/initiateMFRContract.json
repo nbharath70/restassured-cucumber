@@ -1,0 +1,26 @@
+{
+  "manufacturer": {
+    "name": "Teva",
+    "manufacturerId": "TEVA001"
+  },
+  "contractHeader": {
+    "contractId": "",
+    "contractName": "QAAutomationContract",
+    "contractType": "Non-Part D",
+    "lifecycleStatus": "New",
+    "startDate": "1993-01-01",
+    "endDate": "1993-12-31",
+    "notes": "QAAutomationContract",
+    "autoRenewFlag": false,
+    "autoRenewTerm": null,
+    "autoRenewNotifyDate": null
+  },
+  "contractDetail": {
+    "contractId": "",
+    "contractDetailJson": {
+      "lineOfBusiness": [
+        "MedicareWrap"
+      ]
+    }
+  }
+}
