@@ -6,6 +6,7 @@ import org.junit.Assert;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class DataBaseHelper extends TestBase {
     public static Logger log=getMyLogger(DataBaseHelper.class);

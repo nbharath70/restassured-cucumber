@@ -29,7 +29,7 @@ public class CancelJob extends TestBase {
     /**
      * cancelJoBData Method is used to create request payload data for cancelJob
      * @uthor Arun Kumar
-     *  @param dataTable
+     * @param dataTable
      */
     public void cancelJoBData(DataTable dataTable)
     {
@@ -43,11 +43,11 @@ public class CancelJob extends TestBase {
         }
     }
     /**
-     * cancelJobPostCall method is used to hit the endpoint
+     * cancelJob method is used to hit the endpoint
      * @uthor Arun Kumar
      * @param endPoint
      */
-    public void cancelJobPostCall(String endPoint)
+    public void cancelJob(String endPoint)
     {
         cancelProcessingJobId.add(processingJobId);
         response = postOperation(endPoint, cancelProcessingJobId);
@@ -63,11 +63,11 @@ public class CancelJob extends TestBase {
     }
 
     /**
-     * This method is used to validate the status code of cancelJobPostCall
+     * This method is used to validate the status code of cancelJob
      * @uthor Arun Kumar
      * @param statusCode
      */
-    public void cancelJobPostCallStatusCode(int statusCode)
+    public void cancelJobStatusCode(int statusCode)
     {
         verificationHelperClass.verifyStatusCode(response, statusCode);
         log.info("createNewRebateProgramPostCall StatusCode is " + statusCode + " and its Pass");
@@ -77,20 +77,22 @@ public class CancelJob extends TestBase {
      * This method is used to execute query and get ProcessingJobId
      * @param query
      * @param status
+     * @Author Arun Kumar
      */
     public void getProcessingJobId(String query,String status) {
         try {
-            ResultSet getProJobId = dataBaseHelper.executePreparedQuery(query, status);
-            getProJobId.next();
-            processingJobId = getProJobId.getString("PROCESSING_JOB_RUN_ID");
+            ResultSet rs = dataBaseHelper.executePreparedQuery(query, status);
+            rs.next();
+            processingJobId = rs.getString("PROCESSING_JOB_RUN_ID");
             processingJobStatus=status;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     /**
      * This method is used to update older status after cancelling the job
+     * @Author Arun Kumar
      */
     public void updateStatus(){
         try {
@@ -101,6 +103,10 @@ public class CancelJob extends TestBase {
         }
     }
 
+    /**
+     * This method is used to verify IsCanceled True
+     * @Author Arun Kumar
+     */
     public void verifyIsCanceledIsTrue()
     {
         String actualJsonMsg = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "cancelJobTrueMsgJson");
@@ -108,6 +114,10 @@ public class CancelJob extends TestBase {
         verificationHelperClass.verifyAPIResponseJsonWithDBJson(response,actualJsonMsg,jsonPath);
     }
 
+    /**
+     * This method is used to verify IsCanceled false
+     * @Author Arun Kumar
+     */
     public void verifyIsCanceledIsFalse()
     {
         String actualJsonMsg = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "cancelJobErrorMessage");
@@ -115,6 +125,10 @@ public class CancelJob extends TestBase {
         verificationHelperClass.verifyAPIResponseJsonWithDBJson(response,actualJsonMsg,jsonPath);
     }
 
+    /**
+     * This method is used to verify error message from the response body
+     * @Author Arun Kumar
+     */
     public void verifyErrorMessage()
     {
         String actualJsonMsg = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "cancelJobErrorMessage");
@@ -122,6 +136,10 @@ public class CancelJob extends TestBase {
         verificationHelperClass.verifyAPIResponseJsonWithDBJson(response,actualJsonMsg,jsonPath);
     }
 
+    /**
+     * This method is used to verify error message from the response body
+     * @Author Arun Kumar
+     */
     public void verifyNoJobExistsErrorMessage()
     {
         String actualJsonMsg = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "noJobRunExists");
@@ -129,6 +147,10 @@ public class CancelJob extends TestBase {
         verificationHelperClass.verifyAPIResponseJsonWithDBJson(response,actualJsonMsg,jsonPath);
     }
 
+    /**
+     * This method is used to get processingJobId
+     * @Author Arun Kumar
+     */
     public void invalidProcessingJobID()
     {
         String invalidID = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "invalidProcessingJobID");
