@@ -13,14 +13,14 @@ public class CreateDrugGroupStepdefs extends TestBase {
         createDrugGroup.deleteDrugGroupFromDB(query,colName);
     }
 
-    @Given("^User create the Create new group details data$")
+    @Given("^User creates a new drug group$")
     public void userCreateTheCreateNewGroupDetailsData(DataTable dataTable) {
         createDrugGroup.createNewDrugGroupDetails(dataTable);
     }
 
     @Then("^User hits the \"([^\"]*)\" with post request of CreateNewDrugGroup$")
     public void userHitsTheWithPostRequestOfCreateNewDrugGroup(String endPoint) throws Throwable {
-        createDrugGroup.createNewDrugGroupPostCall(endPoint);
+        createDrugGroup.createNewDrugGroup(endPoint);
     }
 
     @Then("^User verify create new drug group status code \"([^\"]*)\" for the response$")
