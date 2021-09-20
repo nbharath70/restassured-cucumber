@@ -55,7 +55,7 @@ public class CreateDrugGroup extends TestBase {
      * @uthor Arun Kumar
      * @param endPoint
      */
-    public void createNewDrugGroupPostCall(String endPoint)
+    public void createNewDrugGroup(String endPoint)
     {
         log.info("Create new drug group request & response payload of post operation API");
         response = postOperation(endPoint, createDrugGroupPojo);
