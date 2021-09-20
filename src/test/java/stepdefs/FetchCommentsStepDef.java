@@ -4,21 +4,11 @@ import baseSteps.FetchComments;
 import cucumber.api.DataTable;
 import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
+import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 
 public class FetchCommentsStepDef extends TestBase {
     FetchComments fetchComments= new FetchComments();
-
-    @Then("^User creates the manufacture contract data requestBody$")
-    public void userUpdateManufactureContractData(DataTable dataTable) {
-        fetchComments.updateExistingManufactureContractDetails(dataTable);
-    }
-
-    @Then("^User hits the \"([^\"]*)\" API update manufacture contract post request$")
-    public void userHitsTheUpdateManufactureContractPostRequest(String endPoint) {
-        fetchComments.updateManufactureContractPutCall(endPoint);
-        fetchComments.getProcessInstance();
-    }
 
     @Then("^User creates the request Body for Capture Comments API$")
     public void userCreatesTheRequestBodyOfAPIForCaptureCommentsAPI(DataTable dataTable) {
@@ -29,11 +19,6 @@ public class FetchCommentsStepDef extends TestBase {
     public void userHitsTheAPIWithRequestBody(String endPoint)  {
         fetchComments.hitEndpoint(endPoint);
     }
-
-//    @Then("^User Deletes the task asociated with this task with query \"([^\"]*)\"$")
-//    public void userDeletesTheTaskAsociatedWithThisTaskWithQuery(String query){
-//        fetchComments.deleteTask(query);
-//    }
 
     @And("^User hits the API \"([^\"]*)\" API with request body$")
     public void thenUserHitsTheAPIAPIWithRequestBody(String endpoint) {
@@ -54,7 +39,7 @@ public class FetchCommentsStepDef extends TestBase {
 
     @Then("^User verifies the FetchCommentsAPI StatusCode is \"([^\"]*)\"$")
     public void userVerifiesTheFetchCommentsAPIStatusCodeIs(int StatusCode) {
-        fetchComments.verifyStatusCodeOfFetchCommentsapi(StatusCode);
+        fetchComments.verifyStatusCodeOfFetchCommentsApi(StatusCode);
     }
 
     @Then("^User verifies fetchComments API the response in JSON Format$")
@@ -65,5 +50,32 @@ public class FetchCommentsStepDef extends TestBase {
     @Then("^User verifies the Response With DB using query \"([^\"]*)\"$")
     public void userVerifiesTheResponseWithDBUsingQuery(String query){
         fetchComments.verifyResponseWithDB(query);
+    }
+
+    @Given("^User creates the Contract and send it to rebate ops$")
+    public void userCreatesTheContractAndSendItToRebateOps() {
+        String procInsQueryKey="sqlToGetLatestTaskIdWithProcInstId";
+        fetchComments.createNewContractUpdateAndSendToRebateOps();
+        fetchComments.getTaskIdWithProcessInstanceId(procInsQueryKey);
+    }
+
+    @Then("^User deletes the contract using query \"([^\"]*)\"$")
+    public void userDeletesTheContractUsingQuery(String query)  {
+        fetchComments.deleteTheQAAutomationContract(query);
+    }
+
+    @Then("^User hits the \"([^\"]*)\" API and deletes the contract created$")
+    public void userHitsTheAPIAndDeletesTheContractCreated(String endpoint) {
+       fetchComments.discardContract(endpoint);
+    }
+
+    @Then("^User deletes the task associated with this contract \"([^\"]*)\"$")
+    public void userDeletesTheTaskAssociatedWithThisContract(String query)  {
+        fetchComments.deleteTask(query);
+    }
+
+    @Then("^User executes the query \"([^\"]*)\" and deletes the comments$")
+    public void userExecutesTheQueryAndDeletesTheComments(String query) {
+        fetchComments.deleteComments(query);
     }
 }

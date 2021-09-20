@@ -17,7 +17,7 @@ public class GetBenefitRulesByContractIDStepDefinition {
         getBenefitRules.userExecutesQueryAndGetsContractID(queryKey,columnKey);
     }
 
-    @And("^User Hits API \"([^\"]*)\" with Get request$")
+    @And("^User hits API \"([^\"]*)\"$")
     public void userHitsAPIWithGetRequest(String endPointKey)  {
         getBenefitRules.userHitsAPI(endPointKey);
     }
@@ -32,7 +32,7 @@ public class GetBenefitRulesByContractIDStepDefinition {
      */
     @And("^User executes query \"([^\"]*)\" and gets Json for columns benefitRuleId and benefitRuleName$")
     public void userExecutesQueryAndGetsJsonForColumnsAnd(String queryKey) {
-        getBenefitRules.executeQueryAndGet_benefitRuleId_And_benefitRuleNameAsJson(queryKey);
+        getBenefitRules.executeQueryAndGetBenefitRuleIdAndBenefitRuleNameAsJson(queryKey);
 
     }
 
@@ -44,7 +44,7 @@ public class GetBenefitRulesByContractIDStepDefinition {
     }
 
 
-    @Given("^User Hits API \"([^\"]*)\" with Get request and Invalid contract Id \"([^\"]*)\"$")
+    @Given("^User hits API \"([^\"]*)\" with invalid contractId \"([^\"]*)\"$")
     public void userHitsAPIWithGetRequestAndInvalidContractId(String endPointKey, String invalidContractId) {
         getBenefitRules.userHitsAPIWithInvalidContractId(endPointKey,invalidContractId);
     }

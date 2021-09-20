@@ -23,18 +23,18 @@ public class GetLOBsByContractRowkey {
         Scenario: get LOBS for a valid contract and verify the correct status code is returned */
 
     @Given("^User executes query \"([^\"]*)\" and gets value for column \"([^\"]*)\"$")
-    public void user_connects_to_db_and_executes_query_and_gets_value_for_rowkey_col(String queryKey, String columnNameKey) {
-        getLobsBaseSteps.get_value_for_rowkey_col_from_DB(queryKey,columnNameKey);
+    public void userConnectsToDbAndExecutesQueryAndGetsValueForRowkeyCol(String queryKey, String columnNameKey) {
+        getLobsBaseSteps.getValueForRowkeyColFromDb(queryKey,columnNameKey);
     }
 
-    @And("^User Hits \"([^\"]*)\" with Get API request$")
+    @And("^User hits \"([^\"]*)\" API$")
     public void userHitsEndPointWithGetAPIRequest(String endPointUrl)  {
-        getLobsBaseSteps.hitEndPointWithGetAPIRequest(endPointUrl);
+        getLobsBaseSteps.hitEndPoint(endPointUrl);
     }
 
     @Then("^User verifies the valid status code \"([^\"]*)\" in get LOBs API response$")
-    public void userVerifiesTheValidStatusCodeInGetLOBsAPIResponse(int expectedStatusCode) throws Throwable {
-        getLobsBaseSteps.VerifyTheValidStatusCodeInGetLOBsAPIResponse(expectedStatusCode);
+    public void userVerifiesTheValidStatusCodeInGetLOBsAPIResponse(int expectedStatusCode) {
+        getLobsBaseSteps.validateStatusCode(expectedStatusCode);
     }
 
 
@@ -42,7 +42,7 @@ public class GetLOBsByContractRowkey {
         Scenario: get LOBS for a valid contract and verify it from DB */
 
     @And("^User executes query \"([^\"]*)\" and gets Contract \"([^\"]*)\" from DB$")
-    public void userExecutesQueryAndGetsContractFromDB(String queryKey, String columnNameKey) throws Throwable {
+    public void userExecutesQueryAndGetsContractFromDB(String queryKey, String columnNameKey){
         getLobsBaseSteps.executeQueryAndGetContractFromDB(queryKey,columnNameKey);
     }
 
@@ -53,22 +53,22 @@ public class GetLOBsByContractRowkey {
 
     @Given("^User executes \"([^\"]*)\" and gets value for column \"([^\"]*)\"$")
     public void userExecutesAndGetsValueForColumn(String queryKey, String columnNameKey)  {
-        getLobsBaseSteps.get_value_for_rowkey_from_DB_and_generate_invalidRowkey(queryKey,columnNameKey);
+        getLobsBaseSteps.getValueForRowkeyFromDbAndGenerateInvalidRowkey(queryKey,columnNameKey);
 
     }
 
     @Then("^User verifies API response with error msg \"([^\"]*)\"$")
-    public void userVerifiesAPIResponseWithErrorMsg(String errorMsgKey) throws Throwable {
-        getLobsBaseSteps.verifyAPIResponsewithErrorMsg(errorMsgKey);
+    public void userVerifiesAPIResponseWithErrorMsg(String errorMsgKey) {
+        getLobsBaseSteps.verifyAPIResponseWithErrorMsg(errorMsgKey);
     }
 
     @Given("^User Hits \"([^\"]*)\" with blank rowKey and Get API request$")
-    public void userHitsEndPointWithBlankRowKeyAndGetAPIRequest(String endPointKey) throws Throwable {
+    public void userHitsEndPointWithBlankRowKeyAndGetAPIRequest(String endPointKey){
         getLobsBaseSteps.hitsEndPointWithBlankRowKeyAndGetAPIRequest(endPointKey);
     }
 
     @Then("^User verifies API response with Blank Contract RowKey error msg \"([^\"]*)\"$")
-    public void userVerifiesAPIResponseWithBlankContractRowKeyErrorMsg(String errorMsgKey) throws Throwable {
+    public void userVerifiesAPIResponseWithBlankContractRowKeyErrorMsg(String errorMsgKey) {
         getLobsBaseSteps.verifyAPIResponsewithBlankContractRowKeyErrorMsg(errorMsgKey);
     }
 

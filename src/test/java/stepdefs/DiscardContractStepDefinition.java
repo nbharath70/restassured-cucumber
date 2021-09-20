@@ -49,17 +49,17 @@ public class DiscardContractStepDefinition {
     }
 
     @Then("^User runs \"([^\"]*)\" query and verify is_Current_Flag value as zero in database$")
-    public void userRunsQueryAndVerifyIs_Current_FlagValueAsZeroInDatabase(String query) throws Throwable {
+    public void userRunsQueryAndVerifyIs_Current_FlagValueAsZeroInDatabase(String query) {
         discardContract.verifyDiscardContractFromDB(query);
     }
 
     @Then("^User valid Response discarded contract body key \"([^\"]*)\" of string$")
-    public void userValidResponseDiscardedContractBodyKeyAndExpectedValueOfString(String actual) throws Throwable {
+    public void userValidResponseDiscardedContractBodyKeyAndExpectedValueOfString(String actual){
         discardContract.validateCreateDrugGroupResponseByString(actual);
     }
 
     @Then("^User verify the discard contract response header Error Code value \"([^\"]*)\"$")
-    public void userVerifyTheDiscardContractResponseHeaderErrorCodeValue(String expectedErrorCode) throws Throwable {
+    public void userVerifyTheDiscardContractResponseHeaderErrorCodeValue(String expectedErrorCode) {
         discardContract.verifyDiscardContractResponseHeaderErrorCode(expectedErrorCode);
     }
 }

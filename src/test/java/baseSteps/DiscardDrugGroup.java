@@ -112,8 +112,8 @@ public class DiscardDrugGroup extends TestBase {
 
     public void verifyinReviewResponseInJSON(String InReviewDrugGroupErrorMessage){
         String discardInReviewErrorMessageJsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "JsonPathForErrorMessage");
-        String expectedInReviewrrorMessage=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "InReviewDrugGroupErrorMessage");
-        verificationHelperClass.verifyAPIResponseErrorMessage(discardDrugGroupResponse,expectedInReviewrrorMessage,discardInReviewErrorMessageJsonPath);
+        String expectedDiscardInReviewErrorMessage=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "InReviewDrugGroupErrorMessage");
+        verificationHelperClass.verifyAPIResponseErrorMessage(discardDrugGroupResponse,expectedDiscardInReviewErrorMessage,discardInReviewErrorMessageJsonPath);
     }
     /**
      * @uthour Smruti

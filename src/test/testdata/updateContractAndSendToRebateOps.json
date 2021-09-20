@@ -23,15 +23,19 @@
       "billingCycle": "MON",
       "submissionWindow": "30",
       "resubmissionWindow": "60",
-      "paymentTerms": "30",
       "thirdPartyAuth": "true",
       "opsAssignee": null,
       "opsQCer": null,
+      "requestMarketBasket": false,
+      "manageMarketBasket": "AutoAdd",
       "payment": {
+        "paymentTerms": "30",
         "disputeDays": "30",
         "lateFee": "AMT",
         "lateFeeFixed": "3",
         "paymentBackup": "true",
+        "resetPayment": "false",
+        "paymentBackup": "false",
         "NCPDPReconFile": "true"
       },
       "audit": {
@@ -58,6 +62,9 @@
     "contractType": "Non-Part D",
     "contractName": "QAAutomationContract",
     "contractDocReference": null,
+    "autoRenewFlag": "N",
+    "autoRenewTerm": null,
+    "autoRenewNotifyDate": null,
     "notes": "QAAutomationContractUpdated"
   },
   "manufacturer": {

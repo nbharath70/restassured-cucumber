@@ -3,93 +3,68 @@ package baseSteps;
 import HelperClass.DataBaseHelper;
 import HelperClass.ResourcePath;
 import HelperClass.VerificationHelperClass;
+import HelperClass.UtilitiesClass;
 import RequestPojo.*;
 import RequestPojo.DisContractPojo.DiscardContractPojo;
 import TestBase.TestBase;
-import com.jayway.jsonpath.JsonPath;
 import cucumber.api.DataTable;
 import io.restassured.response.Response;
 import org.apache.log4j.Logger;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class CaptureCommentsAPI extends TestBase {
-    Response response;
     DataBaseHelper dataBaseHelper=new DataBaseHelper();
+    UtilitiesClass utilities=new UtilitiesClass();
     public VerificationHelperClass verificationHelperClass = new VerificationHelperClass();
     public CaptureCommentsPojo captureCommentsPojo=new CaptureCommentsPojo();
     public CaptureCommentsPojo invalidcaptureCommentsPojo=new CaptureCommentsPojo();
     public DiscardContractPojo discardContractPojo;
     public static Logger log = getMyLogger(InitiateNewManufactureContract.class);
-    InitManufactureContract initManufactureContractObject;
-    private String contractName=null;
     private String commentDetailsFromDB;
     private String contractId;
+    private String contractRowKey;
     private Response captureCommentsResponse;
-    private Response inValidCaptureCommentsReponse;
     private Response discardContractResponse;
-    private String taskID;
+    private String taskId;
     private String procIns;
 
+
     /**
-     * updateExistingManufactureContractDetails Method is used to update the manufacture contract detail data for init new manufacture contract
-     * @uthor Arun Kumar
-     *  @param dataTable
+     * @uthor: Bharath
+     *This Method is Used to create the new Contract and Sending the Same Contract Rebate ops
      */
-    public void updateExistingManufactureContractDetails(DataTable dataTable)
-    {
+    public void createNewContractUpdateAndSendToRebateOps() {
+        List<String> listOfContractIdandRowkey=utilities.initiateMFRContract();
+        contractId=listOfContractIdandRowkey.get(0);
+        contractRowKey=listOfContractIdandRowkey.get(1);
+        procIns=utilities.updateContractAndSendToRebateOps(contractId,Integer.parseInt(contractRowKey));
+
+    }
+
+    /**
+     * @uthor: Bharath
+     *This Method is Used to fetch the Task Id of the contract using processInstanceID
+     * @param queryKey-
+     */
+    public void getTaskIdWithProcessInstanceId(String queryKey) {
         try {
-            List<Map<String, String>> updateManufactureDetailData = dataTable.asMaps(String.class, String.class);
-            for (Map<String, String> map : updateManufactureDetailData) {
-                contractName = map.get("contractName");
-                ResultSet getContractId = dataBaseHelper.executePreparedQuery("getContractIdByContractName", map.get("contractName"));
-                getContractId.next();
-                contractId=getContractId.getString("Contract_ID");
-                ResultSet getRowKeyContractHeader = dataBaseHelper.executePreparedQuery("getRowKeyByContractName", map.get("contractName"));
-                getRowKeyContractHeader.next();
-                String rowKeyContractHeader=getRowKeyContractHeader.getString("Row_Key");
-                ResultSet getRowKeyContractDetail = dataBaseHelper.executePreparedQuery("getRowKeyByAmendmentName", map.get("contractName"));
-                getRowKeyContractDetail.next();
-                String rowKeyContractDetail=getRowKeyContractDetail.getString("Row_Key");
-                ContractDetailJson contractDetailJson1 = new ContractDetailJson();
-                contractDetailJson1.setLineOfBusiness(map.get("lineOfBusiness"));
-                ArrayList lineOfBusiness = contractDetailJson1.getLineOfBusiness();
-                contractDetailJson1.setLocations(map.get("locations"));
-                ArrayList locations = contractDetailJson1.getLocations();
-                Manufacturer manufacturerObject = new Manufacturer(map.get("ManufacturerId"), map.get("name"), Boolean.valueOf(map.get("currentFlag")));
-                ContractHeader contractHeaderObject = new ContractHeader(Integer.valueOf(rowKeyContractHeader) ,contractId, map.get("ManufacturerId"), map.get("contractType"), map.get("contractName"), map.get("startDate"), map.get("endDate"), map.get("recCreatedDate"), map.get("recCreatedBy"), map.get("recUpdatedDate"), map.get("recUpdatedBy"), map.get("lifecycleStatus"), map.get("contractDocReference"), map.get("notes"));
-                Payment paymentObj = new Payment(Integer.valueOf(map.get("disputeDays")), map.get("lateFee"), map.get("lateFeeFixed"), map.get("lateFeePct"), Boolean.valueOf(map.get("paymentBackup")), map.get("NCPDPReconFile"));
-                Audit auditObj = new Audit(map.get("frequency"), Integer.valueOf(map.get("lookback")), map.get("numScreenshots"), Boolean.valueOf(map.get("allowThirdPartyAuditor")), Boolean.valueOf(map.get("auditScreenshots")));
-                ContractDetailJson contractDetailJsonObject = new ContractDetailJson(Integer.valueOf(map.get("schemaVersion")), lineOfBusiness,locations, map.get("billingCycle"), Integer.valueOf(map.get("submissionWindow")), Integer.valueOf(map.get("resubmissionWindow")), Integer.valueOf(map.get("paymentTerms")), Boolean.valueOf(map.get("thirdPartyAuth")), map.get("opsAssignee"), map.get("opsQCer"), paymentObj, auditObj);
-                ContractDetail contractDetailObject = new ContractDetail(Integer.valueOf(rowKeyContractDetail),contractId, Integer.valueOf(map.get("amendmentNumber")), map.get("amendmentName"), map.get("lifecycleStatus"), map.get("startDate"), map.get("endDate"), Integer.valueOf(map.get("versionNumber")), map.get("recCreatedBy"), map.get("recCreatedDate"), map.get("recUpdatedBy"), map.get("recUpdatedDate"), contractDetailJsonObject);
-                initManufactureContractObject = new InitManufactureContract(manufacturerObject, contractHeaderObject, contractDetailObject);
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+            dataBaseHelper.connectToOtherDB("flowable");
+            ResultSet rs = dataBaseHelper.executePreparedQuery(queryKey, procIns);
+            rs.next();
+            taskId = rs.getString("taskId");
+            dataBaseHelper.disConnectToOtherDB();
+        }catch (Exception e){e.printStackTrace();}
+
     }
+
     /**
-     * This method is used to updateManufactureContractPutCall
-     * @uthor Arun Kumar
-     * @param endPoint
+     * @uthor: Bharath
+     *This Method is Used to create  the Comments Request body
+     * @param dataTable-
      */
-    public void updateManufactureContractPutCall(String endPoint)
-    {
-        response = postOperation(endPoint, initManufactureContractObject);
-    }
-    public void getProcessInstance(){
-        String instanceIdJsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"processInstanceIdJsonPath");
-        String processInstanceArray=JsonPath.read(response.asString(),instanceIdJsonPath).toString();
-        String a=processInstanceArray.replace("[","");
-        String b=a.replace("]","");
-        procIns=b.replaceAll("^\"|\"$", "");
-
-    }
-
     public void createRequestBody(DataTable dataTable){
       try{
           List<Map<String, String>> captureComments = dataTable.asMaps(String.class, String.class);
@@ -106,10 +81,20 @@ public class CaptureCommentsAPI extends TestBase {
       }
     }
 
+    /**
+     * @uthor: Bharath
+     *This Method is Used to hit the endpoint
+     * @param enpoint-
+     */
     public void hitEndpoint(String enpoint){
         captureCommentsResponse=postOperation(enpoint,captureCommentsPojo);
     }
 
+    /**
+     * @uthor: Bharath
+     *This Method is Used to create the Invalid Request body
+     * @param dataTable-
+     */
     public void createInValidRequestBody(DataTable dataTable){
         try{
             List<Map<String, String>> captureComments = dataTable.asMaps(String.class, String.class);
@@ -125,39 +110,53 @@ public class CaptureCommentsAPI extends TestBase {
             e.printStackTrace();
         }
     }
-    public void fetchTaskID(String query)  {
-        try {
-            dataBaseHelper.connectToOtherDB("Flowable");
-            ResultSet resultSet=dataBaseHelper.executePreparedQuery(query,contractId);
-            resultSet.next();
-            taskID=resultSet.getString("ID_");
-            dataBaseHelper.disConnectToOtherDB();
-        }catch (SQLException e){
-            e.printStackTrace();
-            dataBaseHelper.disConnectToOtherDB();
-        }
 
-    }
-
+    /**
+     * @uthor: Bharath
+     *This Method is Used to hit the endpoint with invalid request
+     * @param enpoint-
+     */
     public void hitEndpointWithInvalidRquest(String enpoint){
         captureCommentsResponse=postOperation(enpoint,invalidcaptureCommentsPojo);
     }
+
+    /**
+     * @uthor: Bharath
+     *This Method is Used to delete the Commments
+     * @param query-
+     */
     public void deleteComments(String query){
         dataBaseHelper.executeUpdatePreparedQueryAsString(query,contractId);
     }
+
     public void deleteTask(String query){
         dataBaseHelper.connectToOtherDB("Flowable");
         dataBaseHelper.executeUpdatePreparedQueryAsString(query,procIns);
         dataBaseHelper.disConnectToOtherDB();
     }
+
+    /**
+     * @uthor: Bharath
+     *This Method is Used to check the Status code
+     * @param StatusCode-
+     */
     public void verifyStatusCodeOFapi(int StatusCode){
         verificationHelperClass.verifyStatusCode(captureCommentsResponse,StatusCode);
     }
 
+    /**
+     * @uthor: Bharath
+     *This Method is Used to verify the response in in Json format
+     */
     public void verifyJsonResponse(){
         verifyResponseFormatIsJSON();
     }
 
+    /**
+     * @uthor: Bharath
+     *This Method is Used to verify the Response with DB
+     * @param query-
+     */
     public void verifyCommentsResponseWithDB(String query){
         ResultSet resultSet=dataBaseHelper.executePreparedQuery(query,contractId);
         String resultColumnName=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"resultColumnName");
@@ -176,6 +175,10 @@ public class CaptureCommentsAPI extends TestBase {
 
     }
 
+    /**
+     * @uthor: Bharath
+     *This Method is Used to verify error message for invalid scenarios
+     */
     public void verifyErrorMessage(){
         String inValidMessageWithoutParameterReplaced=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"invalidCatagoryIDMessage");
         String invalidcatagoryID=invalidcaptureCommentsPojo.getCategoryId();
@@ -183,27 +186,32 @@ public class CaptureCommentsAPI extends TestBase {
         String invlidMessageJsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"JsonPathForErrorMessage");
         verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(captureCommentsResponse,invalidMeaageWithReplacedValue,invlidMessageJsonPath,invlidMessageJsonPath);
     }
+
     /**
      * This method is used to discard the manufacture contract
-     * @uthor Arun Kumar
+     * @uthor Bharath
      * @param endpoint
-     * @param rowKey
      */
-    public void discardContract(String endpoint,String rowKey,String ContractName)
+    public void discardContract(String endpoint)
     {
         try {
-            ResultSet getContractId = dataBaseHelper.executePreparedQuery("getContractIdByContractName", ContractName);
-            getContractId.next();
-            contractId = getContractId.getString("Contract_ID");
-            ResultSet getRowKeyContractDetails = dataBaseHelper.executePreparedQuery("getRowKeyByAmendmentName",ContractName);
-            getRowKeyContractDetails.next();
-            int rowKeyContractDetail = Integer.valueOf(getRowKeyContractDetails.getString("Row_Key"));
-            discardContractPojo=new DiscardContractPojo(taskID,contractId,rowKeyContractDetail);
+
+            discardContractPojo=new DiscardContractPojo(taskId,contractId,Integer.valueOf(contractRowKey));
             discardContractResponse = deleteOperation(endpoint, discardContractPojo);
             log.info("Response is "+discardContractResponse.asString());
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    /**
+     * This method is used to delete the Contracts Created
+     * @uthor Bharath
+     * @param queryKey
+     */
+    public void deleteTheQAAutomationContract(String queryKey) {
+        String deleteQuery=dataBaseHelper.replaceMultipleQueryParamWithOneString(queryKey,contractId);
+        dataBaseHelper.executeDeleteQueryWithoutreadingFromPropFile(deleteQuery);
     }
 
 }

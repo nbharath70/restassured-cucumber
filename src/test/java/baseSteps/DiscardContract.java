@@ -60,6 +60,7 @@ public class DiscardContract extends TestBase {
             e.printStackTrace();
         }
     }
+
     /**
      * @uthour Smruti
      * This method hits deleteOperation  end point and logs the response
@@ -72,9 +73,21 @@ public class DiscardContract extends TestBase {
        log.info("Response is "+discardContractResponse.asString());
     }
 
+    /**
+     * @uthour Smruti
+     * This method is used verify the Status code of
+     * @param StatusCode-
+     */
     public void verifyStatusCodeofDiscardContractAPI(int StatusCode){
         verificationHelperClass.verifyStatusCode(discardContractResponse,StatusCode);
     }
+
+    /**
+     * @uthour Smruti
+     * This method is used verify the Status code of
+     * @param contractHeader-
+     * @param contractDetails-
+     */
     public void reactivateContracts(String contractHeader, String contractDetails){
         dbHepler.executeUpdatePreparedQuery(contractHeader,rowKeyVal);
         dbHepler.executeUpdatePreparedQuery(contractDetails,rowKeyVal);
@@ -114,6 +127,11 @@ public class DiscardContract extends TestBase {
 
     }
 
+    /**
+     * @uthour Smruti
+     * This method is used to verify IsCurrent Flag of Contract is Changed to 0
+     * @param query-
+     */
     public void verifyDiscardContractFromDB(String query)
     {
         try {

@@ -27,6 +27,7 @@
       "thirdPartyAuth": true,
       "opsAssignee": null,
       "opsQCer": null,
+      "requestMarketBasket": false,
       "payment": {
         "disputeDays": 30,
         "lateFee": "AMT",

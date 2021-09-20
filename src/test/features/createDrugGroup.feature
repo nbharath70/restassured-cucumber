@@ -1,9 +1,9 @@
 Feature:Retrieve and validate the Create new Drug group details
 
   @Smoke
-  Scenario: Validate Create new Drug group details creation and verify correct status code with response body is returned
-    Then User executes the delete existing DrugGroup query "deleteDrugGroupByName" and List name "QAAutomation%" to delete the record from the database
-    Given User create the Create new group details data
+  Scenario: create new DrugGroup verify correct status code
+    Given User executes the delete existing DrugGroup query "deleteDrugGroupByName" and List name "QAAutomation%" to delete the record from the database
+    And User create the Create new group details data
       | mfrId    | drugGroupName      | drugGroupType |
       | ASTRA001 | QAAutomation_Drug1 | Rebateable    |
     Then User hits the "createNewDrugGroupDetails" with post request of CreateNewDrugGroup
@@ -14,8 +14,8 @@ Feature:Retrieve and validate the Create new Drug group details
 
   @Functional
   Scenario: validation results existing  drug group exists
-    Then User executes the delete existing DrugGroup query "deleteDrugGroupByName" and List name "QAAutomation%" to delete the record from the database
-    Given User create the Create new group details data
+    Given User executes the delete existing DrugGroup query "deleteDrugGroupByName" and List name "QAAutomation%" to delete the record from the database
+    And User create the Create new group details data
       | mfrId    | drugGroupName      | drugGroupType |
       | ASTRA001 | QAAutomation_Drug1 | Rebateable    |
     Then User hits the "createNewDrugGroupDetails" with post request of CreateNewDrugGroup
@@ -23,7 +23,7 @@ Feature:Retrieve and validate the Create new Drug group details
     Then User verify the valid CreateNewDrugGroup Response body key "recordSaved" and expected value "true"
     Then User verify the valid CreateNewDrugGroup Response body key "recordUpdated" and expected value "false"
     Then User verify the valid Response body key "mfrDrugListId" and execute the query "QAAutomation_Drug1" matches the Drug groupID return from API and DB
-    Given User create the Create new group details data
+    And User create the Create new group details data
       | mfrId    | drugGroupName      | drugGroupType |
       | ASTRA001 | QAAutomation_Drug1 | Rebateable    |
     Then User hits the "createNewDrugGroupDetails" with post request of CreateNewDrugGroup
@@ -35,8 +35,8 @@ Feature:Retrieve and validate the Create new Drug group details
 
   @Functional
   Scenario: validation Blank input response of mfrId,drugGroupName and drugGroupType
-    Then User executes the delete existing DrugGroup query "deleteDrugGroupByName" and List name "QAAutomation%" to delete the record from the database
-    Given User create the Create new group details data
+    Given User executes the delete existing DrugGroup query "deleteDrugGroupByName" and List name "QAAutomation%" to delete the record from the database
+    And User create the Create new group details data
       | mfrId | drugGroupName | drugGroupType |
       |       |               |               |
     Then User hits the "createNewDrugGroupDetails" with post request of CreateNewDrugGroup
@@ -46,8 +46,8 @@ Feature:Retrieve and validate the Create new Drug group details
 
   @Regression @Functional
   Scenario: validation Invalid manufactureId
-    Then User executes the delete existing DrugGroup query "deleteDrugGroupByName" and List name "QAAutomation%" to delete the record from the database
-    Given User create the Create new group details data
+    Given User executes the delete existing DrugGroup query "deleteDrugGroupByName" and List name "QAAutomation%" to delete the record from the database
+    And User create the Create new group details data
       | mfrId | drugGroupName      | drugGroupType |
       | Test  | QAAutomation_Drug2 | Rebateable    |
     Then User hits the "createNewDrugGroupDetails" with post request of CreateNewDrugGroup
@@ -57,8 +57,8 @@ Feature:Retrieve and validate the Create new Drug group details
 
   @Regression @Functional
   Scenario: validation Invalid drugGroupName
-    Then User executes the delete existing DrugGroup query "deleteDrugGroupByName" and List name "QAAutomation%" to delete the record from the database
-    Given User create the Create new group details data
+    Given User executes the delete existing DrugGroup query "deleteDrugGroupByName" and List name "QAAutomation%" to delete the record from the database
+    And User create the Create new group details data
       | mfrId    | drugGroupName       | drugGroupType |
       | ASTRA001 | #QAAutomation_Drug2 | Rebateable    |
     Then User hits the "createNewDrugGroupDetails" with post request of CreateNewDrugGroup

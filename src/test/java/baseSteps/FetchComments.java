@@ -2,8 +2,10 @@ package baseSteps;
 
 import HelperClass.DataBaseHelper;
 import HelperClass.ResourcePath;
+import HelperClass.UtilitiesClass;
 import HelperClass.VerificationHelperClass;
 import RequestPojo.*;
+import RequestPojo.DisContractPojo.DiscardContractPojo;
 import com.jayway.jsonpath.JsonPath;
 import cucumber.api.DataTable;
 import io.restassured.response.Response;
@@ -20,75 +22,55 @@ public class FetchComments extends TestBase{
     Response response;
     DataBaseHelper dataBaseHelper=new DataBaseHelper();
     public VerificationHelperClass verificationHelperClass = new VerificationHelperClass();
+    UtilitiesClass utilities=new UtilitiesClass();
     public CaptureCommentsPojo captureCommentsPojo=new CaptureCommentsPojo();
+    public DiscardContractPojo discardContractPojo;
     public FetchCommentsPojo fetchCommentsPojo=new FetchCommentsPojo();
     public static Logger log = getMyLogger(InitiateNewManufactureContract.class);
-    InitManufactureContract initManufactureContractObject;
-    ResultSet resultSet;
-    private String contractName=null;
+    private String contractRowKey;
     private String contractId;
     private Response captureCommentsResponse;
     private Response fetchCommentsResponse;
+    private Response discardContractResponse;
     private String procIns;
-    private String taskID;
+    private String taskId;
     private String commentsDetailsJson;
 
 
     /**
-     * updateExistingManufactureContractDetails Method is used to update the manufacture contract detail data for init new manufacture contract
-     * @uthor Arun Kumar
-     *  @param dataTable
+     * @uthor: Bharath
+     *This Method is Used to create the new Contract and Sending the Same Contract Rebate ops
      */
-    public void updateExistingManufactureContractDetails(DataTable dataTable)
-    {
-        try {
-            List<Map<String, String>> updateManufactureDetailData = dataTable.asMaps(String.class, String.class);
-            for (Map<String, String> map : updateManufactureDetailData) {
-                contractName = map.get("contractName");
-                ResultSet getContractId = dataBaseHelper.executePreparedQuery("getContractIdByContractName", map.get("contractName"));
-                getContractId.next();
-                contractId=getContractId.getString("Contract_ID");
-                ResultSet getRowKeyContractHeader = dataBaseHelper.executePreparedQuery("getRowKeyByContractName", map.get("contractName"));
-                getRowKeyContractHeader.next();
-                String rowKeyContractHeader=getRowKeyContractHeader.getString("Row_Key");
-                ResultSet getRowKeyContractDetail = dataBaseHelper.executePreparedQuery("getRowKeyByAmendmentName", map.get("contractName"));
-                getRowKeyContractDetail.next();
-                String rowKeyContractDetail=getRowKeyContractDetail.getString("Row_Key");
-                ContractDetailJson contractDetailJson1 = new ContractDetailJson();
-                contractDetailJson1.setLineOfBusiness(map.get("lineOfBusiness"));
-                ArrayList lineOfBusiness = contractDetailJson1.getLineOfBusiness();
-                contractDetailJson1.setLocations(map.get("locations"));
-                ArrayList locations = contractDetailJson1.getLocations();
-                Manufacturer manufacturerObject = new Manufacturer(map.get("ManufacturerId"), map.get("name"), Boolean.valueOf(map.get("currentFlag")));
-                ContractHeader contractHeaderObject = new ContractHeader(Integer.valueOf(rowKeyContractHeader) ,contractId, map.get("ManufacturerId"), map.get("contractType"), map.get("contractName"), map.get("startDate"), map.get("endDate"), map.get("recCreatedDate"), map.get("recCreatedBy"), map.get("recUpdatedDate"), map.get("recUpdatedBy"), map.get("lifecycleStatus"), map.get("contractDocReference"), map.get("notes"));
-                Payment paymentObj = new Payment(Integer.valueOf(map.get("disputeDays")), map.get("lateFee"), map.get("lateFeeFixed"), map.get("lateFeePct"), Boolean.valueOf(map.get("paymentBackup")), map.get("NCPDPReconFile"));
-                Audit auditObj = new Audit(map.get("frequency"), Integer.valueOf(map.get("lookback")), map.get("numScreenshots"), Boolean.valueOf(map.get("allowThirdPartyAuditor")), Boolean.valueOf(map.get("auditScreenshots")));
-                ContractDetailJson contractDetailJsonObject = new ContractDetailJson(Integer.valueOf(map.get("schemaVersion")), lineOfBusiness,locations, map.get("billingCycle"), Integer.valueOf(map.get("submissionWindow")), Integer.valueOf(map.get("resubmissionWindow")), Integer.valueOf(map.get("paymentTerms")), Boolean.valueOf(map.get("thirdPartyAuth")), map.get("opsAssignee"), map.get("opsQCer"), paymentObj, auditObj);
-                ContractDetail contractDetailObject = new ContractDetail(Integer.valueOf(rowKeyContractDetail),contractId, Integer.valueOf(map.get("amendmentNumber")), map.get("amendmentName"), map.get("lifecycleStatus"), map.get("startDate"), map.get("endDate"), Integer.valueOf(map.get("versionNumber")), map.get("recCreatedBy"), map.get("recCreatedDate"), map.get("recUpdatedBy"), map.get("recUpdatedDate"), contractDetailJsonObject);
-                initManufactureContractObject = new InitManufactureContract(manufacturerObject, contractHeaderObject, contractDetailObject);
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+    public void createNewContractUpdateAndSendToRebateOps() {
+        List<String> listOfContractIdAndRowkey=utilities.initiateMFRContract();
+        contractId=listOfContractIdAndRowkey.get(0);
+        contractRowKey=listOfContractIdAndRowkey.get(1);
+        procIns=utilities.updateContractAndSendToRebateOps(contractId,Integer.parseInt(contractRowKey));
+
     }
+
     /**
-     * This method is used to updateManufactureContractPutCall
-     * @uthor Arun Kumar
-     * @param endPoint
+     * @uthor: Bharath
+     *This Method is Used to fetch the Task Id of the contract using processInstanceID
+     * @param queryKey-
      */
-    public void updateManufactureContractPutCall(String endPoint)
-    {
-        response = postOperation(endPoint, initManufactureContractObject);
-    }
-    public void getProcessInstance(){
-        String instanceIdJsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"processInstanceIdJsonPath");
-        String processInstanceArray= JsonPath.read(response.asString(),instanceIdJsonPath).toString();
-        String a=processInstanceArray.replace("[","");
-        String b=a.replace("]","");
-        procIns=b.replaceAll("^\"|\"$", "");
+    public void getTaskIdWithProcessInstanceId(String queryKey) {
+        try {
+            dataBaseHelper.connectToOtherDB("flowable");
+            ResultSet rs = dataBaseHelper.executePreparedQuery(queryKey, procIns);
+            rs.next();
+            taskId = rs.getString("taskId");
+            dataBaseHelper.disConnectToOtherDB();
+        }catch (Exception e){e.printStackTrace();}
 
     }
 
+
+    /**
+     * @uthor: Bharath
+     *This Method is Used to create the Comments API request body
+     * @param dataTable-
+     */
     public void createRequestBody(DataTable dataTable){
         try{
             List<Map<String, String>> captureComments = dataTable.asMaps(String.class, String.class);
@@ -105,49 +87,84 @@ public class FetchComments extends TestBase{
         }
     }
 
-    public void hitEndpoint(String enpoint){
-        captureCommentsResponse=postOperation(enpoint,captureCommentsPojo);
+    /**
+     * @uthor: Bharath
+     *This Method is Used to hit the API endPoint
+     * @param endpoint-
+     */
+    public void hitEndpoint(String endpoint){
+        captureCommentsResponse=postOperation(endpoint,captureCommentsPojo);
     }
 
-
+    /**
+     * @uthor: Bharath
+     *This Method is Used to delete the Comments
+     * @param query-
+     */
     public void deleteComments(String query){
         dataBaseHelper.executeUpdatePreparedQueryAsString(query,contractId);
     }
+
+    /**
+     * @uthor: Bharath
+     *This Method is Used to delete the task
+     * @param query-
+     */
     public void deleteTask(String query){
         dataBaseHelper.connectToOtherDB("Flowable");
         dataBaseHelper.executeUpdatePreparedQueryAsString(query,procIns);
         dataBaseHelper.disConnectToOtherDB();
     }
+
+    /**
+     * @uthor: Bharath
+     *This Method is Used to verify the Status code of the comments
+     * @param StatusCode-
+     */
     public void verifyStatusCodeOfCaptureComments(int StatusCode) {
         verificationHelperClass.verifyStatusCode(captureCommentsResponse, StatusCode);
     }
-        public void verifyStatusCodeOfFetchCommentsapi(int StatusCode){
+
+    /**
+     * @uthor: Bharath
+     *This Method is Used to verify the Status code
+     * @param StatusCode-
+     */
+        public void verifyStatusCodeOfFetchCommentsApi(int StatusCode){
         verificationHelperClass.verifyStatusCode(captureCommentsResponse,StatusCode);
     }
 
+    /**
+     * @uthor: Bharath
+     *This Method is Used to verify the json Response
+     */
     public void verifyJsonResponse(){
       verifyResponseFormatIsJSON();
     }
-    public void hitFetchCommentsAPI(String enpoint){
-        fetchCommentsResponse=postOperation(enpoint,fetchCommentsPojo);
+
+    /**
+     * @uthor: Bharath
+     *This Method is Used to hit the Fetch Comments API
+     * @param endpoint-
+     */
+    public void hitFetchCommentsAPI(String endpoint){
+        fetchCommentsResponse=postOperation(endpoint,fetchCommentsPojo);
     }
 
+    /**
+     * @uthor: Bharath
+     *This Method is Used to create the Request body to hit the API
+     */
     public void createRequestBodyForFetchCommentsAPI(String query)  {
-        try {
-            dataBaseHelper.connectToOtherDB("Flowable");
-            resultSet=dataBaseHelper.executePreparedQuery(query,contractId);
-            resultSet.next();
-            taskID=resultSet.getString("ID_");
-            dataBaseHelper.disConnectToOtherDB();
-        }catch (SQLException e){
-            e.printStackTrace();
-            dataBaseHelper.disConnectToOtherDB();
-        }
         fetchCommentsPojo.setContractId(contractId);
-        fetchCommentsPojo.setTaskId(taskID);
+        fetchCommentsPojo.setTaskId(taskId);
     }
 
-
+    /**
+     * @uthor: Bharath
+     *This Method is Used to verify the response with DB
+     * @param query
+     */
     public void verifyResponseWithDB(String query){
         ResultSet resultSet=dataBaseHelper.executePreparedQuery(query,contractId);
         try {
@@ -157,18 +174,41 @@ public class FetchComments extends TestBase{
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        String recCreatedDatejsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"recCreatedDatejsonPathforFetchComments");
-        String recCreatedByjsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"recCreatedbyjsonPathforFetchComments");
-        String commentID=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"commentIdJsonPathforFetchComments");
-        String category=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"categoryJsonPathforFetchComments");
-        String event=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"eventJsonPathforFetchComments");
-        String categoryID=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"categoryIdJsonPathforFetchComments");
+        String recCreatedDateJsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"recCreatedDateJsonPathForFetchComments");
+        String recCreatedByJsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"recCreatedByJsonPathForFetchComments");
+        String commentID=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"commentIdJsonPathForFetchComments");
+        String category=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"categoryJsonPathForFetchComments");
+        String event=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"eventJsonPathForFetchComments");
+        String categoryID=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"categoryIdJsonPathForFetchComments");
 
-        verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(fetchCommentsResponse,commentsDetailsJson,recCreatedDatejsonPath,recCreatedDatejsonPath);
-        verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(fetchCommentsResponse,commentsDetailsJson,recCreatedByjsonPath,recCreatedByjsonPath);
+        verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(fetchCommentsResponse,commentsDetailsJson,recCreatedDateJsonPath,recCreatedDateJsonPath);
+        verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(fetchCommentsResponse,commentsDetailsJson,recCreatedByJsonPath,recCreatedByJsonPath);
         verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(fetchCommentsResponse,commentsDetailsJson,commentID,commentID);
         verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(fetchCommentsResponse,commentsDetailsJson,category,category);
         verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(fetchCommentsResponse,commentsDetailsJson,event,event);
         verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(fetchCommentsResponse,commentsDetailsJson,categoryID,categoryID);
     }
+
+    public void deleteTheQAAutomationContract(String queryKey) {
+        String deleteQuery=dataBaseHelper.replaceMultipleQueryParamWithOneString(queryKey,contractId);
+        dataBaseHelper.executeDeleteQueryWithoutreadingFromPropFile(deleteQuery);
+    }
+
+    /**
+     * This method is used to discard the manufacture contract
+     * @uthor Bharath
+     * @param endpoint
+     */
+    public void discardContract(String endpoint)
+    {
+        try {
+
+            discardContractPojo=new DiscardContractPojo(taskId,contractId,Integer.valueOf(contractRowKey));
+            discardContractResponse = deleteOperation(endpoint, discardContractPojo);
+            log.info("Response is "+discardContractResponse.asString());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
 }

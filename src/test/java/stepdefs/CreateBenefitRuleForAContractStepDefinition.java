@@ -12,7 +12,7 @@ import cucumber.api.java.en.When;
 public class CreateBenefitRuleForAContractStepDefinition  {
     CreateBenefitRuleForAContract createAndValidateBenefitRule=new CreateBenefitRuleForAContract();
 
-    @And("^User create the BenefitRuleData$")
+    @And("^User create the benefitRuleData$")
     public void userCreateTheBenefitRuleData(DataTable dataTable) {
         createAndValidateBenefitRule.createBenefitRuleJSONBody(dataTable);
     }
@@ -58,17 +58,17 @@ public class CreateBenefitRuleForAContractStepDefinition  {
     }
 
     @Then("^User executes the query \"([^\"]*)\" by contract name \"([^\"]*)\" to get contractID to create benefit rule$")
-    public void userExecutesTheQueryByContractNameToGetContractIDToCreateBenefitRule(String query, String contractName) throws Throwable {
+    public void userExecutesTheQueryByContractNameToGetContractIDToCreateBenefitRule(String query, String contractName)  {
         createAndValidateBenefitRule.getContractIDByContractName(query,contractName);
     }
 
     @Then("^User executes the query \"([^\"]*)\" by benefitRuleName \"([^\"]*)\"  for update benefit rule status to approved by contractID$")
-    public void userExecutesTheQueryByBenefitRuleNameForUpdateBenefitRuleStatusToApprovedByContractID(String query, String benefitRuleName) throws Throwable {
+    public void userExecutesTheQueryByBenefitRuleNameForUpdateBenefitRuleStatusToApprovedByContractID(String query, String benefitRuleName) {
         createAndValidateBenefitRule.updateBenefitRuleStatusApprove(query,benefitRuleName);
     }
 
-    @Then("^User executes the query \"([^\"]*)\" by benefitRuleName \"([^\"]*)\" for delete benefit rule by contractID$")
-    public void userExecutesTheQueryByBenefitRuleNameForDeleteBenefitRuleByContractID(String query, String benefitRuleName) throws Throwable {
+    @And("^User executes the query \"([^\"]*)\" by benefitRuleName \"([^\"]*)\" for delete benefit rule by contractID$")
+    public void userExecutesTheQueryByBenefitRuleNameForDeleteBenefitRuleByContractID(String query, String benefitRuleName) {
         createAndValidateBenefitRule.deleteBenefitRule(query,benefitRuleName);
     }
 

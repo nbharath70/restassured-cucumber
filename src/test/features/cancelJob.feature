@@ -5,8 +5,8 @@ Feature:Retrieve and validate the cancel job
     Given User executes the query "getPROCESSING_JOB_ID" to get the processing job id for processing job status "0"
     When User hits the "cancelJob" with post request for cancel job
     Then User verifies the response is in JSON format for cancel job API
-    Then User verify cancelJob status code "200" for the response
-    Then User verify API response isCanceled is true
+    Then User verifies cancelJob status code "200" for the response
+    Then User verifies API response isCanceled is true
     Then User execute the query to update existing processing job status to the database
 
   @Smoke
