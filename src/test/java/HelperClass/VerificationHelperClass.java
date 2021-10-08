@@ -336,8 +336,8 @@ public class VerificationHelperClass extends TestBase {
             Object actualValue = JsonPath.read(response.asString(), val);
             Boolean expValue = Boolean.valueOf(expectedValue);
             log.info("Verify response body where expectedValue=" + expectedValue + " equals to actualValue=" + actualValue);
-            Assert.assertEquals("The lists do not match!", expValue.equals(actualValue));
-//            assertion.assertAll();
+            Assert.assertTrue("The lists do not match!", expValue.equals(actualValue));
+//
         }catch  (Exception e) {
             e.printStackTrace();
         }

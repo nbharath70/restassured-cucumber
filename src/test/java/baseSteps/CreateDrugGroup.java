@@ -10,118 +10,199 @@ import cucumber.api.DataTable;
 import io.restassured.response.Response;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
+
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class CreateDrugGroup extends TestBase {
     Response response;
-    DataBaseHelper dataBaseHelper=new DataBaseHelper();
+    DataBaseHelper dataBaseHelper = new DataBaseHelper();
     public VerificationHelperClass verificationHelperClass = new VerificationHelperClass();
     public static Logger log = getMyLogger(CreateDrugGroup.class);
+    private String mfrDrugListID;
+    private String drugGroupName;
+    private String drugGroupType;
+    private int drugGrouprowKey;
+    private String condition;
+    private int attempts = 0;
+
     CreateDrugGroupPojo createDrugGroupPojo;
 
     /**
      * This method is used to create new drug group details request body data
-     * @uthor Arun Kumar
+     *
      * @param dataTable
+     * @uthor Arun Kumar
      */
-    public void createNewDrugGroupDetails(DataTable dataTable)
-    {
+    public void createNewDrugGroupDetails(DataTable dataTable) {
         try {
             List<Map<String, String>> drugGroupData = dataTable.asMaps(String.class, String.class);
             for (Map<String, String> map : drugGroupData) {
-                createDrugGroupPojo=new CreateDrugGroupPojo(map.get("mfrId"),map.get("drugGroupName"),map.get("drugGroupType"));
+                createDrugGroupPojo = new CreateDrugGroupPojo(map.get("mfrId"), map.get("drugGroupName"), map.get("drugGroupType"));
+                mfrDrugListID = map.get("mfrId");
+                drugGroupName = map.get("drugGroupName");
+                drugGroupType = map.get("drugGroupType");
+                condition = map.get("condition");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
+
     /**
      * deleteDrugGroupFromDB method used to delete the drug group detail from data base table by List Name
-     * @uthor Arun kumar
+     *
      * @param deleteDrugGroupQuery
-     * @param colName
+     * @param queryparam
+     * @uthor Arun kumar
      */
-    public void deleteDrugGroupFromDB(String deleteDrugGroupQuery,String colName)
-    {
+    public void deleteDrugGroupFromDB(String deleteDrugGroupQuery, String queryparam) {
         log.info("Delete the existing Drug group details from the database");
-        dataBaseHelper.executeUpdatePreparedQueryAsString(deleteDrugGroupQuery,colName);
+//        String queryParam = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, String.valueOf(queryparam));
+        dataBaseHelper.executeUpdatePreparedQueryAsString(deleteDrugGroupQuery, queryparam);
     }
 
     /**
-     * This method is used to createNewDrugGroupPostCall
-     * @uthor Arun Kumar
-     * @param endPoint
+     * This method is used to createNewDrugGroup
+     *
+     * @param endPoint-
+     * @param query-
+     * @uthor Bharath
      */
-    public void createNewDrugGroup(String endPoint)
-    {
+    public void createNewDrugGroup(String endPoint, String query) {
         log.info("Create new drug group request & response payload of post operation API");
+        String jsonPath="recordSaved";
         response = postOperation(endPoint, createDrugGroupPojo);
+        if(condition.equalsIgnoreCase("invalid")){
+            response = postOperation(endPoint, createDrugGroupPojo);
+        }
+        else if (JsonPath.read(response.asString(), jsonPath).equals(Boolean.TRUE)&& condition.equalsIgnoreCase("valid")) {
+            List<Object> parameters = new ArrayList<>();
+            parameters.add(mfrDrugListID);
+            parameters.add(drugGroupType);
+            parameters.add(drugGroupName);
+            ResultSet rs = dataBaseHelper.replacePathParamsAndExecuteQuery(query, parameters);
+            try {
+                rs.next();
+                drugGrouprowKey = rs.getInt("Row_key");
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+            }
+        } else if (JsonPath.read(response.asString(), jsonPath) == Boolean.valueOf(false) && attempts < 3 && condition.equalsIgnoreCase("valid")) {
+            List<Object> parameters = new ArrayList<>();
+            parameters.add(mfrDrugListID);
+            parameters.add(drugGroupType);
+            parameters.add(drugGroupName);
+            ResultSet rs = dataBaseHelper.replacePathParamsAndExecuteQuery(query, parameters);
+            try {
+                rs.next();
+                drugGrouprowKey = rs.getInt("Row_key");
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+            }
+            String discardDrugGroupEndpoint = "discardDrugGroup";
+            deleteOperation(discardDrugGroupEndpoint, drugGrouprowKey);
+            String queryKeyToDeleteDrugGroup = "deleteDrugGroup";
+            deleteDrugGroupFromDB(queryKeyToDeleteDrugGroup, String.valueOf(drugGrouprowKey));
+            attempts++;
+            createNewDrugGroup(endPoint, query);
+
+        }
+
     }
 
     /**
      * This method is used to validate the status code of CreateNewDrugGroupStatusCode
-     * @uthor Arun Kumar
+     *
      * @param statusCode
+     * @uthor Arun Kumar
      */
-    public void verifyCreateNewDrugGroupStatusCode(int statusCode)
-    {
+    public void verifyCreateNewDrugGroupStatusCode(int statusCode) {
         verificationHelperClass.verifyStatusCode(response, statusCode);
         log.info("CreateNewDrugGroup StatusCode is " + statusCode + " and its Pass");
     }
 
     /**
      * This validateResponseBodyCreateDrugGroup used to validate the response body value as boolean
-     * @uthor Arun Kumar
+     *
      * @param actualValue
      * @param expectedValue
+     * @uthor Arun Kumar
      */
-    public void validateResponseBodyCreateDrugGroup(String actualValue,String expectedValue)
-    {
-        verificationHelperClass.verifyResponseJsonBoolean(response,actualValue,expectedValue);
+    public void validateResponseBodyCreateDrugGroup(String actualValue, String expectedValue) {
+        verificationHelperClass.verifyResponseJsonBoolean(response, actualValue, expectedValue);
     }
 
     /**
      * This validateCreateDrugGroupResponseByString used to validate the response body value as String
-     * @uthor Arun Kumar
+     *
      * @param actualValue
      * @param expectedValue
+     * @uthor Arun Kumar
      */
-    public void validateCreateDrugGroupResponseByString(String actualValue,String expectedValue)
-    {
-        verificationHelperClass.verifyResponseJsonString(response,actualValue,expectedValue);
+    public void validateCreateDrugGroupResponseByString(String actualValue, String expectedValue) {
+        verificationHelperClass.verifyResponseJsonString(response, actualValue, expectedValue);
     }
 
     /**
      * This method is used to validate Manufacture Drug GroupID
-     * @uthor Arun Kumar
      * @param jsonPath
      * @param query
+     * @uthor Arun Kumar
      */
-    public void verifyManufactureDrugGroupID(String jsonPath,String query){
+    public void verifyManufactureDrugGroupID(String jsonPath, String query) {
         try {
-            String columnName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "columnNameDrugList_ID");
-            ResultSet manufactureDrugListID = dataBaseHelper.executePreparedQuery("getDrugListID", query);
+            String columnName = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "columnNameDrugList_ID");
+            List<Object> parameters = new ArrayList<>();
+            parameters.add(mfrDrugListID);
+            parameters.add(drugGroupType);
+            parameters.add(drugGroupName);
+            ResultSet manufactureDrugListID = dataBaseHelper.replacePathParamsAndExecuteQuery(query, parameters);
             manufactureDrugListID.next();
             int manfDrugListID = Integer.valueOf(manufactureDrugListID.getString(columnName));
             String val = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, jsonPath);
             Object actualValue = JsonPath.read(response.asString(), val);
-            Assert.assertEquals("Verify the manfDrugListID",manfDrugListID,actualValue);
-            log.info("Verify the manfDrugListID expectedResult="+manfDrugListID+" and actualResulut="+actualValue);
+            Assert.assertEquals("Verify the manfDrugListID", manfDrugListID, actualValue);
+            log.info("Verify the manfDrugListID expectedResult=" + manfDrugListID + " and actualResulut=" + actualValue);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     /**
      * This method is used validate verifyCreateDrugGroupResponseHeaderErrorCode
-     * @uthor ArunKumar
+     *
      * @param expectedHeaderValue
+     * @uthor ArunKumar
      */
-    public void verifyCreateDrugGroupResponseHeaderErrorCode(String expectedHeaderValue)
-    {
-        verificationHelperClass.verifyResponseHeaderApiReturnCodesValue(response,expectedHeaderValue);
+    public void verifyCreateDrugGroupResponseHeaderErrorCode(String expectedHeaderValue) {
+        verificationHelperClass.verifyResponseHeaderApiReturnCodesValue(response, expectedHeaderValue);
+    }
+
+    /**
+     * This method is used to discard the DrugGroup
+     *
+     * @uthor Bharath
+     */
+    public void discardDrugGroup() {
+        String discardDrugGroupEndpoint = "discardDrugGroup";
+        deleteOperation(discardDrugGroupEndpoint, drugGrouprowKey);
+
+    }
+
+    /**
+     * This method is used to Deletes the Record from DB
+     *
+     * @uthor Bharath
+     */
+    public void deleteDrugGroup(){
+        String queryKeyToDeleteDrugGroup = "deleteDrugGroup";
+        log.info("deleting row key of DrugGroup is"+drugGrouprowKey);
+        deleteDrugGroupFromDB(queryKeyToDeleteDrugGroup, String.valueOf(drugGrouprowKey));
     }
 
 }

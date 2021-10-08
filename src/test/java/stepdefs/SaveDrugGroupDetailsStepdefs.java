@@ -18,7 +18,7 @@ public class SaveDrugGroupDetailsStepdefs {
         saveDrugGroupDetail.saveDrugGroupDetailData(dataTable);
     }
 
-    @Then("^User hits the \"([^\"]*)\" with post request of saveDrugGroupDetails API$")
+    @Then("^User hits the \"([^\"]*)\" Save Drug Group Details API$")
     public void userHitsTheWithPostRequestOfSaveDrugGroupDetailsAPI(String endPoint) throws Throwable {
         saveDrugGroupDetail.saveDrugGroupDetailsPostCall(endPoint);
     }
@@ -46,5 +46,15 @@ public class SaveDrugGroupDetailsStepdefs {
     @Then("^User verify the saveDrugGroupDetails valid Response body key \"([^\"]*)\" and expected value \"([^\"]*)\" of string$")
     public void userVerifyTheSaveDrugGroupDetailsValidResponseBodyKeyAndExpectedValueOfString(String actualVal, String expectedVal) throws Throwable {
         saveDrugGroupDetail.validationResultsString(actualVal,expectedVal);
+    }
+
+    @Then("^User deletes the drugDetails From DB using query\"([^\"]*)\"$")
+    public void userDeletesTheDrugDetailsFromDBUsingQuery(String query){
+
+    }
+
+    @Then("^User Verifies the response \"([^\"]*)\" with error message \"([^\"]*)\"$")
+    public void userVerifiesTheResponseWithErrorMessage(String jsonPath, String messageKey) throws Throwable {
+        saveDrugGroupDetail.validateInvalidResponseDynamically(jsonPath,messageKey);
     }
 }

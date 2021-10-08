@@ -6,10 +6,15 @@ import HelperClass.VerificationHelperClass;
 import RequestPojo.*;
 import RequestPojo.DisContractPojo.DiscardContractPojo;
 import TestBase.TestBase;
+import com.jayway.jsonpath.JsonPath;
 import cucumber.api.DataTable;
 import io.restassured.response.Response;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
+import java.io.FileReader;
+import java.io.Reader;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,30 +31,52 @@ public class InitiateNewManufactureContract extends TestBase {
     InitManufactureContract initManufactureContractObject;
     DiscardContractPojo discardContractPojo;
     Response discardContractResponse;
-
+    private int createContractAttempts=0;
+    JSONObject jsonObject;
     /**
-     * createNewManufactureContract Method is used for create nee manufacture contract request pay load
-     * @uthor Arun Kumar
-     * @param dataTable
+     * initiateMFRContract method is used to
+     * @Bharath
+     * @return list - list of Contract Id Created and row key created
      */
-    public void createNewManufactureContract(DataTable dataTable)
-    {
+    public List<String> initiateContract() {
+        List<String> list=new ArrayList<String>();
         try {
-            List<Map<String, String>> initManufactureContractData = dataTable.asMaps(String.class, String.class);
-            for (Map<String, String> map : initManufactureContractData) {
-                ContractDetailJson contractDetailJson1 = new ContractDetailJson();
-                contractDetailJson1.setLineOfBusiness(map.get("lineOfBusiness"));
-                ArrayList lineOfBusiness = contractDetailJson1.getLineOfBusiness();
-                Manufacturer manufacturer = new Manufacturer(map.get("ManufacturerId"), map.get("name"));
-                ContractHeader contractHeader = new ContractHeader(map.get("contractName"),map.get("contractType"), map.get("startDate"), map.get("endDate"),map.get("notes"),map.get("lifecycleStatus"));
-                ContractDetailJson contractDetailJson = new ContractDetailJson( lineOfBusiness);
-                ContractDetail contractDetail = new ContractDetail(contractDetailJson);
-                initManufactureContractObject = new InitManufactureContract(manufacturer, contractHeader, contractDetail);
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+            JSONParser jsonParser = new JSONParser();
+            Reader reader = new FileReader(System.getProperty("user.dir")+"\\src\\test\\testdata\\initiateMFRContract.json");
+            Object obj=jsonParser.parse(reader);
+            jsonObject=(JSONObject) obj;
+
+        }catch (Exception e){e.printStackTrace();}
+        return list;
     }
+
+//    public void hitAPI(String endpoint){
+//
+//    }
+
+//    /**
+//     * createNewManufactureContract Method is used for create nee manufacture contract request pay load
+//     * @uthor Arun Kumar
+//     * @param dataTable
+//     */
+//    public void createNewManufactureContract(DataTable dataTable)
+//    {
+//        try {
+//            List<Map<String, String>> initManufactureContractData = dataTable.asMaps(String.class, String.class);
+//            for (Map<String, String> map : initManufactureContractData) {
+//                ContractDetailJson contractDetailJson1 = new ContractDetailJson();
+//                contractDetailJson1.setLineOfBusiness(map.get("lineOfBusiness"));
+//                ArrayList lineOfBusiness = contractDetailJson1.getLineOfBusiness();
+//                Manufacturer manufacturer = new Manufacturer(map.get("ManufacturerId"), map.get("name"));
+//                ContractHeader contractHeader = new ContractHeader(map.get("contractName"),map.get("contractType"), map.get("startDate"), map.get("endDate"),map.get("notes"),map.get("lifecycleStatus"));
+//                ContractDetailJson contractDetailJson = new ContractDetailJson( lineOfBusiness);
+//                ContractDetail contractDetail = new ContractDetail(contractDetailJson);
+//                initManufactureContractObject = new InitManufactureContract(manufacturer, contractHeader, contractDetail);
+//            }
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//    }
 
     /**
      * This method is used to initiateNewManufactureContractPostCall
@@ -58,7 +85,7 @@ public class InitiateNewManufactureContract extends TestBase {
      */
     public void initiateNewManufactureContractPostCall(String endPoint)
     {
-        response = postOperation(endPoint, initManufactureContractObject);
+        response = postOperation(endPoint, jsonObject);
     }
 
     /**

@@ -630,6 +630,30 @@ public class DataBaseHelper extends TestBase {
         System.clearProperty("connectTo");
         cleanUp();
     }
+
+    /**
+     * @Author Bharath
+     * This method is used to replace the multiple pathparams in Query with of values passed in List
+     * @param queryKey
+     * @param listOfParams - List<object> of path params
+     * @return url
+     */
+    public ResultSet replacePathParamsAndExecuteQuery(String queryKey,List<Object> listOfParams)
+    {
+        try {
+            String query = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, queryKey);
+//            String replacedQuery= query;
+            for(int i=0;i<listOfParams.size();i++){
+                query = query.replaceFirst("pathparam", String.valueOf(listOfParams.get(i)));
+            }
+            log.info("The Query Replaced is "+ query);
+            ResultSet rs=getDataWithoutPropertiesKey(query);
+            return rs;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
 
 

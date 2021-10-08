@@ -3,12 +3,13 @@ package stepdefs;
 import baseSteps.UpdateDrugGroup;
 import cucumber.api.DataTable;
 import cucumber.api.PendingException;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 
 public class UpdateDrugGroupStepdefs {
     UpdateDrugGroup updateDrugGroup=new UpdateDrugGroup();
-    @Given("^User update group details data$")
+    @And("^User update group details data$")
     public void userUpdateGroupDetailsData(DataTable dataTable) {
         updateDrugGroup.updateDrugGroupDetails(dataTable);
     }

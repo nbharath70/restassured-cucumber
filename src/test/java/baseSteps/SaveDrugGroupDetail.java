@@ -74,7 +74,7 @@ public class SaveDrugGroupDetail extends TestBase {
 
     /**
      * This method is used to get the DrugListId from the drugGroupName
-     * @param drugGroupName
+     * @param drugGroupName-
      * @Author: Arun Kumar
      */
     public void getDrugListId(String query,String drugGroupName) {
@@ -89,7 +89,7 @@ public class SaveDrugGroupDetail extends TestBase {
 
     /**
      * This method is used to get the getDrugGroupRowKey from the drugGroupName
-     * @param drugGroupName
+     * @param drugGroupName-
      * @Author: Arun Kumar
      */
     public void getDrugGroupRowKey(String query,String drugGroupName) {
@@ -105,7 +105,7 @@ public class SaveDrugGroupDetail extends TestBase {
     /**
      * This method is used to saveDrugGroupDetailsPostCall
      * @uthor Arun Kumar
-     * @param endPoint
+     * @param endPoint-
      */
     public void saveDrugGroupDetailsPostCall(String endPoint)
     {
@@ -116,7 +116,7 @@ public class SaveDrugGroupDetail extends TestBase {
     /**
      * This method is used to validate the status code of SaveDrugGroupDetailsStatusCode
      * @uthor Arun Kumar
-     * @param statusCode
+     * @param statusCode-
      */
     public void verifySaveDrugGroupDetailsStatusCode(int statusCode)
     {
@@ -127,8 +127,8 @@ public class SaveDrugGroupDetail extends TestBase {
     /**
      * @uthour Arun Kumar
      * validating getAllNDCDetailsResponseBody method is used to validate the response body output with database value
-     * @param json
-     * @param columnName
+     * @param json-
+     * @param columnName-
      */
     public void verifyNDCDetails(String json,String columnName)
     {
@@ -143,8 +143,8 @@ public class SaveDrugGroupDetail extends TestBase {
     /**
      * @uthour Arun Kumar
      * validating getAllNDCDetailsRowKeyResponseBody method is used to validate the response body output with database value
-     * @param json
-     * @param columnName
+     * @param json-
+     * @param columnName-
      */
     public void verifyNDCDetailsRowKey(String json,String columnName)
     {
@@ -157,22 +157,35 @@ public class SaveDrugGroupDetail extends TestBase {
     /**
      * This validationResultsString used to validate the respanse body value as String
      * @uthor Arun Kumar
-     * @param actualValue
-     * @param expectedValue
+     * @param actualValue-
+     * @param expectedValue-
      */
     public void validationResultsString(String actualValue,String expectedValue)
-    {
-        verificationHelperClass.verifyResponseJsonString(response,actualValue,expectedValue);
+    {   String invalidMessage=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,expectedValue);
+        verificationHelperClass.verifyResponseJsonString(response,actualValue,invalidMessage);
     }
 
     /**
      * This validationResultsBoolean used to validate the respanse body value as Boolean
      * @uthor Arun Kumar
-     * @param actualValue
-     * @param expectedValue
+     * @param actualValue-
+     * @param expectedValue-
      */
     public void validationResultsBoolean(String actualValue,String expectedValue)
     {
         verificationHelperClass.verifyResponseJsonBoolean(response,actualValue,expectedValue);
+    }
+
+    /**
+     * This validationResultsBoolean used to validate the respanse body value as Boolean
+     * @uthor Arun Kumar
+     * @param jsonPath-
+     * @param messageKey-
+     */
+    public void validateInvalidResponseDynamically(String jsonPath,String messageKey){
+        String invalidMessagetoReplace=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,messageKey);
+        String actualErrorMessage=invalidMessagetoReplace.replace("{pathparam}",String.valueOf(drugListId));
+        verificationHelperClass.verifyResponseJsonString(response,jsonPath,actualErrorMessage);
+
     }
 }

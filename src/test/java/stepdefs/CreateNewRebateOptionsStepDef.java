@@ -4,12 +4,13 @@ import TestBase.TestBase;
 import baseSteps.CreateNewRebateOption;
 import cucumber.api.DataTable;
 import cucumber.api.PendingException;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 
 public class CreateNewRebateOptionsStepDef extends TestBase {
     CreateNewRebateOption createNewRebateOption=new CreateNewRebateOption();
-    @Given("^User create new rebate options details$")
+    @And("^User create new rebate options details$")
     public void userCreateNewRebateOptionsDetails(DataTable dataTable) {
         createNewRebateOption.createNewRebateOptionDetailsData(dataTable);
     }
@@ -59,7 +60,7 @@ public class CreateNewRebateOptionsStepDef extends TestBase {
         createNewRebateOption.verifyRebateOptionID(query,rebateOtionName,jsonPath);
     }
 
-    @Then("^User executes the query \"([^\"]*)\" by RebateOptionName \"([^\"]*)\" for deleting existing rebate option record from DB$")
+    @And("^User executes the query \"([^\"]*)\" by RebateOptionName \"([^\"]*)\" for deleting existing rebate option record from DB$")
     public void userExecutesTheQueryByRebateOptionNameForDeletingExistingRebateOptionRecordFromDB(String query, String rebateOptionName) throws Throwable {
         createNewRebateOption.deleteRebateOption(query,rebateOptionName);
     }

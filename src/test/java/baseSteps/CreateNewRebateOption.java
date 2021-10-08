@@ -24,7 +24,7 @@ public class CreateNewRebateOption extends TestBase {
     String contractId;
     String benefitRuleID;
     String programID;
-    String rebateableMFR_DrugList_ID;
+    String rebateableMFRDrugListID;
 
     /**
      * createNewRebateOptionDetailsData Method is used to create data for create new option
@@ -39,7 +39,7 @@ public class CreateNewRebateOption extends TestBase {
                 RebateTerms rebateTerms1=new RebateTerms();
                 rebateTerms1.setLineOfBusiness(map.get("lineOfBusiness"));
                 ArrayList lineOfBusiness = rebateTerms1.getLineOfBusiness();
-                RebateTerms rebateTerms=new RebateTerms(map.get("billingCycle"),lineOfBusiness,Integer.valueOf(benefitRuleID),map.get("benefitRuleName"),Integer.valueOf(map.get("psfOptionLevel")),Integer.valueOf(rebateableMFR_DrugList_ID),access);
+                RebateTerms rebateTerms=new RebateTerms(map.get("billingCycle"),lineOfBusiness,Integer.valueOf(benefitRuleID),map.get("benefitRuleName"),Integer.valueOf(map.get("psfOptionLevel")),Integer.valueOf(rebateableMFRDrugListID),access);
                 RebateTermJson rebateTermJson1=new RebateTermJson();
                 rebateTermJson1.setRebateTerms(rebateTerms);
                 ArrayList rebateTerm2 = rebateTermJson1.getRebateTerms();
@@ -190,7 +190,7 @@ public class CreateNewRebateOption extends TestBase {
         try {
             ResultSet getRebateableMFR_DrugList_ID = dataBaseHelper.executePreparedQuery("getMfrDrugListIdByListType", "Rebateable");
             getRebateableMFR_DrugList_ID.next();
-            rebateableMFR_DrugList_ID=getRebateableMFR_DrugList_ID.getString("MFR_DrugList_ID");
+            rebateableMFRDrugListID=getRebateableMFR_DrugList_ID.getString("MFR_DrugList_ID");
         }catch (Exception e)
         {
             e.printStackTrace();

@@ -30,7 +30,7 @@ public class UpdateDrugGroup extends TestBase {
         try {
             List<Map<String, String>> drugGroupData = dataTable.asMaps(String.class, String.class);
             for (Map<String, String> map : drugGroupData) {
-                String columnName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "columnNameDrugList_ID");
+                String columnName = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "columnNameDrugList_ID");
                 ResultSet manufactureDrugListID = dataBaseHelper.executePreparedQuery("getDrugListID", map.get("oldDrugGroupName"));
                 manufactureDrugListID.next();
                 int manfDrugListID = Integer.valueOf(manufactureDrugListID.getString(columnName));
@@ -84,8 +84,8 @@ public class UpdateDrugGroup extends TestBase {
      * @param expectedValue
      */
     public void validateUpdateDrugGroupResponseByString(String actualValue,String expectedValue)
-    {
-        verificationHelperClass.verifyResponseJsonString(response,actualValue,expectedValue);
+    {   String expectedErrorMessage=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,expectedValue);
+        verificationHelperClass.verifyResponseJsonString(response,actualValue,expectedErrorMessage);
     }
 
     /**
@@ -108,6 +108,7 @@ public class UpdateDrugGroup extends TestBase {
             e.printStackTrace();
         }
     }
+
     /**
      * This method is used validate verifyUpdateDrugGroupResponseHeaderErrorCode
      * @uthor ArunKumar

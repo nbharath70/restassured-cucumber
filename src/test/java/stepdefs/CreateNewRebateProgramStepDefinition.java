@@ -4,12 +4,13 @@ import TestBase.TestBase;
 import baseSteps.CreateNewRebateProgram;
 import cucumber.api.DataTable;
 import cucumber.api.PendingException;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 
 public class CreateNewRebateProgramStepDefinition extends TestBase {
     CreateNewRebateProgram createNewRebateProgram=new CreateNewRebateProgram();
-    @Given("^User create & sava new rebate program$")
+    @And("^User create & save new rebate program$")
     public void userCreateSavaNewRebateProgram(DataTable dataTable) {
         createNewRebateProgram.createNewRebateProgramDetailsData(dataTable);
     }
@@ -18,7 +19,7 @@ public class CreateNewRebateProgramStepDefinition extends TestBase {
         createNewRebateProgram.createNewRebateProgramPostCall(endPoint);
     }
 
-    @Then("^User executes \"([^\"]*)\" query to delete existing rebate program by Contract_ID \"([^\"]*)\" from the database$")
+    @And("^User executes \"([^\"]*)\" query to delete existing rebate program by Contract_ID \"([^\"]*)\" from the database$")
     public void userExecutesQueryToDeleteExistingRebateProgramByContract_IDFromTheDatabase(String deleteRebateProgram, String contractID) throws Throwable {
         createNewRebateProgram.deleteRebateProgramFromDB(deleteRebateProgram,contractID);
     }

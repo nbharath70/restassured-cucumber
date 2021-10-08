@@ -178,6 +178,8 @@
 							<includes>
 								<include>**/Run*.java</include>
 							</includes>
+							<parallel>methods</parallel>
+							<threadCount>5</threadCount>
 						</configuration>
 					</execution>
 				</executions>

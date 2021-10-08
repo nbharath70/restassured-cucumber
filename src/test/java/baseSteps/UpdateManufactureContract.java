@@ -136,7 +136,7 @@ public class UpdateManufactureContract extends TestBase {
     public void verifyProcessInstID(String env,String query)
     {
         String procInsColumnName=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"procInsColumnName");
-        procIns=dataBaseHelper.executeUpdatePreparedQueryAsStringFlowable(env,query,contractId,procInsColumnName);
+//        procIns=dataBaseHelper.executeUpdatePreparedQueryAsStringFlowable(env,query,contractId,procInsColumnName);
         String val = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "processInstanceIdJsonPath");
         Object actualValue = JsonPath.read(response.asString(), val);
         Object expValue = procIns;

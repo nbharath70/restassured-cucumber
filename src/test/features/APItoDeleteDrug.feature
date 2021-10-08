@@ -31,6 +31,7 @@ Feature: APItoDeleteDrug.feature - Delete Drug group with Drug detail RowKeys
     And User prepares request body with the list of drug rowkeys
     Then User hits the "deleteDrugResource" with Delete request
     And User verifies APIresponse message with "deleteNonApprovedDrugMsg"
+
   @Negative
   Scenario:Delete an InValid drug with LCS Deleted
     Given User executes the query "sqlToGetaDeletedDrugRowKey"and gets a drug detail "rowkey"
