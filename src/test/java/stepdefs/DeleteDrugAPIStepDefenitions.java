@@ -97,4 +97,11 @@ public class DeleteDrugAPIStepDefenitions {
     public void userDeletesTheNewDeletedRecordsFromTheDBByExecutingDeleteQueryForTwoDrugs(String queryKey)  {
        deleteDrugAPI.deleteTheNewDeletedRecordsFromTheDBByExecutingDeleteQueryForTwoDrugs(queryKey);
     }
+
+    @Given("^User connects to the flowable and executes the query \"([^\"]*)\"$")
+    public void userConnectsToTheFlowableAndExecutesTheQuery(String query)  {
+//        deleteDrugAPI.connectToTheFlowableAndExecutesTheQuery(query);
+//    deleteDrugAPI.inMemoryDBSQLite();
+    deleteDrugAPI.inMemoryDBH2();
+    }
 }

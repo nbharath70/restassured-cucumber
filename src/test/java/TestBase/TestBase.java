@@ -417,4 +417,47 @@ public class TestBase {
         return null;
     }
 
+
+    public static void main(String[] args) {
+        TestBase tb = new TestBase();
+        tb.getCallOAuth2(null);
+    }
+
+    /**
+     * @uthor: Rabbani
+     * @param endPoint
+     * @return response
+     * getCallOAuth2 method hits the end point with OAuth2.0 and logs the response and also verify response body type as ContentType.JSON
+     */
+    public Response getCallOAuth2(String endPoint)
+    {
+        try {
+//            response = given()
+//                    .log()
+//                    .all()
+//                    .header("Authorization", "Bearer "+getPropertiesFileValue(ResourcePath.Environment_Properties, "bearerToken"))
+//                    .when()
+//                    .get(getEndPointUrl(endPoint));
+                Response responseForToken=RestAssured.given()
+                    .formParam("client_id","52c3a291-f47e-4ce1-8fc6-95832157f739")
+                    .formParam("object_id","f8a458f5-5ca4-4a46-8fc0-feac12272b53")
+                    .formParam("grant_type","client_credentials")
+                        .formParam("scope","https://VisualStudio/SPN7f7b2641-1d20-4f07-a568-f2b514d3ed26/.default")
+                        .formParam("client_assertion_type","urn:ietf:params:oauth:client-assertion-type:jwt-bearer")
+
+                    .post("https://login.microsoftonline.com/758d57d5-6ccd-41a6-a04e-557e16d2ad4a/oauth2/v2.0/token");
+
+            System.out.println(responseForToken.getBody().asString());
+
+//            log.info("Response is=" + response);
+//            response.then().assertThat().contentType(ContentType.JSON);
+//            log.info("The response is in proper JSON format");
+//            log.info("The response Body="+response.getBody().asString());
+            return response;
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

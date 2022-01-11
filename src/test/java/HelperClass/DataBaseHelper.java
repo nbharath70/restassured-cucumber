@@ -14,6 +14,8 @@ public class DataBaseHelper extends TestBase {
     public Statement stmt;
     public PreparedStatement psmt;
     public ResultSet prepareQueryResult;
+    public CallableStatement cstmt;
+
 
     /**
      * @Author Arun Kumar
@@ -21,6 +23,11 @@ public class DataBaseHelper extends TestBase {
      * @return stmt
      * @updated by: Rabbani
      * This method will read the environment passed through command line and connects to that environment
+     * Also it checks the system property "connectTo" set by user and connects to the respective DB(like dbFlowable)
+     * If no system property is set for connectTo variable them it connects to dbRebate by default
+     * Also added capability to get the data permissions for the organisation:ORG_DG and Role:DATA_REBATE_ACCESS_DG by default
+     * If user sets system properties setSessionToOtherOrg and setSessionToOtherRoles then this method gets permissions for that organization and role
+     *
      */
     public Statement getStatement(){
         String dbUrl=null;
@@ -81,7 +88,40 @@ public class DataBaseHelper extends TestBase {
             if (conn != null) {
                 log.info("Connected to DB");
             }
+            //checking the property values setSessionToOtherOrg and setSessionToOtherRoles
+            if(System.getProperty("setSessionToOtherOrg")==null && System.getProperty("setSessionToOtherRoles")==null){
+                log.info("getting data permissions for ORG_DG and DATA_REBATE_ACCESS_DG");
+                cstmt = conn.prepareCall(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "sessionQueryOne"));
+                cstmt.setString(1,"Organization");
+                cstmt.setString(2,"ORG_DG");
+                cstmt.execute();
+                cstmt = conn.prepareCall(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "sessionQueryTwo"));
+                cstmt.setString(1,"Roles");
+                cstmt.setString(2,"[\"DATA_REBATE_ACCESS_DG\"]");
+                cstmt.execute();
+                log.info("successfully got data permissions for ORG_DG and DATA_REBATE_ACCESS_DG");
+            }
+            else if(System.getProperty("setSessionToOtherOrg")!=null && System.getProperty("setSessionToOtherRoles")!=null){
+                log.info("getting data permissions for "+System.getProperty("setSessionToOtherOrg")+" and "+System.getProperty("setSessionToOtherRoles"));
+                cstmt = conn.prepareCall(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "sessionQueryOne"));
+                cstmt.setString(1,"Organization");
+                cstmt.setString(2,System.getProperty("setSessionToOtherOrg"));
+                cstmt.execute();
+                cstmt = conn.prepareCall(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "sessionQueryTwo"));
+                cstmt.setString(1,"Roles");
+                cstmt.setString(2,System.getProperty("setSessionToOtherRoles"));
+                cstmt.execute();
+                //log.info("successfully got data permissions for "+System.getProperty("setSessionToOtherOrg")+" and "+System.getProperty("setSessionToOtherRoles"));
+            }
+            else if (System.getProperty("setSessionToOtherOrg")==null && System.getProperty("setSessionToOtherRoles")!=null){
+                log.info("User needs to mention Organization for data permissions");
+            }
+            else if (System.getProperty("setSessionToOtherOrg")!=null && System.getProperty("setSessionToOtherRoles")==null){
+                log.info("User needs to mention Role for data permissions");
+            }
+
             stmt = conn.createStatement();
+
             return stmt;
         }catch(Exception e)
         {
@@ -611,6 +651,123 @@ public String getSingleCellValueAsStringFromDB(String query, String columnName)
 
     public void disConnectToOtherDB() {
         System.clearProperty("connectTo");
+        cleanUp();
+    }
+//    public void setSession(){
+//            String dbUrl=null;
+//            String dbUserName=null;
+//            String dbPassword=null;
+//            try {
+//                if(System.getProperty("environment")==null)
+//                {
+//                    if(System.getProperty("connectTo")==null){
+//                        dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatDBURL");
+//                        dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatUser");
+//                        dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatPassword");
+//                    }
+//                    else if(System.getProperty("connectTo").equalsIgnoreCase("flowable")){
+//                        log.info("connecting to flowable DB");
+//                        dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatDBURLFlowable");
+//                        dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatUserFlowable");
+//                        dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatPasswordFlowable");
+//                    }
+//
+//                }
+//                else if(System.getProperty("environment").equalsIgnoreCase("UAT"))
+//                {
+//                    if(System.getProperty("connectTo")==null){
+//                        dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatDBURL");
+//                        dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatUser");
+//                        dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatPassword");
+//                    }
+//                    else if(System.getProperty("connectTo").equalsIgnoreCase("flowable")) {
+//                        log.info("connecting to UATflowable DB");
+//                        dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatDBURLFlowable");
+//                        dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatUserFlowable");
+//                        dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatPasswordFlowable");
+//                    }
+//
+//
+//                }
+//                else if(System.getProperty("environment").equalsIgnoreCase("Dev"))
+//                {
+//                    if(System.getProperty("connectTo")==null){
+//                        dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "devDBURL");
+//                        dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "devUser");
+//                        dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "devPassword");
+//                    }
+//                    else if(System.getProperty("connectTo").equalsIgnoreCase("flowable")){
+//                        log.info("connecting to flowable DB");
+//                        dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "devDBURLFlowable");
+//                        dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "devUserFlowable");
+//                        dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "devPasswordFlowable");
+//                    }
+//
+//                }
+//                else{
+//                    log.info("Invalid environment");
+//                }
+//            conn = DriverManager.getConnection(dbUrl, dbUserName, dbPassword);
+//            if (conn != null) {
+//                log.info("Connected to DB");
+//            }
+//            cstmt = conn.prepareCall(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "sessionQueryOne"));
+//                cstmt.setString(1,"Organization");
+//                cstmt.setString(2,"ORG_DG");
+//            cstmt.execute();
+//            cstmt = conn.prepareCall(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "sessionQueryTwo"));
+//                cstmt.setString(1,"Roles");
+//                cstmt.setString(2,"[\"DATA_REBATE_ACCESS_DG\"]");
+//            cstmt.execute();
+//            Statement stm1=conn.createStatement();
+//            ResultSet rs1=stm1.executeQuery("select top 1 *  from [cfg].[MFR_Contract_Detail] where Is_Current_Flag=1");
+//            rs1.next();
+//            System.out.println("result rowkey"+rs1.getString(1));
+//
+////                String SPsql =getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "sessionQueryTwo") ;   // for stored proc taking 2 parameters
+////                PreparedStatement ps = conn.prepareStatement(SPsql);
+////                ps.setEscapeProcessing(true);
+//////                ps.setQueryTimeout(<timeout value>);
+////                ps.setString(1, "Organization");
+////                ps.setString(2, "ORG_DG");
+////                ps.executeQuery();
+////
+////                 SPsql =getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "sessionQueryTwo") ;   // for stored proc taking 2 parameters
+////                 ps = conn.prepareStatement(SPsql);
+////                ps.setEscapeProcessing(true);
+//////                ps.setQueryTimeout(<timeout value>);
+////                ps.setString(1, "Roles");
+////                ps.setString(2, "[\"DATA_REBATE_ACCESS_DG\"]");
+////                 ps.executeQuery();
+//
+//            //getStatement().execute(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "sessionQueryOne"));
+//            //getStatement().execute(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "sessionQueryTwo"));
+//        } catch (SQLException sqlException) {
+//            sqlException.printStackTrace();
+//        }
+//    }
+
+
+    /**
+     * @Author Rabbani
+     * @param organisation - name of the organisation for data permissions
+     * @param role - name of the role for data permissions
+     * this method will set the system properties to setSessionToOtherOrg and setSessionToOtherRoles which are
+     * used for data permissions in getStatement method
+     */
+    public void setSession(String organisation, String role) {
+        System.setProperty("setSessionToOtherOrg",organisation);
+        System.setProperty("setSessionToOtherRoles",role);
+
+    }
+    /**
+     * @Author Rabbani
+     * this method will clear the system properties setSessionToOtherOrg and setSessionToOtherRoles
+     *
+     */
+    public void clearSetSession() {
+        System.clearProperty("setSessionToOtherOrg");
+        System.clearProperty("setSessionToOtherRoles");
         cleanUp();
     }
 }
