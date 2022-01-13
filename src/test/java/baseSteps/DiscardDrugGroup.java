@@ -2,6 +2,7 @@ package baseSteps;
 import HelperClass.DataBaseHelper;
 import HelperClass.ResourcePath;
 import HelperClass.VerificationHelperClass;
+import RequestPojo.discardDrugGroup.DiscardDrugGroupPojo;
 import TestBase.TestBase;
 import io.restassured.response.Response;
 import org.apache.log4j.Logger;
@@ -17,6 +18,9 @@ public class DiscardDrugGroup extends TestBase {
     public DataBaseHelper dbHepler = new DataBaseHelper();
     public ResultSet result;
     private int  drugGroupRowKeyVal;
+    private String instanceKey;
+    private String mfrDrugListId;
+    DiscardDrugGroupPojo  discardDrugGroupPojo;
 
 
 
@@ -33,7 +37,14 @@ public class DiscardDrugGroup extends TestBase {
             result = dbHepler.getData(query);
             result.next();
             String drugGroupRowKey=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "discardDrugGroupRowKey");
+            String mfrDLId=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "discardDrugGroupdrugListId");
+            System.out.println(mfrDLId);;
+            String recordUpdatedDate=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "instanceKey");
             drugGroupRowKeyVal = result.getInt(drugGroupRowKey);
+            mfrDrugListId=result.getString(mfrDLId);
+            System.out.println(mfrDrugListId);
+           String updatedDate=result.getString(recordUpdatedDate);
+           instanceKey=updatedDate.replaceFirst(" ","T");
             log.info("drug group row key is:  " + drugGroupRowKeyVal + " From DB");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -46,7 +57,8 @@ public class DiscardDrugGroup extends TestBase {
      */
     public void discardDrugGroup(String endpoint)
     {
-        discardDrugGroupResponse=deleteOperation(endpoint,drugGroupRowKeyVal);
+        discardDrugGroupPojo=new DiscardDrugGroupPojo(String.valueOf(drugGroupRowKeyVal),instanceKey,"");
+        discardDrugGroupResponse=deleteOperation(endpoint,discardDrugGroupPojo);
         log.info("Response is "+discardDrugGroupResponse.asString());
     }
     /**
@@ -61,8 +73,9 @@ public class DiscardDrugGroup extends TestBase {
      * @uthour Smruti
      * This method reactivates the discarded drug List
      */
-    public void reactivateDrugListToNew(String restoreTheDrugGroupStatusToNew){
+    public void reactivateDrugListToNew(String restoreTheDrugGroupStatusToNew,String updateDrugListDetailToIsCurrentFlag){
         dbHepler.executeUpdatePreparedQuery(restoreTheDrugGroupStatusToNew,drugGroupRowKeyVal);
+        dbHepler.executeUpdatePreparedQueryAsString(updateDrugListDetailToIsCurrentFlag,mfrDrugListId);
         log.info("======Reactivated the drug group========");
     }
 

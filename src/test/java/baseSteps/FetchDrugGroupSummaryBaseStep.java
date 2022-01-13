@@ -112,12 +112,37 @@ public void verifiesAPIResponseWithTypeMismatchErrorMsg(String jsonPath,String e
     public void validateJSONResponse(String query,String columnName){
         try{
             String actualColumnName=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,columnName);
-            String apiJsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"jsonPathForResponsevalidation");
-            String dBJsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"jsonPathForResponsevalidation");
+//            String apiJsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"jsonPathForResponsevalidation");
+//            String dBJsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"jsonPathForResponsevalidation");
+            String drugListRowKey=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"drugListRowKeyforFetcDrugGroupSummary");
+            String mfrDrugListId=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"mfrDrugListIdforFetcDrugGroupSummary");
+            String opsQc=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"opsQcforFetcDrugGroupSummary");
+            String recCreatedBy=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"recCreatedByforFetcDrugGroupSummary");
+            String opsAssignee=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"opsAssigneeforFetcDrugGroupSummary");
+            String openForEditFlag=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"openForEditFlagforFetcDrugGroupSummary");
+            String instanceKey=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"instanceKeyforFetcDrugGroupSummary");
+            String drugGroupName=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"drugGroupNameForFetcDrugGroupSummary");
+            String mfrName=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"mfrNameJsonPathForFetcDrugGroupSummary");
+            String drugGroupType=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"drugGroupTypeForFetcDrugGroupSummary");
+            String drugGroupTypeDesc=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"drugGroupTypeDescFetcDrugGroupSummary");
+            String lifecycleStatus=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"lifecycleStatusForFetcDrugGroupSummary");
+            String previouslyApproved=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"previouslyApprovedForFetcDrugGroupSummary");
             resultSet=dataBaseHelper.executePreparedQuery(query,rowkeyValue);
             resultSet.next();
             String dbJson=resultSet.getString(actualColumnName);
-            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(response,dbJson,apiJsonPath,dBJsonPath);
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(response,dbJson,drugListRowKey,drugListRowKey);
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(response,dbJson,mfrDrugListId,mfrDrugListId);
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(response,dbJson,opsQc,opsQc);
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(response,dbJson,recCreatedBy,recCreatedBy);
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(response,dbJson,opsAssignee,opsAssignee);
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(response,dbJson,openForEditFlag,openForEditFlag);
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(response,dbJson,instanceKey,instanceKey);
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(response,dbJson,drugGroupName,drugGroupName);
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(response,dbJson,mfrName,mfrName);
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(response,dbJson,drugGroupType,drugGroupType);
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(response,dbJson,drugGroupTypeDesc,drugGroupTypeDesc);
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(response,dbJson,lifecycleStatus,lifecycleStatus);
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(response,dbJson,previouslyApproved,previouslyApproved);
         }catch (Exception e){
             e.printStackTrace();
         }

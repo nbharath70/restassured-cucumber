@@ -27,10 +27,10 @@ public class DiscardDrugGroupStepDefinition {
         discardDrugGroup.verifyStatusCodeOfDiscardDrugGroupAPI(statusCode);
     }
 
-    @And("^user runs \"([^\"]*)\" query to activate the drug list$")
-    public void userRunsQueryToActivateTheDrugList(String restoreTheDrugGroupStatusToNew) {
-        discardDrugGroup.reactivateDrugListToNew(restoreTheDrugGroupStatusToNew);
 
+    @And("^user runs \"([^\"]*)\" and \"([^\"]*)\" query to activate the drug list and DrugListDetails$")
+    public void userRunsQueryToActivateTheDrugList(String restoreTheDrugGroupStatusToNew, String updateDrugListDetailsIsCurrentFlag)  {
+        discardDrugGroup.reactivateDrugListToNew(restoreTheDrugGroupStatusToNew,updateDrugListDetailsIsCurrentFlag);
     }
 
     @Then("^User verifies the discard Drug group response is in JSON format$")

@@ -198,17 +198,17 @@ public class GetContractDetailsByID extends TestBase {
      * @param dbJSON
      */
     public void matchContractDetailsJSONwithTwoJSONPAths(String apiJSON,String dbJSON){
-        if(apiJSON.equalsIgnoreCase("APIcontractDetailsJSONSchemaversion")||
-                apiJSON.equalsIgnoreCase("APIcontractDetailsJSONSubmissionWindow")||
-                                apiJSON.equalsIgnoreCase("APIcontractDetailsJSONPaymentTerms"))
+        if(apiJSON.equalsIgnoreCase("apiContractDetailsJSONSchemaversion")||
+                apiJSON.equalsIgnoreCase("apiContractDetailsJSONSubmissionWindow")||
+                                apiJSON.equalsIgnoreCase("apiContractDetailsJSONPaymentTerms"))
         {
         String apiJsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, apiJSON);
         String dbJsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, dbJSON);
         log.info("contractDetailsJson response is");
         verificationHelperClass.verifyAPIResponseJsonWithDBJsonWithIntDataTypeValues(getContractDetailsByIDResponse,contractDetailsJSON,apiJsonPath,dbJsonPath);
         }
-        else if (apiJSON.equalsIgnoreCase("APIcontractDetailsJSONLocations") ||
-                apiJSON.equalsIgnoreCase("APIcontractDetailsJSONLineOfBusiness")
+        else if (apiJSON.equalsIgnoreCase("apiContractDetailsJSONLocations") ||
+                apiJSON.equalsIgnoreCase("apiContractDetailsJSONLineOfBusiness")
         )
 
         {
@@ -219,16 +219,16 @@ public class GetContractDetailsByID extends TestBase {
                 verificationHelperClass.verifyAPIResponseJsonWithDBJsonWithStringDataTypeValues(getContractDetailsByIDResponse,contractDetailsJSON,apiJsonPath,dbJsonPath);
             }
         }
-        else if (apiJSON.equalsIgnoreCase("APIcontractDetailsJSONBillingCycle")||
-        apiJSON.equalsIgnoreCase("APIcontractDetailsJSONResubmissionWindow"))
+        else if (apiJSON.equalsIgnoreCase("apiContractDetailsJSONBillingCycle")||
+        apiJSON.equalsIgnoreCase("apiContractDetailsJSONResubmissionWindow"))
         {
             String apiJsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, apiJSON);
             String dbJsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, dbJSON);
             log.info("contractDetailsJson response is");
             verificationHelperClass.verifyAPIResponseJsonWithDBJsonWithonlyStringDataTypeValues(getContractDetailsByIDResponse,contractDetailsJSON,apiJsonPath,dbJsonPath);
         }
-        else if(apiJSON.equalsIgnoreCase("APIcontractDetailsJSONOpsAssignee")||
-                apiJSON.equalsIgnoreCase("APIcontractDetailsJSONOpsQCer")){
+        else if(apiJSON.equalsIgnoreCase("apiContractDetailsJSONOpsAssignee")||
+                apiJSON.equalsIgnoreCase("apiContractDetailsJSONOpsQCer")){
             {
                 String apiJsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, apiJSON);
                 String dbJsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, dbJSON);
@@ -237,7 +237,7 @@ public class GetContractDetailsByID extends TestBase {
             }
 
         }
-        else if(apiJSON.equalsIgnoreCase("APIcontractDetailsJSONThirdPartyAuth")){
+        else if(apiJSON.equalsIgnoreCase("apiContractDetailsJSONThirdPartyAuth")){
             {
                 String apiJsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, apiJSON);
                 String dbJsonPath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, dbJSON);
@@ -276,7 +276,10 @@ public class GetContractDetailsByID extends TestBase {
             String contractNotes=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"jsonForContractNotes");
             String manufacturerName=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"jsonForManufacturerName");
             String iRManager=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"jsonForIRManager");
-            String accountManager=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"JsonForAccountManager");
+            String accountManager=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"jsonForAccountManager");
+            String autoRenewFlag=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"jsonForAutoRenewFlag");
+            String autoRenewTerm=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"jsonForAutoRenewTerm");
+            String autoRenewNotifyDate=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"jsonForAutoRenewNotifyDate");
 
             result=dbHepler.executePreparedQuery(query,String.valueOf(rowKeyVal));
             result.next();
@@ -297,8 +300,11 @@ public class GetContractDetailsByID extends TestBase {
             verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(getContractDetailsByIDResponse,dbJson,contractName,contractName);
             verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(getContractDetailsByIDResponse,dbJson,contractNotes,contractNotes);
             verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(getContractDetailsByIDResponse,dbJson,manufacturerName,manufacturerName);
-            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(getContractDetailsByIDResponse,dbJson,iRManager,iRManager);
+//            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(getContractDetailsByIDResponse,dbJson,iRManager,iRManager);
             verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(getContractDetailsByIDResponse,dbJson,accountManager,accountManager);
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(getContractDetailsByIDResponse,dbJson,autoRenewFlag,autoRenewFlag);
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(getContractDetailsByIDResponse,dbJson,autoRenewTerm,autoRenewTerm);
+            verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(getContractDetailsByIDResponse,dbJson,autoRenewNotifyDate,autoRenewNotifyDate);
         }catch (Exception e){
             e.printStackTrace();
         }

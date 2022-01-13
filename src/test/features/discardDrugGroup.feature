@@ -5,23 +5,24 @@ Feature: Discard a drug group
     Given User executes the "getNewDrugGroupRowKey" query and retrieves rowkey
     When User hits the "discardDrugGroup" Endpoint with delete request
     Then User verifies the valid status code "200" in the Discard drug group response
-    And user runs "restoreTheDrugGroupStatus" query to activate the drug list
+   And user runs "restoreTheDrugGroupStatus" and "restoreTheDrugListDetailStatus" query to activate the drug list and DrugListDetails
 
-  @Smoke
+ @Smoke
    Scenario: Discard the Drug group  and verify  response is in JSON format
     Given User executes the "getNewDrugGroupRowKey" query and retrieves rowkey
     When User hits the "discardDrugGroup" Endpoint with delete request
     Then User verifies the discard Drug group response is in JSON format
-    And user runs "restoreTheDrugGroupStatus" query to activate the drug list
+    And user runs "restoreTheDrugGroupStatus" and "restoreTheDrugListDetailStatus" query to activate the drug list and DrugListDetails
 
   @Smoke @Functional
    Scenario: Discard the Drug group  and verify  response message value
     Given User executes the "getNewDrugGroupRowKey" query and retrieves rowkey
     When User hits the "discardDrugGroup" Endpoint with delete request
     Then User verifies the discard Drug group response message json value
-    And user runs "restoreTheDrugGroupStatus" query to activate the drug list
+   And user runs "restoreTheDrugGroupStatus" and "restoreTheDrugListDetailStatus" query to activate the drug list and DrugListDetails
 
-  @Regression @Functional
+
+ @Regression @Functional
    Scenario: Validate discarded drug group's is_Current_Flag value is zero in database
     Given User executes the "getNewDrugGroupRowKey" query and retrieves rowkey
     When User hits the "discardDrugGroup" Endpoint with delete request
@@ -29,9 +30,10 @@ Feature: Discard a drug group
     And User verifies the discard Drug group response is in JSON format
     And User verifies the discard Drug group response message json value
     And user verifies the "DiscardedDrugGroupis_current_flag" as zero in database for discarded drug group
-    And user runs "restoreTheDrugGroupStatus" query to activate the drug list
+  And user runs "restoreTheDrugGroupStatus" and "restoreTheDrugListDetailStatus" query to activate the drug list and DrugListDetails
 
-  @Regression @Functional
+
+ @Regression @Functional
    Scenario: Discard drug group with Life cycle status  InProgress
     Given User executes the "getInProgressDrugGroupRowKey" query and retrieves rowkey
     When User hits the "discardDrugGroup" Endpoint with delete request
@@ -39,9 +41,10 @@ Feature: Discard a drug group
     Then User verifies the discard Drug group response is in JSON format
     And User verifies the discard Drug group response message json value
     And user verifies the "DiscardedDrugGroupis_current_flag" as zero in database for discarded drug group
-    And user runs "restoreTheDrugGroupStatus" query to activate the drug list
+  And user runs "restoreTheDrugGroupStatus" and "restoreTheDrugListDetailStatus" query to activate the drug list and DrugListDetails
 
-  @Regression @Functional
+
+ @Regression @Functional
    Scenario: Discard drug group with Life cycle status  Approved and verify the error message
     Given User executes the "getApprovedDrugGroupRowKey" query and retrieves rowkey
     When User hits the "discardDrugGroup" Endpoint with delete request
