@@ -4,6 +4,7 @@ import HelperClass.DataBaseHelper;
 import HelperClass.ResourcePath;
 import HelperClass.VerificationHelperClass;
 import RequestPojo.*;
+import RequestPojo.discardDrugGroup.DiscardDrugGroupPojo;
 import TestBase.TestBase;
 import com.jayway.jsonpath.JsonPath;
 import cucumber.api.DataTable;
@@ -28,6 +29,10 @@ public class CreateDrugGroup extends TestBase {
     private int drugGrouprowKey;
     private String condition;
     private int attempts = 0;
+    private ResultSet result;
+    private String mfrDrugListId;
+    private String instanceKey;
+    private DiscardDrugGroupPojo discardDrugGroupPojo;
 
     CreateDrugGroupPojo createDrugGroupPojo;
 
@@ -184,13 +189,36 @@ public class CreateDrugGroup extends TestBase {
     }
 
     /**
+     * This method retrieves the rowKey of a drug group as per the supplied query  from  DB
+     * @author Smruti
+     * @param query
+     * @exception SQLException
+     */
+
+    public  void getDrugGroupRowKey(String query) {
+        try {
+            log.info("query is "+query);
+            result = dataBaseHelper.getData(query);
+            result.next();
+            String drugGroupRowKey=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "discardDrugGroupRowKey");
+            String mfrDLId=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "discardDrugGroupdrugListId");
+            String recordUpdatedDate=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "instanceKey");
+            mfrDrugListId=result.getString(mfrDLId);
+            String updatedDate=result.getString(recordUpdatedDate);
+            instanceKey=updatedDate.replaceFirst(" ","T");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    /**
      * This method is used to discard the DrugGroup
      *
      * @uthor Bharath
      */
     public void discardDrugGroup() {
+        discardDrugGroupPojo=new DiscardDrugGroupPojo(String.valueOf(drugGrouprowKey),instanceKey,"") ;
         String discardDrugGroupEndpoint = "discardDrugGroup";
-        deleteOperation(discardDrugGroupEndpoint, drugGrouprowKey);
+        deleteOperation(discardDrugGroupEndpoint, discardDrugGroupPojo);
 
     }
 

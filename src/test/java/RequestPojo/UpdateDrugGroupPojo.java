@@ -1,26 +1,32 @@
 package RequestPojo;
 
 public class UpdateDrugGroupPojo {
-    private int drugListRowKey;
-    private int mfrDrugListId;
+    private int drugGroupRowKey;
+    private String mfrDrugListId;
     private String mfrId;
     private String drugGroupName;
     private String drugGroupType;
+    private String opsAssignee;
+    private String opsQc;
+    private String instanceKey;
 
-    public UpdateDrugGroupPojo(int drugListRowKey, int mfrDrugListId, String mfrId, String drugGroupName, String drugGroupType) {
-        this.drugListRowKey = drugListRowKey;
+    public UpdateDrugGroupPojo(int drugGroupRowKey, String mfrDrugListId, String mfrId, String drugGroupName, String drugGroupType,String instanceKey,String opsAssignee,String opsQc) {
+        this.drugGroupRowKey = drugGroupRowKey;
         this.mfrDrugListId = mfrDrugListId;
         this.mfrId = mfrId;
         this.drugGroupName = drugGroupName;
         this.drugGroupType = drugGroupType;
+        this.instanceKey=instanceKey;
+        this.opsAssignee=opsAssignee;
+        this.opsQc=opsQc;
     }
 // Getter Methods
 
-    public int getdrugListRowKey() {
-        return drugListRowKey;
+    public int getdrugGroupRowKey() {
+        return drugGroupRowKey;
     }
 
-    public int getMfrDrugListId() {
+    public String getMfrDrugListId() {
         return mfrDrugListId;
     }
 
@@ -37,11 +43,11 @@ public class UpdateDrugGroupPojo {
     }
 
     // Setter Methods
-    public void setdrugListRowKey(int drugListRowKey) {
-        this.drugListRowKey = drugListRowKey;
+    public void setdrugGroupRowKey(int drugListRowKey) {
+        this.drugGroupRowKey = drugListRowKey;
     }
 
-    public void setMfrDrugListId(int mfrDrugListId) {
+    public void setMfrDrugListId(String mfrDrugListId) {
         this.mfrDrugListId = mfrDrugListId;
     }
 
@@ -56,4 +62,28 @@ public class UpdateDrugGroupPojo {
     public void setDrugGroupType(String drugGroupType) {
         this.drugGroupType = drugGroupType;
     }
+    public String getInstanceKey() {
+        return instanceKey;
+    }
+
+    public void setInstanceKey(String instanceKey) {
+        this.instanceKey = instanceKey;
+    }
+
+    public String getOpsAssignee() {
+        return opsAssignee;
+    }
+
+    public void setOpsAssignee(String opsAssignee) {
+        this.opsAssignee = opsAssignee;
+    }
+
+    public String getOpsQc() {
+        return opsQc;
+    }
+
+    public void setOpsQc(String opsQc) {
+        this.opsQc = opsQc;
+    }
+
 }

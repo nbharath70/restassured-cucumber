@@ -4,7 +4,7 @@ Feature: Retrieve and validate the Create new Drug group details
   Scenario: Validate Create new Drug group details creation and verify correct status code
     Given User creates a new drug group
       | mfrId    | drugGroupName      | drugGroupType | condition |
-      | ASTRA001 | QAAutomation_Drug1 | Rebateable    | valid     |
+      | ABOT001 | QAAutomation_Drug1 | Rebateable    | valid     |
     Then User hits the "createNewDrugGroupDetails" with post request of CreateNewDrugGroup with query "getRowKeyForCreateDrugGroup"
     Then User verify create new drug group status code "200" for the response
     Then User verify the valid CreateNewDrugGroup Response body key "recordSaved" and expected value "true"
