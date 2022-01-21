@@ -2,15 +2,16 @@ package stepdefs;
 
 import TestBase.TestBase;
 import baseSteps.GetDrugGroupDetailsByMFRDrugListID;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 
 public class GetDrugGroupDetailsByMFRDrugListIDStepdefs extends TestBase {
     GetDrugGroupDetailsByMFRDrugListID getDrugGroupDetailsByMFRDrugListID=new GetDrugGroupDetailsByMFRDrugListID();
-    @Given("^User executes query \"([^\"]*)\" and gets MFRDrugListID from column \"([^\"]*)\"$")
-    public void userExecutesQueryAndGetsMFRDrugListIDFromColumn(String query, String columnName) throws Throwable {
-        getDrugGroupDetailsByMFRDrugListID.userExecutesQueryAndGetsMFRDrugListID(query,columnName);
+    @Given("^User executes query \"([^\"]*)\" and gets MFRDrugListRowKey from column \"([^\"]*)\"$")
+    public void userExecutesQueryAndGetsMFRDrugListRowKeyFromColumn(String query, String columnName) throws Throwable {
+        getDrugGroupDetailsByMFRDrugListID.userExecutesQueryAndGetsMFRDrugListRowKey(query,columnName);
     }
 
     @And("^User Hits API \"([^\"]*)\" with Get request for getDrugGroupdetails$")
@@ -23,9 +24,18 @@ public class GetDrugGroupDetailsByMFRDrugListIDStepdefs extends TestBase {
         getDrugGroupDetailsByMFRDrugListID.verifyStatusCodeReturnedForDrugGroupDetailsAPI(statusCode);
     }
 
+//    @Then("^User executes the query \"([^\"]*)\" & columnName \"([^\"]*)\" And matches the DrugGroupDetails returned by API and DB$")
+//    public void userExecutesTheQueryColumnNameAndMatchesTheDrugGroupDetailsReturnedByAPIAndDB( String jsonPath,String columnName) throws Throwable {
+//        getDrugGroupDetailsByMFRDrugListID.validationOfDrugGroupDetails(columnName,jsonPath);
+//    }
 
-    @Then("^User executes the query \"([^\"]*)\" & columnName \"([^\"]*)\" And matches the DrugGroupDetails returned by API and DB$")
-    public void userExecutesTheQueryColumnNameAndMatchesTheDrugGroupDetailsReturnedByAPIAndDB( String jsonPath,String columnName) throws Throwable {
-        getDrugGroupDetailsByMFRDrugListID.validationOfDrugGroupDetails(columnName,jsonPath);
+    @Then("^User executes query \"([^\"]*)\" and gets drug details$")
+    public void userExecutesQueryToGetsDrugDetails(String queryKey) {
+        getDrugGroupDetailsByMFRDrugListID.executeQueryToGetDrugDetails(queryKey);
+    }
+
+    @Then("^User verifies drug details by drug group row key API response with DB response$")
+    public void userVerifiesDrugDetailsByDrugGroupRowKeyAPIResponseWithDBResponse() {
+        getDrugGroupDetailsByMFRDrugListID.verifyDrugDetailsByDrugGroupRowKeyAPIResponseWithDBResponse();
     }
 }
