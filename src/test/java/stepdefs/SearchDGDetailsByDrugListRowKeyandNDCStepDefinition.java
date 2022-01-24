@@ -64,5 +64,11 @@ public class SearchDGDetailsByDrugListRowKeyandNDCStepDefinition {
     @And("^User Hits resource \"([^\"]*)\" with Get API request with (\\d+) NDC chars$")
     public void userHitsResourceWithGetAPIRequestWithNDCChars(String endPointKey, int x)  {
         searchDGDetails.hitsResourceWithGetAPIRequestWithNDCChars(endPointKey);
+
+    }
+
+    @Then("^user validates the reponse of API$")
+    public void userValidatesTheReponseOfAPI() {
+        searchDGDetails.validateEmptyResponseOfAPI();
     }
 }

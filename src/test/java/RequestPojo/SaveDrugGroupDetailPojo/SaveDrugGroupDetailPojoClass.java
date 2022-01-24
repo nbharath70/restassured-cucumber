@@ -6,23 +6,26 @@ import java.util.ArrayList;
 
 public class SaveDrugGroupDetailPojoClass{
     private int drugListId;
-    private int drugRowKey;
+    private int drugGroupRowKey;
     private ArrayList ndcs;
     private String startDate;
     private String endDate;
+    private String instanceKey;
 
-    public SaveDrugGroupDetailPojoClass(int drugListId,int drugRowKey, ArrayList ndcs,String startDate, String endDate) {
+    public SaveDrugGroupDetailPojoClass(int drugListId,int drugGroupRowKey, ArrayList ndcs,String startDate, String endDate,String instanceKey) {
         this.drugListId = drugListId;
-        this.drugRowKey = drugRowKey;
+        this.drugGroupRowKey = drugGroupRowKey;
         this.ndcs = ndcs;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.instanceKey=instanceKey;
     }
-    public SaveDrugGroupDetailPojoClass(int drugListId, ArrayList ndcs,String startDate, String endDate) {
+    public SaveDrugGroupDetailPojoClass(int drugListId, ArrayList ndcs,String startDate, String endDate,String instanceKey) {
         this.drugListId = drugListId;
         this.ndcs = ndcs;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.instanceKey=instanceKey;
     }
 
     public SaveDrugGroupDetailPojoClass()
@@ -35,8 +38,8 @@ public class SaveDrugGroupDetailPojoClass{
         return drugListId;
     }
 
-    public int getDrugRowKey() {
-        return drugRowKey;
+    public int getDrugGroupRowKey() {
+        return drugGroupRowKey;
     }
 
     public String getStartDate() {
@@ -53,8 +56,8 @@ public class SaveDrugGroupDetailPojoClass{
         this.drugListId = drugListId;
     }
 
-    public void setDrugRowKey(int drugRowKey) {
-        this.drugRowKey = drugRowKey;
+    public void setDrugGroupRowKey(int drugRowKey) {
+        this.drugGroupRowKey = drugRowKey;
     }
 
     public void setStartDate(String startDate) {
@@ -68,6 +71,16 @@ public class SaveDrugGroupDetailPojoClass{
     public ArrayList getNdcs() {
         return ndcs;
     }
+
+    public String getInstanceKey() {
+        return instanceKey;
+    }
+
+    public void setInstanceKey(String instancekey) {
+        this.instanceKey = instancekey;
+    }
+
+
 
     public void setNdcs(String query,String columName) {
         DataBaseHelper dataBaseHelper=new DataBaseHelper();

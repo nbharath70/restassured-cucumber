@@ -76,6 +76,7 @@ public class SearchDGDetailsByDrugListRowKeyandNDC extends TestBase {
         String errorMsgJsonPath=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, errorMsgJsonPathKey);
         String errorMsgJson=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, errorMsgJsonKey);
         verificationHelper.verifyAPIResponseJsonWithDBJsonWithonlyStringDataTypeValues(response,errorMsgJson,errorMsgJsonPath,errorMsgJsonPath);
+
     }
 
     public void setNullInNDC() {
@@ -90,5 +91,9 @@ public class SearchDGDetailsByDrugListRowKeyandNDC extends TestBase {
         }
         else list.add(ndc.substring(0,5));
         response=getCall(endPointKey,list);
+    }
+
+    public void validateEmptyResponseOfAPI(){
+        verificationHelper.verifyEmptyResponse(response);
     }
 }

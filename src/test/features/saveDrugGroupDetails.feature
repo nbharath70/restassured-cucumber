@@ -1,16 +1,10 @@
 Feature:Retrieve and validate the save drug group details
 
   Background:
-    Given User creates a new drug group
+    Given User creates a new drug group to add some drugs to it and test
       | mfrId    | drugGroupName      | drugGroupType |condition|
       | ASTRA001 | QAAutomation_Drug1 | Rebateable    |valid     |
-    Then User hits the "createNewDrugGroupDetails" with post request of CreateNewDrugGroup with query "getRowKeyForCreateDrugGroup"
-    Then User verify create new drug group status code "200" for the response
-    Then User verify the valid CreateNewDrugGroup Response body key "recordSaved" and expected value "true"
-    Then User verify the valid CreateNewDrugGroup Response body key "recordUpdated" and expected value "false"
-    Then User verify the valid Response body key "mfrDrugListId" and execute the query "QAAutomation_Drug1" matches the Drug groupID return from API and DB
-    Then User executes the query "getMFR_DrugList_ID" by drugGroup name "QAAutomation_Drug1" to get MFR_DrugList_ID to save drug group details
-    Then User executes the query "getDrugGroupRowKey" by drugGroup name "QAAutomation_Drug1" to get row key for drug group to save drug group details
+    Then User hits the "createNewDrugGroupDetails" API and fetches its rowKey using query "getRowKeyForCreateDrugGroup"
 
 
   @Smoke
@@ -18,11 +12,11 @@ Feature:Retrieve and validate the save drug group details
      Given User create the save drug group details data
       | drugListId | ndcs | startDate | endDate | query         | columnName        | condition |
       |            |      |           |         | getListOfNdcs | DRUG_PRODUCT_CODE | valid     |
-    Then User hits the "saveDrugGroupDetails" API
+    Then User hits the "saveDrugGroupDetails" Save Drug Group Details API
     Then User verify save drug drug group status code "200" for the response
     Then User verify the NDC details And matches returned by API and DB by NDCJson path "ndcsSaveDrugGroupDetailsJSON" and columnName "saveDrugGroupDetailsDrugProductCodeColumName"
     Then User verify the NDC details Row Key And matches returned by API and DB by NDCJson path "rowKeySaveDrugGroupDetailsJSON" and columnName "saveDrugGroupDetailsRowKeyColumName"
-    Then User discards the drugGroup and deletes the record from DB
+    Then User discards the drugGroup and deletes the created record of drugGroup from DB
 
 
   @Functional @Regression
@@ -30,16 +24,15 @@ Feature:Retrieve and validate the save drug group details
     Given User create the save drug group details data
       | drugListId | ndcs | startDate | endDate | query         | columnName        | condition |
       |            |      |           |         | getListOfNdcs | DRUG_PRODUCT_CODE | valid     |
-    Then User hits the "saveDrugGroupDetails" API
+    Then User hits the "saveDrugGroupDetails" Save Drug Group Details API
     Then User verify save drug drug group status code "200" for the response
     Then User verify the NDC details And matches returned by API and DB by NDCJson path "ndcsSaveDrugGroupDetailsJSON" and columnName "saveDrugGroupDetailsDrugProductCodeColumName"
     Then User verify the NDC details Row Key And matches returned by API and DB by NDCJson path "rowKeySaveDrugGroupDetailsJSON" and columnName "saveDrugGroupDetailsRowKeyColumName"
-    Then User executes the query "getMFR_DrugList_ID" by drugGroup name "QAAutomation_Drug1" to get MFR_DrugList_ID to save drug group details
-    Then User executes the query "getDrugGroupRowKey" by drugGroup name "QAAutomation_Drug1" to get row key for drug group to save drug group details
+
     Given User create the save drug group details data
       | drugListId | ndcs | startDate | endDate | query                 | columnName        | condition |
       |            |      |           |         | getListOfExistingNdcs | DRUG_PRODUCT_CODE | valid     |
-    Then User hits the "saveDrugGroupDetails" API
+    Then User hits the "saveDrugGroupDetails" Save Drug Group Details API
     Then User verify save drug drug group status code "200" for the response
     Then User discards the drugGroup and deletes the record from DB
 #    Then User verify the saveDrugGroupDetails valid Response body key "saveDrugGroupDetailsMessage" and expected value "DrugGroupDetailName Already Exists" of string
@@ -54,15 +47,15 @@ Feature:Retrieve and validate the save drug group details
     Then User verify save drug drug group status code "200" for the response
     Then User verify the NDC details And matches returned by API and DB by NDCJson path "ndcsSaveDrugGroupDetailsJSON" and columnName "saveDrugGroupDetailsDrugProductCodeColumName"
     Then User verify the NDC details Row Key And matches returned by API and DB by NDCJson path "rowKeySaveDrugGroupDetailsJSON" and columnName "saveDrugGroupDetailsRowKeyColumName"
-    Then User executes the query "getMFR_DrugList_ID" by drugGroup name "QAAutomation_Drug1" to get MFR_DrugList_ID to save drug group details
-    Then User executes the query "getDrugGroupRowKey" by drugGroup name "QAAutomation_Drug1" to get row key for drug group to save drug group details
+
+
     Given User create the save drug group details data
       | drugListId | drugRowKey | ndcs | startDate  | endDate    | query                 | columnName        | condition          |
       |            |            |      | 2023-01-10 | 2024-01-10 | getListOfExistingNdcs | DRUG_PRODUCT_CODE | nonOverLappingDate |
-    Then User hits the "saveDrugGroupDetails" API
+    Then User hits the "saveDrugGroupDetails" Save Drug Group Details API
     Then User verify save drug drug group status code "200" for the response
     Then User discards the drugGroup and deletes the record from DB
-#    Then User verify the saveDrugGroupDetails valid Response body key "saveDrugGroupDetailsMessage" and expected value "SUCCESS" of string
+    Then User verify the saveDrugGroupDetails valid Response body key "saveDrugGroupDetailsMessage" and expected value "SUCCESS" of string
 
   @Functional @Regression
   Scenario: Validate DrugListId doesn't exists in Drug Group for save drug group details creation and verify correct status code with response body is returned
@@ -79,18 +72,18 @@ Feature:Retrieve and validate the save drug group details
        Given User create the save drug group details data
       | drugListId | drugRowKey | ndcs        | startDate  | endDate    | query                 | columnName        | condition   |
       |            |            | 22333344444 | 2023-01-10 | 2024-01-10 | getListOfExistingNdcs | DRUG_PRODUCT_CODE | invalidNDCS |
-    Then User hits the "saveDrugGroupDetails" API
+    Then User hits the "saveDrugGroupDetails" Save Drug Group Details API
     Then User verify save drug drug group status code "200" for the response
     Then User discards the drugGroup and deletes the record from DB
-    #    Then User verify the saveDrugGroupDetails valid Response body key "saveDrugGroupDetailsMessage" and expected value "NDC Not Exists In Medispan" of string
-    #    Then User verify the saveDrugGroupDetails valid Response body key "saveDrugGroupDetailsStatusCode" and expected value "500" of Integer
+
+
 
   @Functional @Regression
   Scenario: Invalid date where start should be less than the end date and verify correct status code with response body is returned
     Given User create the save drug group details data
       | drugListId | drugRowKey | ndcs | startDate  | endDate    | query                 | columnName        | condition          |
       |            |            |      | 2024-01-10 | 2023-01-10 | getListOfExistingNdcs | DRUG_PRODUCT_CODE | nonOverLappingDate |
-    Then User hits the "saveDrugGroupDetails" API
+    Then User hits the "saveDrugGroupDetails" Save Drug Group Details API
     Then User verify save drug drug group status code "200" for the response
     Then User verify the saveDrugGroupDetails valid Response body key "message" and expected value "errorMessageForInvalidDates" of string
     Then User discards the drugGroup and deletes the record from DB
@@ -100,8 +93,7 @@ Feature:Retrieve and validate the save drug group details
     Given User create the save drug group details data
       | drugListId | ndcs | startDate  | endDate    | query                 | columnName        | condition             |
       |            |      | 2023-01-10 | 2024-01-10 | getListOfExistingNdcs | DRUG_PRODUCT_CODE | invalidDrugListRowKey |
-    Then User hits the "saveDrugGroupDetails" API
+    Then User hits the "saveDrugGroupDetails" Save Drug Group Details API
     Then User verify save drug drug group status code "200" for the response
-#    Then User verify the saveDrugGroupDetails valid Response body key "message" and expected value "Invalid input: drugRowKey" of string
     Then User verify the saveDrugGroupDetails valid Response body key "message" and expected value "errorMessageForInvalidRowKey" of string
     Then User discards the drugGroup and deletes the record from DB

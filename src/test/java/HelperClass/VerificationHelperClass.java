@@ -640,5 +640,11 @@ public class VerificationHelperClass extends TestBase {
 
     }
 
+    public void verifyEmptyResponse(Response response){
+        log.info("Validating the empty response");
+        Assert.assertEquals( response.asString(),"[]");
+        log.info("Successfully validated empty response");
+    }
+
 
 }
