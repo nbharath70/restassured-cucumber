@@ -3,7 +3,7 @@ Feature: APItoDeleteDrug.feature - Delete Drug group with Drug detail RowKeys
 
   @Positive @smoke
   Scenario:Delete a Valid drug from Drug group and check the status code
-    Given User executes the query "sqlToGetaValidDrugRowKey"and gets a valid drug detail "rowkey" , "columnMFRDrugListID", "columnNDC", "columnStartDate" and "columnEndDate"
+    Given User executes the query "sqlToGetaValidDrugRowKey"and gets a valid drug detail "rowkey" , "getDrugGroupMFR_DrugList_ID", "columnNDC", "columnStartDate" and "columnEndDate"
     And User prepares request body with the list of drug rowkeys
     Then User hits the "deleteDrugResource" with Delete request
     And User Verifies the correct status code "200" from API response
@@ -11,7 +11,7 @@ Feature: APItoDeleteDrug.feature - Delete Drug group with Drug detail RowKeys
 
   @Positive @smoke
   Scenario:Delete a Valid drug from Drug group
-    Given User executes the query "sqlToGetaValidDrugRowKey"and gets a valid drug detail "rowkey" , "columnMFRDrugListID", "columnNDC", "columnStartDate" and "columnEndDate"
+    Given User executes the query "sqlToGetaValidDrugRowKey"and gets a valid drug detail "rowkey" , "getDrugGroupMFR_DrugList_ID", "columnNDC", "columnStartDate" and "columnEndDate"
     And User prepares request body with the list of drug rowkeys
     Then User hits the "deleteDrugResource" with Delete request
     And User verifies APIresponse with "deleteValidDrugMsg"
@@ -34,10 +34,14 @@ Feature: APItoDeleteDrug.feature - Delete Drug group with Drug detail RowKeys
 
   @Negative
   Scenario:Delete an InValid drug with LCS Deleted
-    Given User executes the query "sqlToGetaDeletedDrugRowKey"and gets a drug detail "rowkey"
+    Given User executes the query "sqlToGetaValidDrugRowKey"and gets a valid drug detail "rowkey" , "getDrugGroupMFR_DrugList_ID", "columnNDC", "columnStartDate" and "columnEndDate"
+    And User prepares request body with the list of drug rowkeys
+    Then User hits the "deleteDrugResource" with Delete request
+    And User executes the query "sqlToGetaDeletedDrugRowKey"and gets a drug detail "rowkey"
     And User prepares request body with the list of drug rowkeys
     Then User hits the "deleteDrugResource" with Delete request
     And User verifies APIresponse message with "deleteNonApprovedDrugMsg"
+    And User deletes the new deleted record from the DB by executing "sqlToDeleteAdeletedDrug"
 
   @Negative
   Scenario:Delete an InValid drug group detail rowkey
@@ -60,7 +64,7 @@ Feature: APItoDeleteDrug.feature - Delete Drug group with Drug detail RowKeys
 
   @Positive @smoke
   Scenario:Delete two Valid drugs from Drug group
-    Given User executes the query "sqlToGetMultipleValidDrugRowKey"and get multiple valid drug detail "rowkey" , "columnMFRDrugListID", "columnNDC", "columnStartDate" and "columnEndDate"
+    Given User executes the query "sqlToGetMultipleValidDrugRowKey"and get multiple valid drug detail "rowkey" , "getDrugGroupMFR_DrugList_ID", "columnNDC", "columnStartDate" and "columnEndDate"
     And User prepares request body with the multiple drug rowkeys
     Then User hits the "deleteDrugResource" with Delete request
     And User verifies APIresponse with "deleteValidMultipleDrugMsg" for two drugs

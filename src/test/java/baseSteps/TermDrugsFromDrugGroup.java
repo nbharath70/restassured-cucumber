@@ -28,6 +28,7 @@ public class TermDrugsFromDrugGroup extends TestBase {
     private List<String> listOfNDCs ;
     private List<String> listOfStartDate;
     private List<String> listOfEndDate;
+    private List<String> drugListDetailInstancekey;
     Response response;
     ResultSet resultSet;
 
@@ -60,12 +61,14 @@ public class TermDrugsFromDrugGroup extends TestBase {
             String ndc = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "ndcForTermingDrugs");
             String startDate = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "startDateforDrugs");
             String endDate = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "endDateForDrugs");
+            String instanceKey=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,"recUpdatedDate");
 
             listOfRowkeys = JsonPath.read(dbJson, rowKey);
             listOfDLIds = JsonPath.read(dbJson, mfrDrugListID);
             listOfNDCs = JsonPath.read(dbJson, ndc);
             listOfStartDate = JsonPath.read(dbJson, startDate);
             listOfEndDate = JsonPath.read(dbJson, endDate);
+            drugListDetailInstancekey=JsonPath.read(dbJson,instanceKey);
             String maxDate = "1900-1-1";
             Date termDate = null;
             for (int i = 0; i < listOfStartDate.size(); i++) {
@@ -84,12 +87,13 @@ public class TermDrugsFromDrugGroup extends TestBase {
                     String termDateStr = simpleDateFormat.format(termDate);
                     for (int i = 0; i < listOfNDCs.size(); i++) {
                         NdcDetail ndcDetail = new NdcDetail();
-                        termDrugsFromDrugGroup.setDrugRowKey(listOfRowkeys.get(i));
+                        termDrugsFromDrugGroup.setDrugGroupRowKey(listOfRowkeys.get(i));
                         termDrugsFromDrugGroup.setDrugListId(listOfDLIds.get(i));
                         ndcDetail.setNdc(listOfNDCs.get(i));
                         ndcDetail.setStartDate(listOfStartDate.get(i));
                         termDrugsFromDrugGroup.setNdcDetails(ndcDetail);
                         termDrugsFromDrugGroup.setEndDate(termDateStr);
+                        termDrugsFromDrugGroup.setInstanceKey(drugListDetailInstancekey.get(i));
                     }
 
 

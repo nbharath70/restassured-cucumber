@@ -5,6 +5,7 @@ import HelperClass.ResourcePath;
 import HelperClass.VerificationHelperClass;
 import RequestPojo.DeleteDrugPojo;
 import TestBase.TestBase;
+import com.jayway.jsonpath.JsonPath;
 import io.restassured.response.Response;
 import org.junit.Assert;
 
@@ -18,6 +19,8 @@ import java.util.List;
 public class DeleteDrugAPI extends TestBase {
     DeleteDrugPojo deleteDrugPojo=new DeleteDrugPojo();
     private int drugRowkey=0;
+    private int drugGroupRowKey;
+    private String instanceKey;
     private String mfrDLId=null;
     private String ndc=null;
     private String startDate=null;
@@ -28,6 +31,7 @@ public class DeleteDrugAPI extends TestBase {
     private String startDate1=null;
     private String endDate1=null;
     List<String> listOfQueryParams=null;
+    private List<String> instanceKeyFromresponse;
 
     Response response=null;
     DataBaseHelper dataBaseHelper=new DataBaseHelper();
@@ -40,12 +44,17 @@ public class DeleteDrugAPI extends TestBase {
             String ndcColumnName = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, ndcKey);
             String startDatecolumnName = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, startDateKey);
             String endDatecolumnName = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, endDateKey);
+            String drugGroupRowKeyColumnName = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "columnDrugGroupRowKey");
+            String drugGroupUpdatedDateColumnName = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "columndrugGroupUpdatedDate");
             rs.next();
             drugRowkey = Integer.parseInt(rs.getString(rowkeyColumnName));
             mfrDLId=rs.getString(mfrDLIdColumnName);
             ndc = rs.getString(ndcColumnName);
             startDate=rs.getString(startDatecolumnName);
             endDate=rs.getString(endDatecolumnName);
+            drugGroupRowKey=rs.getInt(drugGroupRowKeyColumnName);
+            String recUpdateDate=rs.getString(drugGroupUpdatedDateColumnName);
+            instanceKey=recUpdateDate.replaceFirst(" ","T");
         }catch (Exception e){e.printStackTrace();}
 
     }
@@ -54,17 +63,27 @@ public class DeleteDrugAPI extends TestBase {
         List<Integer> listOfRowKeys=new ArrayList<Integer>();
         listOfRowKeys.add(drugRowkey);
         System.out.println(listOfRowKeys);
-        deleteDrugPojo.setDetailRowKeys(listOfRowKeys);
+        deleteDrugPojo.setDrugGroupRowKey(drugGroupRowKey);
+        deleteDrugPojo.setInstanceKey(instanceKey);
+        deleteDrugPojo.setDrugListDetailRowKeys(listOfRowKeys);
+
     }
 
     public void hitEndPointWithPostRequest(String endPointKey) {
         response=deleteOperation(endPointKey,deleteDrugPojo);
+        instanceKeyFromresponse=JsonPath.read(response.asString(),"$..instanceKey");
+
 
     }
 
     public void verifyAPIresponseWith(String responseMsgKey) {
         List<String> listOfRowKeys=new ArrayList<String>();
-        listOfRowKeys.add(String.valueOf(drugRowkey));
+        listOfRowKeys.add(instanceKeyFromresponse.get(0));
+        for (String a:
+        listOfRowKeys) {
+            System.out.println(a);
+
+        }
         String expectedResponse=dataBaseHelper.preparedQueryWithListOfStrings(responseMsgKey,listOfRowKeys);
         verificationHelperClass.verifyexpectedAndActualDirectlyAsStrings(response,expectedResponse);
     }
@@ -89,6 +108,11 @@ public class DeleteDrugAPI extends TestBase {
     }
 
     public void deleteTheNewDeletedRecordFromDB(String queryKey) {
+        listOfQueryParams = new ArrayList<String>();
+        listOfQueryParams.add(mfrDLId);
+        listOfQueryParams.add(ndc);
+        listOfQueryParams.add(startDate);
+        listOfQueryParams.add(endDate);
         String SQLToDeleteTheDeletedRecord = dataBaseHelper.preparedQueryWithListOfStrings(queryKey, listOfQueryParams);
         dataBaseHelper.executeDeleteQueryWithoutreadingFromPropFile(SQLToDeleteTheDeletedRecord);
     }
@@ -105,15 +129,20 @@ public class DeleteDrugAPI extends TestBase {
     public void prepareRequestBodyWithInValidRowKeyOfDrug(int rowKey) {
         List<Integer> listOfRowKeys=new ArrayList<Integer>();
         listOfRowKeys.add(rowKey);
-        deleteDrugPojo.setDetailRowKeys(listOfRowKeys);
+        deleteDrugPojo.setDrugListDetailRowKeys(listOfRowKeys);
     }
 
     public void executesTheQueryAndGetsADrugDetailRowkey(String queryKey, String rowkeyKey) {
         try {
             ResultSet rs = dataBaseHelper.getData(queryKey);
             String rowkeyColumnName = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, rowkeyKey);
+            String drugGroupRowKeyColumnName = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "columnDrugGroupRowKey");
+            String drugGroupUpdatedDateColumnName = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "columndrugGroupUpdatedDate");
             rs.next();
             drugRowkey = Integer.parseInt(rs.getString(rowkeyColumnName));
+            drugGroupRowKey=rs.getInt(drugGroupRowKeyColumnName);
+            String recUpdateDate=rs.getString(drugGroupUpdatedDateColumnName);
+            instanceKey=recUpdateDate.replaceFirst(" ","T");
         }catch (Exception e){e.printStackTrace();}
     }
 
@@ -121,14 +150,18 @@ public class DeleteDrugAPI extends TestBase {
         List<Integer> listOfRowKeys=new ArrayList<Integer>();
         listOfRowKeys.add(drugRowkey);
         listOfRowKeys.add(rowKey);
-        deleteDrugPojo.setDetailRowKeys(listOfRowKeys);
+        deleteDrugPojo.setDrugListDetailRowKeys(listOfRowKeys);
+        deleteDrugPojo.setDrugGroupRowKey(drugGroupRowKey);
+        deleteDrugPojo.setInstanceKey(instanceKey);
     }
 
     public void prepareRequestBodyWithInValidRowKeys(int rowKey1, int rowKey2) {
         List<Integer> listOfRowKeys=new ArrayList<Integer>();
         listOfRowKeys.add(rowKey1);
         listOfRowKeys.add(rowKey2);
-        deleteDrugPojo.setDetailRowKeys(listOfRowKeys);
+        deleteDrugPojo.setDrugListDetailRowKeys(listOfRowKeys);
+        deleteDrugPojo.setDrugGroupRowKey(drugGroupRowKey);
+        deleteDrugPojo.setInstanceKey(instanceKey);
     }
 
     public void executeQueryAndGetMultipleValidDrugDetail(String queryKey, String rowkeyKey, String mfrDLIdKey, String ndcKey, String startDateKey, String endDateKey) {
@@ -139,12 +172,17 @@ public class DeleteDrugAPI extends TestBase {
             String ndcColumnName = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, ndcKey);
             String startDatecolumnName = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, startDateKey);
             String endDatecolumnName = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, endDateKey);
+            String drugGroupRowKeyColumnName = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "columnDrugGroupRowKey");
+            String drugGroupUpdatedDateColumnName = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "columndrugGroupUpdatedDate");
             rs.next();
             drugRowkey = Integer.parseInt(rs.getString(rowkeyColumnName));
             mfrDLId=rs.getString(mfrDLIdColumnName);
             ndc = rs.getString(ndcColumnName);
             startDate=rs.getString(startDatecolumnName);
             endDate=rs.getString(endDatecolumnName);
+            drugGroupRowKey=rs.getInt(drugGroupRowKeyColumnName);
+            String recUpdateDate=rs.getString(drugGroupUpdatedDateColumnName);
+            instanceKey=recUpdateDate.replaceFirst(" ","T");
             rs.next();
             drugRowkey1 = Integer.parseInt(rs.getString(rowkeyColumnName));
             mfrDLId1=rs.getString(mfrDLIdColumnName);
@@ -159,14 +197,14 @@ public class DeleteDrugAPI extends TestBase {
         List<Integer> listOfRowKeys=new ArrayList<Integer>();
         listOfRowKeys.add(drugRowkey);
         listOfRowKeys.add(drugRowkey1);
-        System.out.println(listOfRowKeys);
-        deleteDrugPojo.setDetailRowKeys(listOfRowKeys);
+        deleteDrugPojo.setDrugListDetailRowKeys(listOfRowKeys);
+        deleteDrugPojo.setDrugGroupRowKey(drugGroupRowKey);
+        deleteDrugPojo.setInstanceKey(instanceKey);
     }
 
     public void verifyAPIresponseWithSuccessMsgforTwoDrugs(String expectedMsgKey) {
         List<String> listOfRowKeys=new ArrayList<String>();
-        listOfRowKeys.add(String.valueOf(drugRowkey));
-        listOfRowKeys.add(String.valueOf(drugRowkey1));
+        listOfRowKeys.add(instanceKeyFromresponse.get(0));
         String expectedResponse=dataBaseHelper.preparedQueryWithListOfStrings(expectedMsgKey,listOfRowKeys);
         verificationHelperClass.verifyexpectedAndActualDirectlyAsStrings(response,expectedResponse);
     }
@@ -193,7 +231,7 @@ public class DeleteDrugAPI extends TestBase {
             listOfQueryParams.add(endDate1);
             String deletedRecordQuery1 = dataBaseHelper.preparedQueryWithListOfStrings(queryKey, listOfQueryParams);
             ResultSet rs1 = dataBaseHelper.getDataWithoutPropertiesKey(deletedRecordQuery1);
-            Assert.assertTrue("Deleted record not found in DB for second Drug", rs.next());
+            Assert.assertTrue("Deleted record not found in DB for second Drug", rs1.next());
             log.info("Deleted record found in DB for second DrugWith RowKey="+rs.getString("Row_Key"));
         }catch (Exception e){e.printStackTrace();}
     }

@@ -5,10 +5,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TermDrugsFromDrugGroupPojoClass {
-    private int drugRowKey;
+    private int drugGroupRowKey;
     private String drugListId;
     public List<NdcDetail> ndcDetails=new ArrayList<NdcDetail>();
     private String endDate;
+    private String instanceKey;
+
+    public String getInstanceKey() {
+        return instanceKey;
+    }
+
+    public void setInstanceKey(String instanceKey) {
+        this.instanceKey = instanceKey;
+    }
+
+
 
 
 
@@ -20,12 +31,12 @@ public class TermDrugsFromDrugGroupPojoClass {
 //    }
 
 
-    public int getDrugRowKey() {
-        return drugRowKey;
+    public int getDrugGroupRowKey() {
+        return drugGroupRowKey;
     }
 
-    public void setDrugRowKey(int drugRowKey) {
-        this.drugRowKey = drugRowKey;
+    public void setDrugGroupRowKey(int drugRowKey) {
+        this.drugGroupRowKey = drugRowKey;
     }
 
     public String getDrugListId() {

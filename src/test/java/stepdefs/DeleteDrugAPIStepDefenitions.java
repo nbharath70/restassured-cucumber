@@ -57,7 +57,7 @@ public class DeleteDrugAPIStepDefenitions {
         deleteDrugAPI.prepareRequestBodyWithInValidRowKeyOfDrug(rowKey);
     }
 
-    @Given("^User executes the query \"([^\"]*)\"and gets a drug detail \"([^\"]*)\"$")
+    @And("^User executes the query \"([^\"]*)\"and gets a drug detail \"([^\"]*)\"$")
     public void userExecutesTheQueryAndGetsADrugDetail(String queryKey, String rowkeyKey)  {
         deleteDrugAPI.executesTheQueryAndGetsADrugDetailRowkey(queryKey,rowkeyKey);
     }
