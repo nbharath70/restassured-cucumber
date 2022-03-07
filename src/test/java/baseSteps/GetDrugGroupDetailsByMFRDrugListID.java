@@ -8,6 +8,8 @@ import com.jayway.jsonpath.JsonPath;
 import io.restassured.response.Response;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
+
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -15,20 +17,21 @@ public class GetDrugGroupDetailsByMFRDrugListID extends TestBase {
     DataBaseHelper dbHelper=new DataBaseHelper();
     VerificationHelperClass verificationHelper=new VerificationHelperClass();
     public static Logger log= TestBase.getMyLogger(GetDrugGroupDetailsByMFRDrugListID.class);
-    private String manfDrugListID=null;
+    private String manfDrugListRowKey=null;
     public Response response;
+    public String drugDetailsJson=null;
 
     /**
-     * This method is used get Gets top MFRDrugListID  from MFR_DrugList_Detail table fro database
+     * This method is used get Gets top MFRDrugListID  from MFR_DrugList_Detail table from database
      * @uthor Arun Kumar
      * @param queryKey
      * @param columnKey
      */
-    public void userExecutesQueryAndGetsMFRDrugListID(String queryKey, String columnKey)
+    public void userExecutesQueryAndGetsMFRDrugListRowKey(String queryKey, String columnKey)
     {
         String columnName=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, columnKey);
-        manfDrugListID=dbHelper.getSingleCellValueAsStringFromDB(queryKey, columnName);
-        log.info("Manufacture DrugListID picked from DB: " + manfDrugListID);
+        manfDrugListRowKey=dbHelper.getSingleCellValueAsStringFromDB(queryKey, columnName);
+        log.info("Manufacture DrugListID picked from DB: " + manfDrugListRowKey);
     }
 
     /**
@@ -38,7 +41,7 @@ public class GetDrugGroupDetailsByMFRDrugListID extends TestBase {
      */
     public void userHitsAPI(String endPointKey) {
         log.info("Drug group details GET operation API");
-        response = getCall(endPointKey, manfDrugListID);
+        response = getCall(endPointKey, manfDrugListRowKey);
     }
 
     /**
@@ -61,7 +64,7 @@ public class GetDrugGroupDetailsByMFRDrugListID extends TestBase {
         try {
             String jsonPathAndColumnName = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, actualJsonPathAndColumnName);
             String dbColumn = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, columnName);
-            String query = "select " + dbColumn + " from [cfg].[MFR_DrugList_Detail] DD inner join [ref].[Drug_Product] DP  ON DD.Drug_Product_Code=DP.DRUG_PRODUCT_CODE where DD.MFR_DrugList_ID='" + manfDrugListID + "'";
+            String query = "select " + dbColumn + " from [cfg].[MFR_DrugList_Detail] DD inner join [ref].[Drug_Product] DP  ON DD.Drug_Product_Code=DP.DRUG_PRODUCT_CODE where DD.MFR_DrugList_ID='" + manfDrugListRowKey + "'";
             log.info(query);
             ArrayList<String> actualValue = JsonPath.read(response.asString(), jsonPathAndColumnName);
             ArrayList<String> expectedValue = dbHelper.getDataColumnArrayListValueDBWithoutKey(query, actualJsonPathAndColumnName);
@@ -74,5 +77,23 @@ public class GetDrugGroupDetailsByMFRDrugListID extends TestBase {
         {
             e.printStackTrace();
         }
+    }
+
+    public void executeQueryToGetDrugDetails(String queryKey) {
+        try {
+            ResultSet rs = dbHelper.executePreparedQuery(queryKey, manfDrugListRowKey);
+            rs.next();
+            drugDetailsJson = rs.getString("result");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+//        drugDetailsJson = dbHelper.getSingleCellValueAsStringFromDB(queryKey, "result");
+    }
+
+    public void verifyDrugDetailsByDrugGroupRowKeyAPIResponseWithDBResponse() {
+        log.info("API: "+response.asString());
+        log.info("DB : "+drugDetailsJson);
+        verificationHelper.compareTwoStrings(response.asString(), drugDetailsJson);
     }
 }

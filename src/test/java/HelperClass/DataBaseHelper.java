@@ -37,15 +37,15 @@ public class DataBaseHelper extends TestBase {
             if(System.getProperty("environment")==null)
             {
                 if(System.getProperty("connectTo")==null){
-                    dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatDBURL");
-                    dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatUser");
-                    dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatPassword");
+                    dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "qaDBURL");
+                    dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "qaUser");
+                    dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "qaPassword");
                 }
                 else if(System.getProperty("connectTo").equalsIgnoreCase("flowable")){
                     log.info("connecting to flowable DB");
-                    dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatDBURLFlowable");
-                    dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatUserFlowable");
-                    dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "uatPasswordFlowable");
+                    dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "qaDBURLFlowable");
+                    dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "qaUserFlowable");
+                    dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "qaPasswordFlowable");
                 }
 
             }
@@ -77,6 +77,21 @@ public class DataBaseHelper extends TestBase {
                     dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "devDBURLFlowable");
                     dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "devUserFlowable");
                     dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "devPasswordFlowable");
+                }
+
+            }
+            else if(System.getProperty("environment").equalsIgnoreCase("qa"))
+            {
+                if(System.getProperty("connectTo")==null){
+                    dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "qaDBURL");
+                    dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "qaUser");
+                    dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "qaPassword");
+                }
+                else if(System.getProperty("connectTo").equalsIgnoreCase("flowable")){
+                    log.info("connecting to flowable DB");
+                    dbUrl = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "qaDBURLFlowable");
+                    dbUserName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "qaUserFlowable");
+                    dbPassword = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "qaPasswordFlowable");
                 }
 
             }
