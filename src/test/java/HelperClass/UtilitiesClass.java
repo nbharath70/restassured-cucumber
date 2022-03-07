@@ -54,7 +54,7 @@ public class UtilitiesClass extends TestBase {
         List<String> list=new ArrayList<String>();
         try {
             JSONParser jsonParser = new JSONParser();
-            Reader reader = new FileReader(System.getProperty("user.dir")+"\\src\\test\\testdata\\initiateMFRContract.json");
+            Reader reader = new FileReader(System.getProperty("user.dir")+"\\src\\test\\testdata\\initiateMFRContract1.json");
             Object obj=jsonParser.parse(reader);
             JSONObject jsonObject=(JSONObject) obj;
             //log.info(new GsonBuilder().setPrettyPrinting().create().toJson(jsonObject));

@@ -12,3 +12,10 @@ Feature:Retrieve and validate the Drug group details by a given MFRDrugListID
     And User Hits API "getDrugGroupDetailsByMFRDrugListRowKey" with Get request for getDrugGroupdetails
     Then User executes query "sqlToFetchDrugDetailsOfDruglist" and gets drug details
     Then User verifies drug details by drug group row key API response with DB response
+
+#  @Regression @Functional
+#  Scenario: Validate drug group details response with invalid drug list rowkey and verify proper error msg
+#    Given User executes query "getMFRDrugListRowKey" and gets MFRDrugListRowKey from column "columnMFRDrugListRowKey"
+#    And User Hits API "getDrugGroupDetailsByMFRDrugListRowKey" with invalid drug list row key with Get request
+#    Then User executes query "sqlToFetchDrugDetailsOfDruglist" with invalid drug list row key and gets drug details
+#    Then User verifies drug details by drug group row key API response with DB response
