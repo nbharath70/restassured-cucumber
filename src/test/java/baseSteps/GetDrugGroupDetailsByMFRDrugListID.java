@@ -92,8 +92,26 @@ public class GetDrugGroupDetailsByMFRDrugListID extends TestBase {
     }
 
     public void verifyDrugDetailsByDrugGroupRowKeyAPIResponseWithDBResponse() {
-        log.info("API: "+response.asString());
-        log.info("DB : "+drugDetailsJson);
+        log.info("Response from API: "+response.asString());
+        log.info("Response from DB : "+drugDetailsJson);
+        io.restassured.path.json.JsonPath js= response.jsonPath();
+
         verificationHelper.compareTwoStrings(response.asString(), drugDetailsJson);
+    }
+
+    public void userHitsAPIWithInvalidDrugListRowKey(String endPointKey) {
+        //invalid rowkey considered is 111001100
+        response = getCall(endPointKey, "111001100");
+    }
+
+    public void executeQueryWithInvalidDrugListRowKeyAndGetsDrugDetails(String queryKey) {
+        try {
+            //invalid rowkey considered is 111001100
+            ResultSet rs = dbHelper.executePreparedQuery(queryKey, "111001100");
+            rs.next();
+            drugDetailsJson = rs.getString("result");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

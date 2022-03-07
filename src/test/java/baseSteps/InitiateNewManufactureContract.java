@@ -12,6 +12,7 @@ import io.restassured.response.Response;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.junit.Assert;
 
 import java.io.FileReader;
 import java.io.Reader;
@@ -38,16 +39,17 @@ public class InitiateNewManufactureContract extends TestBase {
      * @Bharath
      * @return list - list of Contract Id Created and row key created
      */
-    public List<String> initiateContract() {
+    public void initiateContract() {
         List<String> list=new ArrayList<String>();
         try {
             JSONParser jsonParser = new JSONParser();
-            Reader reader = new FileReader(System.getProperty("user.dir")+"\\src\\test\\testdata\\initiateMFRContract.json");
+            //Reader reader = new FileReader(System.getProperty("user.dir")+"\\src\\test\\testdata\\initiateMFRContract1.json");
+            Reader reader = new FileReader("D:\\codeRefactorToAddDifferentDBconnections\\src\\test\\testdata\\initiateMFRContractUpdated.json");
             Object obj=jsonParser.parse(reader);
             jsonObject=(JSONObject) obj;
 
         }catch (Exception e){e.printStackTrace();}
-        return list;
+//        return list;
     }
 
 //    public void hitAPI(String endpoint){
@@ -107,7 +109,13 @@ public class InitiateNewManufactureContract extends TestBase {
      */
     public void validationResults(String actualValue,String expectedValue)
     {
-        verificationHelperClass.verifyResponseJsonBoolean(response,actualValue,expectedValue);
+        boolean assertionStatus=verificationHelperClass.verifyResponseJsonBoolean(response,actualValue,expectedValue);
+        if(!assertionStatus){
+            log.info("Calling delete method to clear the Automation data");
+            deleteContractRecordFromDB("deleteContractHeaderByContractName","deleteContractDetailByAmendmentName","QAAutoTeva2023");
+        }
+        Assert.assertTrue(assertionStatus);
+
     }
 
     /**

@@ -10,10 +10,12 @@ import java.util.List;
 
 public class DataBaseHelper extends TestBase {
     public static Logger log=getMyLogger(DataBaseHelper.class);
-    public Connection conn;
+     Connection conn;
     public Statement stmt;
     public PreparedStatement psmt;
     public ResultSet prepareQueryResult;
+    public CallableStatement cstmt;
+
 
     /**
      * @Author Arun Kumar
@@ -96,7 +98,40 @@ public class DataBaseHelper extends TestBase {
             if (conn != null) {
                 log.info("Connected to DB");
             }
+            //checking the property values setSessionToOtherOrg and setSessionToOtherRoles
+            if(System.getProperty("organization")==null && System.getProperty("roles")==null){
+                log.info("getting data permissions for ORG_DG and DATA_REBATE_ACCESS_DG");
+                cstmt = conn.prepareCall(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "sessionQueryOne"));
+                cstmt.setString(1,"Organization");
+                cstmt.setString(2,"ORG_DG");
+                cstmt.execute();
+                cstmt = conn.prepareCall(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "sessionQueryTwo"));
+                cstmt.setString(1,"Roles");
+                cstmt.setString(2,"[\"DATA_REBATE_ACCESS_DG\"]");
+                cstmt.execute();
+                log.info("successfully got data permissions for ORG_DG and DATA_REBATE_ACCESS_DG");
+            }
+            else if(System.getProperty("organization")!=null && System.getProperty("roles")!=null){
+                log.info("getting data permissions for "+System.getProperty("organization")+" and "+System.getProperty("roles"));
+                cstmt = conn.prepareCall(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "sessionQueryOne"));
+                cstmt.setString(1,"Organization");
+                cstmt.setString(2,System.getProperty("organization"));
+                cstmt.execute();
+                cstmt = conn.prepareCall(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "sessionQueryTwo"));
+                cstmt.setString(1,"Roles");
+                cstmt.setString(2,System.getProperty("roles"));
+                cstmt.execute();
+                //log.info("successfully got data permissions for "+System.getProperty("setSessionToOtherOrg")+" and "+System.getProperty("setSessionToOtherRoles"));
+            }
+            else if (System.getProperty("organization")==null && System.getProperty("roles")!=null){
+                log.info("User needs to mention Organization for data permissions");
+            }
+            else if (System.getProperty("organization")!=null && System.getProperty("roles")==null){
+                log.info("User needs to mention Role for data permissions");
+            }
+
             stmt = conn.createStatement();
+
             return stmt;
         }catch(Exception e)
         {
@@ -411,7 +446,7 @@ public class DataBaseHelper extends TestBase {
         try {
             getStatement();
             psmt = conn.prepareStatement(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, query));
-            log.info("query parameter is "+queryParam);
+            log.info("query parameter is "+getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, query)+queryParam);
             psmt.setString(1,queryParam);
             psmt.executeUpdate();
         } catch (SQLException e) {

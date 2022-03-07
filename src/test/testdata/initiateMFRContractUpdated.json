@@ -1,0 +1,26 @@
+{
+  "manufacturer": {
+    "name": "Teva",
+    "manufacturerId": "TEVA001"
+  },
+  "contractHeader": {
+    "contractId": "",
+    "contractName": "QAAutoTeva2023",
+    "contractType": "Non-Part D",
+    "lifecycleStatus": "New",
+    "startDate": "2023-01-01",
+    "endDate": "2023-12-31",
+    "notes": "QAAutoTeva2023",
+    "autoRenewFlag": "Y",
+    "autoRenewTerm": "OneYear",
+    "autoRenewNotifyDate": "2023-11-30"
+  },
+  "contractDetail": {
+    "contractId": "",
+    "contractDetailJson": {
+      "lineOfBusiness": [
+        "MedicareWrap"
+      ]
+    }
+  }
+}

@@ -38,4 +38,14 @@ public class GetDrugGroupDetailsByMFRDrugListIDStepdefs extends TestBase {
     public void userVerifiesDrugDetailsByDrugGroupRowKeyAPIResponseWithDBResponse() {
         getDrugGroupDetailsByMFRDrugListID.verifyDrugDetailsByDrugGroupRowKeyAPIResponseWithDBResponse();
     }
+
+    @And("^User Hits API \"([^\"]*)\" with invalid drug list row key with Get request$")
+    public void userHitsAPIWithInvalidDrugListRowKeyWithGetRequest(String endpoint)  {
+        getDrugGroupDetailsByMFRDrugListID.userHitsAPIWithInvalidDrugListRowKey(endpoint);
+    }
+
+    @Then("^User executes query \"([^\"]*)\" with invalid drug list row key and gets drug details$")
+    public void userExecutesQueryWithInvalidDrugListRowKeyAndGetsDrugDetails(String queryKey)  {
+        getDrugGroupDetailsByMFRDrugListID.executeQueryWithInvalidDrugListRowKeyAndGetsDrugDetails(queryKey);
+    }
 }

@@ -329,18 +329,22 @@ public class VerificationHelperClass extends TestBase {
      * @param jsonResponseBodyKey-
      * @param expectedValue-
      */
-    public void verifyResponseJsonBoolean(Response response,String jsonResponseBodyKey,String expectedValue)
+    public boolean verifyResponseJsonBoolean(Response response,String jsonResponseBodyKey,String expectedValue)
     {
+        boolean assertionStatus;
         try {
             String val = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, jsonResponseBodyKey);
             Object actualValue = JsonPath.read(response.asString(), val);
             Boolean expValue = Boolean.valueOf(expectedValue);
             log.info("Verify response body where expectedValue=" + expectedValue + " equals to actualValue=" + actualValue);
             Assert.assertTrue("The lists do not match!", expValue.equals(actualValue));
-//
-        }catch  (Exception e) {
-            e.printStackTrace();
+            assertionStatus=true;
+
+        }catch  (AssertionError ae) {
+            ae.printStackTrace();
+            assertionStatus=false;
         }
+        return assertionStatus;
     }
     /**
      * verifyResponseJsonBoolean method is used to validate the jsonResponse Body which is type of String
