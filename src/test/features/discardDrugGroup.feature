@@ -50,7 +50,7 @@ Feature: Discard a drug group
     When User hits the "discardDrugGroup" Endpoint with delete request
     Then User verifies the valid status code "200" in the Discard drug group response
     Then User verifies the discard Drug group response is in JSON format
-    And User verifies the discarded Drug group response "ResponseErrorMessage" json value
+    And User verifies the discarded Drug group response "DiscardedErrorMessage" json value
 
   @Regression @Functional
    Scenario: Verify the Error message when discarding an already discarded drug group
