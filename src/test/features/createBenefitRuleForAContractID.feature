@@ -12,6 +12,7 @@ Feature: Create and Validate the BenefitRule for a Contract
     Then User Deletes the BenefitRule Created by Executing the Query "deleteBenefitRulesCreated"
     Then User User reverts back the Changes made to Lifecycle Status for both ContractHeader "updateContractHeaderLifeCycleStatusToNew" and ContractDetail "updateContractDetailLifeCycleStausToNew"
 
+
   @Functional
   Scenario: Create BenefitRule for Open formulary Type and check the Response
     Given User runs the Query "contractIdForCreateBenefitRuleForContract"and Get the Contract ContractId
@@ -23,6 +24,7 @@ Feature: Create and Validate the BenefitRule for a Contract
     Then User Deletes the BenefitRule Created by Executing the Query "deleteBenefitRulesCreated"
     Then User User reverts back the Changes made to Lifecycle Status for both ContractHeader "updateContractHeaderLifeCycleStatusToNew" and ContractDetail "updateContractDetailLifeCycleStausToNew"
     Then User verify the valid Response body key of CreateBenefitRuleAPI "recordSavingStatus" and expected value "true"
+
 
   @Functional
   Scenario: Create BenefitRule for Closed formulary Type and check the Response

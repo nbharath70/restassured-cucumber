@@ -6,6 +6,7 @@ Feature:Retrieve and validate the Drug group details by a given MFRDrugListID
     And User Hits API "getDrugGroupDetailsByMFRDrugListID" with Get request for getDrugGroupdetails
     Then User verifies the valid status code "200" in getDrugGroupdetails API response
 
+
   @Regression @Functional
   Scenario Outline: Validate drug group details response and verify it from DB
     Given User executes query "getMFRDrugListID" and gets MFRDrugListID from column "columnMFRDrugListID"

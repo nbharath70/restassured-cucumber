@@ -19,7 +19,10 @@ import java.io.File;
 @CucumberOptions(//dryRun=true,
         format = {"pretty"},
         glue = {"stepdefs"},
-        features = {"src/test/features/APItoDeleteDrug.feature"},
+        features = {"src/test/features/updateMFRContractAndSendToRebateOps.feature"},
+        //features = {"src/test/features/sendToOpsAssignee.feature"},
+        /*tags = {"@Smoke, @Functional, @Regression"},*/
+        tags = {"@Smoke"},
         plugin = {
                 "com.cucumber.listener.ExtentCucumberFormatter:src/test/reports/cucumber_report.html",
                 "html:output/html-report"}, monochrome = true

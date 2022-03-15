@@ -25,7 +25,8 @@ public class Hooks extends DataBaseHelper {
     }
 
     @Before
-    public void setUp() {
+    public void setUp(Scenario scenario) {
+        scenarioName = scenario.getName();
         log.info("+++++++++++++Setting up DB connection and API End Point+++++++++++++++++++++++++");
         RestAssured.useRelaxedHTTPSValidation();
     }

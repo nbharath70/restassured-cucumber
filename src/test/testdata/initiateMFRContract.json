@@ -1,25 +1,28 @@
 {
-  "manufacturer": {
-    "name": "Teva",
-    "manufacturerId": "TEVA001"
+  "manufacturer":{
+    "name":"Abbvie",
+    "manufacturerId":"ABV001"
   },
-  "contractHeader": {
-    "contractId": "",
-    "contractName": "QAAutomationContract",
-    "contractType": "Non-Part D",
-    "lifecycleStatus": "New",
-    "startDate": "1993-01-01",
-    "endDate": "1993-12-31",
-    "notes": "QAAutomationContract",
-    "autoRenewFlag": "N",
-    "autoRenewTerm": null,
-    "autoRenewNotifyDate": null
+  "contractHeader":{
+    "contractId":"",
+    "contractName":"autoContractName",
+    "contractType":"Non-Part D",
+    "lifecycleStatus":"New",
+    "startDate":"2015-01-01",
+    "endDate":"2016-01-01",
+    "notes":"Test",
+    "autoRenewFlag":"Y",
+    "autoRenewTerm":"OneYear",
+    "autoRenewNotifyDate":"2015-01-12"
   },
-  "contractDetail": {
-    "contractId": "",
-    "contractDetailJson": {
-      "lineOfBusiness": [
-        "MedicareWrap"
+  "contractDetail":{
+    "contractId":"",
+    "contractDetailJson":{
+      "lineOfBusiness":[
+        "Commercial"
+      ],
+      "locations":[
+        "US_Only"
       ]
     }
   }
