@@ -23,7 +23,7 @@ Feature:Validate the Find Drug group API test cases
   Scenario: Validate error code for invalid manufactureName
     When User hits the "findDrugGroup" endpoint with manufactuereName "inValidmanuFacturerName"
     Then User verifies the API response statusCode is "200" for findDrugGroup API
-    Then User verifies the findDrugGroup response header errorCode value "-1"
+    Then User verifies the findDrugGroup response header errorCode value ""
     Then User verifies the valid response using findDrugGroup bodyKey "messageFindDrugGroupJson" and expected value "invalidDrugMessage"
 
   @Regression @Functional

@@ -491,7 +491,7 @@ public class VerificationHelperClass extends TestBase {
     {
         try {
             String s=response.getHeader("rb-api-result");
-            int actualCode = JsonPath.read(s, "$.apiReturnCodes[0].code");
+            int actualCode = JsonPath.read(s, "$..apiReturnCodes");
             String expectedErrorCodeString=expectedErrorCode;
             int expectedError=Integer.valueOf(expectedErrorCodeString);
             Assert.assertEquals("Error code value do not match!", expectedError,actualCode);
