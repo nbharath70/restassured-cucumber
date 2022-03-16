@@ -2,16 +2,15 @@
 Feature:Update a Mfr contract and Send To Rebate Ops
   @Smoke
   Scenario: Validate process inst id and lifeCycle status as UnAssigned when send to rebate ops and verify correct status code with response body is returned
-    Then User executes the query "deleteContractHeaderByContractName" and "deleteContractDetailByAmendmentName" for contract & Amendment name "QAAutomation_10" to delete the record from the database
-    Given User creates the New Manufacture Contract data
-      | ManufacturerId | name         | currentFlag | rowKey | contractId | contractType | contractName    | startDate  | endDate    | recCreatedDate          | recCreatedBy | recUpdatedDate          | recUpdatedBy | lifecycleStatus | contractDocReference | notes           | disputeDays | lateFee | lateFeeFixed | lateFeePct | paymentBackup | NCPDPReconFile | frequency | lookback | numScreenshots | allowThirdPartyAuditor | auditScreenshots | schemaVersion | lineOfBusiness | locations | billingCycle | submissionWindow | resubmissionWindow | paymentTerms | thirdPartyAuth | opsAssignee | opsQCer | amendmentNumber | amendmentName   | versionNumber |
-      | ASTRA001       | Astra Zeneca | false       | 75     | ABV0011037 | Non-Part D   | QAAutomation_10 | 2021-05-01 | 2021-07-20 | 2021-02-05T11:17:18.337 | SYSTEM       | 2021-02-05T11:17:18.337 | SYSTEM       | NEW             | null                 | This is test 01 | 30          | AMT     | null         | null       | false         | null           | ANNUAL    | 12       | null           | true                   | false            | 1             | CPOS           | All       | MON          | 90               | 60                 | 30           | true           | null        | null    | 0               | QAAutomation_10 | 1             |
+    Given User creates the New Manufacture Contract data with following details
+      |ManufacturerId | ManufacturerName|contractType|startDate|endDate|notes|autoRenewFlag|autoRenewTerm|autoRenewNotifyDate|lineOfBusiness|locations|
+      |ASTRA001       |Astra Zeneca     |Non-Part D  |2021-05-01|2021-07-20|This is test 01|N        |OneYear      |2015-01-12|CPOS|US_Only#Guam_Only#Puerto_Rico_Only|
     Then User hits the "postInitiateNewManufacturerContract" with post request
     Then User verify InitiateNewManufacturerContract status code "200" for the response
     Then User verify the valid Response body key "recordInserted" and expected value "true"
     Then User update manufacture contract data
-      | ManufacturerId | name         | currentFlag | rowKey | contractId | contractType | contractName    | startDate  | endDate    | recCreatedDate          | recCreatedBy | recUpdatedDate          | recUpdatedBy | lifecycleStatus | contractDocReference | notes           | disputeDays | lateFee | lateFeeFixed | lateFeePct | paymentBackup | NCPDPReconFile | frequency | lookback | numScreenshots | allowThirdPartyAuditor | auditScreenshots | schemaVersion | lineOfBusiness | locations | billingCycle | submissionWindow | resubmissionWindow | paymentTerms | thirdPartyAuth | opsAssignee | opsQCer | amendmentNumber | amendmentName   | versionNumber |
-      | ASTRA001       | Astra Zeneca | false       | 75     | ABV0011037 | Non-Part D   | QAAutomation_10 | 2021-08-01 | 2021-09-20 | 2021-02-05T11:17:18.337 | SYSTEM       | 2021-02-05T11:17:18.337 | SYSTEM       | NEW             | null                 | This is test 02 | 30          | AMT     | null         | null       | false         | null           | ANNUAL    | 12       | null           | true                   | false            | 1             | HiEx           | All       | YRL          | 90               | 60                 | 30           | true           | null        | null    | 0               | QAAutomation_10 | 1             |
+      |manufacturerId|manufactureName|contractName|startDate|endDate|mfr_recCreatedDate|mfr_recUpdatedDate|wf_taskId|wf_approve|recCreatedBy|recUpdatedBy|rowKey|lifeCycleStatus|ch_recCreatedDate|ch_recUpdatedDate|contractID|ch_contractType|ch_contractDocReference|ch_autoRenewFlag|ch_autoRenewTerm|ch_autoRenewNotifyDate|ch_notes|cd_recCreatedDate|cd_recUpdatedDate|cd_amendmentNumber|cd_amendmentName|cd_versionNumber|cd_contractExpired|cdjson_schemaVersion|cdjson_lineOfBusiness|cdjson_locations|cdjson_billingCycle|cdjson_submissionWindow|cdjson_resubmissionWindow|cdjson_thirdPartyAuth|cdjson_requestMarketBasket|cdjson_manageMarketBasket|cdjson_paymentTerms|cdjson_disputeDays|cdjson_lateFee|cdjson_lateFeeFixed|cdjson_resetPayment|cdjson_paymentBackup|cdjson_NCPDPReconFile|cdjson_frequency|cdjson_lookback|cdjson_auditScreenshots|cdjson_allowThirdPartyAuditor|
+      |ASTRA001      |Astra Zeneca   |            |         |       |                  |                  |         |          |            |            |      |               |                 |                 |          |               |                       |N               |                |                      |New updated notes        |                  |                 |                  |                |true              |1                 |Commercial#MedicareWrap|All             |MON                |15                   |N/A                       |true                  |true                     |null                      |30                 |30                |AMT           |2              |true                   |true                |true                 |ANNUAL          |12             |false               |true                       |                             |
     Then User hits the "updateMfrContractSendToRebateOps" update manufacture contract post request
     Then User verify UpdateManufacturerContract status code "200" for the response
     Then User verify the updateManufacturerContract valid Response body key "recordUpdated" and expected value "true"
@@ -20,21 +19,23 @@ Feature:Update a Mfr contract and Send To Rebate Ops
     Then User connect to "dev" and verify processInsID by execute query "getProcessInstID"
     Then User hits the "discardContractResource" Endpoint with delete API request to discard Initiate New Manufacture Contract by "rowKeyContractHeader" and contractName "QAAutomation_10"
     Then User verifies the isManufacturerContractDiscarded as true value in response for new manufacture contract
-    Then User executes the query "deleteContractHeaderByContractName" and "deleteContractDetailByAmendmentName" for contract & Amendment name "QAAutomation_10" to delete the record from the database
+    #Then User executes the query "deleteContractHeaderByContractName" and "deleteContractDetailByAmendmentName" for contract & Amendment name "QAAutomation_10" to delete the record from the database
+    Then User executes the query "deleteContractHeaderByContractId" and "deleteContractDetailByContractId" to delete the contract records from the database
+
+
 
   @Regression
   Scenario: Validate the contractDetailDatesOverlappingWithOtherContractDetailDates in send to rebate ops
-    Then User executes the query "deleteContractHeaderByContractName" and "deleteContractDetailByAmendmentName" for contract & Amendment name "QAAutomation_008" to delete the record from the database
-    Given User creates the New Manufacture Contract data
-      | ManufacturerId | name         | currentFlag | rowKey | contractId | contractType | contractName     | startDate  | endDate    | recCreatedDate          | recCreatedBy | recUpdatedDate          | recUpdatedBy | lifecycleStatus | contractDocReference | notes           | disputeDays | lateFee | lateFeeFixed | lateFeePct | paymentBackup | NCPDPReconFile | frequency | lookback | numScreenshots | allowThirdPartyAuditor | auditScreenshots | schemaVersion | lineOfBusiness | locations | billingCycle | submissionWindow | resubmissionWindow | paymentTerms | thirdPartyAuth | opsAssignee | opsQCer | amendmentNumber | amendmentName    | versionNumber |
-      | ASTRA001       | Astra Zeneca | false       | 75     | ABV0011037 | Non-Part D   | QAAutomation_008 | 2021-01-01 | 2021-04-20 | 2021-02-05T11:17:18.337 | SYSTEM       | 2021-02-05T11:17:18.337 | SYSTEM       | NEW             | null                 | This is test 01 | 30          | AMT     | null         | null       | false         | null           | ANNUAL    | 12       | null           | true                   | false            | 1             | HiEx           | All       | MON          | 90               | 60                 | 30           | true           | null        | null    | 0               | QAAutomation_008 | 1             |
+    Given User creates the New Manufacture Contract data with following details
+      |ManufacturerId | ManufacturerName|contractType|startDate|endDate|notes|autoRenewFlag|autoRenewTerm|autoRenewNotifyDate|lineOfBusiness|locations|
+      |ASTRA001         |Astra Zeneca            |Non-Part D  |2021-01-01|2021-04-20|This is test 01|N        |OneYear      |2015-01-12         |HiEx|US_Only#Guam_Only#Puerto_Rico_Only|
     Then User hits the "postInitiateNewManufacturerContract" with post request
     Then User verify InitiateNewManufacturerContract status code "200" for the response
     Then User verify the valid Response body key "recordInserted" and expected value "true"
     Then User executes the query "deleteContractHeaderByContractName" and "deleteContractDetailByAmendmentName" for contract & Amendment name "QAAutomation_10" to delete the record from the database
-    Given User creates the New Manufacture Contract data
-      | ManufacturerId | name         | currentFlag | rowKey | contractId | contractType | contractName    | startDate  | endDate    | recCreatedDate          | recCreatedBy | recUpdatedDate          | recUpdatedBy | lifecycleStatus | contractDocReference | notes           | disputeDays | lateFee | lateFeeFixed | lateFeePct | paymentBackup | NCPDPReconFile | frequency | lookback | numScreenshots | allowThirdPartyAuditor | auditScreenshots | schemaVersion | lineOfBusiness | locations | billingCycle | submissionWindow | resubmissionWindow | paymentTerms | thirdPartyAuth | opsAssignee | opsQCer | amendmentNumber | amendmentName   | versionNumber |
-      | ASTRA001       | Astra Zeneca | false       | 75     | ABV0011037 | Non-Part D   | QAAutomation_10 | 2021-05-01 | 2021-07-20 | 2021-02-05T11:17:18.337 | SYSTEM       | 2021-02-05T11:17:18.337 | SYSTEM       | NEW             | null                 | This is test 01 | 30          | AMT     | null         | null       | false         | null           | ANNUAL    | 12       | null           | true                   | false            | 1             | CPOS           | All       | MON          | 90               | 60                 | 30           | true           | null        | null    | 0               | QAAutomation_10 | 1             |
+    Given User creates the New Manufacture Contract data with following details
+      |ManufacturerId | ManufacturerName|contractType|startDate|endDate|notes|autoRenewFlag|autoRenewTerm|autoRenewNotifyDate|lineOfBusiness|locations|
+      |ASTRA001         |Astra Zeneca            |Non-Part D  |2021-05-01|2021-07-20|This is test 01|N        |OneYear      |2015-01-12         |CPOS|US_Only#Guam_Only#Puerto_Rico_Only|
     Then User hits the "postInitiateNewManufacturerContract" with post request
     Then User verify InitiateNewManufacturerContract status code "200" for the response
     Then User verify the valid Response body key "recordInserted" and expected value "true"
@@ -47,12 +48,13 @@ Feature:Update a Mfr contract and Send To Rebate Ops
     Then User verify the updateManufacturerContract valid Response body key "recordUpdated" and expected value "false"
     Then User verify the updateManufacturerContract valid Response body key "contractDetailDatesOverlappingWithOtherContractDetailDates" and expected value "true"
 
+
+
   @Regression @Functional
   Scenario: Validate send to rebate ops start date should not be after the end date
-    Then User executes the query "deleteContractHeaderByContractName" and "deleteContractDetailByAmendmentName" for contract & Amendment name "QAAutomation%" to delete the record from the database
-    Given User creates the New Manufacture Contract data
-      | ManufacturerId | name         | currentFlag | rowKey | contractId | contractType | contractName    | startDate  | endDate    | recCreatedDate          | recCreatedBy | recUpdatedDate          | recUpdatedBy | lifecycleStatus | contractDocReference | notes           | disputeDays | lateFee | lateFeeFixed | lateFeePct | paymentBackup | NCPDPReconFile | frequency | lookback | numScreenshots | allowThirdPartyAuditor | auditScreenshots | schemaVersion | lineOfBusiness | locations | billingCycle | submissionWindow | resubmissionWindow | paymentTerms | thirdPartyAuth | opsAssignee | opsQCer | amendmentNumber | amendmentName   | versionNumber |
-      | ASTRA001       | Astra Zeneca | false       | 75     | ABV0011037 | Non-Part D   | QAAutomation_10 | 2021-05-01 | 2021-07-20 | 2021-02-05T11:17:18.337 | SYSTEM       | 2021-02-05T11:17:18.337 | SYSTEM       | NEW             | null                 | This is test 01 | 30          | AMT     | null         | null       | false         | null           | ANNUAL    | 12       | null           | true                   | false            | 1             | CPOS           | All       | MON          | 90               | 60                 | 30           | true           | null        | null    | 0               | QAAutomation_10 | 1             |
+    Given User creates the New Manufacture Contract data with following details
+      |ManufacturerId | ManufacturerName|contractType|startDate|endDate|notes|autoRenewFlag|autoRenewTerm|autoRenewNotifyDate|lineOfBusiness|locations|
+      |ASTRA001         |Astra Zeneca            |Non-Part D  |2021-05-01|2021-07-20|This is test 01|N        |OneYear      |2015-01-12         |CPOS|US_Only#Guam_Only#Puerto_Rico_Only|
     Then User hits the "postInitiateNewManufacturerContract" with post request
     Then User verify InitiateNewManufacturerContract status code "200" for the response
     Then User verify the valid Response body key "recordInserted" and expected value "true"
@@ -64,12 +66,13 @@ Feature:Update a Mfr contract and Send To Rebate Ops
     Then User verify UpdateManufacturerContract status code "200" for the response
     Then User verify the updateManufacturerContract valid Response body key "message" and expected value "Manufacturer Contract start date should not be after the end date" of string
 
+
+
   @Regression @Functional
   Scenario: Validate send to rebate ops invalid LOB
-    Then User executes the query "deleteContractHeaderByContractName" and "deleteContractDetailByAmendmentName" for contract & Amendment name "QAAutomation%" to delete the record from the database
-    Given User creates the New Manufacture Contract data
-      | ManufacturerId | name         | currentFlag | rowKey | contractId | contractType | contractName    | startDate  | endDate    | recCreatedDate          | recCreatedBy | recUpdatedDate          | recUpdatedBy | lifecycleStatus | contractDocReference | notes           | disputeDays | lateFee | lateFeeFixed | lateFeePct | paymentBackup | NCPDPReconFile | frequency | lookback | numScreenshots | allowThirdPartyAuditor | auditScreenshots | schemaVersion | lineOfBusiness | locations | billingCycle | submissionWindow | resubmissionWindow | paymentTerms | thirdPartyAuth | opsAssignee | opsQCer | amendmentNumber | amendmentName   | versionNumber |
-      | ASTRA001       | Astra Zeneca | false       | 75     | ABV0011037 | Non-Part D   | QAAutomation_10 | 2021-05-01 | 2021-07-20 | 2021-02-05T11:17:18.337 | SYSTEM       | 2021-02-05T11:17:18.337 | SYSTEM       | NEW             | null                 | This is test 01 | 30          | AMT     | null         | null       | false         | null           | ANNUAL    | 12       | null           | true                   | false            | 1             | CPOS           | All       | MON          | 90               | 60                 | 30           | true           | null        | null    | 0               | QAAutomation_10 | 1             |
+    Given User creates the New Manufacture Contract data with following details
+      |ManufacturerId | ManufacturerName|contractType|startDate|endDate|notes|autoRenewFlag|autoRenewTerm|autoRenewNotifyDate|lineOfBusiness|locations|
+      |ASTRA001         |Astra Zeneca            |Non-Part D  |2021-05-01|2021-07-20|This is test 01|N        |OneYear      |2015-01-12         |CPOS|US_Only#Guam_Only#Puerto_Rico_Only|
     Then User hits the "postInitiateNewManufacturerContract" with post request
     Then User verify InitiateNewManufacturerContract status code "200" for the response
     Then User verify the valid Response body key "recordInserted" and expected value "true"
@@ -82,12 +85,13 @@ Feature:Update a Mfr contract and Send To Rebate Ops
     Then User verify the updateManufacturerContract valid Response body key "recordUpdated" and expected value "false"
     Then User verify the updateManufacturerContract valid Response body key "invalidLOB" and expected value "true"
 
+
+
   @Regression @Functional
   Scenario: Validate send to rebate ops invalid Notes
-    Then User executes the query "deleteContractHeaderByContractName" and "deleteContractDetailByAmendmentName" for contract & Amendment name "QAAutomation%" to delete the record from the database
-    Given User creates the New Manufacture Contract data
-      | ManufacturerId | name         | currentFlag | rowKey | contractId | contractType | contractName    | startDate  | endDate    | recCreatedDate          | recCreatedBy | recUpdatedDate          | recUpdatedBy | lifecycleStatus | contractDocReference | notes           | disputeDays | lateFee | lateFeeFixed | lateFeePct | paymentBackup | NCPDPReconFile | frequency | lookback | numScreenshots | allowThirdPartyAuditor | auditScreenshots | schemaVersion | lineOfBusiness | locations | billingCycle | submissionWindow | resubmissionWindow | paymentTerms | thirdPartyAuth | opsAssignee | opsQCer | amendmentNumber | amendmentName   | versionNumber |
-      | ASTRA001       | Astra Zeneca | false       | 75     | ABV0011037 | Non-Part D   | QAAutomation_10 | 2021-05-01 | 2021-07-20 | 2021-02-05T11:17:18.337 | SYSTEM       | 2021-02-05T11:17:18.337 | SYSTEM       | NEW             | null                 | This is test 01 | 30          | AMT     | null         | null       | false         | null           | ANNUAL    | 12       | null           | true                   | false            | 1             | CPOS           | All       | MON          | 90               | 60                 | 30           | true           | null        | null    | 0               | QAAutomation_10 | 1             |
+    Given User creates the New Manufacture Contract data with following details
+      |ManufacturerId | ManufacturerName|contractType|startDate|endDate|notes|autoRenewFlag|autoRenewTerm|autoRenewNotifyDate|lineOfBusiness|locations|
+      |ASTRA001         |Astra Zeneca            |Non-Part D  |2021-05-01|2021-07-20|This is test 01|N        |OneYear      |2015-01-12         |CPOS|US_Only#Guam_Only#Puerto_Rico_Only|
     Then User hits the "postInitiateNewManufacturerContract" with post request
     Then User verify InitiateNewManufacturerContract status code "200" for the response
     Then User verify the valid Response body key "recordInserted" and expected value "true"
@@ -99,12 +103,13 @@ Feature:Update a Mfr contract and Send To Rebate Ops
     Then User verify UpdateManufacturerContract status code "200" for the response
     Then User verify the updateManufacturerContract valid Response body key "recordUpdated" and expected value "false"
 
+
+
   @Regression @Functional
   Scenario: Validate send to rebate ops of invalidSelectedOptions & validContractHeader
-    Then User executes the query "deleteContractHeaderByContractName" and "deleteContractDetailByAmendmentName" for contract & Amendment name "QAAutomation%" to delete the record from the database
-    Given User creates the New Manufacture Contract data
-      | ManufacturerId | name         | currentFlag | rowKey | contractId | contractType | contractName    | startDate  | endDate    | recCreatedDate          | recCreatedBy | recUpdatedDate          | recUpdatedBy | lifecycleStatus | contractDocReference | notes           | disputeDays | lateFee | lateFeeFixed | lateFeePct | paymentBackup | NCPDPReconFile | frequency | lookback | numScreenshots | allowThirdPartyAuditor | auditScreenshots | schemaVersion | lineOfBusiness | locations | billingCycle | submissionWindow | resubmissionWindow | paymentTerms | thirdPartyAuth | opsAssignee | opsQCer | amendmentNumber | amendmentName   | versionNumber |
-      | ASTRA001       | Astra Zeneca | false       | 75     | ABV0011037 | Non-Part D   | QAAutomation_10 | 2021-05-01 | 2021-07-20 | 2021-02-05T11:17:18.337 | SYSTEM       | 2021-02-05T11:17:18.337 | SYSTEM       | NEW             | null                 | This is test 01 | 30          | AMT     | null         | null       | false         | null           | ANNUAL    | 12       | null           | true                   | false            | 1             | CPOS           | All       | MON          | 90               | 60                 | 30           | true           | null        | null    | 0               | QAAutomation_10 | 1             |
+    Given User creates the New Manufacture Contract data with following details
+      |ManufacturerId | ManufacturerName|contractType|startDate|endDate|notes|autoRenewFlag|autoRenewTerm|autoRenewNotifyDate|lineOfBusiness|locations|
+      |ASTRA001         |Astra Zeneca            |Non-Part D  |2021-05-01|2021-07-20|This is test 01|N        |OneYear      |2015-01-12         |CPOS|US_Only#Guam_Only#Puerto_Rico_Only|
     Then User hits the "postInitiateNewManufacturerContract" with post request
     Then User verify InitiateNewManufacturerContract status code "200" for the response
     Then User verify the valid Response body key "recordInserted" and expected value "true"
@@ -117,12 +122,13 @@ Feature:Update a Mfr contract and Send To Rebate Ops
     Then User verify the updateManufacturerContract valid Response body key "recordUpdated" and expected value "false"
     Then User verify the updateManufacturerContract valid Response body key "invalidSelectedOptions" and expected value "true"
 
+
+
   @Regression @Functional
   Scenario: Validate invalid Location
-    Then User executes the query "deleteContractHeaderByContractName" and "deleteContractDetailByAmendmentName" for contract & Amendment name "QAAutomation%" to delete the record from the database
-    Given User creates the New Manufacture Contract data
-      | ManufacturerId | name         | currentFlag | rowKey | contractId | contractType | contractName    | startDate  | endDate    | recCreatedDate          | recCreatedBy | recUpdatedDate          | recUpdatedBy | lifecycleStatus | contractDocReference | notes           | disputeDays | lateFee | lateFeeFixed | lateFeePct | paymentBackup | NCPDPReconFile | frequency | lookback | numScreenshots | allowThirdPartyAuditor | auditScreenshots | schemaVersion | lineOfBusiness | locations | billingCycle | submissionWindow | resubmissionWindow | paymentTerms | thirdPartyAuth | opsAssignee | opsQCer | amendmentNumber | amendmentName   | versionNumber |
-      | ASTRA001       | Astra Zeneca | false       | 75     | ABV0011037 | Non-Part D   | QAAutomation_10 | 2021-05-01 | 2021-07-20 | 2021-02-05T11:17:18.337 | SYSTEM       | 2021-02-05T11:17:18.337 | SYSTEM       | NEW             | null                 | This is test 01 | 30          | AMT     | null         | null       | false         | null           | ANNUAL    | 12       | null           | true                   | false            | 1             | CPOS           | All       | MON          | 90               | 60                 | 30           | true           | null        | null    | 0               | QAAutomation_10 | 1             |
+    Given User creates the New Manufacture Contract data with following details
+      |ManufacturerId | ManufacturerName|contractType|startDate|endDate|notes|autoRenewFlag|autoRenewTerm|autoRenewNotifyDate|lineOfBusiness|locations|
+      |ABV001         |Astra Zeneca            |Non-Part D  |2021-05-01|2021-07-20|This is test 01|Y        |OneYear      |2015-01-12         |CPOS|US_Only#Guam_Only#Puerto_Rico_Only|
     Then User hits the "postInitiateNewManufacturerContract" with post request
     Then User verify InitiateNewManufacturerContract status code "200" for the response
     Then User verify the valid Response body key "recordInserted" and expected value "true"

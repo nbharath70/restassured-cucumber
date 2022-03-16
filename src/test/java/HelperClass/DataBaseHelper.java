@@ -3,10 +3,11 @@ package HelperClass;
 import TestBase.TestBase;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
-
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DataBaseHelper extends TestBase {
     public static Logger log=getMyLogger(DataBaseHelper.class);
@@ -15,6 +16,8 @@ public class DataBaseHelper extends TestBase {
     public PreparedStatement psmt;
     public ResultSet prepareQueryResult;
     public CallableStatement cstmt;
+    private static final int DB_RUN_QUERY_MAX_ROWS = 2000;
+    private static final String DB_NULL_CHAR = "";
 
 
     /**
@@ -398,7 +401,8 @@ public class DataBaseHelper extends TestBase {
     }
 
     public ResultSet executePreparedDirectQuery(String query,String queryParam) {
-        try {getStatement();
+        try {
+            getStatement();
             psmt= conn.prepareStatement(query);
             psmt.setString(1,queryParam);
             prepareQueryResult =psmt.executeQuery();
@@ -732,6 +736,80 @@ public class DataBaseHelper extends TestBase {
         }
         return null;
     }
+
+
+    /***************************************************************************************************
+     * @Author      Gudi
+     * @Purpose     This method will return the given query output in the for of List<Map<String,String>>
+     * @param       queryKey
+     * @param       listOfParams - List<object> of path params
+     * @ReturnType  List<Map<String,String>>
+     ******************************************************************************************************
+     */
+    public List<Map<String,String>> getQueryResultsInListMap(String queryKey, List<Object> listOfParams){
+        List<Map<String, String>> resultsMap = null;
+        int count = 0;
+        int numberOfColumns = 0;
+        ResultSet res = null;
+        ResultSetMetaData resMeta = null;
+        try{
+            resultsMap = new ArrayList<>();
+            //ResultSet resSet = replacePathParamsAndExecuteQuery(queryKey, listOfParams);
+            getStatement();
+            psmt = conn.prepareStatement(getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, queryKey), ResultSet.TYPE_SCROLL_SENSITIVE
+            ,ResultSet.CONCUR_UPDATABLE);
+            log.info("query parameter is "+listOfParams);
+            for (int i = 1; i<= listOfParams.size(); i++) {
+                psmt.setString(i, listOfParams.get(i-1).toString());
+            }
+
+            res = psmt.executeQuery();
+            //resMeta = res.getMetaData();
+            //numberOfColumns = resMeta.getColumnCount();
+            //res.beforeFirst();
+            //res.absolute(1);
+
+            while(res.next()){
+                System.out.println(res.getString("Contract_ID"));
+                System.out.println(res.getString("Contract_Name"));
+            }
+           // if(res.next()){
+                /*do {
+                    Map<String, String> row = new HashMap<>();
+                    resultsMap.add(row);
+
+                    for (int i = 1; i <= numberOfColumns; i++) {
+                        res.getString(i);
+                        if (res.wasNull()) {
+                            row.put(resMeta.getColumnName(i), DB_NULL_CHAR);
+                        }
+                        else {
+                            row.put(resMeta.getColumnName(i), res.getString(i));
+                        }
+                    }
+                    count++;
+                } while (res.next() && count < DB_RUN_QUERY_MAX_ROWS);*/
+            //}
+
+
+            log.info("Retrieved " + count + " record(s) from database.");
+            log.debug ("Resultset has "+ numberOfColumns + " columns");
+            return resultsMap;
+        }catch(Exception e){
+            log.info("There was a SQL exception during query result handling. " + e.getMessage());
+            throw new RuntimeException("There was an unexpected exception while trying to execute the 'getQueryResultsInListMap()' method", e);
+        }finally{
+            try{
+                res.close();
+                res = null;
+                resMeta = null;
+            }catch(Exception e){
+                log.info("There was a SQL exception during query result handling.  " + e.getMessage());
+                throw new RuntimeException("There was an unexpected exception while trying to execute the 'getQueryResultsInListMap()' method", e);
+            }
+        }
+    }
+
 }
 
 

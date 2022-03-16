@@ -7,6 +7,7 @@ Feature: Discard a contract
     Then User verifies the valid status code "200" in the Discard contract response
     And user runs "updateContractHeader" query and "updateContractDetail" query to activate the contract
 
+
   @Regression @Functional
   Scenario: Discard the contract and verify  response is in JSON
     Given User executes the "getContractIDAndRowKey" query and retrieves rowKey and ContractID
@@ -14,12 +15,14 @@ Feature: Discard a contract
     Then User verifies the response is in JSON format
     And user runs "updateContractHeader" query and "updateContractDetail" query to activate the contract
 
+
   @Regression @Functional
   Scenario: Discard the contract and Verify the boolean value  true for isManufacturerContractDiscarded in api response for a successful discard
     Given User executes the "getContractIDAndRowKey" query and retrieves rowKey and ContractID
     When User hits the "discardContractResource" Endpoint with delete API request
     Then User verifies the isManufacturerContractDiscarded as true value in response
     And user runs "updateContractHeader" query and "updateContractDetail" query to activate the contract
+
 
   @Regression @Functional
   Scenario: Validate discard contract is_Current_Flag value as zero in database
@@ -29,6 +32,7 @@ Feature: Discard a contract
     Then User runs "verifyDiscardContractHeader" query and verify is_Current_Flag value as zero in database
     Then User runs "verifyDiscardContractDetails" query and verify is_Current_Flag value as zero in database
     And user runs "updateContractHeader" query and "updateContractDetail" query to activate the contract
+
 
   @Regression @Functional
   Scenario: Verify the Error message when discarding an already discarded contract

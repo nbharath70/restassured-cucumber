@@ -16,6 +16,8 @@ public class InitNewManufacturerContractStepDefs extends TestBase {
         postInitiateNewManufactureContract.initiateContract();
     }
 
+
+
     @Then("^User hits the \"([^\"]*)\" with post request$")
     public void userHitsTheWithPostRequest(String endPoint){
         postInitiateNewManufactureContract.initiateNewManufactureContractPostCall(endPoint);
@@ -37,6 +39,14 @@ public class InitNewManufacturerContractStepDefs extends TestBase {
         postInitiateNewManufactureContract.deleteContractRecordFromDB(contractHeaderQuery,contractDetailQuery,contractName);
     }
 
+
+    @And("^User executes the query \"([^\"]*)\" and \"([^\"]*)\" to delete the contract records from the database$")
+    public void userExecutesTheQueryToDeleteTheContractRecordsFromTheDatabase(String contractHeaderQuery,String contractDetailQuery){
+        postInitiateNewManufactureContract.deleteContractRecordFromDB(contractHeaderQuery,contractDetailQuery);
+    }
+
+
+
     @Then("^User verify the valid Response body key \"([^\"]*)\" and expected value \"([^\"]*)\" of string$")
     public void userVerifyTheValidResponseBodyKeyAndExpectedValueOfString(String actualValue,String expectedValue){
         postInitiateNewManufactureContract.validationResultsString(actualValue,expectedValue);
@@ -56,6 +66,13 @@ public class InitNewManufacturerContractStepDefs extends TestBase {
     public void userVerifyTheInitiateNewManufacturerContractResponseHeaderErrorCodeValue(String expectedErrorCode) {
         postInitiateNewManufactureContract.verifyInitiateNewManufactureContractResponseHeaderErrorCode(expectedErrorCode);
     }
+
+    @Given("^User creates the New Manufacture Contract data with following details$")
+    public void userCreatesTheNewManufactureContractDataWithFollowingDetails(DataTable datatable) {
+        postInitiateNewManufactureContract.newContractRequestPayload(datatable);
+    }
+
+
 
 //    @Given("^User creates the New Manufacture Contract data$")
 //    public void userCreatesTheNewManufactureContractData() {

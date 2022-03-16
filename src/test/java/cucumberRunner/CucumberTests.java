@@ -20,6 +20,8 @@ import java.io.File;
         format = {"pretty"},
         glue = {"stepdefs"},
         features = {"src/test/features"},
+        /*tags = {"@Smoke, @Functional, @Regression"},*/
+//        tags = {"@Smoke"},
         plugin = {
                 "com.cucumber.listener.ExtentCucumberFormatter:src/test/reports/cucumber_report.html",
                 "html:output/html-report"}, monochrome = true

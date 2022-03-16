@@ -1,5 +1,7 @@
 package TestBase;
+import HelperClass.DataBaseHelper;
 import HelperClass.ResourcePath;
+import com.jayway.jsonpath.JsonPath;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -9,6 +11,7 @@ import org.apache.log4j.PropertyConfigurator;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -19,6 +22,10 @@ public class TestBase {
     Response response;
     private String contractID;
     private int rowKey;
+    public static List<Object> contractIdNewlyCreated = new ArrayList<Object>();
+    public List<Object> contractDataRequiredToDelete;
+    public static String scenarioName;
+
     //private int discardDrugGroupRowKey;
     /**
      * @uthour :Arun Kumar
@@ -122,7 +129,10 @@ public class TestBase {
     public Response getCall(String endPoint)
     {
         try {
-            response = given().log().all().header("Authorization", "Bearer "+getPropertiesFileValue(ResourcePath.Environment_Properties, "bearerToken")).when().get(getEndPointUrl(endPoint));
+            response = given().log().all()
+                    .header("Authorization", "Bearer "+getPropertiesFileValue(ResourcePath.Environment_Properties, "bearerToken"))
+                    .when()
+                    .get(getEndPointUrl(endPoint));
 //            log.info("Response is=" + response);
 //            response.then().assertThat().contentType(ContentType.JSON);
 //            log.info("The response is in proper JSON format");
@@ -268,6 +278,19 @@ public class TestBase {
             response=requestSpecification.body(requestPayload).log().all().post(getEndPointUrl(endPoint));
             log.info("****************** The Response JSON Body**************");
             log.info(response.getBody().jsonPath().prettify());
+
+            if(response.getBody().asString().contains("recordInserted"))
+                if(response.jsonPath().getBoolean("recordInserted") != false){
+                    DataBaseHelper dataBaseHelper = new DataBaseHelper();
+                    log.info("Contract is successfully created");
+                    if(contractDataRequiredToDelete!=null){
+                        ResultSet rs_ContractId = dataBaseHelper.replacePathParamsAndExecuteQuery("sqlTogetContractId", contractDataRequiredToDelete);
+                        rs_ContractId.next();
+                        contractIdNewlyCreated.add(rs_ContractId.getString("contract_id"));
+                        log.info("Contract Id created : "+ contractIdNewlyCreated);
+                    }
+                }
+
             response.then().assertThat().contentType(ContentType.JSON);
             log.info("The response is in proper JSON format");
             return response;

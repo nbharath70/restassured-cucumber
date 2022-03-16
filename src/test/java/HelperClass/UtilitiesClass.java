@@ -4,15 +4,14 @@ import com.google.gson.GsonBuilder;
 import com.jayway.jsonpath.JsonPath;
 import cucumber.api.java.gl.E;
 import io.restassured.response.Response;
+import org.json.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.Reader;
 import java.text.SimpleDateFormat;
 import java.util.*;
-
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
@@ -130,6 +129,9 @@ public class UtilitiesClass extends TestBase {
         }catch (Exception e){e.printStackTrace();}
         return null;
     }
+
+
+    
     /**
      * jsonValueReplacer method is used to
      * @Rabbani
@@ -187,6 +189,46 @@ public class UtilitiesClass extends TestBase {
         dataBaseHelper.executeDeleteQueryWithoutreadingFromPropFile(finalDeleteQuery);
         log.info("Flowable records related to the ProcessInstance Id: "+procInstId + " are deleted successfully");
 
+    }
+
+
+    /**
+     * Method Name      : constructStringArrayForJsonPayload
+     * purpose          : During json construction we may need the key value in the form of array
+     *                    In this method we take the multiple array & creating in json array format
+     * Author           : gudi
+     */
+    public static List<Object> constructStringArrayForJsonPayload(String jsonArrayValue) {
+        String arr[] = jsonArrayValue.split("#");
+        List<Object> oList = new ArrayList<Object>();
+        for(int i=0; i<arr.length; i++) {
+            oList.add(arr[i]);
+        }
+        return oList;
+    }
+
+
+    /**
+     * Method Name      : constructStringArrayForJsonPayload
+     * purpose          : During json construction we may need the key value in the form of array
+     *                    In this method we take the multiple array & creating in json array format
+     * Author           : Gudi
+     */
+    public static String getDateTime(String format){
+        Date dt = null;
+        SimpleDateFormat sdf = null;
+        try{
+            dt = new Date();
+            sdf = new SimpleDateFormat(format);
+            return sdf.format(dt);
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+        finally{
+            dt = null;
+            sdf = null;
+        }
     }
 
 
