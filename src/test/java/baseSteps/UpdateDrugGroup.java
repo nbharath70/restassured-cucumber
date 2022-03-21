@@ -11,12 +11,12 @@ import com.jayway.jsonpath.JsonPath;
 import cucumber.api.DataTable;
 import io.restassured.response.Response;
 import org.apache.log4j.Logger;
-import org.junit.Assert;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.testng.Assert;
 
 public class UpdateDrugGroup extends TestBase {
     Response response;
@@ -159,8 +159,15 @@ public class UpdateDrugGroup extends TestBase {
      * @param statusCode
      */
     public void verifyUpdateDrugGroupStatusCode(int statusCode)
-    {
-        verificationHelperClass.verifyStatusCode(response, statusCode);
+    {   try {
+        boolean status = verificationHelperClass.verifyStatusCode(response, statusCode);
+        if (status == false) {
+            deleteDrugGroup();
+         Assert.assertTrue(false, "Validation was failed. Hence stopping the scenario: '" + scenarioName + "'");;
+        }
+    }catch (Exception e){
+        e.printStackTrace();
+    }
         log.info("updateDrugGroup StatusCode is " + statusCode + " and its Pass");
     }
 
@@ -172,7 +179,11 @@ public class UpdateDrugGroup extends TestBase {
      */
     public void validateResponseBodyUpdateDrugGroup(String actualValue,String expectedValue)
     {
-        verificationHelperClass.verifyResponseJsonBoolean(response,actualValue,expectedValue);
+        boolean status=verificationHelperClass.verifyResponseJsonBoolean(response,actualValue,expectedValue);
+        if (status == false) {
+            deleteDrugGroup();
+            Assert.assertTrue(false, "Validation was failed. Hence stopping the scenario: '" + scenarioName + "'");;
+        }
     }
 
     /**
@@ -183,7 +194,11 @@ public class UpdateDrugGroup extends TestBase {
      */
     public void validateUpdateDrugGroupResponseByString(String actualValue,String expectedValue)
     {   String expectedErrorMessage=getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES,expectedValue);
-        verificationHelperClass.verifyResponseJsonString(response,actualValue,expectedErrorMessage);
+        boolean status=verificationHelperClass.verifyResponseJsonString(response,actualValue,expectedErrorMessage);
+        if (status == false) {
+            deleteDrugGroup();
+            Assert.assertTrue(false, "Validation was failed. Hence stopping the scenario: '" + scenarioName + "'");;
+        }
     }
 
     /**
@@ -197,10 +212,14 @@ public class UpdateDrugGroup extends TestBase {
             String columnName = getPropertiesFileValue(ResourcePath.DATABASE_PROPERTIES, "columnNameDrugList_ID");
             ResultSet manufactureDrugListID = dataBaseHelper.executePreparedQuery("getDrugListID", drugGroupName);
             manufactureDrugListID.next();
-            int manfDrugListID = Integer.valueOf(manufactureDrugListID.getString(columnName));
+            String manfDrugListID = manufactureDrugListID.getString(columnName);
             String val = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, jsonPath);
-            Object actualValue = JsonPath.read(response.asString(), val);
-            Assert.assertEquals("Verify the manfDrugListID",manfDrugListID,actualValue);
+            String actualValue = JsonPath.read(response.asString(), val);
+            boolean status=verificationHelperClass.compareTwoStrings(manfDrugListID,actualValue);
+            if (status==false){
+                deleteDrugGroup();
+                Assert.assertTrue(false,"Validation was failed. Hence stopping the scenario: " + scenarioName + "'");
+            }
             log.info("Verify the manfDrugListID expectedResult="+manfDrugListID+" and actualResulut="+actualValue);
         } catch (Exception e) {
             e.printStackTrace();
@@ -214,7 +233,11 @@ public class UpdateDrugGroup extends TestBase {
      */
     public void verifyUpdateDrugGroupResponseHeaderErrorCode(String expectedHeaderValue)
     {
-        verificationHelperClass.verifyResponseHeaderApiReturnCodesValue(response,expectedHeaderValue);
+        boolean status=verificationHelperClass.verifyResponseHeaderApiReturnCodesValue(response,expectedHeaderValue);
+        if (status == false) {
+            deleteDrugGroup();
+            Assert.assertTrue(false, "Validation was failed. Hence stopping the scenario: '" + scenarioName + "'");;
+        }
     }
 
     /**

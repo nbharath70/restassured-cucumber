@@ -1,0 +1,13 @@
+{
+  "drugGroupRowKey": "806",
+  "mfrDrugListId": "933",
+  "mfrId": "ABV001",
+  "drugGroupName": "TestSendToQCDruGroup",
+  "drugGroupType": "Rebateable",
+  "opsAssignee": "Bharath Narasimha",
+  "opsQc": "Rabbani Shaik",
+  "instanceKey": "2022-03-15T08:54:09.78",
+  "workFlowRequestInfoDTO": {
+    "taskId": null
+  }
+}

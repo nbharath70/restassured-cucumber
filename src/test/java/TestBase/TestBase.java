@@ -278,19 +278,6 @@ public class TestBase {
             response=requestSpecification.body(requestPayload).log().all().post(getEndPointUrl(endPoint));
             log.info("****************** The Response JSON Body**************");
             log.info(response.getBody().jsonPath().prettify());
-
-            if(response.getBody().asString().contains("recordInserted"))
-                if(response.jsonPath().getBoolean("recordInserted") != false){
-                    DataBaseHelper dataBaseHelper = new DataBaseHelper();
-                    log.info("Contract is successfully created");
-                    if(contractDataRequiredToDelete!=null){
-                        ResultSet rs_ContractId = dataBaseHelper.replacePathParamsAndExecuteQuery("sqlTogetContractId", contractDataRequiredToDelete);
-                        rs_ContractId.next();
-                        contractIdNewlyCreated.add(rs_ContractId.getString("contract_id"));
-                        log.info("Contract Id created : "+ contractIdNewlyCreated);
-                    }
-                }
-
             response.then().assertThat().contentType(ContentType.JSON);
             log.info("The response is in proper JSON format");
             return response;
