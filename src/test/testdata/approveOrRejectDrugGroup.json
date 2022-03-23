@@ -1,0 +1,14 @@
+{
+  "drugGroupRowKey": "638",
+  "mfrDrugListId": "816",
+  "mfrId": "MCK001",
+  "drugGroupName": "merck 001",
+  "drugGroupType": "Rebateable",
+  "opsAssignee": "Bharath Narasimha",
+  "opsQc": "Rabbani Shaik",
+  "instanceKey": "2022-02-17T12:42:55.773",
+  "workFlowRequestInfoDTO": {
+    "taskId": "7ee1f6ec-a8f3-11ec-9848-ea5b0c011c8c",
+    "approve": false
+  }
+}

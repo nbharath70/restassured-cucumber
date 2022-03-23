@@ -14,6 +14,10 @@ Feature:Retrieve and validate the Initiate New Manufacture Contract
       | Bharath Narasimha | Rabbani Shaik |
     When User hits the SendToQC for DrugGroup API "sendToQCDrugGroup"
     And User check the Status code of SendingDrugGroup to ops assignee is "200"
+    And User use Return to ops assignee API to push back the Drug group to inprogress life cycyle Status
+      | ApproveorrejectFlag |
+      | false               |
+    When User hits the return to ops assignee API "approveOrRejectDrugGroup" to push it back to InProgress Life cycle Status
     Then User discards and deletes the DrugGroup and DrugDetails created
 
 
@@ -31,6 +35,10 @@ Feature:Retrieve and validate the Initiate New Manufacture Contract
       | Bharath Narasimha | Rabbani Shaik |
     When User hits the SendToQC for DrugGroup API "sendToQCDrugGroup"
     And User checks the Life cycle Status of the drugGroup is changes to "InReview"
+    And User use Return to ops assignee API to push back the Drug group to inprogress life cycyle Status
+      | ApproveorrejectFlag |
+      | false               |
+    When User hits the return to ops assignee API "approveOrRejectDrugGroup" to push it back to InProgress Life cycle Status
     Then User discards and deletes the DrugGroup and DrugDetails created
 
 
@@ -99,6 +107,10 @@ Feature:Retrieve and validate the Initiate New Manufacture Contract
     When User hits the SendToQC for DrugGroup API "sendToQCDrugGroup"
     When User hits the SendToQC for DrugGroup API "sendToQCDrugGroup"
     And Then user verifies the response "errorMessageForSendToQCDruGroup"
+    And User use Return to ops assignee API to push back the Drug group to inprogress life cycyle Status
+      | ApproveorrejectFlag |
+      | false               |
+    When User hits the return to ops assignee API "approveOrRejectDrugGroup" to push it back to InProgress Life cycle Status
     Then User discards and deletes the DrugGroup and DrugDetails created
 
 

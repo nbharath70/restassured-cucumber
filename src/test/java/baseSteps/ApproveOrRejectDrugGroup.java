@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.testng.Assert;
+
 import java.io.FileReader;
 import java.io.Reader;
 import java.sql.ResultSet;
@@ -23,7 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SendToQCDrugGroup extends TestBase {
+public class ApproveOrRejectDrugGroup extends TestBase {
     public static Logger log = getMyLogger(SendToQCDrugGroup.class);
     ObjectMapper mapper = new ObjectMapper();
     private String mfrDrugListID;
@@ -132,7 +133,7 @@ public class SendToQCDrugGroup extends TestBase {
      * @param dataTable
      * @uthor Bharath
      */
-    public JSONObject AddinSomeDrugsToDrugGroupJsonRequest(DataTable dataTable) {
+    public JSONObject AddingSomeDrugsToDrugGroupJsonRequest(DataTable dataTable) {
         try {
             List<Map<String, String>> drugGroupData = dataTable.asMaps(String.class, String.class);
             JSONParser jsonParser = new JSONParser();
@@ -164,7 +165,6 @@ public class SendToQCDrugGroup extends TestBase {
 
         try {
             String columnLabel = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "instanceKey");
-            System.out.println(columnLabel);
             ResultSet rsc = dataBaseHelper.executePreparedQuery(query, drugGrouprowKey);
             rsc.next();
             String recUpdateDate = rsc.getString(columnLabel);
@@ -221,6 +221,7 @@ public class SendToQCDrugGroup extends TestBase {
             } else {
                 opsQCName = rootNode.path("opsQc").textValue();
             }
+            map.put("$.instanceKey", getInstanceKey("getDrugListdetails"));
             requestPayloadsendingToQCDrugGroupAPI = utilityMethods.jsonValueReplacer(jsonObject, map);
         } catch (Exception e) {
             e.printStackTrace();
@@ -282,7 +283,7 @@ public class SendToQCDrugGroup extends TestBase {
     public void verifyStatusCode(int statusCode) {
         try {
             boolean status = verificationHelperClass.verifyStatusCode(responseForSendingDrugGroupToQC, statusCode);
-            log.info("SendToQcDrugGroup API StatusCode is " + statusCode + " and its Pass");
+            log.info("Approve Or reject API StatusCode is " + statusCode + " and its Pass");
 
             if (status == false) {
 //                discardDrugGroup();
@@ -320,35 +321,6 @@ public class SendToQCDrugGroup extends TestBase {
         deleteDrugGroupFromDB(queryKeyToDeleteDruGroupDetails, drugListID);
     }
 
-    public void verifyLifeCycleStatus(String lifeCycleStatus) {
-        try {
-            String columnLabel = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "getDrugGroupLifeCycleStatus");
-            String queryKey = "getDrugListdetails";
-            ResultSet rsc = dataBaseHelper.executePreparedQuery(queryKey, drugGrouprowKey);
-            rsc.next();
-            String dbLifeCycleStatus = rsc.getString(columnLabel);
-            boolean status = verificationHelperClass.compareTwoStrings(dbLifeCycleStatus, lifeCycleStatus);
-            if (status == false) {
-                discardDrugGroup();
-                deleteDrugGroupAndDrugGroupDetails();
-                Assert.assertTrue(false, "Validation was failed. Hence stopping the scenario: '" + scenarioName + "'");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    public void verifyErrorMessage(String errorMessage) {
-        String errorJsonpath = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "JsonPathForErrorMessage");
-        String errormsg = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, errorMessage);
-        boolean status = verificationHelperClass.verifyAPIResponseJsonWithDBJsonAsWholeJson(responseForSendingDrugGroupToQC, errormsg, errorJsonpath, errorJsonpath);
-        if (status == false) {
-               discardDrugGroup();
-            deleteDrugGroupAndDrugGroupDetails();
-            Assert.assertTrue(false, "Validation was failed. Hence stopping the scenario: '" + scenarioName + "'");
-        }
-    }
 
     /**
      * This method is used to
@@ -383,4 +355,24 @@ public class SendToQCDrugGroup extends TestBase {
     public void hitApproveOrRejectDrugGroupAPI(String endpoint) {
         responseForApproveOrRejectDrugGroupAPI = postOperation(endpoint, requestPayloadForApproveOrRejectDrugGroupAPI);
     }
+
+    public void verifyLifeCycleStatus(String lifeCycleStatus) {
+        try {
+            String columnLabel = getPropertiesFileValue(ResourcePath.VERIFICATION_PROPERTIES, "getDrugGroupLifeCycleStatus");
+            String queryKey = "getDrugListdetails";
+            ResultSet rsc = dataBaseHelper.executePreparedQuery(queryKey, drugGrouprowKey);
+            rsc.next();
+            String dbLifeCycleStatus = rsc.getString(columnLabel);
+            boolean status = verificationHelperClass.compareTwoStrings(dbLifeCycleStatus, lifeCycleStatus);
+            if (status == false) {
+                discardDrugGroup();
+                deleteDrugGroupAndDrugGroupDetails();
+                Assert.assertTrue(false, "Validation was failed. Hence stopping the scenario: '" + scenarioName + "'");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }

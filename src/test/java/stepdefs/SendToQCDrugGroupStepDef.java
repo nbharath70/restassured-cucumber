@@ -6,6 +6,7 @@ import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
 public class SendToQCDrugGroupStepDef {
         SendToQCDrugGroup sendToQCDrugGroup=new SendToQCDrugGroup();
@@ -52,6 +53,7 @@ public class SendToQCDrugGroupStepDef {
     @Then("^User discards and deletes the DrugGroup and DrugDetails created$")
     public void userDiscardsAndDeletesTheDrugGroupAndDrugDetailsCreated() {
         sendToQCDrugGroup.deleteDrugGroupAndDrugGroupDetails();
+        sendToQCDrugGroup.discardDrugGroup();
     }
 
 
@@ -64,6 +66,17 @@ public class SendToQCDrugGroupStepDef {
     @And("^Then user verifies the response \"([^\"]*)\"$")
     public void thenUserVerifiesTheResponse(String errorMessage)  {
         sendToQCDrugGroup.verifyErrorMessage(errorMessage);
+    }
+
+
+    @And("^User use Return to ops assignee API to push back the Drug group to inprogress life cycyle Status$")
+    public void userUseReturnToOpsAssigneeAPIToPushBackTheDrugGroupToInprogressLifeCycyleStatus(DataTable dataTable) {
+        sendToQCDrugGroup.createdataForApproveOrrejectDrugGroup(dataTable);
+    }
+
+    @When("^User hits the return to ops assignee API \"([^\"]*)\" to push it back to InProgress Life cycle Status$")
+    public void userHitsTheReturnToOpsAssigneeAPIToPushItBackToInProgressLifeCycleStatus(String endPoint) {
+        sendToQCDrugGroup.hitApproveOrRejectDrugGroupAPI(endPoint);
     }
 }
 
